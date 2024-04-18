@@ -1,0 +1,44 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST
+    group stse_get_ecc_key_slots_count
+        
+        HOST -> STSE : query[private_key_table_info]
+        Activate STSE
+        return private key table info
+        
+        rnote over HOST
+            return the key count
+        end note 
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	stse_ReturnCode_t ret;
+	PLAT_UI8 slot_count;
+
+	ret = stse_get_ecc_key_slots_count(pSTSE, &slot_count);
+
+	if(ret != STSE_OK )
+	{
+		/* Handle Error */
+	}
+
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

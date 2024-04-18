@@ -1,0 +1,48 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+\n\n
+
+@startuml
+rnote over HOST, STSAFE: Manage power supply
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+void power_on(void)
+{
+	stsafe_platform_power_on(BUS_ADDR, DEV_ADDR);
+}
+
+void power_off(void)
+{
+	stsafe_platform_power_off(BUS_ADDR, DEV_ADDR);
+}
+
+int main (void)
+{
+    stsafe_ReturnCode_t stsafe_ret;
+
+    stsafe_allocate_handler(stsafe_handler);
+	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
+	stsafe_handler.io.Busaddr = 3;
+	stsafe_handler.io.Devaddr = 0x20;
+    stsafe_ret = stsafe_init(&stsafe_handler);
+	stsafe_handler.io.PowerLineOn  = power_on;
+	stsafe_handler.io.PowerLineOff = power_off;
+
+    stsafe_se_power_on(&stsafe_handler);
+	stsafe_platform_Delay_ms(500);
+    stsafe_se_power_off(&stsafe_handler);
+}
+\endcode
+
+\sa \ref stsafe_Handler
+\sa \ref stsafe_Handler.io
+\sa \ref stsafe_Handler.io.PowerLineOn
+\sa \ref stsafe_Handler.io.PowerLineOff
+\sa stsafe_platform_Delay_ms()
+
+<div style="page-break-after: always;"></div>

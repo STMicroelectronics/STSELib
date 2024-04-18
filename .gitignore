@@ -1,0 +1,17 @@
+[Dd]ebug/
+[Rr]elease/
+[Oo]ut/
+[Hh]tml/
+__html/
+__latex/
+__out/
+__rtf/
+__docman
+__docbook
+*.chm
+*.exe
+*.bak
+*.prefs
+*.launch
+.settings/
+*.xml

@@ -1,0 +1,47 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST
+    group stse_aes_cmac_compute
+        
+        HOST -> STSE : AES CMAC compute (slot_number, message)  
+        Activate STSE
+        return mac
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	stse_ReturnCode_t ret;
+	PLAT_UI8 mac_size = 8;
+	PLAT_UI8 mac[mac_size];
+	PLAT_UI8 message[] 	   = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+
+	ret = stse_aes_cmac_compute(pStse_handler,
+		slot_number,
+		mac,
+		mac_size,
+		message,
+		sizeof(message));
+
+	if(ret != STSE_OK )
+	{
+		/* Handle Error */
+	}
+
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

@@ -1,0 +1,47 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST
+    group stse_aes_ecb_encrypt
+        
+        HOST -> STSE : AES ECB encrypt (slot_number, plaintext)  
+        Activate STSE
+        return ciphertext
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	stse_ReturnCode_t ret;
+	PLAT_UI8 slot_number = 0;
+	PLAT_UI8 message[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
+						  0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
+	PLAT_UI8 output[sizeof(message)];
+
+	ret = stse_aes_ecb_encrypt(pStse_handler,
+		slot_number,
+		sizeof(message),
+		message,
+		output);
+
+	if(ret != STSE_OK )
+	{
+		/* Handle Error */
+	}
+
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

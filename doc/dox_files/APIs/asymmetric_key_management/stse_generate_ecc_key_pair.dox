@@ -1,0 +1,48 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST
+    group stse_generate_ecc_key_pair
+        
+        HOST -> STSE : generate ECC key pair(key_type)
+        Activate STSE
+        return public key
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	stse_ReturnCode_t ret;
+    PLAT_UI8 slot_number = 0;
+	PLAT_UI16 usage_limit = 100;
+    stse_ecc_key_type_t key_type = STSE_ECC_KT_NIST_P_256;
+	PLAT_UI8 pPublic_key[stsafea_ecc_info_table[key_type].public_key_size];
+
+	stsafe_ret = stse_generate_ecc_key_pair(
+			pSTSE,
+			slot_number,
+			key_type,
+			usage_limit,
+			pPublic_key);
+
+	if(ret != STSE_OK )
+	{
+		/* Handle Error */
+	}
+
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

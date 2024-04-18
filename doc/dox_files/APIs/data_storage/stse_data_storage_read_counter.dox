@@ -1,0 +1,63 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSAFE-Axxx" as STSAFE
+    
+    activate HOST
+    group stsafe_data_storage_read_counter
+
+        loop until associated data read length = 0 
+        
+            rnote over HOST
+                prepare read counter chunk size and offset
+            end note
+            
+            HOST -> STSAFE : read zone ( zone, chunk offset, chunk length)  
+            Activate STSAFE
+            return counter value + zone data chunk 
+
+            rnote over HOST
+                store Counter value in 
+                Applicative counter buffer
+            end note
+
+            rnote over HOST
+                store chunk in Applicative read buffer
+            end note
+        end 
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	/* - Read device certificate in Zone 0 */
+
+	stsafe_ret = stsafe_data_storage_read_counter (
+			&stsafe_handler,	/* SE handler 	*/
+			0,					/* Zone index 	*/
+			0x0000,				/* Read Offset 	*/
+			readBuffer,			/* *pReadBuffer */
+			sizeof(readBuffer),	/* ReadLength 	*/
+			04,					/* chunk size 	*/
+			STSAFE_NO_PROT
+	);
+	if(stsafe_ret != STSAFE_OK )
+	{
+		/* Handle Error */
+	} 
+
+\endcode
+
+\sa stsafe_init
+\sa stsafe_get_data_partitions_configuration
+
+<div style="page-break-after: always;"></div>

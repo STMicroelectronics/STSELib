@@ -1,0 +1,43 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+\n\n
+
+@startuml
+HOST -> STSAFE : Send hibernate command
+HOST <- STSAFE : Execution status
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+int main (void)
+{
+    stsafe_ReturnCode_t stsafe_ret;
+
+    PLAT_UI16 echo_length = 4;
+    PLAT_UI8  echo_send_buffer[echo_length] = {0x00, 0x11, 0x22, 0x33};
+	PLAT_UI8  echo_recv_buffer[echo_length];
+
+    stsafe_allocate_handler(stsafe_handler);
+	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
+	stsafe_handler.io.Busaddr = 3;
+	stsafe_handler.io.Devaddr = 0x20;
+    stsafe_ret = stsafe_init(&stsafe_handler);
+
+    stsafe_se_hibernate(&stsafe_handler, 
+                        STSAFE_HIBERNATE_WAKEUP_I2C_OR_RESET);
+
+	stsafe_platform_Delay_ms(1000);
+
+    stsafe_ret = stsafe_se_echo(&stsafe_handler,
+                                echo_send_buffer,
+                                echo_recv_buffer,
+                                echo_length);
+}
+\endcode
+
+\sa stsafe_hibernate()
+
+<div style="page-break-after: always;"></div>

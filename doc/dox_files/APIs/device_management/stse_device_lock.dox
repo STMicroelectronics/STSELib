@@ -1,0 +1,37 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+\n\n
+
+@startuml
+HOST -> STSAFE : Verify password
+HOST <- STSAFE : Verification status
+HOST -> STSAFE : Put attributes[LCS] = Operationnal & locked
+HOST <- STSAFE : Execution status
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+int main (void)
+{
+    stsafe_ReturnCode_t stsafe_ret;
+
+    stsafe_allocate_handler(stsafe_handler);
+	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
+	stsafe_handler.io.Busaddr = 3;
+	stsafe_handler.io.Devaddr = 0x20;
+    stsafe_ret = stsafe_init(&stsafe_handler);
+
+    PLAT_UI8 password[STSAFE_PASSWORD_LENGTH] = { ... };
+    stsafe_ret = stsafe_se_lock(&stsafe_handler,
+								password,
+								STSAFE_PASSWORD_LENGTH);
+}
+\endcode
+
+\sa stsafe_verify_password()
+\sa stsafe_put_life_cyle_state()
+
+<div style="page-break-after: always;"></div>

@@ -1,0 +1,431 @@
+/*!
+ ******************************************************************************
+ * \file	stsafea_data_partition.h
+ * \brief   Data partition services for STSAFE-A
+ * \author  STMicroelectronics - CS application team
+ *
+ ******************************************************************************
+ * \attention
+ *
+ * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
+ *
+ * This software is licensed under terms that can be found in the LICENSE file in
+ * the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
+
+#ifndef STSAFEA_ECC_H
+#define STSAFEA_ECC_H
+
+#include "core/stse_return_codes.h"
+#include "core/stse_device.h"
+#include "core/stse_platform.h"
+#include "core/stse_util.h"
+#include "core/stse_frame.h"
+#include "services/stsafea/stsafea_commands.h"
+#include "services/stsafea/stsafea_timings.h"
+#include "services/stsafea/stsafea_hash.h"
+#include "services/stsafea/stsafea_put_query.h"
+#include "services/stsafea/stsafea_sessions.h"
+
+
+/*! \defgroup stsafea_ecc ECC
+ *  \ingroup stsafea_services
+ *  @{
+ */
+
+
+
+#define STSAFEA_ECC_GENERIC_LENGTH_SIZE						2U
+#define STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID 		0x04
+#define STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE 1U
+#define STSAFEA_ECC_NUMBER_OF_MONTGOMERY_CURVES				2U
+#define STSAFEA_ECC_NUMBER_OF_WEIERSTRASS_CURVES			6U
+#define STSAFEA_ECC_NUMBER_OF_CURVES						STSAFEA_ECC_NUMBER_OF_MONTGOMERY_CURVES \
+															+ STSAFEA_ECC_NUMBER_OF_WEIERSTRASS_CURVES
+#define STSAFEA_ECC_CURVE_ID_LENGTH_SIZE					STSAFEA_ECC_GENERIC_LENGTH_SIZE
+#define STSAFEA_ECC_CURVE_ID_VALUE_MAX_SIZE					9U
+
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    NIST-P 256 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+
+#define STSAFEA_NIST_P_256_ID_LENGTH_SIZE 				2U
+#define STSAFEA_NIST_P_256_ID_LENGTH					{0x00,0x08}
+#define STSAFEA_NIST_P_256_ID_VALUE_SIZE				8U
+#define STSAFEA_NIST_P_256_ID_VALUE						{0x2A,0x86,0x48,0xCE,0x3D,0x03,0x01,0x07}
+#define STSAFEA_NIST_P_256_ID_SIZE 						STSAFEA_NIST_P_256_ID_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_256_ID_VALUE_SIZE
+#define STSAFEA_NIST_P_256_X_COORDINATE_LENGTH_SIZE		2U
+#define STSAFEA_NIST_P_256_X_COORDINATE_VALUE_SIZE 		32U
+#define STSAFEA_NIST_P_256_Y_COORDINATE_LENGTH_SIZE		2U
+#define STSAFEA_NIST_P_256_Y_COORDINATE_VALUE_SIZE 		32U
+#define STSAFEA_NIST_P_256_PUBLIC_KEY_SIZE 				STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+													  + STSAFEA_NIST_P_256_X_COORDINATE_LENGTH_SIZE \
+													  + STSAFEA_NIST_P_256_X_COORDINATE_VALUE_SIZE \
+													  + STSAFEA_NIST_P_256_Y_COORDINATE_LENGTH_SIZE \
+													  + STSAFEA_NIST_P_256_Y_COORDINATE_VALUE_SIZE
+#define STSAFEA_NIST_P_256_PRIVATE_KEY_SIZE				32U
+#define STSAFEA_NIST_P_256_SHARED_SECRET_SIZE  			STSAFEA_NIST_P_256_X_COORDINATE_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_256_X_COORDINATE_VALUE_SIZE
+#define STSAFEA_NIST_P_256_EPHEMERAL_PUBLIC_KEY_SIZE  	STSAFEA_NIST_P_256_ID_SIZE + STSAFEA_NIST_P_256_PUBLIC_KEY_SIZE
+#define STSAFEA_NIST_P_256_SIGNATURE_R_LENGTH_SIZE 		2U
+#define STSAFEA_NIST_P_256_SIGNATURE_S_LENGTH_SIZE 		2U
+#define STSAFEA_NIST_P_256_SIGNATURE_R_VALUE_SIZE 		32U
+#define STSAFEA_NIST_P_256_SIGNATURE_S_VALUE_SIZE 		32U
+#define STSAFEA_NIST_P_256_SIGNATURE_SIZE 				STSAFEA_NIST_P_256_SIGNATURE_R_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_256_SIGNATURE_S_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_256_SIGNATURE_S_VALUE_SIZE \
+														+ STSAFEA_NIST_P_256_SIGNATURE_R_VALUE_SIZE
+#define STSAFEA_NIST_P_256_CERTIFICATE_SIZE 			2 \
+														+ STSAFE_CERTIFICATE_UID_SIZE \
+														+ STSAFEA_NIST_P_256_X_COORDINATE_VALUE_SIZE \
+														+ STSAFEA_NIST_P_256_Y_COORDINATE_VALUE_SIZE \
+														+ STSAFEA_NIST_P_256_SIGNATURE_R_VALUE_SIZE \
+														+ STSAFEA_NIST_P_256_SIGNATURE_S_VALUE_SIZE
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    NIST-P 384 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+#define STSAFEA_NIST_P_384_ID_LENGTH_SIZE 				2U
+#define STSAFEA_NIST_P_384_ID_LENGTH 					{0x00,0x05}
+#define STSAFEA_NIST_P_384_ID_VALUE_SIZE				5U
+#define STSAFEA_NIST_P_384_ID_VALUE 					{0x2B,0x81,0x04,0x00,0x22}
+#define STSAFEA_NIST_P_384_ID_SIZE 						STSAFEA_NIST_P_384_ID_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_384_ID_VALUE_SIZE
+#define STSAFEA_NIST_P_384_X_COORDINATE_LENGTH_SIZE 	2U
+#define STSAFEA_NIST_P_384_Y_COORDINATE_LENGTH_SIZE 	2U
+#define STSAFEA_NIST_P_384_X_COORDINATE_VALUE_SIZE 		48U
+#define STSAFEA_NIST_P_384_Y_COORDINATE_VALUE_SIZE 		48U
+#define STSAFEA_NIST_P_384_PUBLIC_KEY_SIZE 				STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+												  	    + STSAFEA_NIST_P_384_X_COORDINATE_LENGTH_SIZE \
+													    + STSAFEA_NIST_P_384_Y_COORDINATE_LENGTH_SIZE \
+													    + STSAFEA_NIST_P_384_X_COORDINATE_VALUE_SIZE \
+													    + STSAFEA_NIST_P_384_Y_COORDINATE_VALUE_SIZE
+#define STSAFEA_NIST_P_384_PRIVATE_KEY_SIZE				48U
+#define STSAFEA_NIST_P_384_EPHEMERAL_PUBLIC_KEY_SIZE  	STSAFEA_NIST_P_384_ID_SIZE \
+														+ STSAFEA_NIST_P_384_PUBLIC_KEY_SIZE
+#define STSAFEA_NIST_P_384_SIGNATURE_R_LENGTH_SIZE 		2U
+#define STSAFEA_NIST_P_384_SIGNATURE_S_LENGTH_SIZE 		2U
+#define STSAFEA_NIST_P_384_SIGNATURE_R_VALUE_SIZE 		48U
+#define STSAFEA_NIST_P_384_SIGNATURE_S_VALUE_SIZE 		48U
+#define STSAFEA_NIST_P_384_SIGNATURE_SIZE 				STSAFEA_NIST_P_384_SIGNATURE_R_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_384_SIGNATURE_S_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_384_SIGNATURE_S_VALUE_SIZE \
+														+ STSAFEA_NIST_P_384_SIGNATURE_R_VALUE_SIZE
+#define STSAFEA_NIST_P_384_SHARED_SECRET_LENGTH_SIZE 	2U
+#define STSAFEA_NIST_P_384_SHARED_SECRET_SIZE 			STSAFEA_NIST_P_384_SHARED_SECRET_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_384_X_COORDINATE_VALUE_SIZE
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    NIST-P 521 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+#define STSAFEA_NIST_P_521_ID_LENGTH_SIZE 				2U
+#define STSAFEA_NIST_P_521_ID_LENGTH 					{0x00,0x05}
+#define STSAFEA_NIST_P_521_ID_VALUE_SIZE				5U
+#define STSAFEA_NIST_P_521_ID_VALUE 					{0x2B,0x81,0x04,0x00,0x23}
+#define STSAFEA_NIST_P_521_ID_SIZE 						STSAFEA_NIST_P_521_ID_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_521_ID_VALUE_SIZE
+#define STSAFEA_NIST_P_521_X_COORDINATE_LENGTH_SIZE 	2U
+#define STSAFEA_NIST_P_521_Y_COORDINATE_LENGTH_SIZE		2U
+#define STSAFEA_NIST_P_521_X_COORDINATE_VALUE_SIZE 		66U
+#define STSAFEA_NIST_P_521_Y_COORDINATE_VALUE_SIZE 		66U
+#define STSAFEA_NIST_P_521_PUBLIC_KEY_SIZE 				STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+												 		+ STSAFEA_NIST_P_521_X_COORDINATE_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_521_Y_COORDINATE_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_521_X_COORDINATE_VALUE_SIZE \
+														+ STSAFEA_NIST_P_521_Y_COORDINATE_VALUE_SIZE
+#define STSAFEA_NIST_P_521_PRIVATE_KEY_SIZE				66U
+#define STSAFEA_NIST_P_521_EPHEMERAL_PUBLIC_KEY_SIZE  	2 \
+														+ STSAFEA_NIST_P_521_ID_SIZE \
+														+ STSAFEA_NIST_P_521_PUBLIC_KEY_SIZE
+#define STSAFEA_NIST_P_521_SHARED_SECRET_LENGTH_SIZE 	2U
+#define STSAFEA_NIST_P_521_SHARED_SECRET_SIZE 			STSAFEA_NIST_P_521_SHARED_SECRET_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_521_X_COORDINATE_VALUE_SIZE
+#define STSAFEA_NIST_P_521_SIGNATURE_R_LENGTH_SIZE 		2U
+#define STSAFEA_NIST_P_521_SIGNATURE_R_VALUE_SIZE 		66U
+#define STSAFEA_NIST_P_521_SIGNATURE_S_LENGTH_SIZE 		2U
+#define STSAFEA_NIST_P_521_SIGNATURE_S_VALUE_SIZE 		66U
+#define STSAFEA_NIST_P_521_SIGNATURE_SIZE 				STSAFEA_NIST_P_521_SIGNATURE_R_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_521_SIGNATURE_S_LENGTH_SIZE \
+														+ STSAFEA_NIST_P_521_SIGNATURE_S_VALUE_SIZE \
+														+ STSAFEA_NIST_P_521_SIGNATURE_R_VALUE_SIZE
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    BRAINPOOL-P 256 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+
+/*- Curve identifier definitions */
+
+#define STSAFEA_BRAINPOOL_P_256_ID_LENGTH_SIZE 				2U
+#define STSAFEA_BRAINPOOL_P_256_ID_LENGTH					{0x00,0x09}
+#define STSAFEA_BRAINPOOL_P_256_ID_VALUE_SIZE				9U
+#define STSAFEA_BRAINPOOL_P_256_ID_VALUE					{0x2B,0x24,0x03,0x03,0x02,0x08,0x01,0x01,0x07}
+#define STSAFEA_BRAINPOOL_P_256_ID_SIZE 					STSAFEA_BRAINPOOL_P_256_ID_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_ID_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE	2U
+#define STSAFEA_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE 	32U
+#define STSAFEA_BRAINPOOL_P_256_Y_COORDINATE_LENGTH_SIZE	2U
+#define STSAFEA_BRAINPOOL_P_256_Y_COORDINATE_VALUE_SIZE 	32U
+#define STSAFEA_BRAINPOOL_P_256_PUBLIC_KEY_SIZE 			STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+													  	    + STSAFEA_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_Y_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_Y_COORDINATE_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_256_PRIVATE_KEY_SIZE			32U
+#define STSAFEA_BRAINPOOL_P_256_SHARED_SECRET_SIZE  		STSAFEA_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_256_EPHEMERAL_PUBLIC_KEY_SIZE  	STSAFEA_BRAINPOOL_P_256_ID_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_PUBLIC_KEY_SIZE
+#define STSAFEA_BRAINPOOL_P_256_SIGNATURE_R_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_256_SIGNATURE_S_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE 		32U
+#define STSAFEA_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE 		32U
+#define STSAFEA_BRAINPOOL_P_256_SIGNATURE_SIZE 				STSAFEA_BRAINPOOL_P_256_SIGNATURE_R_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_SIGNATURE_S_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_256_CERTIFICATE_SIZE 			2 \
+															+ STSAFE_CERTIFICATE_UID_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_Y_COORDINATE_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    BRAINPOOL-P 384 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+
+
+#define STSAFEA_BRAINPOOL_P_384_ID_LENGTH_SIZE 				2U
+#define STSAFEA_BRAINPOOL_P_384_ID_LENGTH 					{0x00,0x09}
+#define STSAFEA_BRAINPOOL_P_384_ID_VALUE_SIZE				9U
+#define STSAFEA_BRAINPOOL_P_384_ID_VALUE 					{0x2B,0x24,0x03,0x03,0x02,0x08,0x01,0x01,0x0B}
+#define STSAFEA_BRAINPOOL_P_384_ID_SIZE 					STSAFEA_BRAINPOOL_P_384_ID_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_ID_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_384_X_COORDINATE_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_384_Y_COORDINATE_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE 	48U
+#define STSAFEA_BRAINPOOL_P_384_Y_COORDINATE_VALUE_SIZE 	48U
+#define STSAFEA_BRAINPOOL_P_384_PUBLIC_KEY_SIZE 			STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+												  	  	  	+ STSAFEA_BRAINPOOL_P_384_X_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_Y_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_Y_COORDINATE_VALUE_SIZE
+
+#define STSAFEA_BRAINPOOL_P_384_PRIVATE_KEY_SIZE			48U
+#define STSAFEA_BRAINPOOL_P_384_EPHEMERAL_PUBLIC_KEY_SIZE  	STSAFEA_BRAINPOOL_P_384_ID_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_PUBLIC_KEY_SIZE
+#define STSAFEA_BRAINPOOL_P_384_SIGNATURE_R_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_384_SIGNATURE_S_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE 		48U
+#define STSAFEA_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE 		48U
+#define STSAFEA_BRAINPOOL_P_384_SIGNATURE_SIZE 				STSAFEA_BRAINPOOL_P_384_SIGNATURE_R_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_SIGNATURE_S_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_384_SHARED_SECRET_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_384_SHARED_SECRET_SIZE 			STSAFEA_BRAINPOOL_P_384_SHARED_SECRET_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    BRAINPOOL-P 512 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+
+#define STSAFEA_BRAINPOOL_P_512_ID_LENGTH_SIZE 				2U
+#define STSAFEA_BRAINPOOL_P_512_ID_LENGTH 					{0x00,0x09}
+#define STSAFEA_BRAINPOOL_P_512_ID_VALUE_SIZE				9U
+#define STSAFEA_BRAINPOOL_P_512_ID_VALUE 					{0x2B,0x24,0x03,0x03,0x02,0x08,0x01,0x01,0x0D}
+#define STSAFEA_BRAINPOOL_P_512_ID_SIZE 					STSAFEA_BRAINPOOL_P_512_ID_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_ID_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_512_X_COORDINATE_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_512_Y_COORDINATE_LENGTH_SIZE	2U
+#define STSAFEA_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE 	64U
+#define STSAFEA_BRAINPOOL_P_512_Y_COORDINATE_VALUE_SIZE 	64U
+#define STSAFEA_BRAINPOOL_P_512_PUBLIC_KEY_SIZE 			STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+												  	  	    + STSAFEA_BRAINPOOL_P_512_X_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_Y_COORDINATE_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_Y_COORDINATE_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_512_PRIVATE_KEY_SIZE			64U
+#define STSAFEA_BRAINPOOL_P_512_EPHEMERAL_PUBLIC_KEY_SIZE  	2 + STSAFEA_BRAINPOOL_P_512_ID_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_PUBLIC_KEY_SIZE
+#define STSAFEA_BRAINPOOL_P_512_SHARED_SECRET_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_512_SHARED_SECRET_SIZE 			STSAFEA_BRAINPOOL_P_512_SHARED_SECRET_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE
+#define STSAFEA_BRAINPOOL_P_512_SIGNATURE_R_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE 		64U
+#define STSAFEA_BRAINPOOL_P_512_SIGNATURE_S_LENGTH_SIZE 	2U
+#define STSAFEA_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE 		64U
+#define STSAFEA_BRAINPOOL_P_512_SIGNATURE_SIZE 				STSAFEA_BRAINPOOL_P_512_SIGNATURE_R_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_SIGNATURE_S_LENGTH_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE \
+															+ STSAFEA_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    X25519 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+
+#define STSAFEA_X25519_ID_LENGTH_SIZE 				2U
+#define STSAFEA_X25519_ID_LENGTH 					{0x00,0x03}
+#define STSAFEA_X25519_ID_VALUE_SIZE 				3U
+#define STSAFEA_X25519_ID_VALUE 					{0x2B,0x65,0x6E}
+#define STSAFEA_X25519_ID_SIZE 						STSAFEA_X25519_ID_LENGTH_SIZE \
+													+ STSAFEA_X25519_ID_VALUE_SIZE
+#define STSAFEA_X25519_PUBLIC_KEY_LENGTH_SIZE 		2U
+#define STSAFEA_X25519_PUBLIC_KEY_VALUE_SIZE 		32U
+#define STSAFEA_X25519_PUBLIC_KEY_SIZE				STSAFEA_X25519_PUBLIC_KEY_LENGTH_SIZE \
+													+ STSAFEA_X25519_PUBLIC_KEY_VALUE_SIZE
+#define STSAFEA_X25519_PRIVATE_KEY_SIZE				32U
+#define STSAFEA_X25519_EPHEMERAL_PUBLIC_KEY_SIZE  	STSAFEA_X25519_ID_SIZE \
+													+ STSAFEA_X25519_PUBLIC_KEY_SIZE
+#define STSAFEA_X25519_SIGNATURE_R_LENGTH_SIZE		2U
+#define STSAFEA_X25519_SIGNATURE_R_VALUE_SIZE 		32U
+#define STSAFEA_X25519_SIGNATURE_S_LENGTH_SIZE		2U
+#define STSAFEA_X25519_SIGNATURE_S_VALUE_SIZE 		32U
+#define STSAFEA_X25519_SIGNATURE_SIZE 				STSAFEA_X25519_SIGNATURE_R_LENGTH_SIZE \
+													+ STSAFEA_X25519_SIGNATURE_R_VALUE_SIZE \
+													+ STSAFEA_X25519_SIGNATURE_S_LENGTH_SIZE \
+													+ STSAFEA_X25519_SIGNATURE_S_VALUE_SIZE
+#define STSAFEA_X25519_SHARED_SECRET_LENGTH_SIZE 	2U
+#define STSAFEA_X25519_SHARED_SECRET_VALUE_SIZE 	32U
+#define STSAFEA_X25519_SHARED_SECRET_SIZE 			STSAFEA_X25519_SHARED_SECRET_LENGTH_SIZE \
+													+ STSAFEA_X25519_SHARED_SECRET_VALUE_SIZE
+
+
+/*  ---------------------------------------------------------------------------------------
+ *
+ *						    ED25519 cryptographic algorithm definitions
+ *
+ *  ---------------------------------------------------------------------------------------
+*/
+
+#define STSAFEA_ED25519_ID_SIZE 					5U
+#define STSAFEA_ED25519_ID_LENGTH_SIZE 				2U
+#define STSAFEA_ED25519_ID_LENGTH 					{0x00,0x03}
+#define STSAFEA_ED25519_ID_VALUE_SIZE 				3U
+#define STSAFEA_ED25519_ID_VALUE 					{0x2B,0x65,0x70}
+#define STSAFEA_ED25519_PUBLIC_KEY_LENGTH_SIZE 		2U
+#define STSAFEA_ED25519_PUBLIC_KEY_VALUE_SIZE 		32U
+#define STSAFEA_ED25519_PUBLIC_KEY_SIZE				STSAFEA_ED25519_PUBLIC_KEY_LENGTH_SIZE \
+													+ STSAFEA_ED25519_PUBLIC_KEY_VALUE_SIZE
+#define STSAFEA_ED25519_PRIVATE_KEY_SIZE			64U
+#define STSAFEA_ED25519_EPHEMERAL_PUBLIC_KEY_SIZE  	STSAFEA_ED25519_ID_SIZE \
+													+ STSAFEA_ED25519_PUBLIC_KEY_SIZE
+#define STSAFEA_ED25519_SIGNATURE_R_LENGTH_SIZE		2U
+#define STSAFEA_ED25519_SIGNATURE_R_VALUE_SIZE 		32U
+#define STSAFEA_ED25519_SIGNATURE_S_LENGTH_SIZE		2U
+#define STSAFEA_ED25519_SIGNATURE_S_VALUE_SIZE 		32U
+#define STSAFEA_ED25519_SIGNATURE_SIZE 				STSAFEA_ED25519_SIGNATURE_R_LENGTH_SIZE \
+													+ STSAFEA_ED25519_SIGNATURE_R_VALUE_SIZE \
+													+ STSAFEA_ED25519_SIGNATURE_S_LENGTH_SIZE \
+													+ STSAFEA_ED25519_SIGNATURE_S_VALUE_SIZE
+#define STSAFEA_ED25519_SHARED_SECRET_LENGTH_SIZE 	2U
+#define STSAFEA_ED25519_SHARED_SECRET_VALUE_SIZE 	32U
+#define STSAFEA_ED25519_SHARED_SECRET_SIZE 			STSAFEA_ED25519_SHARED_SECRET_LENGTH_SIZE \
+													+ STSAFEA_ED25519_SHARED_SECRET_VALUE_SIZE
+
+
+typedef struct
+{
+	PLAT_UI8 length[STSAFEA_ECC_CURVE_ID_LENGTH_SIZE];
+	PLAT_UI8 value[STSAFEA_ECC_CURVE_ID_VALUE_MAX_SIZE];
+} PLAT_PACKED_STRUCT stsafea_ecc_curve_id_t;
+
+typedef struct {
+	PLAT_UI16 curve_id_total_length;
+	stsafea_ecc_curve_id_t curve_id;
+	PLAT_UI16 coordinate_or_key_size;
+	PLAT_UI16 public_key_size;
+	union {
+		PLAT_UI16 private_key_size;
+		PLAT_UI16 min_signature_message_size;
+	};
+	PLAT_UI16 shared_secret_size;
+	PLAT_UI16 signature_size;
+} stsafea_ecc_info_t;
+
+extern const stsafea_ecc_info_t stsafea_ecc_info_table[STSAFEA_ECC_NUMBER_OF_CURVES];
+
+typedef enum
+{
+	STSAFEA_ALGORITHM_ID_KEK_UNWRAPPING 		= 0x01,
+	STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY
+}stsafea_host_kdf_algo_id_t;
+
+stse_ReturnCode_t stsafea_start_volatile_KEK_session(
+		stse_Handler_t * pSTSE,
+		stse_ecc_key_type_t key_type,
+		PLAT_UI8* host_ecdhe_public_key);
+
+stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
+		stse_Handler_t * pSTSE,
+		stse_ecc_key_type_t ecdhe_key_type,
+		PLAT_UI8* host_ecdhe_public_key,
+		stse_hash_algorithm_t hash_algo,
+		PLAT_UI8 signature_public_key_slot_number,
+		stse_ecc_key_type_t signature_key_type,
+		PLAT_UI8* pSignature);
+
+stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
+		stse_Handler_t * pSTSE);
+
+stse_ReturnCode_t stsafea_ecc_verify_signature(
+		stse_Handler_t * pSTSE,
+		stse_ecc_key_type_t key_type,
+		PLAT_UI8 *pPublic_key,
+		PLAT_UI8 *pSignature,
+		PLAT_UI8 *pMessage,
+		PLAT_UI16 message_length,
+		PLAT_UI8 message_is_hashed,
+		PLAT_UI8 *pSignature_validity);
+
+stse_ReturnCode_t stsafea_ecc_generate_signature(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		stse_ecc_key_type_t key_type,
+		PLAT_UI8 *pMessage,
+		PLAT_UI16 message_length,
+		PLAT_UI8 *pSignature);
+
+stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 private_key_slot_number,
+		stse_ecc_key_type_t key_type,
+		PLAT_UI8 *pPublic_key,
+		PLAT_UI8 *pShared_secret);
+
+stse_ReturnCode_t stsafea_ecc_decompress_public_key(
+		stse_Handler_t * pSTSE,
+		stse_ecc_key_type_t key_type,
+		PLAT_UI8 point_representation_id,
+		PLAT_UI8 *pPublic_key_X,
+		PLAT_UI8 *pPublic_key_Y);
+
+/** \}*/
+
+#endif /* STSAFEA_ECC_H */

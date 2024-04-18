@@ -1,0 +1,63 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSAFE-Axxx" as STSAFE
+    
+    activate HOST
+    group stse_data_storage_change_decrement_access_condition
+
+        rnote over HOST
+            prepare change right
+        end note 
+
+        HOST -> STSAFE : decrement zone ( zone, amount , associated data, associated data length)  
+        Activate STSAFE
+        return new counter value 
+
+        rnote over HOST
+            store new counter value in 
+            Applicative counter buffer
+        end note
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+/* - Decrement by one the Counter in Zone 6 and store random associated data */
+
+    uint8_t associated_data[10] = {0};
+
+	ret = stse_companion_generate_random(&stsafe_handler, associated_data, 10);
+	
+    ret = stse_data_storage_change_decrement_access_condition(
+			&stsafe_handler,		/* SE handler			  */
+			0x06,					/* Counter zone index	  */
+            STSAFE_AC_HOST,         /* new access condition   */
+            STSAFE_ACCR_DISABLED    /* new access condition change right */
+			0x1,					/* Decrement amount		  */
+			0x0000,					/* Associated data offset */
+			associated_data,		/* Associated Data		  */
+			sizeof(associated_data),/* Associated data length */
+			&zone_counter,			/* New Counter value	  */
+			STSAFE_NO_PROT
+	);
+	if(ret != STSE_OK )
+	{
+        /* Handle Error */
+	} 
+
+\endcode
+
+\sa stse_init
+\sa stse_get_data_partitions_configuration
+
+<div style="page-break-after: always;"></div>

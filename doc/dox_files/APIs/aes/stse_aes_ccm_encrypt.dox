@@ -1,0 +1,62 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST
+    group stse_aes_ccm_encrypt
+        
+        HOST -> STSE : AES CCM* encrypt (slot_number, plaintext, associated_data, nonce, expected_mac_length)  
+        Activate STSE
+        return ciphertext, mac
+
+    end 
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	stse_ReturnCode_t ret;
+	PLAT_UI8 associated_data[]      = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
+	PLAT_UI8 associated_data_length = 8;
+	PLAT_UI8 plaintext[]          	= {0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
+								  	   0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
+									   0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F};
+	PLAT_UI8 plaintextLength    	= 24;
+	PLAT_UI8 nonce[]              	= {0x00, 0x00, 0x00, 0x04, 0x03, 0x02, 0x01, 0xA0,
+							   	   	   0xA1, 0xA2, 0xA3, 0xA4, 0xA5};
+	PLAT_UI8 macLength          	= 8;
+	PLAT_UI8 mac[macLength];
+	PLAT_UI8 ciphertext[plaintextLength];
+
+	ret = stse_aes_ccm_encrypt(
+			pStse_handler,
+			slot_number,
+			macLength,
+			nonce,
+			associated_data_length,
+			associated_data,
+			plaintextLength,
+			plaintext,
+			ciphertext,
+			mac,
+			NULL,  // No counter
+			NULL); // No counter
+
+	if(ret != STSE_OK )
+	{
+		/* Handle Error */
+	}
+
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

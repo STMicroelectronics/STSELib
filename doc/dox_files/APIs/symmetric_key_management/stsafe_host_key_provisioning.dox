@@ -1,0 +1,30 @@
+\b Description 
+\n Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx devices during the API execution
+@startuml
+	skinparam sequenceMessageAlign center
+    Application -> Middleware: host_key_type\nhost_keys
+    activate Middleware
+alt Device == STSAFE-A120
+	Middleware->STSAFE: Write host key plaintext
+    activate STSAFE
+    return status
+else else
+	Middleware->STSAFE: Put host key plaintext
+    activate STSAFE
+    return status
+end
+    Application <- Middleware: status
+    deactivate Middleware
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+\endcode
+
+\sa stsafe_init
+
+<div style="page-break-after: always;"></div>

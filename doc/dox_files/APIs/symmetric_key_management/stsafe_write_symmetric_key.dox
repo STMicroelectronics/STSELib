@@ -1,0 +1,51 @@
+\b Description 
+\n Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx devices during the API execution
+@startuml
+	skinparam sequenceMessageAlign center
+    Application -> Middleware: key\nkey_info\nkek_ecc_key_type
+    activate Middleware
+    rnote over Middleware, STSAFE
+		Start volatile KEK session
+	end rnote
+	rnote over Middleware
+		KEK wrap key + key_info
+	end rnote
+	Middleware->STSAFE: Write symmetric key
+    activate STSAFE
+    return status
+	rnote over Middleware, STSAFE
+		Stop volatile KEK session
+	end rnote
+    Application <- Middleware: status
+    deactivate Middleware
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+	stsafe_ReturnCode_t stsafe_ret;
+
+	/* - ECB 128 bits key and it corresponding info */
+	PLAT_UI8 key_value[STSAFE_AES_128_KEY_SIZE] = {0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88,0x99,0xAA,0xBB,0xCC,0xDD,0xEE,0xFF};
+
+	stsafe_generic_key_information_t key_info = {0};
+	key_info.lock_indicator = 0;
+	key_info.record.slot_number = 3;
+	key_info.record.type = STSAFE_SYMMETRIC_KEY_TYPE_AES_128;
+	key_info.record.mode_of_operation = STSAFE_KEY_OPERATION_MODE_ECB;
+	key_info.record.usage.encryption = 1;
+	key_info.record.usage.decryption = 1;
+	key_info.length[1] = STSAFE_KEY_INFORMATION_LENGTH_ECB;
+
+	stsafe_ret = stsafe_write_symmetric_key(
+			pSTSAFE,
+			key_value,
+			&key_info,
+			STSAFE_ECC_KT_NIST_P_256);
+\endcode
+
+\sa stsafe_init
+
+<div style="page-break-after: always;"></div>
