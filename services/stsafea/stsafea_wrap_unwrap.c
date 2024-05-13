@@ -1,20 +1,12 @@
 
 #include "services/stsafea/stsafea_wrap_unwrap.h"
 
-/**
- * \brief 			STSAFEA process hash service
- * \details 		This service format and send STSAFE-Axxx process wrap command/response
- * \param[in]		pSTSE			Pointer to target SE handler
- * \param[in] 		pMessage		Pointer to message buffer
- * \param[in]		message_size	Input message length in bytes
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- */
 stse_ReturnCode_t stsafea_wrap_payload( stse_Handler_t 	*pSTSE,
 		PLAT_UI8 		wrap_key_slot,
 		PLAT_UI8 		*pPayload,
 		PLAT_UI16 		payload_size,
 		PLAT_UI8 		*pWrapped_Payload,
-		PLAT_UI8 		wrapped_payload_size
+		PLAT_UI16 		wrapped_payload_size
 )
 {
 	volatile stse_ReturnCode_t ret;
@@ -84,20 +76,13 @@ stse_ReturnCode_t stsafea_wrap_payload( stse_Handler_t 	*pSTSE,
 	return ret;
 }
 
-/**
- * \brief 			STSAFEA process hash service
- * \details 		This service format and send STSAFE-Axxx process unwrap command/response
- * \param[in]		pSTSE			Pointer to target SE handler
- * \param[in] 		pMessage		Pointer to message buffer
- * \param[in]		message_size	Input message length in bytes
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- */
+
 stse_ReturnCode_t stsafea_unwrap_payload( stse_Handler_t *pSTSE,
 		PLAT_UI8 		wrap_key_slot,
 		PLAT_UI8 		*pWrapped_Payload,
 		PLAT_UI16 		wrapped_payload_size,
 		PLAT_UI8 		*pPayload,
-		PLAT_UI8 		payload_size
+		PLAT_UI16 		payload_size
 )
 {
 	volatile stse_ReturnCode_t ret;

@@ -34,19 +34,19 @@ stse_ReturnCode_t stse_generate_random(
 		return( STSE_API_INVALID_PARAMETER );
 	}
 
-	for(PLAT_UI16 index=0; index<random_size; )
+	for(PLAT_UI16 index = 0; index < random_size; )
 	{
 		ret = stsafea_generate_random(
 				pSTSE,
 				&pRandom[index],
-				(random_size<STSAFEA_MAXIMUM_RNG_SIZE) ? random_size : STSAFEA_MAXIMUM_RNG_SIZE);
+				((random_size - index) < STSAFEA_MAXIMUM_RNG_SIZE) ? (random_size - index) : STSAFEA_MAXIMUM_RNG_SIZE);
 
 		if(ret != STSE_OK)
 		{
 			break;
 		}
 
-		index += (random_size<STSAFEA_MAXIMUM_RNG_SIZE) ? random_size : STSAFEA_MAXIMUM_RNG_SIZE;
+		index += STSAFEA_MAXIMUM_RNG_SIZE;
 	}
 
 	return ret;

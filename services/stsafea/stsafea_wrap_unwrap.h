@@ -50,7 +50,7 @@ stse_ReturnCode_t stsafea_wrap_payload(
 		PLAT_UI8 		*pPayload,
 		PLAT_UI16 		payload_size,
 		PLAT_UI8 		*pWrapped_Payload,
-		PLAT_UI8 		wrapped_payload_size
+		PLAT_UI16 		wrapped_payload_size
 );
 
 /**
@@ -70,7 +70,7 @@ stse_ReturnCode_t stsafea_unwrap_payload(
 		PLAT_UI8 		*pWrapped_Payload,
 		PLAT_UI16 		wrapped_payload_size,
 		PLAT_UI8 		*pPayload,
-		PLAT_UI8 		payload_size
+		PLAT_UI16 		payload_size
 );
 
 /** \}*/
