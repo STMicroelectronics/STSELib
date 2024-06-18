@@ -47,30 +47,6 @@ typedef enum
 }stse_session_type_t;
 
 
-#define stse_allocate_handler(x) stse_Handler_t x = {\
-			.device_type = 0,\
-			.pPerso_info = NULL,\
-			.pActive_host_session = NULL,\
-			.pActive_other_session = NULL,\
-			.io = {\
-					.BusRecvStart = stse_platform_i2c_receive_start,\
-					.BusRecvContinue = stse_platform_i2c_receive_continue,\
-					.BusRecvStop = stse_platform_i2c_receive_stop,\
-					.BusSendStart = stse_platform_i2c_send_start,\
-					.BusSendContinue = stse_platform_i2c_send_continue,\
-					.BusSendStop = stse_platform_i2c_send_stop,\
-					.IOLineGet = NULL,\
-					.BusWake = stse_platform_i2c_wake,\
-					.BusRecovery = NULL,\
-					.PowerLineOff = stse_platform_power_off,\
-					.PowerLineOn = stse_platform_power_on,\
-					.Busaddr = 0,\
-					.Devaddr = 0x20,\
-					.BusSpeed = 100,\
-					.BusType = STSE_BUS_TYPE_I2C,\
-				} \
-}
-
 /*
  * \details STMicroelectronics Secure Element device type
  */
@@ -217,6 +193,14 @@ struct stse_Handler_t {
 /* Exported variables --------------------------------------------------------*/
 
 extern stse_perso_info_t dynamic_product_perso;
+
+/**
+ * \brief 		Initialise the STSE handler to default value
+ * \details 		This core function initialise the handler to default value
+ * \param[in] 		pStseHandler 	Pointer to STSE handler
+ * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler);
 
 /*! @}*/
 
