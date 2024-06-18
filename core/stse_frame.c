@@ -202,8 +202,8 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
-    volatile stse_frame_element_t *pCurrent_element;
-    volatile PLAT_UI16 crc_ret;
+    stse_frame_element_t *pCurrent_element;
+    PLAT_UI16 crc_ret;
     PLAT_UI8 crc[STSE_FRAME_CRC_SIZE] = {0};
 
     /*- Verify Parameters */
@@ -228,6 +228,7 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 #ifdef STSAFE_FRAME_DEBUG_LOG
 	printf("\n\r STSAFE Frame > ");
 	stse_frame_debug_print(pFrame);
+	printf("\n\r");
 #endif
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
     {
@@ -298,7 +299,7 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
     {
 		/* - Receive frame length from target STSAFE */
-		ret = pSTSE->io.BusRecvStart(
+		ret = (stse_ReturnCode_t)pSTSE->io.BusRecvStart(
 				pSTSE->io.Busaddr,
 				pSTSE->io.Devaddr,
 				pSTSE->io.BusSpeed,
@@ -360,6 +361,7 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
 #ifdef STSAFE_FRAME_DEBUG_LOG
     printf("\n\r STSAFE Frame < ");
     stse_frame_debug_print(pFrame);
+    printf("\n\r");
 #endif
 
     /* - swap CRC */

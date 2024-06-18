@@ -33,7 +33,7 @@ __WEAK stse_ReturnCode_t stse_platform_hmac_sha256_compute(PLAT_UI8 *pSalt, PLAT
 											 PLAT_UI8 *pInfo, PLAT_UI16 info_length,
 											 PLAT_UI8 *pOutput_keying_material, PLAT_UI16 output_keying_material_length)
 {
-	PLAT_UI8 retval;
+	stse_ReturnCode_t retval;
 	PLAT_UI8 pPseudorandom_key[STSAFEA_SHA_256_HASH_SIZE];
 
 

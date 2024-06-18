@@ -102,10 +102,10 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 		{
 			pRecord_table->index = raw_data[i++];
 			pRecord_table->zone_type = raw_data[i++];
-			pRecord_table->read_ac_cr = STSAFEA_ZIR_AC_READ_CR_GET(raw_data[i]);
-			pRecord_table->read_ac = STSAFEA_ZIR_AC_READ_GET(raw_data[i]);
-			pRecord_table->update_ac_cr = STSAFEA_ZIR_AC_UPDATE_CR_GET(raw_data[i]);
-			pRecord_table->update_ac = STSAFEA_ZIR_AC_UPDATE_GET(raw_data[i++]);
+			pRecord_table->read_ac_cr = (stsafea_ac_change_right_t)STSAFEA_ZIR_AC_READ_CR_GET(raw_data[i]);
+			pRecord_table->read_ac = (stsafea_ac_t)STSAFEA_ZIR_AC_READ_GET(raw_data[i]);
+			pRecord_table->update_ac_cr = (stsafea_ac_change_right_t)STSAFEA_ZIR_AC_UPDATE_CR_GET(raw_data[i]);
+			pRecord_table->update_ac = (stsafea_ac_t)STSAFEA_ZIR_AC_UPDATE_GET(raw_data[i++]);
 			pRecord_table->data_segment_length = UI16_B1_SET(raw_data[i++]);
 			pRecord_table->data_segment_length += UI16_B0_SET(raw_data[i++]);
 			if(pRecord_table->zone_type == 1)
