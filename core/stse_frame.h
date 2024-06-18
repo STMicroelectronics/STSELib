@@ -77,7 +77,7 @@ typedef enum {
  * \brief 			Attach a strap element that reroute a frame element (Element1) to another (Element2)
  * \details 		This core function attach a strap element that link Element1 to Element2 until un-strap command is executed
  * \param[in] 		pStrap 			Pointer to strap element
-  * \param[in] 		pElement_1 		Pointer to frame element 1
+ * \param[in] 		pElement_1 		Pointer to frame element 1
  * \param[in] 		pElement_2 		Pointer to frame element 2
  */
 void stse_frame_insert_strap(stse_frame_element_t *pStrap, stse_frame_element_t* pElement_1,

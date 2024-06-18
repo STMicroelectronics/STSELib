@@ -603,7 +603,7 @@ stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eExt_cmd_header,1,&ext_cmd_header);
-	stse_frame_element_allocate_push(&CmdFrame,eSymmetric_key_info,pSymmetric_key_info->info_length,&pSymmetric_key_info->lock_indicator);
+	stse_frame_element_allocate_push(&CmdFrame,eSymmetric_key_info,pSymmetric_key_info->info_length,(PLAT_UI8*)&pSymmetric_key_info->lock_indicator);
 	stse_frame_element_allocate_push(&CmdFrame,eSymmetric_key_value,key_value_length,pSymmetric_key_value);
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
