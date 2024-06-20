@@ -299,7 +299,7 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
     {
 		/* - Receive frame length from target STSAFE */
-		ret = (stse_ReturnCode_t)pSTSE->io.BusRecvStart(
+		ret = pSTSE->io.BusRecvStart(
 				pSTSE->io.Busaddr,
 				pSTSE->io.Devaddr,
 				pSTSE->io.BusSpeed,

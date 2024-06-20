@@ -413,7 +413,7 @@ stse_ReturnCode_t stse_platform_i2c_send_stop (
 		PLAT_UI8* pElement,
 		PLAT_UI16 element_size);
 
-PLAT_UI16 stse_platform_i2c_receive_start (
+stse_ReturnCode_t stse_platform_i2c_receive_start (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
 		PLAT_UI8 speed,
