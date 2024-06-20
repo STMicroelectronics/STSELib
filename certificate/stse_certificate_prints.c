@@ -17,6 +17,7 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <inttypes.h>
 #include "certificate/stse_certificate_prints.h"
 #include "certificate/stse_certificate_subparsing.h"
 
@@ -248,7 +249,7 @@ void stse_certificate_print_parsed_cert(stse_certificate_t *stse_certificate)
   //printf("Fields: %08X\n", stse_certificate->fields);
   //printFields(stse_certificate->fields);
 
-  printf("\n\r\t x509 Version: %ld", (long)stse_certificate->x509Version + 1);
+  printf("\n\r\t x509 Version: %" PRId32, stse_certificate->x509Version + 1);
   if (stse_certificate->serialNumber != NULL && stse_certificate->serialNumberSize > 0)
     print_buffer("\n\r\tSerialNumber: ", stse_certificate->serialNumber, stse_certificate->serialNumberSize);
   if (stse_certificate->issuer != NULL && stse_certificate->issuerSize > 0)
