@@ -81,7 +81,7 @@ typedef enum stse_bus {
  */
 typedef struct
 	{
-		PLAT_UI16 (* BusRecvStart) (
+		stse_ReturnCode_t (* BusRecvStart) (
 				PLAT_UI8,  /* busID */
 				PLAT_UI8,  /* devAddr */
 				PLAT_UI8,  /* speed */
