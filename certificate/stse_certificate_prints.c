@@ -346,8 +346,8 @@ void stse_certificate_print_validity(const PLAT_UI8 *validity)
   const PLAT_UI8 *next;
   stse_certificate_parse_validity(validity, &notBefore_st, &notAfter_st, &next);
   printf("\n\r\t Validity:");
-  printf("\n\r\t\t Not Before: %04ld-%02d-%02d %02d:%02d:%02d", (long)notBefore_st.year, notBefore_st.month, notBefore_st.days, notBefore_st.hours, notBefore_st.minutes, notBefore_st.seconds);
-  printf("\n\r\t\t Not After:  %04ld-%02d-%02d %02d:%02d:%02d", (long)notAfter_st.year, notAfter_st.month, notAfter_st.days, notAfter_st.hours, notAfter_st.minutes, notAfter_st.seconds);
+  printf("\n\r\t\t Not Before: %04" PRId32 "-%02d-%02d %02d:%02d:%02d", notBefore_st.year, notBefore_st.month, notBefore_st.days, notBefore_st.hours, notBefore_st.minutes, notBefore_st.seconds);
+  printf("\n\r\t\t Not After:  %04" PRId32 "-%02d-%02d %02d:%02d:%02d", notAfter_st.year, notAfter_st.month, notAfter_st.days, notAfter_st.hours, notAfter_st.minutes, notAfter_st.seconds);
 }
 
 static void printExtensions(PLAT_UI32 extensionsFlags)
@@ -370,7 +370,7 @@ static void printExtensions(PLAT_UI32 extensionsFlags)
     }
     if (((extensionsFlags >> 3) & 1) == 1)
     {
-      printf("PathSize: %ld", (long)(extensionsFlags >> 4) & 15);
+      printf("PathSize: %" PRId32, (extensionsFlags >> 4) & 15);
     }
   }
   if (((extensionsFlags >> 8) & 1) == 1)
