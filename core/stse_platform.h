@@ -376,60 +376,60 @@ stse_ReturnCode_t stse_platform_i2c_init (PLAT_UI8 busID);
 
 stse_ReturnCode_t stse_platform_i2c_send (PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI8* pFrame,
 		PLAT_UI16 FrameLength);
 
 stse_ReturnCode_t stse_platform_i2c_receive (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI8* pFrame_header,
 		PLAT_UI8* pFrame_payload,
 		PLAT_UI16* pFrame_payload_Length);
 
 stse_ReturnCode_t stse_platform_i2c_wake (PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed);
+		PLAT_UI16 speed);
 
 
 stse_ReturnCode_t stse_platform_i2c_send_start (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI16 FrameLength);
 
 stse_ReturnCode_t stse_platform_i2c_send_continue (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI8* pElement,
 		PLAT_UI16 element_size);
 
 stse_ReturnCode_t stse_platform_i2c_send_stop (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI8* pElement,
 		PLAT_UI16 element_size);
 
 stse_ReturnCode_t stse_platform_i2c_receive_start (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI16 *pFrame_Length);
 
 stse_ReturnCode_t stse_platform_i2c_receive_continue (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI8* pElement,
 		PLAT_UI16 element_size);
 
 stse_ReturnCode_t stse_platform_i2c_receive_stop (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
-		PLAT_UI8 speed,
+		PLAT_UI16 speed,
 		PLAT_UI8* pElement,
 		PLAT_UI16 element_size);
 
