@@ -44,7 +44,7 @@ stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE, stse_session
 		{
 			return STSE_SERVICE_SESSION_ERROR;
 		}
-
+		pSession->context.host.key_type = host_key_slot.key_type;
 		pSession->context.host.MAC_counter = ARRAY_4B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
 	} else {
 		stsafea_host_key_slot_t host_key_slot;
@@ -59,7 +59,7 @@ stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE, stse_session
 		{
 			return STSE_SERVICE_SESSION_ERROR;
 		}
-
+		pSession->context.host.key_type = STSE_AES_128_KT;
 		pSession->context.host.MAC_counter = ARRAY_3B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
 	}
 
