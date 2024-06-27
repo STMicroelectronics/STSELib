@@ -90,7 +90,7 @@ void stse_frame_unstrap(stse_frame_t* pFrame)
 		pFrame->length += pElement->length;
 		pFrame->element_count ++;
 		pFrame->last_element = pElement;
-		if((pElement->next->length == 0) && (pElement->next->pData!=NULL))
+		if((pElement->next != NULL) && (pElement->next->length == 0) && (pElement->next->pData!=NULL))
 		{
 			pElement->next = (stse_frame_element_t *)pElement->next->pData;
 		}

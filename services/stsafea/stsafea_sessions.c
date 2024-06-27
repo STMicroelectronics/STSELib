@@ -44,7 +44,7 @@ stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE, stse_session
 		{
 			return STSE_SERVICE_SESSION_ERROR;
 		}
-
+		pSession->context.host.key_type = host_key_slot.key_type;
 		pSession->context.host.MAC_counter = ARRAY_4B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
 	} else {
 		stsafea_host_key_slot_t host_key_slot;
@@ -59,7 +59,7 @@ stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE, stse_session
 		{
 			return STSE_SERVICE_SESSION_ERROR;
 		}
-
+		pSession->context.host.key_type = STSE_AES_128_KT;
 		pSession->context.host.MAC_counter = ARRAY_3B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
 	}
 
@@ -379,13 +379,14 @@ static stse_ReturnCode_t stsafea_session_frame_c_mac_compute( stse_session_t *pS
 	}
 
 	/*- Finish AES MAC computation */
-	ret = stse_platform_aes_cmac_compute_finish(pMAC,&mac_output_length);
+	ret = stse_platform_aes_cmac_compute_finish(aes_cmac_block,&mac_output_length);
 	if(ret != STSE_OK)
 	{
 		return ret;
 	} else if ( mac_output_length != STSAFEA_MAC_SIZE )  {
 		return STSE_CORE_SESSION_ERROR ;
 	}
+	memcpy(pMAC, aes_cmac_block, STSAFEA_MAC_SIZE);
 
 	return ret;
 }
@@ -526,7 +527,8 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify( stse_session_t *pSe
 			}
 		}
 
-		ret = stse_platform_aes_cmac_verify_finish(pMAC);
+		memcpy(aes_cmac_block, pMAC, STSAFEA_MAC_SIZE);
+		ret = stse_platform_aes_cmac_verify_finish(aes_cmac_block);
 
 	}
 	return ret;
