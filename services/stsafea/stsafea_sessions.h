@@ -25,7 +25,7 @@
 #include "core/stse_platform.h"
 #include "core/stse_generic_typedef.h"
 
-#define stsafea_session_handler_allocate(session) stse_session_t session = {0}
+#define stsafea_session_handler_allocate(session) stse_session_t session
 
 /*!
  * \brief 		This Core function Create a session context and associate it to STSAFE handler
@@ -54,7 +54,7 @@ void stsafea_close_host_session(stse_session_t *pSession);
  * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
  * \details 	\include{doc} stsafe_erase_context.dox
  */
-void stsafea_session_erase_context (stse_session_t *pSession);
+void stsafea_session_clear_context (stse_session_t *pSession);
 
 
 stse_ReturnCode_t stsafea_session_encrypted_transfer ( stse_session_t *pSession,

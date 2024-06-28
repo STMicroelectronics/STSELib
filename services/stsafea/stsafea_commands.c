@@ -107,7 +107,7 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 		} else {
 			pRecord_table[record_index].extended_header = 0;
 		}
-		pRecord_table[record_index].command_AC 			  = raw_data[record_array_pos++];
+		pRecord_table[record_index].command_AC 			  = (stse_cmd_access_conditions_t)raw_data[record_array_pos++];
 		pRecord_table[record_index].host_encryption_flags.cmd = (raw_data[record_array_pos] & 0x02) >> 1;
 		pRecord_table[record_index].host_encryption_flags.rsp = (raw_data[record_array_pos++] & 0x01);
 	}
@@ -187,12 +187,12 @@ stse_ReturnCode_t stsafea_perso_info_update (stse_Handler_t *pSTSE)
 
 void stsafea_perso_info_get_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t *pProtection)
 {
-	*pProtection = ((pPerso->cmd_AC_status >> (command_code + command_code)) & 0x03);
+	*pProtection = (stse_cmd_access_conditions_t)((pPerso->cmd_AC_status >> (command_code + command_code)) & 0x03);
 }
 
 void stsafea_perso_info_get_ext_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t *pProtection)
 {
-	*pProtection = ((pPerso->ext_cmd_AC_status >> (command_code + command_code)) & 0x03);
+	*pProtection = (stse_cmd_access_conditions_t)((pPerso->ext_cmd_AC_status >> (command_code + command_code)) & 0x03);
 }
 
 void stsafea_perso_info_get_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code, PLAT_UI8 *pEnc_flag)

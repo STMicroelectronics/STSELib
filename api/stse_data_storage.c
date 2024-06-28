@@ -51,10 +51,10 @@ stse_ReturnCode_t stse_data_storage_read_zone(
 		stsafea_cmd_protection_t protection
 		)
 {
-	volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
-	volatile PLAT_UI16 remaning_length = length;
-	volatile PLAT_UI16 chunck_length = 0;
-	volatile PLAT_UI16 chunck_offset = offset;
+	stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+	PLAT_UI16 remaning_length = length;
+	PLAT_UI16 chunck_length = 0;
+	PLAT_UI16 chunck_offset = offset;
 
 	/* - Check STSAFE handler initialization */
 	if (pSTSE == NULL)
@@ -74,11 +74,18 @@ stse_ReturnCode_t stse_data_storage_read_zone(
 			chunck_length = remaning_length;
 		}
 
+		stsafea_read_option_t stsafea_read_option = { \
+                                    .new_read_ac = (stsafea_ac_t)0, \
+                                    .new_read_ac_change_right = (stsafea_ac_change_right_t)0, \
+                                    .change_ac_indicator = (stsafea_zone_ac_change_indicator_t) 0, \
+                                    .filler = 0 \
+                                    };
+
 		/*- Transfer command/response */
 		ret = stsafea_read_zone(
 				pSTSE,
 				zone,
-				(stsafea_read_option_t){0},
+				stsafea_read_option,
 				chunck_offset,
 				pBuffer + (chunck_offset)-offset,
 				chunck_length,
@@ -116,10 +123,10 @@ stse_ReturnCode_t stse_data_storage_update_zone(
 	stsafea_update_option_t options;
 
 	options.atomicity = atomicity;
-	options.change_ac_indicator = 0 ;
+	options.change_ac_indicator = AC_MOD_CHANGE;
 	options.filler = 0;
-	options.new_update_ac = 0;
-	options.new_update_ac_change_right = 0;
+	options.new_update_ac = STSAFEA_AC_ALWAYS;
+	options.new_update_ac_change_right = STSAFE_ACCR_DISABLED;
 
 	/* - Check STSAFE handler initialization */
 	if (pSTSE == NULL)
@@ -154,10 +161,10 @@ stse_ReturnCode_t stse_data_storage_decrement_counter(
 ){
 	stsafea_decrement_option_t options;
 
-	options.change_ac_indicator = 0 ;
+	options.change_ac_indicator = AC_MOD_CHANGE;
 	options.filler = 0;
-	options.new_decrement_ac = 0;
-	options.new_decrement_ac_change_right = 0;
+	options.new_decrement_ac = STSAFEA_AC_ALWAYS;
+	options.new_decrement_ac_change_right = STSAFE_ACCR_DISABLED;
 
 	/* - Check STSAFE handler initialization */
 	if (pSTSE == NULL)
@@ -188,15 +195,15 @@ stse_ReturnCode_t stse_data_storage_read_counter(
 		stsafea_cmd_protection_t protection
 ){
 	stsafea_read_option_t options;
-	volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
-	volatile PLAT_UI16 remaning_length = length;
-	volatile PLAT_UI16 chunck_length = 0;
-	volatile PLAT_UI16 chunck_offset = offset;
+	stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+	PLAT_UI16 remaning_length = length;
+	PLAT_UI16 chunck_length = 0;
+	PLAT_UI16 chunck_offset = offset;
 
-	options.change_ac_indicator = 0 ;
+	options.change_ac_indicator = AC_MOD_CHANGE;
 	options.filler = 0;
-	options.new_read_ac = 0;
-	options.new_read_ac_change_right = 0;
+	options.new_read_ac = STSAFEA_AC_ALWAYS;
+	options.new_read_ac_change_right = STSAFE_ACCR_DISABLED;
 
 
 	/*- Perform read by chunk */
@@ -258,7 +265,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 
 	stsafea_read_option_t options;
 
-	options.change_ac_indicator = 1;
+	options.change_ac_indicator = AC_MOD_IGNORE;
 	options.filler = 0;
 	options.new_read_ac = ac;
 	options.new_read_ac_change_right = ac_change_right;
@@ -293,7 +300,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
 	stsafea_update_option_t options;
 
 	/*- Prepare update options */
-	options.change_ac_indicator = 1;
+	options.change_ac_indicator = AC_MOD_IGNORE;
 	options.filler = 0;
 	options.new_update_ac = ac;
 	options.new_update_ac_change_right = ac_change_right;
@@ -326,7 +333,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
 ){
 	stsafea_decrement_option_t options;
 
-	options.change_ac_indicator = 1;
+	options.change_ac_indicator = AC_MOD_IGNORE;
 	options.filler = 0;
 	options.new_decrement_ac = ac;
 	options.new_decrement_ac_change_right = ac_change_right;

@@ -47,30 +47,6 @@ typedef enum
 }stse_session_type_t;
 
 
-#define stse_allocate_handler(x) stse_Handler_t x = {\
-			.device_type = 0,\
-			.pPerso_info = NULL,\
-			.pActive_host_session = NULL,\
-			.pActive_other_session = NULL,\
-			.io = {\
-					.BusRecvStart = stse_platform_i2c_receive_start,\
-					.BusRecvContinue = stse_platform_i2c_receive_continue,\
-					.BusRecvStop = stse_platform_i2c_receive_stop,\
-					.BusSendStart = stse_platform_i2c_send_start,\
-					.BusSendContinue = stse_platform_i2c_send_continue,\
-					.BusSendStop = stse_platform_i2c_send_stop,\
-					.IOLineGet = NULL,\
-					.BusWake = stse_platform_i2c_wake,\
-					.BusRecovery = NULL,\
-					.PowerLineOff = stse_platform_power_off,\
-					.PowerLineOn = stse_platform_power_on,\
-					.Busaddr = 0,\
-					.Devaddr = 0x20,\
-					.BusSpeed = 100,\
-					.BusType = STSE_BUS_TYPE_I2C,\
-				} \
-}
-
 /*
  * \details STMicroelectronics Secure Element device type
  */
@@ -105,45 +81,45 @@ typedef enum stse_bus {
  */
 typedef struct
 	{
-		PLAT_UI16 (* BusRecvStart) (
-				PLAT_UI8,  /* busID */
-				PLAT_UI8,  /* devAddr */
-				PLAT_UI8,  /* speed */
-				PLAT_UI16 * /* pFrameLength */
+		stse_ReturnCode_t (* BusRecvStart) (
+				PLAT_UI8,	/* busID */
+				PLAT_UI8,	/* devAddr */
+				PLAT_UI16,	/* speed */
+				PLAT_UI16 *	/* pFrameLength */
 		); /*\var stse_io_t::BusRecvStart Bus Receive start function callback */
 		stse_ReturnCode_t (* BusRecvContinue) (
-				PLAT_UI8, /*busID*/
-				PLAT_UI8, /*devAddr*/
-				PLAT_UI8, /*speed*/
-				PLAT_UI8 *,/*pElement*/
-				PLAT_UI16 /*element_size*/
+				PLAT_UI8,	/*busID*/
+				PLAT_UI8,	/*devAddr*/
+				PLAT_UI16,	/*speed*/
+				PLAT_UI8 *,	/*pElement*/
+				PLAT_UI16	/*element_size*/
 		); /*<\var stse_io_t::BusRecvContinue Bus Receive continue function callback */
 		stse_ReturnCode_t (* BusRecvStop) (
-				PLAT_UI8, /*busID*/
-				PLAT_UI8, /*devAddr*/
-				PLAT_UI8, /*speed*/
-				PLAT_UI8 *,/*pElement*/
-				PLAT_UI16 /*element_size*/
+				PLAT_UI8,	/*busID*/
+				PLAT_UI8,	/*devAddr*/
+				PLAT_UI16,	/*speed*/
+				PLAT_UI8 *,	/*pElement*/
+				PLAT_UI16	/*element_size*/
 		); /*<\var stse_io_t::BusRecvStop Bus Receive stop function callback */
 		stse_ReturnCode_t (* BusSendStart)(
-				PLAT_UI8, /* busID */
-				PLAT_UI8, /* devAddr */
-				PLAT_UI8, /* speed */
-				PLAT_UI16 /* FrameLength */
+				PLAT_UI8,	/* busID */
+				PLAT_UI8,	/* devAddr */
+				PLAT_UI16,	/* speed */
+				PLAT_UI16	/* FrameLength */
 		); /*<\var stse_io_t::BusSendStart Bus Send start function callback */
 		stse_ReturnCode_t (* BusSendContinue)(
-				PLAT_UI8, /*busID*/
-				PLAT_UI8, /*devAddr*/
-				PLAT_UI8, /*speed*/
-				PLAT_UI8 *,/*pElement*/
-				PLAT_UI16 /*element_size*/
+				PLAT_UI8,	/*busID*/
+				PLAT_UI8,	/*devAddr*/
+				PLAT_UI16,	/*speed*/
+				PLAT_UI8 *,	/*pElement*/
+				PLAT_UI16	/*element_size*/
 		); /*<\var stse_io_t::BusSendContinue Bus Send continue function callback */
 		stse_ReturnCode_t (* BusSendStop)(
-				PLAT_UI8, /*busID*/
-				PLAT_UI8, /*devAddr*/
-				PLAT_UI8, /*speed*/
-				PLAT_UI8 *,/*pElement*/
-				PLAT_UI16 /*element_size*/
+				PLAT_UI8,	/*busID*/
+				PLAT_UI8,	/*devAddr*/
+				PLAT_UI16,	/*speed*/
+				PLAT_UI8 *,	/*pElement*/
+				PLAT_UI16	/*element_size*/
 		); /*<\var stse_io_t::BusSendStop Bus Send stop function callback */
 		stse_ReturnCode_t (* IOLineGet)(
 				PLAT_UI8
@@ -151,7 +127,7 @@ typedef struct
 		stse_ReturnCode_t (* BusWake)(
 				PLAT_UI8,
 				PLAT_UI8,
-				PLAT_UI8
+				PLAT_UI16
 		); /*<\var stse_io_t::BusWake Bus wake function callback */
 		stse_ReturnCode_t (* BusRecovery)(
 				PLAT_UI8,
@@ -167,7 +143,7 @@ typedef struct
 		); /*<\var stse_io_t::PowerLineOn Bus power line on function callback */
 		PLAT_UI8 Busaddr;				/*<\var stse_io_t::Busaddr Bus Address */
 		PLAT_UI8 Devaddr;				/*<\var stse_io_t::Devaddr Device address */
-		PLAT_UI8 BusSpeed;				/*<\var stse_io_t::BusSpeed Bus speed */
+		PLAT_UI16 BusSpeed;				/*<\var stse_io_t::BusSpeed Bus speed */
 		stse_bus_t BusType;				/*<\var stse_io_t::BusType Bus type */
 	} PLAT_PACKED_STRUCT stse_io_t;
 
@@ -217,6 +193,14 @@ struct stse_Handler_t {
 /* Exported variables --------------------------------------------------------*/
 
 extern stse_perso_info_t dynamic_product_perso;
+
+/**
+ * \brief 		Initialise the STSE handler to default value
+ * \details 		This core function initialise the handler to default value
+ * \param[in] 		pStseHandler 	Pointer to STSE handler
+ * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler);
 
 /*! @}*/
 

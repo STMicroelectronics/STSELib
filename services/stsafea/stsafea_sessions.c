@@ -74,10 +74,10 @@ stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE, stse_session
 
 void stsafea_close_host_session(stse_session_t *pSession)
 {
-	stsafea_session_erase_context(pSession);
+	stsafea_session_clear_context(pSession);
 }
 
-void stsafea_session_erase_context(stse_session_t *pSession)
+void stsafea_session_clear_context(stse_session_t *pSession)
 {
 	/* - Check stsafe handler initialization */
 	if (pSession==NULL)

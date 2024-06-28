@@ -104,7 +104,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 		memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_private_key, 0, priv_key_size);
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( ret );
 	}
 
@@ -120,7 +120,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 	{
 		memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_public_key, 0, pub_key_size);
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( STSE_UNEXPECTED_ERROR );
 	}
 
@@ -147,7 +147,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 
 	if(ret != STSE_OK)
 	{
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( STSE_UNEXPECTED_ERROR );
 	}
 
@@ -303,7 +303,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		memset(host_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_private_key, 0, ecdhe_priv_key_size);
 		memset(pTBS, 0, tbs_length);
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( ret );
 	}
 
@@ -322,7 +322,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_private_key, 0, ecdhe_priv_key_size);
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( ret );
 	}
 
@@ -337,7 +337,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 	{
 		memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 		memset(host_ecdhe_public_key, 0, pub_key_size);
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( STSE_UNEXPECTED_ERROR );
 	}
 
@@ -366,7 +366,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
 	if(ret != STSE_OK)
 	{
-		stsafea_session_erase_context(pSession);
+		stsafea_session_clear_context(pSession);
 		return( STSE_UNEXPECTED_ERROR );
 	}
 
@@ -387,7 +387,7 @@ static stse_ReturnCode_t stse_stop_volatile_KEK_session( stse_Handler_t *pSTSE ,
 	}
 
 	/* - Clear KEK session context on local host */
-	stsafea_session_erase_context(pSession);
+	stsafea_session_clear_context(pSession);
 
 	/* - Clear KEK session context in target SE */
 	ret = stsafea_stop_volatile_KEK_session(pSTSE);
@@ -551,12 +551,13 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 	PLAT_UI8 host_key_envelope[host_keys_envelope_length];
 
 
-	stsafea_session_handler_allocate(volatile_KEK_sesion);
+	stsafea_session_handler_allocate(volatile_KEK_session);
+	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start volatile KEK  */
 	ret = stse_start_volatile_KEK_session(
 			pSTSE,
-			&volatile_KEK_sesion,
+			&volatile_KEK_session,
 			ecdhe_ecc_key_type);
 
 	if(ret != STSE_OK)
@@ -581,7 +582,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 	/* - Wrap */
 	ret = stse_KEK_wrap(
 			pSTSE,
-			&volatile_KEK_sesion,
+			&volatile_KEK_session,
 			host_key_envelope,
 			( host_keys_envelope_length - STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH ),
 			host_key_envelope,
@@ -644,12 +645,13 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 
 	PLAT_UI8 host_key_envelope[host_keys_envelope_length];
 
-	stsafea_session_handler_allocate(volatile_KEK_sesion);
+	stsafea_session_handler_allocate(volatile_KEK_session);
+	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start volatile KEK Authenticated */
 	ret = stse_start_volatile_KEK_session_authenticated(
 			pSTSE,
-			&volatile_KEK_sesion,
+			&volatile_KEK_session,
 			ecdhe_ecc_key_type,
 			signature_public_key_slot_number,
 			signature_hash_algo,
@@ -677,7 +679,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 	/* - Wrap */
 	ret = stse_KEK_wrap(
 			pSTSE,
-			&volatile_KEK_sesion,
+			&volatile_KEK_session,
 			host_key_envelope,
 			( host_keys_envelope_length - STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH ),
 			host_key_envelope,
@@ -700,7 +702,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 	}
 
 	/* - Stop volatile KEK */
-	ret = stse_stop_volatile_KEK_session(pSTSE,&volatile_KEK_sesion);
+	ret = stse_stop_volatile_KEK_session(pSTSE,&volatile_KEK_session);
 
 	return ret;
 }
@@ -821,17 +823,18 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	stsafea_session_handler_allocate(volatile_KEK_sesion);
+	stsafea_session_handler_allocate(volatile_KEK_session);
+	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start Volatile KEK session */
-	ret = stse_start_volatile_KEK_session(pSTSE, &volatile_KEK_sesion,kek_session_ecc_type);
+	ret = stse_start_volatile_KEK_session(pSTSE, &volatile_KEK_session,kek_session_ecc_type);
 	if(ret != STSE_OK)
 	{
 		return( ret );
 	}
 
 	/* - Format envelope to wrap */
-	PLAT_UI8 envelope_key_length =  key_info->type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSAFEA_AES_256_KEY_SIZE : STSAFEA_AES_128_KEY_SIZE;
+	PLAT_UI8 envelope_key_length = key_info->type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSAFEA_AES_256_KEY_SIZE : STSAFEA_AES_128_KEY_SIZE;
 	PLAT_UI8 envelope_length = envelope_key_length + key_info->info_length;
 	PLAT_UI8 envelope_padding_length = 8 - (envelope_length % 8);
 
@@ -851,7 +854,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 	/* - Wrap the envelope */
 	ret = stse_KEK_wrap(
 			pSTSE,
-			&volatile_KEK_sesion,
+			&volatile_KEK_session,
 			envelope,
 			envelope_length,
 			envelope,
@@ -874,7 +877,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 	}
 
 	/* - Close Volatile KEK session */
-	ret = stse_stop_volatile_KEK_session(pSTSE,&volatile_KEK_sesion);
+	ret = stse_stop_volatile_KEK_session(pSTSE,&volatile_KEK_session);
 
 	return ret;
 }
@@ -903,6 +906,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated (
 	}
 
 	stsafea_session_handler_allocate(volatile_KEK_session);
+	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start volatile KEK Authenticated */
 	ret = stse_start_volatile_KEK_session_authenticated(

@@ -36,7 +36,7 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eTag,1,&tag);
-	stse_frame_element_allocate_push(&CmdFrame,eLifeCycleState,1,&life_cycle_state);
+	stse_frame_element_allocate_push(&CmdFrame,eLifeCycleState,1,(PLAT_UI8*)&life_cycle_state);
 
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
@@ -73,7 +73,7 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
-	stse_frame_element_allocate_push(&RspFrame,eLife_cycle_state,1,pLife_cycle_state);
+	stse_frame_element_allocate_push(&RspFrame,eLife_cycle_state,1,(PLAT_UI8*)pLife_cycle_state);
 
 	/*- Perform Transfer*/
 	ret = stse_frame_transfer(pSTSAFE,
