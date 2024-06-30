@@ -544,8 +544,8 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer ( stse_session_t *pSession,
 )
 {
 	stse_ReturnCode_t ret;
-	PLAT_UI8 encrypted_cmd_payload_size = 0;
-	PLAT_UI8 encrypted_rsp_payload_size = 0;
+	PLAT_UI16 encrypted_cmd_payload_size = 0;
+	PLAT_UI16 encrypted_rsp_payload_size = 0;
 	PLAT_UI8 padding = 0;
 
 	if(cmd_encryption_flag == 1)
