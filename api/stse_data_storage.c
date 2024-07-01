@@ -22,7 +22,8 @@
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
 		stse_Handler_t* pSTSE,
 		PLAT_UI8* total_partition_count
-) {
+		)
+{
 
 	return stsafea_get_total_partition_count(pSTSE, total_partition_count);
 }
@@ -32,7 +33,8 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
 		PLAT_UI8 total_partition_count,
 		stsafea_data_partition_record_t*  pPartitioning_table,
 		PLAT_UI16 Partitioning_table_length
-) {
+		)
+{
 
 	return stsafea_get_data_partitions_configuration (
 			pSTSE,
@@ -75,7 +77,7 @@ stse_ReturnCode_t stse_data_storage_read_zone(
 		}
 
 		/*- Transfer command/response */
-		ret = stsafea_read_zone(
+		ret = stsafea_read_data_zone(
 				pSTSE,
 				zone,
 				(stsafea_read_option_t){0},
@@ -128,7 +130,7 @@ stse_ReturnCode_t stse_data_storage_update_zone(
 	}
 
 	/*- Transfer command/response */
-	ret = stsafea_update_zone(
+	ret = stsafea_update_data_zone(
 			pSTSE,
 			zone,
 			options,
@@ -165,7 +167,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter(
 		return( STSE_API_INVALID_PARAMETER );
 	}
 
-	return stsafea_decrement_counter(pSTSE,
+	return stsafea_decrement_counter_zone(pSTSE,
 			zone,
 			options,
 			amount,
@@ -217,7 +219,7 @@ stse_ReturnCode_t stse_data_storage_read_counter(
 				chunck_length = remaning_length;
 			}
 
-			ret = stsafea_read_counter(
+			ret = stsafea_read_counter_zone(
 					pSTSE,
 					zone,
 					options,
@@ -264,7 +266,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 	options.new_read_ac_change_right = ac_change_right;
 
 	/*- Read Zone (single access) */
-	ret = stsafea_read_zone(
+	ret = stsafea_read_data_zone(
 			pSTSE,
 			zone,
 			options,
@@ -299,7 +301,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
 	options.new_update_ac_change_right = ac_change_right;
 	options.atomicity = atomicity;
 	/*- Update zone */
-	ret = stsafea_update_zone(
+	ret = stsafea_update_data_zone(
 			pSTSE,
 			zone,
 			options,
@@ -337,7 +339,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
 		return( STSE_API_INVALID_PARAMETER );
 	}
 
-	return stsafea_decrement_counter(pSTSE,
+	return stsafea_decrement_counter_zone(pSTSE,
 			zone,
 			options,
 			amount,

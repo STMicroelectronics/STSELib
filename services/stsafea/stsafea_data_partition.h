@@ -159,7 +159,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 	stsafea_data_partition_record_t*  	pRecord_table,
 	PLAT_UI16 							record_table_length);
 
-stse_ReturnCode_t stsafea_decrement_counter(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8 zone_index,
 		stsafea_decrement_option_t option,
 		PLAT_UI32 amount,
@@ -169,7 +169,7 @@ stse_ReturnCode_t stsafea_decrement_counter(stse_Handler_t * pSTSE,
 		PLAT_UI32 * new_counter_value,
 		stsafea_cmd_protection_t protection);
 
-stse_ReturnCode_t stsafea_read_counter(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
 		stsafea_read_option_t read_ac,
 		PLAT_UI16 read_offset,
@@ -178,7 +178,7 @@ stse_ReturnCode_t stsafea_read_counter(stse_Handler_t * pSTSE,
 		PLAT_UI32 *pCounter_value,
 		stsafea_cmd_protection_t protection);
 
-stse_ReturnCode_t stsafea_read_zone(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
 		stsafea_read_option_t read_ac,
 		PLAT_UI16 read_offset,
@@ -186,7 +186,7 @@ stse_ReturnCode_t stsafea_read_zone(stse_Handler_t * pSTSE,
 		PLAT_UI16 read_length,
 		stsafea_cmd_protection_t protection);
 
-stse_ReturnCode_t stsafea_update_zone(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
 		stsafea_update_option_t option,
 		PLAT_UI16 offset,
