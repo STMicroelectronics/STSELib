@@ -124,7 +124,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 	return( ret );
 }
 
-stse_ReturnCode_t stsafea_decrement_counter(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8 zone_index,
 		stsafea_decrement_option_t option,
 		PLAT_UI32 amount,
@@ -161,14 +161,14 @@ stse_ReturnCode_t stsafea_decrement_counter(stse_Handler_t * pSTSE,
 		return STSE_SERVICE_BUFFER_OVERFLOW;
 	}
 
-	/*- Swap Elements byte order before sending*/
-	stse_frame_element_swap_byte_order(&eOffset);
-	stse_frame_element_swap_byte_order(&eAmount);
-
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eNewCounterVal,STSAFEA_COUNTER_VALUE_SIZE,(PLAT_UI8*)pNew_counter_value);
+
+	/*- Swap Elements byte order before sending*/
+	stse_frame_element_swap_byte_order(&eOffset);
+	stse_frame_element_swap_byte_order(&eAmount);
 
 	/*- Perform Transfer*/
 	ret = stse_frame_transfer(pSTSE,
@@ -187,7 +187,7 @@ stse_ReturnCode_t stsafea_decrement_counter(stse_Handler_t * pSTSE,
 	return( ret );
 }
 
-stse_ReturnCode_t stsafea_read_counter(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
 		stsafea_read_option_t option,
 		PLAT_UI16 offset,
@@ -220,15 +220,15 @@ stse_ReturnCode_t stsafea_read_counter(stse_Handler_t * pSTSE,
 		return STSE_SERVICE_BUFFER_OVERFLOW;
 	}
 
-	/*- Swap Elements bytes from Command frame*/
-	stse_frame_element_swap_byte_order(&eOffset);
-	stse_frame_element_swap_byte_order(&eLength);
-
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eCounterVal,STSAFEA_COUNTER_VALUE_SIZE,(PLAT_UI8*)pCounter_value);
-	stse_frame_element_allocate_push(&RspFrame,eData,Associated_data_length,pAssociated_data);
+	stse_frame_element_allocate_push(&RspFrame,eAssociatedData,Associated_data_length,pAssociated_data);
+
+	/*- Swap Elements bytes from Command frame*/
+	stse_frame_element_swap_byte_order(&eOffset);
+	stse_frame_element_swap_byte_order(&eLength);
 
 	/*- Perform Transfer*/
 	ret = stse_frame_transfer(pSTSE,
@@ -247,7 +247,7 @@ stse_ReturnCode_t stsafea_read_counter(stse_Handler_t * pSTSE,
 	return( ret );
 }
 
-stse_ReturnCode_t stsafea_read_zone(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
 		stsafea_read_option_t option,
 		PLAT_UI16 offset,
@@ -279,14 +279,14 @@ stse_ReturnCode_t stsafea_read_zone(stse_Handler_t * pSTSE,
 		return STSE_SERVICE_BUFFER_OVERFLOW;
 	}
 
-	/*- Swap Elements byte order before sending*/
-	stse_frame_element_swap_byte_order(&eOffset);
-	stse_frame_element_swap_byte_order(&eLength);
-
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
-	stse_frame_element_allocate_push(&RspFrame,eNewCounterVal,read_length,(PLAT_UI8*)pReadBuffer);
+	stse_frame_element_allocate_push(&RspFrame,eData,read_length,(PLAT_UI8*)pReadBuffer);
+
+	/*- Swap Elements byte order before sending*/
+	stse_frame_element_swap_byte_order(&eOffset);
+	stse_frame_element_swap_byte_order(&eLength);
 
 	/*- Perform Transfer*/
 	ret = stse_frame_transfer(pSTSE,
@@ -302,7 +302,7 @@ stse_ReturnCode_t stsafea_read_zone(stse_Handler_t * pSTSE,
 	return( ret );
 }
 
-stse_ReturnCode_t stsafea_update_zone(stse_Handler_t * pSTSE,
+stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
 		stsafea_update_option_t option,
 		PLAT_UI16 offset,
@@ -334,12 +334,12 @@ stse_ReturnCode_t stsafea_update_zone(stse_Handler_t * pSTSE,
 		return STSE_SERVICE_BUFFER_OVERFLOW;
 	}
 
-	/*- Swap Elements byte order before sending*/
-	stse_frame_element_swap_byte_order(&eOffset);
-
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
+
+	/*- Swap Elements byte order before sending*/
+	stse_frame_element_swap_byte_order(&eOffset);
 
 	/*- Perform Transfer*/
 	ret = stse_frame_transfer(pSTSE,
