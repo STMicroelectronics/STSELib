@@ -17,6 +17,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 
+#include <string.h>
 #include <api/stse_data_storage.h>
 
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
@@ -76,12 +77,8 @@ stse_ReturnCode_t stse_data_storage_read_zone(
 			chunck_length = remaning_length;
 		}
 
-		stsafea_read_option_t stsafea_read_option = { \
-                                    .new_read_ac = (stsafea_ac_t)0, \
-                                    .new_read_ac_change_right = (stsafea_ac_change_right_t)0, \
-                                    .change_ac_indicator = (stsafea_zone_ac_change_indicator_t) 0, \
-                                    .filler = 0 \
-                                    };
+		stsafea_read_option_t stsafea_read_option;
+		memset(&stsafea_read_option, 0, sizeof(stsafea_read_option));
 
 		/*- Transfer command/response */
 		ret = stsafea_read_data_zone(
