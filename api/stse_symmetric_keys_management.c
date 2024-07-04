@@ -551,7 +551,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 	PLAT_UI8 host_key_envelope[host_keys_envelope_length];
 
 
-	stsafea_session_handler_allocate(volatile_KEK_session);
+	stse_session_t volatile_KEK_session;
 	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start volatile KEK  */
@@ -645,7 +645,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 
 	PLAT_UI8 host_key_envelope[host_keys_envelope_length];
 
-	stsafea_session_handler_allocate(volatile_KEK_session);
+	stse_session_t volatile_KEK_session;
 	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start volatile KEK Authenticated */
@@ -823,7 +823,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	stsafea_session_handler_allocate(volatile_KEK_session);
+	stse_session_t volatile_KEK_session;
 	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start Volatile KEK session */
@@ -905,7 +905,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated (
 		return( STSE_COMMAND_CODE_NOT_SUPPORTED );
 	}
 
-	stsafea_session_handler_allocate(volatile_KEK_session);
+	stse_session_t volatile_KEK_session;
 	stsafea_session_clear_context(&volatile_KEK_session);
 
 	/* - Start volatile KEK Authenticated */

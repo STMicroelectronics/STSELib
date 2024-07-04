@@ -25,8 +25,6 @@
 #include "core/stse_platform.h"
 #include "core/stse_generic_typedef.h"
 
-#define stsafea_session_handler_allocate(session) stse_session_t session
-
 /*!
  * \brief 		This Core function Create a session context and associate it to STSAFE handler
  * \param[in] 	*pSession 			\ref stse_session_t Pointer to session
