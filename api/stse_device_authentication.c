@@ -45,7 +45,7 @@ stse_ReturnCode_t stse_get_device_id(stse_Handler_t * pSTSE, PLAT_UI8* device_id
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	ret = stse_data_storage_read_zone(
+	ret = stse_data_storage_read_data_zone(
 			pSTSE,							/* STSAFE handler */
 			STSAFE_CERTIFICATE_ZONE_0,		/* Zone = 0 */
 			CERTIFICATE_DEVICE_ID_OFFSET,	/* X bytes offset */
@@ -69,7 +69,7 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t * pSTSE, PLAT_
 	}
 
 
-	ret = stse_data_storage_read_zone(
+	ret = stse_data_storage_read_data_zone(
 			pSTSE,							/* STSAFE handler */
 			STSAFE_CERTIFICATE_ZONE_0,		/* Zone = 0 */
 			CERTIFICATE_SIZE_OFFSET_BYTES,	/* 2 bytes offset */
@@ -99,7 +99,7 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t * pSTSE, PLAT_UI16 
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	ret = stse_data_storage_read_zone(
+	ret = stse_data_storage_read_data_zone(
 			pSTSE,							/* STSAFE handler */
 			STSAFE_CERTIFICATE_ZONE_0,		/* Zone = 0 */
 			CERTIFICATE_OFFSET_BYTES,		/* 0 bytes offset */

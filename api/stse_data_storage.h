@@ -77,7 +77,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
  * \note 		- If command response protection is required an active session between Host/Companion and STSAFE must be open
  * \details 	\include{doc} stse_data_storage_read_zone.dox
  */
-stse_ReturnCode_t stse_data_storage_read_zone(
+stse_ReturnCode_t stse_data_storage_read_data_zone(
 		stse_Handler_t *pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI16 offset,
@@ -101,7 +101,7 @@ stse_ReturnCode_t stse_data_storage_read_zone(
  * \note 		- If command response protection is required an active session between Host/Companion and STSAFE must be open
  * \details 	\include{doc} stse_data_storage_update_zone.dox
  */
-stse_ReturnCode_t stse_data_storage_update_zone(
+stse_ReturnCode_t stse_data_storage_update_data_zone(
 		stse_Handler_t *pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI16 offset,
@@ -126,7 +126,7 @@ stse_ReturnCode_t stse_data_storage_update_zone(
  * \note 		- If command response protection is required an active session between Host/Companion and STSAFE must be open
  * \details 	\include{doc} stse_data_storage_decrement_counter.dox
  */
-stse_ReturnCode_t stse_data_storage_decrement_counter(
+stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
 		stse_Handler_t *pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI32 amount,
@@ -152,7 +152,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter(
  * \note 		- If command response protection is required an active session between Host/Companion and STSAFE must be open
  * \details 	\include{doc} stse_data_storage_read_counter.dox
  */
-stse_ReturnCode_t stse_data_storage_read_counter(
+stse_ReturnCode_t stse_data_storage_read_counter_zone(
 		stse_Handler_t *pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI16 offset,

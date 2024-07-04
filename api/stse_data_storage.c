@@ -44,7 +44,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
 			Partitioning_table_length);
 }
 
-stse_ReturnCode_t stse_data_storage_read_zone(
+stse_ReturnCode_t stse_data_storage_read_data_zone(
 		stse_Handler_t * pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI16 offset,
@@ -108,7 +108,7 @@ stse_ReturnCode_t stse_data_storage_read_zone(
 	return(ret);
 }
 
-stse_ReturnCode_t stse_data_storage_update_zone(
+stse_ReturnCode_t stse_data_storage_update_data_zone(
 		stse_Handler_t * pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI16 offset,
@@ -148,7 +148,7 @@ stse_ReturnCode_t stse_data_storage_update_zone(
 	return(ret);
 }
 
-stse_ReturnCode_t stse_data_storage_decrement_counter(
+stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
 		stse_Handler_t * pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI32 amount,
@@ -183,7 +183,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter(
 	);
 }
 
-stse_ReturnCode_t stse_data_storage_read_counter(
+stse_ReturnCode_t stse_data_storage_read_counter_zone(
 		stse_Handler_t * pSTSE,
 		PLAT_UI32 zone,
 		PLAT_UI16 offset,
