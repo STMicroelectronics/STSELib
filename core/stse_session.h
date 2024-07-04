@@ -24,9 +24,6 @@
 #include "core/stse_frame.h"
 #include "core/stse_generic_typedef.h"
 
-
-#define stse_session_allocate(session) stse_session_t session = {0}
-
 /*!
  * \brief 		This Core function Erase the session context from STSAFE handler
  * \param[in] 	*pSTSE 	Pointer to target STSAFE handler
