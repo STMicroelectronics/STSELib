@@ -34,18 +34,18 @@
  */
 
 /* Zone Info Record (ZIR) bitfields definition  */
-#define STSAFEA_ZIR_AC_READ_CR_Pos  			7
+#define STSAFEA_ZIR_AC_READ_CR_Pos  		7
 #define STSAFEA_ZIR_AC_READ_Pos  	 		4
-#define STSAFEA_ZIR_AC_UPDATE_CR_Pos  		        3
+#define STSAFEA_ZIR_AC_UPDATE_CR_Pos  		3
 #define STSAFEA_ZIR_AC_UPDATE_Pos	  		0
 #define STSAFEA_ZIR_AC_READ_CR_Msk 			128 /*0b10000000*/
 #define STSAFEA_ZIR_AC_READ_Msk 			112 /*0b01110000*/
-#define STSAFEA_ZIR_AC_UPDATE_CR_Msk 		        8   /*0b00001000*/
+#define STSAFEA_ZIR_AC_UPDATE_CR_Msk 		8   /*0b00001000*/
 #define STSAFEA_ZIR_AC_UPDATE_Msk 			7   /*0b00000111*/
 #define STSAFEA_ZIR_AC_READ_CR_GET(x)		( ( (x) & STSAFEA_ZIR_AC_READ_CR_Msk) >> STSAFEA_ZIR_AC_READ_CR_Pos )
 #define STSAFEA_ZIR_AC_READ_GET(x)			( ( (x) & STSAFEA_ZIR_AC_READ_Msk) >> STSAFEA_ZIR_AC_READ_Pos )
 #define STSAFEA_ZIR_AC_UPDATE_CR_GET(x)		( ( (x) & STSAFEA_ZIR_AC_UPDATE_CR_Msk) >> STSAFEA_ZIR_AC_UPDATE_CR_Pos )
-#define STSAFEA_ZIR_AC_UPDATE_GET(x)			( ( (x) & STSAFEA_ZIR_AC_UPDATE_Msk) >> STSAFEA_ZIR_AC_UPDATE_Pos )
+#define STSAFEA_ZIR_AC_UPDATE_GET(x)		( ( (x) & STSAFEA_ZIR_AC_UPDATE_Msk) >> STSAFEA_ZIR_AC_UPDATE_Pos )
 
 
 /**
@@ -73,8 +73,8 @@ typedef enum stsafea_ac_t{
  * \brief STSAFE data storage access condition change indicator
  */
 typedef enum stsafea_zone_ac_change_indicator_t {
-	AC_MOD_CHANGE = 0,		/*!< request access condition change */
-	AC_MOD_IGNORE			/*!< ignore access condition change */
+	STSAFEA_AC_CHANGE = 0,		/*!< request access condition change */
+	STSAFEA_AC_IGNORE			/*!< ignore access condition change */
 }stsafea_zone_ac_change_indicator_t;
 
 /**

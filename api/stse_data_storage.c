@@ -122,7 +122,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
 	stsafea_update_option_t options;
 
 	options.atomicity = atomicity;
-	options.change_ac_indicator = AC_MOD_CHANGE;
+	options.change_ac_indicator = STSAFEA_AC_CHANGE;
 	options.filler = 0;
 	options.new_update_ac = STSAFEA_AC_ALWAYS;
 	options.new_update_ac_change_right = STSAFE_ACCR_DISABLED;
@@ -160,7 +160,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
 ){
 	stsafea_decrement_option_t options;
 
-	options.change_ac_indicator = AC_MOD_CHANGE;
+	options.change_ac_indicator = STSAFEA_AC_CHANGE;
 	options.filler = 0;
 	options.new_decrement_ac = STSAFEA_AC_ALWAYS;
 	options.new_decrement_ac_change_right = STSAFE_ACCR_DISABLED;
@@ -199,7 +199,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
 	PLAT_UI16 chunck_length = 0;
 	PLAT_UI16 chunck_offset = offset;
 
-	options.change_ac_indicator = AC_MOD_CHANGE;
+	options.change_ac_indicator = STSAFEA_AC_CHANGE;
 	options.filler = 0;
 	options.new_read_ac = STSAFEA_AC_ALWAYS;
 	options.new_read_ac_change_right = STSAFE_ACCR_DISABLED;
@@ -264,7 +264,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 
 	stsafea_read_option_t options;
 
-	options.change_ac_indicator = AC_MOD_IGNORE;
+	options.change_ac_indicator = STSAFEA_AC_IGNORE;
 	options.filler = 0;
 	options.new_read_ac = ac;
 	options.new_read_ac_change_right = ac_change_right;
@@ -299,7 +299,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
 	stsafea_update_option_t options;
 
 	/*- Prepare update options */
-	options.change_ac_indicator = AC_MOD_IGNORE;
+	options.change_ac_indicator = STSAFEA_AC_IGNORE;
 	options.filler = 0;
 	options.new_update_ac = ac;
 	options.new_update_ac_change_right = ac_change_right;
@@ -332,7 +332,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
 ){
 	stsafea_decrement_option_t options;
 
-	options.change_ac_indicator = AC_MOD_IGNORE;
+	options.change_ac_indicator = STSAFEA_AC_IGNORE;
 	options.filler = 0;
 	options.new_decrement_ac = ac;
 	options.new_decrement_ac_change_right = ac_change_right;
