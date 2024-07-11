@@ -170,6 +170,7 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
 {
 	stse_ReturnCode_t ret;
 	PLAT_UI8 password_verification_status = 0;
+	PLAT_UI8 remaining_tries;
 
 	if(pSTSE == NULL)
 	{
@@ -186,7 +187,7 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
 								 pPassword,
 								 password_length,
 								 &password_verification_status,
-								 NULL);
+								 &remaining_tries);
 
 	if(ret != STSE_OK)
 	{
