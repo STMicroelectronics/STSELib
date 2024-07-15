@@ -85,7 +85,7 @@ typedef struct stsafea_generic_public_key_configuration_flags_t{
 	PLAT_UI8 change_right 				: STSE_1BIT_LEN;
 	PLAT_UI8 establish_symmetric_key 	: STSE_1BIT_LEN;
 	PLAT_UI8 start_volatile_kek_session : STSE_1BIT_LEN;
-	PLAT_UI8 filler 					: STSE_6BIT_LEN;
+	PLAT_UI8 filler 					: STSE_5BIT_LEN;
 }stsafea_generic_public_key_configuration_flags_t;
 
 /*!
