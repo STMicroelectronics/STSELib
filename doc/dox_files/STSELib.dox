@@ -30,7 +30,7 @@ and reports response to higher layers API/Application . This layer can be used d
 \n\n More details on each layers can be found in the "Modules Documentation" section of the documentation
 
 \n\n\
-subpage stse_certificate
+\subpage stse_certificate
 \n
 \subpage stse_api
 \n
