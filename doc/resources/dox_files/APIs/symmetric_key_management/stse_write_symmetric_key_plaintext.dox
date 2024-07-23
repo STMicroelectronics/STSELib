@@ -1,0 +1,33 @@
+\b Description 
+\n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+@startuml
+	skinparam sequenceMessageAlign center
+    Application -> STSELib: key\nkey_info\nkek_ecc_key_type
+    activate STSELib
+    rnote over STSELib, STSE
+		Start volatile KEK session
+	end rnote
+	rnote over STSELib
+		KEK wrap key + key_info
+	end rnote
+	STSELib->STSE: Write symmetric key
+    activate STSE
+    return status
+	rnote over STSELib, STSE
+		Stop volatile KEK session
+	end rnote
+    Application <- STSELib: status
+    deactivate STSELib
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+\endcode
+
+\sa stsafe_init
+
+<div style="page-break-after: always;"></div>

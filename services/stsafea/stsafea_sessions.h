@@ -30,7 +30,7 @@
  * \param[in] 	*pSession 			\ref stse_session_t Pointer to session
  * \param[in] 	*pHost_MAC_key 		Pointer to MAC key buffer to be used under the session
  * \param[in] 	*pHost_cypher_key 	Pointer to cypher key buffer to be used under the session
- * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stsafe_erase_context.dox
  */
 stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE,
@@ -42,14 +42,14 @@ stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE,
 /*!
  * \brief 		This Core function Close an existing host session context
  * \param[in] 	*pSession 			\ref stse_session_t Pointer to session
- * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 void stsafea_close_host_session(stse_session_t *pSession);
 
 /*!
  * \brief 		This Core function Erase the session context from STSAFE handler
  * \param[in] 	*pSTSE 	Pointer to target STSAFE handler
- * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stsafe_erase_context.dox
  */
 void stsafea_session_clear_context (stse_session_t *pSession);

@@ -1,0 +1,62 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST $STSE_ACTIVITY
+    group stse_data_storage_decrement_counter
+            
+            HOST -> STSE : decrement zone ( zone, amount , associated data, associated data length)  
+            Activate STSE
+            return new counter value 
+
+            rnote over HOST
+                store new counter value in 
+                Applicative counter buffer
+            end note
+
+    end 
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+/* - Decrement by one the Counter in Zone 6 and store random associated data */
+
+    uint8_t associated_data[10] = {0};
+
+	stse_ret = stse_companion_generate_random(&stse_handler, associated_data, 10);	
+	stse_ret = stse_data_storage_decrement_counter_zone (
+			&stse_handler,				/* SE handler 			    */
+			5,							/* Zone index 			    */
+			1,							/* Amount				    */
+			0x0000,						/* AD Update Offset 		*/
+			associated_data,			/* AD Update input buffer 	*/
+			sizeof(associated_data),	/* AD Update Length 		*/
+			&new_counter_value,			/* New counter value 	    */
+			STSE_NO_PROT
+	);
+	if(stse_ret != STSE_OK )
+	{
+        /* Handle Error */
+	} else {
+		printf("\n\n\r - stse_data_storage_decrement_counter_zone ( zone : 05 - length : %d)", sizeof(random)/sizeof(random[0]));
+		printf("\n\r\t o New Associated Data : ");
+		apps_print_hex_buffer(random,sizeof(random));
+		printf("\n\r\t o New Counter Value : %ld",new_counter_value);
+	}
+
+\endcode
+
+\sa stse_init
+\sa stse_get_data_partitions_configuration
+
+<div style="page-break-after: always;"></div>

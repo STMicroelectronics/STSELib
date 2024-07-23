@@ -17,9 +17,9 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include <services/stsafea/stsafea_symmetric_key_slots.h>
+#include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
-#include <core/stse_frame.h>
+#include "core/stse_frame.h"
 
 /* Exported functions --------------------------------------------------------*/
 

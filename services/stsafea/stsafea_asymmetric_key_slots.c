@@ -17,8 +17,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include <services/stsafea/stsafea_asymmetric_key_slots.h>
-#include <core/stse_frame.h>
+#include "services/stsafea/stsafea_asymmetric_key_slots.h"
+#include "core/stse_frame.h"
 
 stse_ReturnCode_t stsafea_query_private_key_slots_count(
 		stse_Handler_t * pSTSE,

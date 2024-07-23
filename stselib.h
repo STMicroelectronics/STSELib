@@ -1,6 +1,6 @@
  /******************************************************************************
- * \file	stsafe_A1xx.h
- * \brief   Util Macros for STSAFE Middleware
+ * \file	stselib.h
+ * \brief   STSecureElement Library header file
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -18,31 +18,27 @@
 #define STSELIB_H
 
 
- /*! \defgroup 	STSELib STSecureElement Library
- *  \brief 		STMicroelectronics Secure Element host library
- *  \details	\include{doc} STSELib.dox
- *
- *  \defgroup 	stse_certificate STSE Certificate
- *  \ingroup 	STSELib
- *  \brief		STSELib Certificate parser
- *  \details  	The STSE Certificate parser is the entry point for the upper system application layer. \n
+ /*!
+ *  \defgroup 	stse_certificate STSE Certificate parser
+ *  \brief		SE device certificate parser
+ *  \details  	The STSE Certificate parser is the entry point for the upper system application layer.
  *  			It provides high level certificate parsing functions to the application layer.
  *
- *  \defgroup 	stse_api API layer
- *  \ingroup 	STSELib
- *  \brief		STSELib API Layer
- *  \details  	STSELib API Layer
+ *  \defgroup 	stse_api STSE API layer
+ *  \brief		Common API set for STMicroelectronics brand protection secure elements
+ *  \details  	The STSE API layer is the entry point for the upper system application layer.
+ *  			It provides high level functions allowing seamless implementation of advanced authentication
+ *  			, SE cryptographic processing  and device life cycle monitoring at applicative level  .
  *
- *  \defgroup 	stse_services Services layer
- *  \ingroup 	STSELib
- *  \brief		STSELib service Layer
+ *  \defgroup 	stse_services STSE Services layer
+ *  \brief		Secure Element specific services Layer
  *  \details  	The Services layer provide set of functions that format all commands supported \n
- *  			by the targeted secure element and reports response to higher layers API/Application
+ *  			by a specific secure element from STMicroelectronics Brand Protection portfolio
  *
- *  \defgroup 	stse_core Core layer
- *  \ingroup 	STSELib
- *  \brief		STSELib core Layer
- *  \details  	STSELib core Layer
+ *  \defgroup 	stse_core STSE Core layer
+ *  \brief		Frame protocol , hardware abstraction and cryptographic abstraction layer
+ *  \details  	The Core layer provide SE frame management services and abstraction to specific HW
+ *              and cryptographic platforms required by the STSE library to operate on specific HOST
  */
 #ifdef __cplusplus
 extern "C" {

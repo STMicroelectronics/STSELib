@@ -19,15 +19,6 @@
 #ifndef STSAFEA_PUBLIC_KEY_SLOTS_H
 #define STSAFEA_PUBLIC_KEY_SLOTS_H
 
-/*
- *  \defgroup	stsafea_public_key_slots Generic public key slots management
- *  \ingroup 	stsafea_services
- *  \brief		STSAFE Middleware Generic public key slots services
- *  \details  	The Services layer provide set of functions that format all commands supported \n
- *  			by the targeted secure element and reports response to higher layers API/Application
- *  @{
- */
-
 #include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
@@ -38,6 +29,16 @@
 #include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
+
+/*!
+ *  \defgroup	stsafea_public_key_slots Generic public key slots management
+ *  \ingroup 	stsafea_services
+ *  \brief		STSAFE Middleware Generic public key slots services
+ *  \details  	The Services layer provide set of functions that format all commands supported \n
+ *  			by the target secure element and reports response to higher layers API/Application
+ *  @{
+ */
+
 
 /*!
  * \struct stsafea_generic_public_key_configuration_flags_t
@@ -55,9 +56,9 @@ typedef struct stsafea_generic_public_key_configuration_flags_t{
 /*!
  * \brief 		Get public key slots count
  * \details 	This service format and send/receive the get public key slots count command/response
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
- * \param[out] 	pPublic_key_slot_count 	Targeted STSAFE-A total public key slot count
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[out] 	pGeneric_public_key_slot_count 	Target STSAFE-A total public key slot count
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
 		stse_Handler_t * pSTSE,
@@ -66,12 +67,12 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
 /*!
  * \brief 		Get public key slot informations
  * \details 	This service format and send/receive the get public key slot's informations command/response
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	slot_number 			Public key slot value
  * \param[out] 	pPresence_flag 			Pointer indicating presence of public into selected slot
  * \param[out] 	pConfiguration_flags 	Pointer indicating indicating configuration usage of public key slot
- * \param[out] 	key_type 				Pointer indicating key type of public key present into selected slot
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \param[out] 	pKey_type 				Pointer indicating key type of public key present into selected slot
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		stse_Handler_t * pSTSE,
@@ -83,11 +84,11 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 /*!
  * \brief 		Get public key slot value
  * \details 	This service format and send/receive the get public key slot's value command/response
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	slot_number 			Public key slot value
  * \param[in] 	key_type 				Targeted STSAFE-A public key type
  * \param[out] 	pPublic_key 			Targeted STSAFE-A public key value
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		stse_Handler_t * pSTSE,
@@ -99,11 +100,11 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 /*!
  * \brief 		Write public into specified key slot
  * \details 	This service format and send/receive the write public into specified key slot command/response
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	slot_number 			Public key slot value
  * \param[in] 	key_type 				Targeted STSAFE-A public key type
  * \param[out] 	pPublic_key 			Targeted STSAFE-A public key value
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 		stse_Handler_t * pSTSE,
@@ -114,10 +115,10 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 /**
  * \brief 		STSAFEA put generic public slot's configuration flags service
  * \details 	This service set configuration flags of generic public slot
- * \param[in] 	pSTSAFE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				    Pointer to STSE Handler
  * \param[in] 	slot_number 			Public key slot value
  * \param[out] 	configuration_flags 	Generic public key slot's configuration flags
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
 		stse_Handler_t * pSTSE,

@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_patch Patch management
+/*! \defgroup stsafea_patch STSAFE-A patch management
  *  \ingroup stsafea_services
  *  @{
  */
@@ -37,9 +37,9 @@
 /**
  * \brief 		STSAFEA Get patch update command counter service
  * \details 	This service format and send/receive the get patch update command/response
- * \param[in] 	pSTSE 	Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 	Pointer to STSE Handler
  * \param[out] 	pCounter 	Patch update command counter
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_get_patch_update_command_counter(
 		stse_Handler_t * pSTSE,
@@ -49,8 +49,8 @@ stse_ReturnCode_t stsafea_get_patch_update_command_counter(
 /**
  * \brief 		STSAFEA Start patch service
  * \details 	This service format and send/receive the patch start command/response
- * \param[in] 	pSTSE 	Pointer to STSAFE Handler
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in] 	pSTSE 	Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_start(
 		stse_Handler_t * pSTSE
@@ -59,8 +59,8 @@ stse_ReturnCode_t stsafea_patch_start(
 /**
  * \brief 		STSAFEA Update Patch service
  * \details 	This service format and send/receive the patch update command/response
- * \param[in] 	pSTSE 	Pointer to STSAFE Handler
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in] 	pSTSE 	Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_update(
 		stse_Handler_t * pSTSE
@@ -69,8 +69,8 @@ stse_ReturnCode_t stsafea_patch_update(
 /**
  * \brief 		STSAFEA Finalize Patch service
  * \details 	This service format and send/receive the patch finalize command/response
- * \param[in] 	pSTSE 	Pointer to STSAFE Handler
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in] 	pSTSE 	Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_finalize(
 		stse_Handler_t * pSTSE

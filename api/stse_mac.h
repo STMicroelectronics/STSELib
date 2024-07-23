@@ -33,13 +33,13 @@
 /**
  * \brief 		Generate a CMAC
  * \details 	This service format and send Generate CMAC command
- * \param[in] 	pSTSE 		Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 		Pointer to STSE Handler
  * \param[in] 	slot_number 	Key slot in symmetric key table to be used
  * \param[in]	pMessage		Plaintext message
  * \param[in]	message_length	Plaintext message length
  * \param[out] 	pMac 			Buffer to store the MAC
  * \param[out]	mac_length		MAC length (CMAC:2,4,8,16 / HMAC:16-32)
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_cmac_hmac_compute(
 		stse_Handler_t * pSTSE,
@@ -52,14 +52,14 @@ stse_ReturnCode_t stse_cmac_hmac_compute(
 /**
  * \brief 		Verify a CMAC
  * \details 	This service format and send Verify CMAC command
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	slot_number 			Key slot in symmetric key table to be used
  * \param[in] 	pMac 					Buffer containing the MAC
  * \param[in]	mac_length				MAC length (CMAC:2,4,8,16 / HMAC:16-32)
  * \param[in]	pMessage				Plaintext message
  * \param[in]	message_length			Plaintext message length
  * \param[out]	verification_result		Verification result flag
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_cmac_hmac_verify(
 		stse_Handler_t * pSTSE,
@@ -73,15 +73,15 @@ stse_ReturnCode_t stse_cmac_hmac_verify(
 /**
  * \brief 		Generate a GMAC
  * \details 	This service format and send Generate GMAC command
- * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[in] 	slot_number 				Key slot in symmetric key table to be used
  * \param[in]	IV_length					IV buffer length in bytes
- * \param[in]	IV							IV buffer
+ * \param[in]	pIV							IV buffer
  * \param[in]	associated_data_length		Length of the associated data
  * \param[in]	pAssociated_data			Buffer containing associated data
  * \param[in] 	authentication_tag_length 	Expected length for the authentication tag
  * \param[out]	pAuthentication_tag			Buffer to store the authentication tag
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_aes_gmac_compute(
 		stse_Handler_t * pSTSE,
@@ -96,16 +96,16 @@ stse_ReturnCode_t stse_aes_gmac_compute(
 /**
  * \brief 		Verify a GMAC
  * \details 	This service format and send Verify GMAC command
- * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[in] 	slot_number 				Key slot in symmetric key table to be used
  * \param[in]	IV_length					IV buffer length in bytes
- * \param[in]	IV							IV buffer
+ * \param[in]	pIV							IV buffer
  * \param[in]	associated_data_length		Length of the associated data
  * \param[in]	pAssociated_data			Buffer containing associated data
  * \param[in] 	authentication_tag_length 	Expected length for the authentication tag
  * \param[in]	pAuthentication_tag			Buffer containing the authentication tag
  * \param[out]	pVerification_result		Verification result flag
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_aes_gmac_verify(
 		stse_Handler_t * pSTSE,
