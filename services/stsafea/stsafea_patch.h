@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_patch Patch management
+/*! \defgroup stsafea_patch STSAFE-A patch management
  *  \ingroup stsafea_services
  *  @{
  */

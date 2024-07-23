@@ -3,10 +3,23 @@ Following diagram illustrates the interactions performed between the Host and th
 \n\n
 
 @startuml
-HOST -> STSAFE : Verify password
-HOST <- STSAFE : Verification status
-HOST -> STSAFE : Put attributes[LCS] = Operationnal
-HOST <- STSAFE : Execution status
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    
+    group stse_init      
+        HOST -> STSE : Verify password (password)
+        activate STSE $STSE_ACTIVITY
+        return Verification status
+        
+        HOST -> STSE : Put attributes Life Cycle State (Operationnal)
+        activate STSE $STSE_ACTIVITY
+        return Life Cycle State update status
+
+    end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 
@@ -17,21 +30,17 @@ HOST <- STSAFE : Execution status
 int main (void)
 {
     stsafe_ReturnCode_t stsafe_ret;
-
-    stsafe_allocate_handler(stsafe_handler);
-	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
-	stsafe_handler.io.Busaddr = 3;
-	stsafe_handler.io.Devaddr = 0x20;
-    stsafe_ret = stsafe_init(&stsafe_handler);
-
-    PLAT_UI8 password[STSAFE_PASSWORD_LENGTH] = { ... };
+    PLAT_UI8 password[STSAFE_PASSWORD_LENGTH] = { /* password value set during device personalization*/ };
+    
     stsafe_ret = stsafe_se_unlock(&stsafe_handler,
 								  password,
-								  STSAFE_PASSWORD_LENGTH);
+								  STSAFE_PASSWORD_LENGTH
+    );
 }
 \endcode
 
-\sa stsafe_verify_password()
-\sa stsafe_put_life_cyle_state()
+\sa stse_init
+\sa stse_device_unlock()
+\sa stse_device_unlock()
 
 <div style="page-break-after: always;"></div>

@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_sessions.h"
 
-/*! \defgroup stsafea_wrap Wrap/Un-wrap
+/*! \defgroup stsafea_wrap STSAFE-A Wrap/Un-wrap
  *  \ingroup stsafea_services
  *  \{
  */

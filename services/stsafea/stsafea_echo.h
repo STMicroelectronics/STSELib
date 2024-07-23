@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_echo Echo
+/*! \defgroup stsafea_echo STSAFE-A Echo
  *  \ingroup stsafea_services
  *  @{
  */

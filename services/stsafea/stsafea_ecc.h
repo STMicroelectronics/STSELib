@@ -31,7 +31,7 @@
 #include "services/stsafea/stsafea_sessions.h"
 
 
-/*! \defgroup stsafea_ecc ECC
+/*! \defgroup stsafea_ecc STSAFE-A Elliptic Curve Cryptography (ECC)
  *  \ingroup stsafea_services
  *  @{
  */

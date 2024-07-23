@@ -31,7 +31,7 @@
 #define STSAFEA_PASSWORD_LENGTH				16U
 #define STSAFEA_DELETE_TAG_PASSWORD			0x09
 
-/*! \defgroup stsafea_password Password management
+/*! \defgroup stsafea_password STSAFE-A Password management
  *  \ingroup stsafea_services
  *  @{
  */

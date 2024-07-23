@@ -25,13 +25,21 @@ int main (void)
 {
     stsafe_ReturnCode_t stsafe_ret;
 
-    stsafe_allocate_handler(stsafe_handler);
-	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
-	stsafe_handler.io.Busaddr = 3;
-	stsafe_handler.io.Devaddr = 0x20;
-    stsafe_ret = stsafe_init(&stsafe_handler);
+    /* - Initialize STSAFE-A120 device handler (including SE Power ON/OFF Control) */
+    stse_ret = stse_set_default_handler_value(&stse_handler);
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
+    stse_handler.device_type = STSAFE_A120;
+    stse_handler.io.Busaddr = 1; 
 	stsafe_handler.io.PowerLineOn  = power_on;
 	stsafe_handler.io.PowerLineOff = power_off;
+    stse_ret = stse_init(&stse_handler);
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
 
     stsafe_se_power_on(&stsafe_handler);
 	stsafe_platform_Delay_ms(500);

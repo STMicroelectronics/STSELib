@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_hash Hash
+/*! \defgroup stsafea_hash STSAFE-A Hash
  *  \ingroup stsafea_services
  *  @{
  */

@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_reset Reset
+/*! \defgroup stsafea_reset STSAFE-A Reset
  *  \ingroup stsafea_services
  *  @{
  */

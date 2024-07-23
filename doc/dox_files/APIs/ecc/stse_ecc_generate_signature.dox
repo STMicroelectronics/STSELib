@@ -7,14 +7,15 @@ Following diagram illustrates the interactions performed between the Host and th
     participant "HOST" as HOST
     participant "STSE" as STSE
     
-    activate HOST
+    activate HOST $STSE_ACTIVITY
     group stsafea_ecc_generate_signature
         
         HOST -> STSE : generate signature (slot_number, message)  
-        Activate STSE
+        activate STSE $STSE_ACTIVITY
         return signature
 
     end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 

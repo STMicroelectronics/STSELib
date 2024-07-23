@@ -26,7 +26,7 @@ extern "C" {
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
 
-/*! \defgroup stsafea_symmetric_key_slots timings
+/*! \defgroup stsafea_symmetric_key_slots STSAFE-A timings
  *  \ingroup stsafea_services
  *  @{
  */

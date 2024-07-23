@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_put_query.h"
 
-/*! \defgroup stsafe_data_partition Data partition management
+/*! \defgroup stsafe_data_partition STSAFE-A Data partition management
  *  \ingroup stsafea_services
  *  @{
  */

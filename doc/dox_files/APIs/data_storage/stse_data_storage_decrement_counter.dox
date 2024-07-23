@@ -1,17 +1,17 @@
 \b Description 
-Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
 @startuml
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
-    participant "STSAFE-Axxx" as STSAFE
+    participant "STSE" as STSE
     
-    activate HOST
-    group stsafe_data_storage_decrement_counter
+    activate HOST $STSE_ACTIVITY
+    group stse_data_storage_decrement_counter
             
-            HOST -> STSAFE : decrement zone ( zone, amount , associated data, associated data length)  
-            Activate STSAFE
+            HOST -> STSE : decrement zone ( zone, amount , associated data, associated data length)  
+            Activate STSE
             return new counter value 
 
             rnote over HOST
@@ -20,6 +20,7 @@ Following diagram illustrates the interactions performed between the Host and th
             end note
 
     end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 
@@ -32,26 +33,30 @@ Following diagram illustrates the interactions performed between the Host and th
 
     uint8_t associated_data[10] = {0};
 
-	stsafe_ret = stsafe_companion_generate_random(&stsafe_handler, associated_data, 10);
-	
-    stsafe_ret = stsafe_data_storage_decrement_counter(
-			&stsafe_handler,		/* SE handler			  */
-			0x06,					/* Counter zone index	  */
-			0x1,					/* Decrement amount		  */
-			0x0000,					/* Associated data offset */
-			associated_data,		/* Associated Data		  */
-			sizeof(associated_data),/* Associated data length */
-			&zone_counter,			/* New Counter value	  */
-			STSAFE_NO_PROT
+	stse_ret = stse_companion_generate_random(&stse_handler, associated_data, 10);	
+	stse_ret = stse_data_storage_decrement_counter_zone (
+			&stse_handler,				/* SE handler 			    */
+			5,							/* Zone index 			    */
+			1,							/* Amount				    */
+			0x0000,						/* AD Update Offset 		*/
+			associated_data,			/* AD Update input buffer 	*/
+			sizeof(associated_data),	/* AD Update Length 		*/
+			&new_counter_value,			/* New counter value 	    */
+			STSAFEA_NO_PROT
 	);
-	if(stsafe_ret != STSAFE_OK )
+	if(stse_ret != STSE_OK )
 	{
         /* Handle Error */
-	} 
+	} else {
+		printf("\n\n\r - stse_data_storage_decrement_counter_zone ( zone : 05 - length : %d)", sizeof(random)/sizeof(random[0]));
+		printf("\n\r\t o New Associated Data : ");
+		apps_print_hex_buffer(random,sizeof(random));
+		printf("\n\r\t o New Counter Value : %ld",new_counter_value);
+	}
 
 \endcode
 
-\sa stsafe_init
-\sa stsafe_get_data_partitions_configuration
+\sa stse_init
+\sa stse_get_data_partitions_configuration
 
 <div style="page-break-after: always;"></div>

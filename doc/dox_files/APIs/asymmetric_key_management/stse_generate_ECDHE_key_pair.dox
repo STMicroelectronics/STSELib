@@ -7,14 +7,15 @@ Following diagram illustrates the interactions performed between the Host and th
     participant "HOST" as HOST
     participant "STSE" as STSE
     
-    activate HOST
+    activate HOST $STSE_ACTIVITY
     group stse_generate_ECDHE_key_pair
         
         HOST -> STSE : generate ECDHE key pair(key_type)
-        Activate STSE
+        activate STSE $STSE_ACTIVITY
         return public key
 
     end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 

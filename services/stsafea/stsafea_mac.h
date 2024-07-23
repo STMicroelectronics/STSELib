@@ -31,7 +31,7 @@
 #include "services/stsafea/stsafea_sessions.h"
 #include "services/stsafea/stsafea_aes.h"
 
-/*! \defgroup stsafea_mac MAC
+/*! \defgroup stsafea_mac STSAFE-A Message Authentication Code (MAC)
  *  \ingroup stsafea_services
  *  @{
  */

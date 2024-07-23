@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_low_power Low power management
+/*! \defgroup stsafea_low_power STSAFE-A low power management
  *  \ingroup stsafea_services
  *  @{
  */

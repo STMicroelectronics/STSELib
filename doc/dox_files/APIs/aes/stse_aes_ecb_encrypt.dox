@@ -7,14 +7,15 @@ Following diagram illustrates the interactions performed between the Host and th
     participant "HOST" as HOST
     participant "STSE" as STSE
     
-    activate HOST
+    activate HOST $STSE_ACTIVITY
     group stse_aes_ecb_encrypt
         
         HOST -> STSE : AES ECB encrypt (slot_number, plaintext)  
-        Activate STSE
+        activate STSE $STSE_ACTIVITY
         return ciphertext
 
     end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 

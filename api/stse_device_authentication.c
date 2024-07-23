@@ -75,7 +75,7 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t * pSTSE, PLAT_
 			CERTIFICATE_SIZE_OFFSET_BYTES,	/* 2 bytes offset */
 			certificate_size_ui8,			/* Returned certificate size */
 			CERTIFICATE_SIZE_LENGTH,		/* Certificate size length 2 bytes */
-			0,								/* No maximum chunck size (No chunck at all) */
+			0,								/* No chunck */
 			STSAFEA_NO_PROT);				/* No protection */
 
 	if(ret != STSE_OK)
@@ -105,7 +105,7 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t * pSTSE, PLAT_UI16 
 			CERTIFICATE_OFFSET_BYTES,		/* 0 bytes offset */
 			stsafe_certificate,				/* Returned certificate size */
 			certificate_size,				/* Certificate size length */
-			255,								/* No maximum chunck size (No chunck at all) */
+			255,							/* No maximum chunck size (No chunck at all) */
 			STSAFEA_NO_PROT);				/* No protection */
 
 	if(ret != STSE_OK)
@@ -113,11 +113,11 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t * pSTSE, PLAT_UI16 
 		return( ret );
 	}
 
-	return STSE_OK;
+	return( STSE_OK );
 }
 
 stse_ReturnCode_t stse_device_authenticate(
-		stse_Handler_t * pSTSE,
+		stse_Handler_t *pSTSE,
 		const PLAT_UI8 *pRoot_CA_certificate,
 		const PLAT_UI8 *pCertificate_chain,
 		PLAT_UI16 certificate_chain_size,
@@ -126,33 +126,41 @@ stse_ReturnCode_t stse_device_authenticate(
 	stse_ReturnCode_t ret;
 	stse_certificate_t leaf_certificate;
 
+	/* - Check API parametters */
+	if ((pSTSE == NULL)
+		|| (pRoot_CA_certificate == NULL)
+		|| (pCertificate_chain == NULL))
+	{
+		return( STSE_API_INVALID_PARAMETER );
+	}
 
+	/* - Parse certificate chain (including Root CA certificate) */
 	ret = stse_certificate_parse_chain(
 			(uint8_t*)pRoot_CA_certificate,
 			(uint8_t*)pCertificate_chain,
 			certificate_chain_size,
 			&leaf_certificate);
-
 	if (ret != STSE_OK)
 	{
-		return STSE_UNEXPECTED_ERROR;
+		return( STSE_UNEXPECTED_ERROR );
 	}
 
+	/* - Get ECC key type from leaf certificate */
 	stse_ecc_key_type_t key_type = stse_certificate_get_key_type(&leaf_certificate);
 
+	/* - Prepare signature and challenge buffers according to key type */
 	PLAT_UI16 signature_size = stsafea_ecc_info_table[key_type].signature_size;
 	PLAT_UI8 signature[signature_size];
-
 	PLAT_UI16 challenge_size = stsafea_ecc_info_table[key_type].private_key_size;
 	PLAT_UI8 challenge[challenge_size];
 
-	/* Generate a challenge with Random Number */
+	/* - Generate random challenge */
 	for (int i=0; i<challenge_size; i++)
 	{
 		challenge[i] = (PLAT_UI8)(stse_platform_Random()&0xFF);
 	}
 
-	/* Generate Signature for the Random Number */
+	/* - Get target SE challenge signature */
 	ret = stse_ecc_generate_signature(
 		pSTSE, 					/* STSAFE handler */
 		priv_key_slot_number, 	/* Slot number */
@@ -160,23 +168,21 @@ stse_ReturnCode_t stse_device_authenticate(
 		challenge, 		 		/* Random number to sign */
 		challenge_size, 		/* random number size in bytes */
 		signature); 			/* returned signature */
-
 	if (ret != STSE_OK)
 	{
-		return ret;
+		return( ret );
 	}
 
-	/* Verify The Signature of the Random Number*/
+	/* - Verify SE Challenge over leaf certificate public key*/
 	ret = stse_certificate_verify_signature(
 			&leaf_certificate,
 			challenge,
 			challenge_size,
 			signature, (signature_size >> 1),
 			&signature[signature_size >> 1], (signature_size >> 1));
-
 	if(ret != STSE_OK)
 	{
-		return STSE_API_INVALID_SIGNATURE;
+		return( STSE_API_INVALID_SIGNATURE );
 	}
-	return STSE_OK;
+	return( STSE_OK );
 }

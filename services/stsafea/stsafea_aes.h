@@ -30,7 +30,7 @@
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
 
-/*! \defgroup stsafea_aes AES
+/*! \defgroup stsafea_aes STSAFE AES services
  *  \ingroup stsafea_services
  *  @{
  */

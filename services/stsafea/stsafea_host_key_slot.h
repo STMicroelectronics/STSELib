@@ -28,8 +28,8 @@
 #include "services/stsafea/stsafea_put_query.h"
 
 
-/** \defgroup 	stsafea_host_key_slot Host key slot management
- *  \ingroup 	stsafea_services
+/** \defgroup stsafea_host_key_slot STSAFE-A Host key slot management
+ *  \ingroup stsafea_services
  *  @{
  */
 

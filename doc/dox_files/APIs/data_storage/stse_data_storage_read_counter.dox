@@ -1,14 +1,14 @@
 \b Description 
-Following diagram illustrates the interactions performed between the Host and the target STSAFE-A1xx device during the API execution
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
 @startuml
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
-    participant "STSAFE-Axxx" as STSAFE
+    participant "STSE" as STSE
     
-    activate HOST
-    group stsafe_data_storage_read_counter
+    activate HOST $STSE_ACTIVITY
+    group STSE_data_storage_read_counter
 
         loop until associated data read length = 0 
         
@@ -16,8 +16,8 @@ Following diagram illustrates the interactions performed between the Host and th
                 prepare read counter chunk size and offset
             end note
             
-            HOST -> STSAFE : read zone ( zone, chunk offset, chunk length)  
-            Activate STSAFE
+            HOST -> STSE : read zone ( zone, chunk offset, chunk length)  
+            Activate STSE
             return counter value + zone data chunk 
 
             rnote over HOST
@@ -31,6 +31,7 @@ Following diagram illustrates the interactions performed between the Host and th
         end 
 
     end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 
@@ -41,23 +42,23 @@ Following diagram illustrates the interactions performed between the Host and th
 
 	/* - Read device certificate in Zone 0 */
 
-	stsafe_ret = stsafe_data_storage_read_counter (
-			&stsafe_handler,	/* SE handler 	*/
+	STSE_ret = STSE_data_storage_read_counter (
+			&STSE_handler,	    /* SE handler 	*/
 			0,					/* Zone index 	*/
 			0x0000,				/* Read Offset 	*/
 			readBuffer,			/* *pReadBuffer */
 			sizeof(readBuffer),	/* ReadLength 	*/
 			04,					/* chunk size 	*/
-			STSAFE_NO_PROT
+			STSE_NO_PROT
 	);
-	if(stsafe_ret != STSAFE_OK )
+	if(STSE_ret != STSE_OK )
 	{
 		/* Handle Error */
 	} 
 
 \endcode
 
-\sa stsafe_init
-\sa stsafe_get_data_partitions_configuration
+\sa STSE_init
+\sa STSE_get_data_partitions_configuration
 
 <div style="page-break-after: always;"></div>

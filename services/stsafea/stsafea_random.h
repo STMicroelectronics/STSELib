@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_random Random
+/*! \defgroup stsafea_random STSAFE-A Random
  *  \ingroup stsafea_services
  *  @{
  */

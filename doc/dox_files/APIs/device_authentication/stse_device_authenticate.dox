@@ -3,8 +3,37 @@ Following diagram illustrates the interactions performed between the Host and th
 \n\n
 
 @startuml
-HOST -> STSAFE : echo message
-HOST <- STSAFE : echo message
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST $STSE_ACTIVITY
+    group stse_device_authenticate
+
+        rnote over HOST
+            Verify certificate chain
+        end note 
+
+        rnote over HOST
+            Get device ECC key type
+            from leaf certificate
+        end note 
+
+        rnote over HOST
+            Prepare Random Challenge
+        end note 
+
+        HOST -> STSE : Generate_signature(private key slot , challenge )  
+        activate STSE $STSE_ACTIVITY
+        return signature 
+
+        rnote over HOST
+            verify signature using 
+            leaf certificate public key
+        end note
+
+    end 
+    deactivate HOST
 @enduml
 
 \n\n \b Use-case \b example 
@@ -12,27 +41,28 @@ HOST <- STSAFE : echo message
 \n\n
 
 \code{.c}
-int main (void)
-{
-    stsafe_ReturnCode_t stsafe_ret;
 
-    PLAT_UI16 echo_length = 4;
-    PLAT_UI8  echo_send_buffer[echo_length] = {0x00, 0x11, 0x22, 0x33};
-	PLAT_UI8  echo_recv_buffer[echo_length];
+	/* ## Authenticate target STSE device */
 
-    stsafe_allocate_handler(stsafe_handler);
-	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
-	stsafe_handler.io.Busaddr = 3;
-	stsafe_handler.io.Devaddr = 0x20;
-    stsafe_ret = stsafe_init(&stsafe_handler);
+	stse_ret = stse_device_authenticate(
+			&stse_handler,
+			ca_selfsigned_cert,
+			certificate_chain,
+			certificate_chain_size,
+			STSE_STATIC_PRIVATE_KEY_SLOT_0);
 
-    stsafe_ret = stsafe_se_echo(&stsafe_handler,
-                                echo_send_buffer,
-                                echo_recv_buffer,
-                                echo_length);
-}
+	if (stse_ret != STSE_OK)
+	{
+        /* Handle Error */
+	} else {
+		printf("\n\n\r ## Device authentication over ST SPL05 CA certificate : Successful\n\r");
+	}
+
 \endcode
 
-\sa stsafe_echo()
+\sa stse_init
+\sa stse_get_device_certificate_size
+\sa stse_get_device_certificate
+
 
 <div style="page-break-after: always;"></div>

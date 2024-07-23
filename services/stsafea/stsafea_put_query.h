@@ -34,7 +34,7 @@
  *
  *  ---------------------------------------------------------------------------------------
 */
-/*! \defgroup stsafea_put_query Put Query
+/*! \defgroup stsafea_put_query STSAFE-A Put and Queries
  *  \ingroup stsafea_services
  *  @{
  */

@@ -29,7 +29,7 @@
 #include "services/stsafea/stsafea_hash.h"
 #include "services/stsafea/stsafea_put_query.h"
 
-/*! \defgroup stsafea_symmetric_key_slots Symmetric key slots management
+/*! \defgroup stsafea_symmetric_key_slots STSAFE-A Symmetric key slots management
  *  \ingroup stsafea_services
  *  @{
  */

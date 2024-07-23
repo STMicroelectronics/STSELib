@@ -4,7 +4,7 @@ Following diagram illustrates the interactions performed between the Host and th
 
 @startuml
 HOST -> STSAFE : echo message
-HOST <- STSAFE : echo message
+HOST <- STSAFE : echoed message
 @enduml
 
 \n\n \b Use-case \b example 
