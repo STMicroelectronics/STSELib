@@ -49,7 +49,7 @@
  * \param[in] 	message_length 			Message length
  * \param[in] 	message_is_hashed 		Flag indicating a hashed message (1) or a plaintext (0)
  * \param[out] 	pSignature_validity		Signature validity flag (1 = valid signature, invalid otherwise)
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_ecc_verify_signature.dox
  */
 stse_ReturnCode_t stse_ecc_verify_signature(
@@ -71,7 +71,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
  * \param[in] 	pMessage 				Message to sign
  * \param[in] 	message_length 			Message length
  * \param[out] 	pSignature 				Signature buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_ecc_generate_signature.dox
  */
 stse_ReturnCode_t stse_ecc_generate_signature(
@@ -90,7 +90,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
  * \param[in] 	key_type 					Private key type
  * \param[in] 	pPublic_key 				Remote public key
  * \param[out] 	pShared_secret				Shared secret returned by the STSE
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_ecc_establish_shared_secret.dox
  */
 stse_ReturnCode_t stse_ecc_establish_shared_secret(
@@ -108,8 +108,7 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
  * \param[in] 	point_representation_id 	Parity of the Y (0x02=even & 0x03=odd Y coordinate)
  * \param[in] 	pPublic_key_X 				X coordinate given by the compressed public key
  * \param[out] 	pPublic_key_Y 				Computed Y coordinate output
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafea_ecc_decompress_public_key.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_ecc_decompress_public_key(
 		stse_Handler_t * pSTSE,

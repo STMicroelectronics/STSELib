@@ -1,0 +1,72 @@
+\b Description 
+\n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+@startuml
+	skinparam sequenceMessageAlign center
+    Application -> STSELib: ecc_key_type\nkey_info_list
+    activate STSELib
+    rnote over STSELib
+		Format key information list
+	end rnote
+	rnote over STSELib
+		Generate STSELib ECDHE Key pair 
+        according to ecc_key_type
+	end rnote
+	STSELib->STSE: Generate ECDHE key pair
+    activate STSE
+    return STSE Ephemeral public key
+    STSELib->STSE: Establish symmetric key
+    activate STSE
+    return status
+	rnote over STSELib
+		Diffie-Hellman -> shared secret (Z)
+	end rnote
+    rnote over STSELib
+		Derive Z -> Output key material (OKM)
+	end rnote
+    rnote over STSELib
+		MAC key information list
+        with 1st key of OKM
+	end rnote
+    STSELib->STSE: Confirm symmetric key
+    activate STSE
+    return status
+    rnote over STSELib
+		Format the OKM in a key list
+	end rnote
+    Application <- STSELib: key list
+    deactivate STSELib
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+    stsafe_ReturnCode_t stsafe_ret;
+    
+    /* - ECB 128 bits key buffer and its corresponding info */
+	PLAT_UI8 key_buffer[STSAFEA_AES_128_KEY_SIZE];
+	stsafe_generic_key_information_t key_info = {0};
+	key_info.lock_indicator = 0;
+	key_info.record.slot_number = 3;
+	key_info.record.type = STSAFEA_SYMMETRIC_KEY_TYPE_AES_128;
+	key_info.record.mode_of_operation = STSAFEA_KEY_OPERATION_MODE_ECB;
+	key_info.record.usage.encryption = 1;
+	key_info.record.usage.decryption = 1;
+	key_info.length[1] = STSAFEA_KEY_INFORMATION_LENGTH_ECB;
+
+	stsafe_generic_key_information_list_t key_info_list;
+	key_info_list.key_count = 1;
+	key_info_list.length = STSAFEA_KEY_INFORMATION_LENGTH_ECB + 2;
+	key_info_list.list = &key_info;
+
+	stsafe_ret = stsafe_establish_symmetric_key(
+			pSTSE,
+			STSAFEA_ECC_KT_BP_P_512,
+			&key_info_list,
+			key_buffer);
+\endcode
+
+\sa stsafe_init
+
+<div style="page-break-after: always;"></div>

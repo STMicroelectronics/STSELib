@@ -711,7 +711,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 
 /* ------------------------------------------------------------------------------------------
 
-							STSAFE-Axxx Symmetric keys provisioning
+							STSE Symmetric keys provisioning
 
    ------------------------------------------------------------------------------------------ */
 
@@ -1232,7 +1232,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 		copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	}
 
-	/* Copy STSAFE ECDHE public key */
+	/* Copy STSE ECDHE public key */
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
 		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;

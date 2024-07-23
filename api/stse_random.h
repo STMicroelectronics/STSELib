@@ -34,7 +34,7 @@
  * \param[in]		pSTSE 			Pointer to target STSecureElement device
  * \param[in,out] 	pRandom 		Pointer to random buffer
  * \param[in,out] 	random_size 	Random size
- * \return 			\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_generate_random(
 		stse_Handler_t *pSTSE,

@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_put_query.h"
 
-/*! \defgroup stsafe_data_partition Data partition management
+/*! \defgroup stsafea_data_partition STSAFE-A Data partition management
  *  \ingroup stsafea_services
  *  @{
  */
@@ -140,7 +140,7 @@ typedef struct {
  * \details 		This service format and send/receive STSAFE-Axxx start hash command/response
  * \param[in]		pSTSE					Pointer to target SE handler
  * \param[out]		total_partition_count	total partition count in bytes
- * \return 			\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_get_total_partition_count( stse_Handler_t* pSTSE,
 		PLAT_UI8* total_partition_count);
@@ -152,7 +152,7 @@ stse_ReturnCode_t stsafea_get_total_partition_count( stse_Handler_t* pSTSE,
  * \param[in]		total_partitions_count	Total partition count in bytes
  * \param[in,out]	pRecord_table			Pointer to applicative partition record table
  * \param[in]		record_table_length		Applicative record table length
- * \return 			\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pSTSE,
 	PLAT_UI8 							total_partitions_count,

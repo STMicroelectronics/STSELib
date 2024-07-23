@@ -1,6 +1,6 @@
 /**
   ******************************************************************************
-  * \file    x509.h
+  * \file    stse_certificate.h
   * \author  STMicroelectronics - CS application team
   * \brief   STSAFE-A x509 certificate Parser
   ******************************************************************************
@@ -36,7 +36,6 @@
  * \brief  Initialize a certificate (\ref stse_certificate_t) to an empty one
  * \param[in,out]  cert 				pointer to the stse_certificate_t to be initialized
  * \note  This functions should be called before parsing a certificate
- * \details 	\include{doc} STSE_Authentication.dox
  */
 void stse_certificate_init(stse_certificate_t *cert);
 
@@ -45,7 +44,7 @@ void stse_certificate_init(stse_certificate_t *cert);
  * \param[in]  cert 				pointer to the x509 certificate to be parsed
  * \param[out] stse_certificate 	pointer to the stse_certificate_t that will be filled
  * \param[out] next					pointer to cert array after the parsed certificate (it can be NULL)
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \warning The parsed certificated could be empty, it is necessary to call a function
  *       	which verifies the certificate to be valid before using it.
  */
@@ -55,7 +54,7 @@ stse_ReturnCode_t stse_certificate_parse(const PLAT_UI8 *cert, stse_certificate_
  * \brief  Check that an imported x509 certificate is valid
  * \param[in]  stse_certificate 	pointer to the parsed x509 certificate to be validated
  * \param[in]  currentTime 			pointer to a stse_cert_validity_t with the current DateTime. If NULL no date check is done
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \warning If currentTime==NULL the check on the validity dates of the certificate will be bypassed.
  */
 stse_ReturnCode_t stse_certificate_is_valid(const stse_certificate_t *stse_certificate, const stse_cert_validity_t *currentTime);
@@ -63,7 +62,7 @@ stse_ReturnCode_t stse_certificate_is_valid(const stse_certificate_t *stse_certi
 /**
  * \brief  Check whether a certificate is marked as belonging to a CA
  * \param[in]  *cert 				pointer to the parsed x509 certificate to be checked
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_certificate_is_CA(const stse_certificate_t *cert);
 
@@ -72,7 +71,7 @@ stse_ReturnCode_t stse_certificate_is_CA(const stse_certificate_t *cert);
  * \param[in]  parent 			pointer to the parsed x509 certificate of the supposed issuer of child
  * \param[in]  child  			pointer to the parsed x509 certificate of the certificated supposedly issued by parent
  * \param[in]  currentTime 		pointer to a stse_cert_validity_t with the current DateTime. If NULL no date check is done.
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note RFC 5280 mandates an extremely expensive comparison, which we don't perform.
  * 		 As result of this simplification some legitimate parentship relation could be not acknowledged (the opposite should not occur).
  * \warning This check only a single level parent relashion (i.e. whether parent issued child)
@@ -83,7 +82,7 @@ stse_ReturnCode_t stse_certificate_is_parent(const stse_certificate_t *parent, c
  * \brief  Copy a certificate (\ref stse_certificate_t) into another structure
  * \param[out]  copiedCert 		pointer to the stse_certificate_t that will be written
  * \param[out]  originalCert 	pointer to the stse_certificate_t that will be copied
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 void stse_certificate_copy(stse_certificate_t *copiedCert, const stse_certificate_t *originalCert);
 
@@ -103,7 +102,7 @@ stse_ReturnCode_t stse_certificate_parse_chain(
 
 /**
  * \brief Assign the certificate parser STSAFE-A companion
- * \param[in] 	pSTSAFE 	Pointer to STSAFE handler
+ * \param[in] 	pSTSE 	Pointer to STSAFE handler
  */
 void stse_certificate_set_stse_companion(stse_Handler_t *pSTSE);
 

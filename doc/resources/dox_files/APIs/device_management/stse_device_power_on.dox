@@ -1,0 +1,56 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+rnote over HOST, STSE: Manage power supply
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+void power_on(void)
+{
+	stsafe_platform_power_on(BUS_ADDR, DEV_ADDR);
+}
+
+void power_off(void)
+{
+	stsafe_platform_power_off(BUS_ADDR, DEV_ADDR);
+}
+
+int main (void)
+{
+    stsafe_ReturnCode_t stsafe_ret;
+
+    /* - Initialize STSE device handler (including SE Power ON/OFF Control) */
+    stse_ret = stse_set_default_handler_value(&stse_handler);
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
+    stse_handler.device_type = STSAFE_A120;
+    stse_handler.io.Busaddr = 1; 
+	stsafe_handler.io.PowerLineOn  = power_on;
+	stsafe_handler.io.PowerLineOff = power_off;
+    stse_ret = stse_init(&stse_handler);
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
+
+    stsafe_se_power_on(&stsafe_handler);
+	stsafe_platform_Delay_ms(500);
+    stsafe_se_power_off(&stsafe_handler);
+}
+\endcode
+
+\sa \ref stsafe_Handler
+\sa \ref stsafe_Handler.io
+\sa \ref stsafe_Handler.io.PowerLineOn
+\sa \ref stsafe_Handler.io.PowerLineOff
+\sa stsafe_platform_Delay_ms()
+
+<div style="page-break-after: always;"></div>

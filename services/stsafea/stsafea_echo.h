@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_echo Echo
+/*! \defgroup stsafea_echo STSAFE-A Echo
  *  \ingroup stsafea_services
  *  @{
  */
@@ -36,11 +36,11 @@
 /**
  * \brief 		Send an echo to target device
  * \details 	This service format and send the echo command
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in]	message				Message buffer to send the echo command
  * \param[in]	echoed_message		Message buffer to receive the echo response
  * \param[in]	message_size		Size of the echo message
- * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_echo(
 		stse_Handler_t * pSTSE,

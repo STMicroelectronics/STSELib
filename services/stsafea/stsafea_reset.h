@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_reset Reset
+/*! \defgroup stsafea_reset STSAFE-A Reset
  *  \ingroup stsafea_services
  *  @{
  */
@@ -36,8 +36,8 @@
 /**
  * \brief 		Reset target device
  * \details 	This service format and send the reset command
- * \param[in] 	pSTSAFE 	Pointer to STSAFE Handler
- * \return 		\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in] 	pSTSAFE 	Pointer to STSE Handler
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_reset( stse_Handler_t * pSTSAFE );
 

@@ -31,7 +31,7 @@
 #define STSAFEA_PASSWORD_LENGTH				16U
 #define STSAFEA_DELETE_TAG_PASSWORD			0x09
 
-/*! \defgroup stsafea_password Password management
+/*! \defgroup stsafea_password STSAFE-A Password management
  *  \ingroup stsafea_services
  *  @{
  */
@@ -44,7 +44,7 @@
  * \param[in]	 	password_length 		Password length in bytes
  * \param[out]	 	pVerification_status 	Pointer to verification status
  * \param[out]	 	pRemaining_tries 		Pointer to remaining tries
- * \return 			\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_verify_password(stse_Handler_t *pSTSE,
 			PLAT_UI8   *pPassword_buffer,
@@ -56,7 +56,7 @@ stse_ReturnCode_t stsafea_verify_password(stse_Handler_t *pSTSE,
  * \brief 			STSAFEA delete password service
  * \details 		This service format and send/receive the generate random command/response
  * \param[in]		pSTSE					Pointer to target SE handler
- * \return 			\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_delete_password(stse_Handler_t * pSTSE);
 

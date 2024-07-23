@@ -29,7 +29,7 @@
 #include "services/stsafea/stsafea_hash.h"
 #include "services/stsafea/stsafea_put_query.h"
 
-/*! \defgroup stsafea_symmetric_key_slots Symmetric key slots management
+/*! \defgroup stsafea_symmetric_key_slots STSAFE-A Symmetric key slots management
  *  \ingroup stsafea_services
  *  @{
  */
@@ -220,10 +220,10 @@ typedef struct stsafe_generic_key_information_t {
 /**
  * \brief 		Query symmetric key slot provisioning control fields
  * \details 	This service format and send query symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	slot_number			Slot number of the slot to query
  * \param[out] 	pCtrl_fields		Output structure for the provisioning control fields of the target slot
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
 		stse_Handler_t * pSTSE,
@@ -233,10 +233,10 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
 /**
  * \brief 		Put symmetric key slot provisioning control fields
  * \details 	This service format and send put symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	slot_number			Slot number of the slot to query
  * \param[in] 	pCtrl_fields		Structure for the provisioning control fields of the target slot
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
 		stse_Handler_t * pSTSE,
@@ -246,19 +246,19 @@ stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
 /**
  * \brief 		Query symmetric key slot count
  * \details 	This service format and send query symmetric key slot count
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[out] 	pSymmetric_key_slot_count	Slot count output
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_symmetric_key_slots_count( stse_Handler_t * pSTSE, PLAT_UI8 * pSymmetric_key_slot_count);
 
 /**
  * \brief 		Query symmetric key table informations
  * \details 	This service format and send query symmetric key table informations
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	symmetric_key_slot_count	Expected table slot count
  * \param[out] 	symmetric_key_table_info	Output key slot info list of length equal to symmetric_key_slot_count
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_symmetric_key_table(
 		stse_Handler_t * pSTSE,
@@ -268,10 +268,10 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 /**
  * \brief 		Establish symmetric key in stsafe symmetric key table
  * \details 	This service format and send establish symmetric key command
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	key_type 				Type of the key used in ECDHE
  * \param[in] 	host_ecdhe_public_key	Key used in ECDHE
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_symmetric_key(
 		stse_Handler_t * pSTSE,
@@ -281,14 +281,14 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 /**
  * \brief 		Authenticate establish symmetric key in stsafe symmetric key table
  * \details 	This service format and send establish symmetric key command with an authentication signature
- * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 							Pointer to STSE Handler
  * \param[in] 	key_type 							Type of the key used in ECDHE
  * \param[in] 	host_ecdhe_public_key				Key used in ECDHE
  * \param[in] 	hash_algo							Signature hash algorithm ID
  * \param[in] 	signature_public_key_slot_number	Generic public key slot number to be used for the authentication
  * \param[in] 	signature_key_type					Authentication signature key type
  * \param[in] 	pSignature							Authentication signature
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 		stse_Handler_t * pSTSE,
@@ -302,11 +302,11 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 /**
  * \brief 		Confirm symmetric key establishment in stsafe symmetric key table
  * \details 	This service format and send confirm symmetric key command
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	pMac_confirmation_key 	Key used to MAC the confirmation command payload
  * \param[in] 	key_count				Number of key to populate
- * \param[in]	key_information_list	Key information list used to populate the symmetric key table
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in]	pKey_information_list	Key information list used to populate the symmetric key table
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
 		stse_Handler_t * pSTSE,
@@ -317,10 +317,10 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
 /**
  * \brief 		Write symmetric key envelope in stsafe symmetric key table
  * \details 	This service format and send write symmetric key command
- * \param[in] 	pSTSE 			 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			 			Pointer to STSE Handler
  * \param[in] 	pSymmetric_key_envelope 		Envelope containing key materials to write in STSAFE
  * \param[in] 	symmetric_key_envelope_length 	Envelope length in bytes
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 		stse_Handler_t * pSTSE,
@@ -330,10 +330,10 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 /**
  * \brief 		Write symmetric key plaintext in stsafe symmetric key table
  * \details 	This service format and send write symmetric key command
- * \param[in] 	pSTSE 			 		Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			 		Pointer to STSE Handler
  * \param[in] 	pSymmetric_key_value 	Key value buffer
  * \param[in] 	pSymmetric_key_info 	Key information used to populate the symmetric key slot
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
@@ -343,10 +343,10 @@ stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 /**
  * \brief 		Generate wrap/unwrap key
  * \details 	This service format and send symmetric key command
- * \param[in] 	pSTSE 			 	Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			 	Pointer to STSE Handler
  * \param[in] 	wrap_key_slot 		wrap/unwrap key slot number
  * \param[in] 	key_type 			\ref stse_aes_key_type_t key wrap/unwrap key type
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(
 		stse_Handler_t *pSTSE,
@@ -356,9 +356,9 @@ stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(
 /**
  * \brief 		Erase symmetric key
  * \details 	This service erase content of specified key slot in symmetric key table
- * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 							Pointer to STSE Handler
  * \param[in] 	symmetric_key_slot_number		Key's slot number in symmetric key table
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 		stse_Handler_t * pSTSE,

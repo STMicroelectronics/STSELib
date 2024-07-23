@@ -140,7 +140,7 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(
  *  \param[in] 		exp_tag_size 	Expected  tag size in byte
  *  \param[out] 	*pTag			Pointer to Tag
  *  \param[out]  	*pTag_length	Pointer to Tag length value output
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cmac_compute(const PLAT_UI8 *pPayload, 	 PLAT_UI16   payload_length,
 		const PLAT_UI8 *pKey, 		 PLAT_UI16   key_length,
@@ -155,7 +155,7 @@ stse_ReturnCode_t stse_platform_aes_cmac_compute(const PLAT_UI8 *pPayload, 	 PLA
  *  \param[in] 		key_length 		Length of the key in byte
  *  \param[in]		*pTag			Pointer to Tag
  *  \param[in]  	tag_length		Pointer to Tag length value output
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cmac_verify(const PLAT_UI8 *pPayload, PLAT_UI16 payload_length,
 		const PLAT_UI8 *pKey, 	 PLAT_UI16 key_length,
@@ -184,7 +184,7 @@ stse_ReturnCode_t stse_platform_aes_cmac_verify_finish(PLAT_UI8* pTag);
  *  \param[out] *pEncryptedtext_length 	Length of encrypted payload
  *  \param[out] *pTag 					Pointer to the tag
  *  \param[out] tag_length 				Length of the tag
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_ccm_enc(const PLAT_UI8 *pPlaintext, 	  PLAT_UI16  plaintext_length,
 		const PLAT_UI8 *pKey, 		  PLAT_UI16  key_length,
@@ -225,7 +225,7 @@ stse_ReturnCode_t stse_platform_aes_ccm_dec(const PLAT_UI8 *pEncryptedtext, PLAT
  *  \param[in]  key_length 				Length of the key
  *  \param[out] pEncryptedtext 		Pointer to the encrypted payload
  *  \param[out] pEncryptedtext_length 	Length of encrypted payload
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cbc_enc(const PLAT_UI8 *pPlaintext,
 		PLAT_UI16  plaintext_length,
@@ -244,7 +244,7 @@ stse_ReturnCode_t stse_platform_aes_cbc_enc(const PLAT_UI8 *pPlaintext,
  *  \param[in]  key_length Length of the key
  *  \param[out] pPlaintext pointer to PlainText payload
  *  \param[out] pPlaintext_length Length of the PlainText payload
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cbc_dec(const PLAT_UI8 *pEncryptedtext,
 		PLAT_UI16  encryptedtext_length,
@@ -262,7 +262,7 @@ stse_ReturnCode_t stse_platform_aes_cbc_dec(const PLAT_UI8 *pEncryptedtext,
  *  \param[in]  key_length 				Length of the key
  *  \param[out] pEncryptedtext 		Pointer to the encrypted payload
  *  \param[out] pEncryptedtext_length 	Length of encrypted payload
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_ecb_enc(const PLAT_UI8 *pPlaintext, 	  PLAT_UI16  plaintext_length,
 		const PLAT_UI8 *pKey, 		  PLAT_UI16  key_length,
@@ -277,7 +277,7 @@ stse_ReturnCode_t stse_platform_aes_ecb_enc(const PLAT_UI8 *pPlaintext, 	  PLAT_
  *  \param[in]  key_length Length of the key
  *  \param[out] pPlaintext pointer to PlainText payload
  *  \param[out] pPlaintext_length Length of the PlainText payload
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_ecb_dec(const PLAT_UI8 *pEncryptedtext, PLAT_UI16  encryptedtext_length,
 								const PLAT_UI8 	*pKey, 		  	PLAT_UI16  key_length,
@@ -291,7 +291,7 @@ stse_ReturnCode_t stse_platform_aes_ecb_dec(const PLAT_UI8 *pEncryptedtext, PLAT
  *  \param[in]  key_length 				Length of the key
  *  \param[out] pOutput 				Pointer to encrypted output
  *  \param[out] pOutput_length 			Length of the encrypted output
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
 												PLAT_UI8 *pKey,		PLAT_UI8 key_length,
@@ -307,7 +307,7 @@ stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 pa
  *  \param[in] 		info_length 					Information length
  *  \param[out] 	pOutput_keying_material 		Output keying material (OKM)
  *  \param[in] 		output_keying_material_length 	Output keying material expected length
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_hmac_sha256_compute(PLAT_UI8 *pSalt,			PLAT_UI16 salt_length,
 											 PLAT_UI8 *pInput_keying_material, 	PLAT_UI16 input_keying_material_length,
@@ -322,7 +322,7 @@ stse_ReturnCode_t stse_platform_hmac_sha256_compute(PLAT_UI8 *pSalt,			PLAT_UI16
  *  \param[in] 		input_keying_material_length 		Input keying material length
  *  \param[out] 	pPseudorandom_key 					Pseudorandom key (PRK)
  *  \param[in] 		pseudorandom_key_expected_length 	Pseudorandom key length
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_hmac_sha256_extract(PLAT_UI8 *pSalt,			PLAT_UI16 salt_length,
 											 PLAT_UI8 *pInput_keying_material, 	PLAT_UI16 input_keying_material_length,
@@ -336,7 +336,7 @@ stse_ReturnCode_t stse_platform_hmac_sha256_extract(PLAT_UI8 *pSalt,			PLAT_UI16
  *  \param[in] 		info_length 					Information length
  *  \param[out] 	pOutput_keying_material 		Output keying material (OKM)
  *  \param[in] 		output_keying_material_length 	Output keying material expected length
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_hmac_sha256_expand(PLAT_UI8  *pPseudorandom_key, 		PLAT_UI16 pseudorandom_key_length,
 											PLAT_UI8  *pInfo, 					PLAT_UI16 info_length,

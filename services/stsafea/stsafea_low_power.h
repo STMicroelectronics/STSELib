@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_low_power Low power management
+/*! \defgroup stsafea_low_power STSAFE-A low power management
  *  \ingroup stsafea_services
  *  @{
  */
@@ -42,10 +42,10 @@ typedef enum {
 /**
  * \brief 		Put target device in hibernate mode
  * \details 	This function format and send hibernate command to target device
- * \param[in] 	pSTSAFE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSAFE 			Pointer to STSE Handler
  * \param[in]	wake_up_mode 		Event to wake up from,
  * 									listed in enum \ref stsafea_hibernate_wake_up_mode_t
- * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSAFE,
 									 stsafea_hibernate_wake_up_mode_t wake_up_mode);
