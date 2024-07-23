@@ -84,6 +84,10 @@ typedef enum stse_ecc_key_type_t {
 	STSE_ECC_KT_INVALID
 }stse_ecc_key_type_t;
 
+/*!
+ * \enum stse_aes_key_type_t
+ * \brief STSE AES key type
+ */
 typedef enum stse_aes_key_type_t{
 	STSE_AES_128_KT = 0x00,
 	STSE_AES_256_KT

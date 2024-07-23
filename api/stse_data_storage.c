@@ -59,7 +59,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
 	PLAT_UI16 chunck_length = 0;
 	PLAT_UI16 chunck_offset = offset;
 
-	/* - Check STSAFE handler initialization */
+	/* - Check STSE handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
@@ -104,7 +104,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
 
 	} while (remaning_length > 0);
 
-	/* - Return STSAFE Status code */
+	/* - Return STSE Status code */
 	return(ret);
 }
 
@@ -127,7 +127,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
 	options.new_update_ac = STSAFEA_AC_ALWAYS;
 	options.new_update_ac_change_right = STSAFE_ACCR_DISABLED;
 
-	/* - Check STSAFE handler initialization */
+	/* - Check STSE handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
@@ -144,7 +144,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
 			protection
 	);
 
-	/* - Return STSAFE Status code */
+	/* - Return STSE Status code */
 	return(ret);
 }
 
@@ -165,7 +165,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
 	options.new_decrement_ac = STSAFEA_AC_ALWAYS;
 	options.new_decrement_ac_change_right = STSAFE_ACCR_DISABLED;
 
-	/* - Check STSAFE handler initialization */
+	/* - Check STSE handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
@@ -208,7 +208,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
 	/*- Perform read by chunk */
 		do {
 
-			/* - Check STSAFE handler initialization */
+			/* - Check STSE handler initialization */
 			if (pSTSE == NULL)
 			{
 				return( STSE_API_INVALID_PARAMETER );
@@ -248,7 +248,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
 
 		} while (remaning_length > 0);
 
-		/* - Return STSAFE Status code */
+		/* - Return STSE Status code */
 		return(ret);
 }
 
@@ -280,7 +280,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 			protection
 	);
 
-	/* - Return STSAFE Status code */
+	/* - Return STSE Status code */
 	return(ret);
 }
 
@@ -315,7 +315,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
 			protection
 	);
 
-	/* - Return STSAFE Status code */
+	/* - Return STSE Status code */
 	return(ret);
 }
 
@@ -337,7 +337,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
 	options.new_decrement_ac = ac;
 	options.new_decrement_ac_change_right = ac_change_right;
 
-	/* - Check STSAFE handler initialization */
+	/* - Check STSE handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );

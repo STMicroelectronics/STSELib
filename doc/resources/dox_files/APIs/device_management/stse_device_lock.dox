@@ -1,0 +1,42 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    
+    group stse_device_lock      
+        HOST -> STSE : Verify password (password)
+        activate STSE $STSE_ACTIVITY
+        return Verification status
+        
+        HOST -> STSE : Put attributes Life Cycle State (Operationnal + Lock)
+        activate STSE $STSE_ACTIVITY
+        return Life Cycle State update status
+
+    end 
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+    stsafe_ReturnCode_t stsafe_ret;
+    PLAT_UI8 password[STSAFEA_PASSWORD_LENGTH] = { /* password value set during device personalization*/ };
+
+    stsafe_ret = stsafe_se_lock(&stsafe_handler,
+                                    password,
+                                    STSAFEA_PASSWORD_LENGTH
+    );
+\endcode
+
+\sa stsafe_verify_password()
+\sa stsafe_put_life_cyle_state()
+
+<div style="page-break-after: always;"></div>

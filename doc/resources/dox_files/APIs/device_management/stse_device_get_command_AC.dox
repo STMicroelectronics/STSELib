@@ -1,0 +1,46 @@
+\b Description 
+\n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    
+group stse_get_command_AC
+	HOST -> STSE : Get attribute(Command AC)
+	activate STSE $STSE_ACTIVITY
+	return Command AC list
+end group
+
+
+
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	uint8_t cmd_authorization_record_count;
+	cmd_authorization_CR_t command_auth_CR;
+
+	/*- Get Command AC count*/
+	stsafe_se_get_command_AC_count(&stsafe_handler, &cmd_authorization_record_count);
+
+	/*- Allocate command authorization config buffer*/
+	cmd_authorization_record_t command_auth_config[cmd_authorization_record_count];
+
+	/*- Get command authorization config*/
+	stsafe_ret = stsafe_se_get_command_AC(&stsafe_handler,
+										  cmd_authorization_record_count,
+										  &command_auth_CR,
+										  command_auth_config);
+\endcode
+
+\sa stsafe_query()
+
+<div style="page-break-after: always;"></div>

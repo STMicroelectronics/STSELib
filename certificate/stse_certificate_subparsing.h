@@ -131,7 +131,7 @@ PLAT_I32 stse_certificate_date_compare(const stse_cert_validity_t *D1, const sts
 /**
 * \brief  Count the number of Attributes within a NAME
 * \param[in]  *p pointer to the RDNSequence to be parsed
-* \returun The number of Attributes
+* \return The number of Attributes
 */
 PLAT_I32 stse_certificate_count_attributes(const PLAT_UI8 *p);
 

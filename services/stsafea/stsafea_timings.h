@@ -30,7 +30,7 @@ extern "C" {
 #define STSAFEA_MAX_CMD_COUNT 30U
 #define STSAFEA_MAX_EXT_CMD_COUNT 29U
 
-/*! \defgroup stsafea_symmetric_key_slots timings
+/*! \defgroup stsafea_timings STSAFEA timings
  *  \ingroup stsafea_services
  *  @{
  */

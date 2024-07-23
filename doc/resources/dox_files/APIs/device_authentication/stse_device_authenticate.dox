@@ -1,0 +1,68 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST $STSE_ACTIVITY
+    group stse_device_authenticate
+
+        rnote over HOST
+            Verify certificate chain
+        end note 
+
+        rnote over HOST
+            Get device ECC key type
+            from leaf certificate
+        end note 
+
+        rnote over HOST
+            Prepare Random Challenge
+        end note 
+
+        HOST -> STSE : Generate_signature(private key slot , challenge )  
+        activate STSE $STSE_ACTIVITY
+        return signature 
+
+        rnote over HOST
+            verify signature using 
+            leaf certificate public key
+        end note
+
+    end 
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	/* ## Authenticate target STSE device */
+
+	stse_ret = stse_device_authenticate(
+			&stse_handler,
+			ca_selfsigned_cert,
+			certificate_chain,
+			certificate_chain_size,
+			STSE_STATIC_PRIVATE_KEY_SLOT_0);
+
+	if (stse_ret != STSE_OK)
+	{
+        /* Handle Error */
+	} else {
+		printf("\n\n\r ## Device authentication over Root CA certificate : Successful\n\r");
+	}
+
+\endcode
+
+\sa stse_init
+\sa stse_get_device_certificate_size
+\sa stse_get_device_certificate
+
+
+<div style="page-break-after: always;"></div>

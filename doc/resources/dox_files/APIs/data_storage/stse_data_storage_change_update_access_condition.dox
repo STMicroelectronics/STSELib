@@ -1,0 +1,58 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST $STSE_ACTIVITY
+    group stse_data_storage_change_update_access_condition
+        
+
+            rnote over HOST
+                set change right and update atomicity
+            end note
+            
+            HOST -> STSE : update zone (zone, atomicity , offset, length , data)  
+            Activate STSE
+            return update status
+
+    end 
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+    /* - Update Data in Zone 1 (Random Number storage)*/
+	
+    uint8_t random[100];
+    stse_ret = stse_companion_generate_random(&stse_handler, random, 100);
+	
+    stse_ret = stse_data_storage_change_update_access_condition (
+			&stse_handler,	    /* SE handler */
+            STSE_AC_HOST,       /* new access condition */
+            STSE_ACCR_DISABLED  /* new access condition change right */
+			01,					/* Zone index */
+			0x0000,				/* Update Offset */
+			random,				/* Update input buffer */
+			sizeof(random),		/* Update Length */
+			NOT_ATOMIC,			/* Atomicity */
+			STSE_NO_PROT
+	);
+	if(stse_ret != STSE_OK )
+	{
+		/* Handle Error */
+	} 
+
+\endcode
+
+\sa stse_init
+\sa stse_get_data_partitions_configuration
+
+<div style="page-break-after: always;"></div>

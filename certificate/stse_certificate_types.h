@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * \file    x509.h
+  * \file    stse_certificate_types.h
   * \author  STMicroelectronics - CS application team
-  * \brief   STSAFE-A x509 certificate Parser
+  * \brief   STSE certificate type
   ******************************************************************************
   * \attention
   *

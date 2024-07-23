@@ -198,7 +198,7 @@ extern stse_perso_info_t dynamic_product_perso;
  * \brief 		Initialise the STSE handler to default value
  * \details 		This core function initialise the handler to default value
  * \param[in] 		pStseHandler 	Pointer to STSE handler
- * \return \ref stsafe_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler);
 

@@ -28,8 +28,8 @@
 #include "services/stsafea/stsafea_put_query.h"
 
 
-/** \defgroup 	stsafea_host_key_slot Host key slot management
- *  \ingroup 	stsafea_services
+/** \defgroup stsafea_host_key_slot STSAFE-A Host key slot management
+ *  \ingroup stsafea_services
  *  @{
  */
 
@@ -104,7 +104,7 @@ typedef struct
 /**
  * \brief 		Query host key provisioning control fields
  * \details 	This service format and send query host key provisioning control fields command
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[out] 	pCtrl_fields		Pointer to the provisioning control fields
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
@@ -115,7 +115,7 @@ stse_ReturnCode_t stsafea_query_host_key_provisioning_ctrl_fields(
 /**
  * \brief 		Put host key provisioning control fields
  * \details 	This service format and send put host key provisioning control fields command
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[out] 	pCtrl_fields		Pointer to the provisioning control fields
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
@@ -126,7 +126,7 @@ stse_ReturnCode_t stsafea_put_host_key_provisioning_ctrl_fields(
 /**
  * \brief 		Query host key informations (host key V1)
  * \details 	This service format and send query host key informations command
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[out] 	pHostKeySlot		Pointer to the structure to output key informations
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
@@ -137,7 +137,7 @@ stse_ReturnCode_t stsafea_query_host_key(
 /**
  * \brief 		Query host key informations (host key V2)
  * \details 	This service format and send query host key informations command
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[out] 	pHostKeySlotV2		Pointer to the structure to output key informations
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
@@ -148,7 +148,7 @@ stse_ReturnCode_t stsafea_query_host_key_v2(
 /**
  * \brief 		Provision host key V1
  * \details 	Provision host key using the put attributes command
- * \param[in] 	pSTSE 	Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 	Pointer to STSE Handler
  * \param[in] 	host_keys	Host key structure to be provisionned
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
@@ -159,7 +159,7 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
 /**
  * \brief 		Provision host key V2
  * \details 	Provision host key using the write host key command
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	key_type			Host key type
  * \param[in] 	host_keys			Host key structure to be provisionned
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
@@ -172,7 +172,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning (
 /**
  * \brief 		Provision host key V2 wrapped
  * \details 	Provision host key using the write host key command
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	key_type			Host key type
  * \param[in] 	pHost_key_envelope	Envelope containing host key to be provisionned
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise

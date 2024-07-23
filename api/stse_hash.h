@@ -68,6 +68,7 @@ stse_ReturnCode_t stse_process_hash(
  * \brief 			STSE start hash API
  * \details 		This API use the STSE to finish a hash processing
  * \param[in]		pSTSE			Pointer to target SE handler
+ * \param[in] 		sha_algorithm	\ref stse_hash_algorithm_t SHA algorithm
  * \param[in] 		pMessage		Pointer to message buffer
  * \param[in]		message_size	Input message length in bytes
  * \param[out] 		pDigest			Pointer to digest buffer

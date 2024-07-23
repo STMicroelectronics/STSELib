@@ -1,0 +1,30 @@
+\b Description 
+\n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+@startuml
+	skinparam sequenceMessageAlign center
+    Application -> STSELib: host_key_type\nhost_keys
+    activate STSELib
+alt Device == STSAFE-A120
+	STSELib->STSE: Write host key plaintext
+    activate STSE
+    return status
+else else
+	STSELib->STSE: Put host key plaintext
+    activate STSE
+    return status
+end
+    Application <- STSELib: status
+    deactivate STSELib
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+\endcode
+
+\sa stsafe_init
+
+<div style="page-break-after: always;"></div>

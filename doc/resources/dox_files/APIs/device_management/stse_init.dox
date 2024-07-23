@@ -1,0 +1,65 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST $STSE_ACTIVITY
+    group stse_init
+        
+        rnote over HOST
+            Initialise SE communication protocol
+        end note
+
+        rnote over HOST
+            Initialise Host platform dependencies
+        end note
+
+        rnote over HOST
+            Initialise cryptographic library dependencies
+        end note
+
+        group Cache SE Personalization information (if pPerso_info == NULL )
+            HOST -> STSE : Query "Command Authorization Config" 
+            activate STSE $STSE_ACTIVITY
+            return Command Authorization Config
+            rnote over HOST
+                Store Command Authorization Config in Handler.Perso_info 
+        end note
+        end
+
+    end 
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	stse_ReturnCode_t stse_ret = STSE_API_INVALID_PARAMETER;
+	stse_Handler_t stse_handler;
+
+    /* - Initialize STSE device handler */
+    stse_ret = stse_set_default_handler_value(&stse_handler);
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
+    stse_handler.device_type = STSAFE_A120;
+    stse_handler.io.Busaddr = 1; 
+    stse_ret = stse_init(&stse_handler);
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
+
+\endcode
+
+\sa stse_set_default_handler_value
+
+<div style="page-break-after: always;"></div>

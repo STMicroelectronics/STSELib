@@ -35,10 +35,10 @@
 
 /**
  * \brief 		Get ECC key slots count
- * \details 	This API query STSAFE-A and return the number of slots in the private key table
- * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \details 	This API query STSE and return the number of slots in the private key table
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[out] 	pPrivate_key_slot_count 	ECC key slots count
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_get_ecc_key_slots_count.dox
  */
 stse_ReturnCode_t stse_get_ecc_key_slots_count(
@@ -47,13 +47,13 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
 
 /**
  * \brief 		Get ECC key table informations
- * \details 	This API query STSAFE-A and return ecc key informations list for all key slots in the table
- * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \details 	This API query STSE and return ecc key informations list for all key slots in the table
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[in] 	private_key_slot_count 		Expected slot count in the table (length of private_key_table_info)
  * \param[out] 	pChange_right 				Private key table information change right
  * \param[out] 	pGlobal_usage_limit 		Private key table information global usage limit
  * \param[out] 	private_key_table_info 		Key slot informations table
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_get_ecc_key_table_info.dox
  */
 stse_ReturnCode_t stse_get_ecc_key_table_info(
@@ -65,13 +65,13 @@ stse_ReturnCode_t stse_get_ecc_key_table_info(
 
 /**
  * \brief 		Get ECC key slot informations
- * \details 	This API query STSAFE-A and return ecc key informations for a given key slot
- * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \details 	This API query STSE and return ecc key informations for a given key slot
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[in] 	private_key_slot_number 	Slot number to query
  * \param[out] 	pChange_right 				Private key table information change right
  * \param[out] 	pGlobal_usage_limit 		Private key table information global usage limit
  * \param[out] 	private_key_slot_info 		Key slot informations
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_get_ecc_key_slot_info.dox
  */
 stse_ReturnCode_t stse_get_ecc_key_slot_info(
@@ -84,10 +84,10 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
 /**
  * \brief 		Generate an ECDHE key pair
  * \details 	This API request STSE to generate an ECDHE key pair
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	key_type 		Key type to generate
  * \param[out] 	pPublic_key 	Public key of the generated key pair
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_generate_ECDHE_key_pair.dox
  */
 stse_ReturnCode_t stse_generate_ECDHE_key_pair(
@@ -98,12 +98,12 @@ stse_ReturnCode_t stse_generate_ECDHE_key_pair(
 /**
  * \brief 		Generate an ECC key pair
  * \details 	This API request STSE to generate an ECC key pair in the private key table
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	slot_number 	Private key table slot used to generate the key pair
  * \param[in] 	key_type 		Key pair type
  * \param[in] 	usage_limit 	Usage limit of the key pair
  * \param[out] 	pPublic_key 	Public key of the generated key pair
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_generate_ecc_key_pair.dox
  */
 stse_ReturnCode_t stse_generate_ecc_key_pair(
@@ -116,11 +116,11 @@ stse_ReturnCode_t stse_generate_ecc_key_pair(
 /**
  * \brief 		Write a public key in a generic public key slot
  * \details 	This API write a public key in the STSE generic public key slot
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	slot_number 	Generic public key slot to write
  * \param[in] 	key_type 		Public key type
  * \param[in] 	pPublic_key 	Public key to write
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_write_generic_ecc_public_key.dox
  */
 stse_ReturnCode_t stse_write_generic_ecc_public_key(
@@ -132,5 +132,5 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
 
 /** \}*/
 
-#endif /*STSAFE_ASYMMETRIC_KEY_CRYPTO_H*/
+#endif /*STSE_ASYMMETRIC_KEY_CRYPTO_H*/
 
