@@ -140,10 +140,10 @@ stse_ReturnCode_t stse_device_authenticate(
 
 	stse_ecc_key_type_t key_type = stse_certificate_get_key_type(&leaf_certificate);
 
-	PLAT_UI16 signature_size = stsafea_ecc_info_table[key_type].signature_size;
+	PLAT_UI16 signature_size = stse_ecc_info_table[key_type].signature_size;
 	PLAT_UI8 signature[signature_size];
 
-	PLAT_UI16 challenge_size = stsafea_ecc_info_table[key_type].private_key_size;
+	PLAT_UI16 challenge_size = stse_ecc_info_table[key_type].private_key_size;
 	PLAT_UI8 challenge[challenge_size];
 
 	/* Generate a challenge with Random Number */

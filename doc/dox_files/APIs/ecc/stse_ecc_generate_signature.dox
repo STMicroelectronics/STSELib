@@ -27,7 +27,7 @@ Following diagram illustrates the interactions performed between the Host and th
     PLAT_UI8 slot_number = 0;
     stse_ecc_key_type_t slot_key_type = STSE_ECC_KT_NIST_P_256;
     
-	PLAT_UI8 pSignature[stsafea_ecc_info_table[key_type].signature_size];
+	PLAT_UI8 pSignature[stse_ecc_info_table[key_type].signature_size];
 	
 	PLAT_UI16 message_length = 64;
 	PLAT_UI8 pMessage[] = {

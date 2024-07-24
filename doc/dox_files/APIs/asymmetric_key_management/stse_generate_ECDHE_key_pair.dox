@@ -25,7 +25,7 @@ Following diagram illustrates the interactions performed between the Host and th
 
 	stse_ReturnCode_t ret;
     stse_ecc_key_type_t key_type = STSE_ECC_KT_NIST_P_256;
-	PLAT_UI8 pPublic_key[stsafea_ecc_info_table[key_type].public_key_size];
+	PLAT_UI8 pPublic_key[stse_ecc_info_table[key_type].public_key_size];
 
 	ret = stse_generate_ECDHE_key_pair(
 			pSTSE, 
