@@ -27,9 +27,9 @@ Following diagram illustrates the interactions performed between the Host and th
 	PLAT_UI8 signature_validity = 0;
     stse_ecc_key_type_t key_type = STSE_ECC_KT_NIST_P_256;
     
-	PLAT_UI8 pPrivate_key[stsafea_ecc_info_table[key_type].private_key_size];
-	PLAT_UI8 pPublic_key[stsafea_ecc_info_table[key_type].public_key_size];
-	PLAT_UI8 pSignature[stsafea_ecc_info_table[key_type].signature_size];
+	PLAT_UI8 pPrivate_key[stse_ecc_info_table[key_type].private_key_size];
+	PLAT_UI8 pPublic_key[stse_ecc_info_table[key_type].public_key_size];
+	PLAT_UI8 pSignature[stse_ecc_info_table[key_type].signature_size];
 
 	/* Pre-hashed message */
 	PLAT_UI16 message_length = 64;

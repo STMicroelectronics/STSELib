@@ -72,9 +72,9 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 	(void)signatureSsize;
 	stse_ReturnCode_t ret;
 	stse_ecc_key_type_t key_type = stse_certificate_get_key_type(cert);
-	PLAT_UI8 pub_key_size = stsafea_ecc_info_table[key_type].public_key_size;
+	PLAT_UI8 pub_key_size = stse_ecc_info_table[key_type].public_key_size;
 	PLAT_UI8 pub_key[pub_key_size];
-	PLAT_UI8 signature_size = stsafea_ecc_info_table[key_type].signature_size;
+	PLAT_UI8 signature_size = stse_ecc_info_table[key_type].signature_size;
 	PLAT_UI8 signature[signature_size];
 	PLAT_UI8 signature_validity;
 

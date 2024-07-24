@@ -127,7 +127,7 @@ stse_ReturnCode_t stsafea_query_private_key_table(
 		current_record += STSAFEA_PRIVATE_KEY_TABLE_INFO_COMMON_VALUES_LENGTH;
 		if(private_key_table_info[i].presence_flag == 1)
 		{
-			if(ARRAY_2B_SWAP_TO_UI16(current_record) > STSAFEA_ECC_CURVE_ID_VALUE_MAX_SIZE)
+			if(ARRAY_2B_SWAP_TO_UI16(current_record) > STSE_ECC_CURVE_ID_VALUE_MAX_SIZE)
 			{
 				return STSE_UNEXPECTED_ERROR;
 			}
@@ -235,17 +235,17 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		*pKey_type = STSE_ECC_KT_INVALID;
 		/*extract curve id length */
 		curve_id_total_length = (*(eCurve_id.pData) << 8);
-		curve_id_total_length += *(eCurve_id.pData+1) + STSAFEA_ECC_CURVE_ID_LENGTH_SIZE;
+		curve_id_total_length += *(eCurve_id.pData+1) + STSE_ECC_CURVE_ID_LENGTH_SIZE;
 		/* Compare slot curve ID against each known curve ID to set the key type */
-		for(curve_id_index=STSE_ECC_KT_NIST_P_256; curve_id_index<STSAFEA_ECC_NUMBER_OF_CURVES; curve_id_index++)
+		for(curve_id_index=STSE_ECC_KT_NIST_P_256; curve_id_index<STSE_ECC_NUMBER_OF_CURVES; curve_id_index++)
 		{
 			/* First check of the ID length to speed-up the loop */
-			if(curve_id_total_length == stsafea_ecc_info_table[curve_id_index].curve_id_total_length)
+			if(curve_id_total_length == stse_ecc_info_table[curve_id_index].curve_id_total_length)
 			{
 				int diff;
-				diff = memcmp((PLAT_UI8*)&stsafea_ecc_info_table[curve_id_index].curve_id,
+				diff = memcmp((PLAT_UI8*)&stse_ecc_info_table[curve_id_index].curve_id,
 							  (PLAT_UI8*)&curve_id,
-							  stsafea_ecc_info_table[curve_id_index].curve_id_total_length);
+							  stse_ecc_info_table[curve_id_index].curve_id_total_length);
 				if(diff == 0)
 				{
 					*pKey_type = curve_id_index;
@@ -254,7 +254,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 			}
 		}
 		/* If the comparison loop reach the end and pKey_type is always as initialized return error */
-		if((curve_id_index+1) == STSAFEA_ECC_NUMBER_OF_CURVES
+		if((curve_id_index+1) == STSE_ECC_NUMBER_OF_CURVES
 		&& *pKey_type==STSE_ECC_KT_INVALID)
 		{
 			return STSE_UNEXPECTED_ERROR;
@@ -289,17 +289,17 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 	PLAT_UI8 rsp_header;
 	PLAT_UI8 presence_flag;
 	stsafea_generic_public_key_configuration_flags_t configuration_flags;
-	PLAT_UI8 pCurve_id[stsafea_ecc_info_table[key_type].curve_id_total_length];
+	PLAT_UI8 pCurve_id[stse_ecc_info_table[key_type].curve_id_total_length];
 
-	PLAT_UI8 point_representation_id = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
 
-	PLAT_UI8 pPublic_key_length_element[STSAFEA_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
-			UI16_B0(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
+	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].coordinate_or_key_size),
+			UI16_B0(stse_ecc_info_table[key_type].coordinate_or_key_size),
 	};
-	stse_frame_element_allocate(ePublic_key_length_first_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
-	stse_frame_element_allocate(ePublic_key_length_second_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_first_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_second_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
 
 	stse_frame_element_allocate(ePublic_key_first_element, 0, NULL);
 	stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
@@ -314,12 +314,12 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,ePresence_flag,1,&presence_flag);
 	stse_frame_element_allocate_push(&RspFrame,eConfiguration_flags,sizeof(stsafea_generic_public_key_configuration_flags_t),(PLAT_UI8*)&configuration_flags);
-	stse_frame_element_allocate_push(&RspFrame,eCurve_id,stsafea_ecc_info_table[key_type].curve_id_total_length,pCurve_id);
+	stse_frame_element_allocate_push(&RspFrame,eCurve_id,stse_ecc_info_table[key_type].curve_id_total_length,pCurve_id);
 
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 	}
@@ -329,13 +329,13 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
 
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_second_element);
 
-		ePublic_key_second_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
 		stse_frame_push_element(&RspFrame, &ePublic_key_second_element);
 	}
@@ -375,15 +375,15 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 	PLAT_UI8 pFiller[2] = {0};
 
 	PLAT_UI8 rsp_header;
-	PLAT_UI8 point_representation_id = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
 
-	PLAT_UI8 pPublic_key_length_element[STSAFEA_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
-			UI16_B0(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
+	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].coordinate_or_key_size),
+			UI16_B0(stse_ecc_info_table[key_type].coordinate_or_key_size),
 	};
-	stse_frame_element_allocate(ePublic_key_length_first_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
-	stse_frame_element_allocate(ePublic_key_length_second_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_first_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_second_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
 
 	stse_frame_element_allocate(ePublic_key_first_element, 0, NULL);
 	stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
@@ -396,8 +396,8 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 	stse_frame_element_swap_byte_order(&eUsage_limit);
 	stse_frame_element_allocate_push(&CmdFrame,eFiller,2,pFiller);
 	stse_frame_element_allocate_push(&CmdFrame,eCurve_id,
-			stsafea_ecc_info_table[key_type].curve_id_total_length,
-			(PLAT_UI8*)&stsafea_ecc_info_table[key_type].curve_id);
+			stse_ecc_info_table[key_type].curve_id_total_length,
+			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
@@ -405,7 +405,7 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 	}
@@ -415,13 +415,13 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
 
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_second_element);
 
-		ePublic_key_second_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
 		stse_frame_push_element(&RspFrame, &ePublic_key_second_element);
 	}
@@ -458,14 +458,14 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY;
 
 	/* Public key elements */
-	PLAT_UI8 point_representation_id = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
-	PLAT_UI8 pPublic_key_length_element[STSAFEA_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
-			UI16_B0(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
+	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].coordinate_or_key_size),
+			UI16_B0(stse_ecc_info_table[key_type].coordinate_or_key_size),
 	};
-	stse_frame_element_allocate(ePublic_key_length_first_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
-	stse_frame_element_allocate(ePublic_key_length_second_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_first_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_second_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
 	stse_frame_element_allocate(ePublic_key_first_element, 0, NULL);
 	stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
 
@@ -476,13 +476,13 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header_extended,STSAFEA_HEADER_SIZE,&cmd_header_extended);
 	stse_frame_element_allocate_push(&CmdFrame,eSlot_number,STSAFEA_SLOT_NUMBER_ID_SIZE,&slot_number);
 	stse_frame_element_allocate_push(&CmdFrame,eCurve_id,
-			stsafea_ecc_info_table[key_type].curve_id_total_length,
-			(PLAT_UI8*)&stsafea_ecc_info_table[key_type].curve_id);
+			stse_ecc_info_table[key_type].curve_id_total_length,
+			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
@@ -491,12 +491,12 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_second_element);
-		ePublic_key_second_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
 		stse_frame_push_element(&CmdFrame, &ePublic_key_second_element);
 	}
@@ -534,16 +534,16 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_GENERATE_ECDHE;
 
 	PLAT_UI8 rsp_header;
-	PLAT_UI8 pCurve_id_rsp[stsafea_ecc_info_table[key_type].curve_id_total_length];
-	PLAT_UI8 point_representation_id = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+	PLAT_UI8 pCurve_id_rsp[stse_ecc_info_table[key_type].curve_id_total_length];
+	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
 
-	PLAT_UI8 pPublic_key_length_element[STSAFEA_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
-			UI16_B0(stsafea_ecc_info_table[key_type].coordinate_or_key_size),
+	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].coordinate_or_key_size),
+			UI16_B0(stse_ecc_info_table[key_type].coordinate_or_key_size),
 	};
-	stse_frame_element_allocate(ePublic_key_length_first_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
-	stse_frame_element_allocate(ePublic_key_length_second_element, STSAFEA_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_first_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_second_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
 
 	stse_frame_element_allocate(ePublic_key_first_element, 0, NULL);
 	stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
@@ -552,19 +552,19 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header_extended,STSAFEA_HEADER_SIZE,&cmd_header_extended);
 	stse_frame_element_allocate_push(&CmdFrame,eCurve_id_cmd,
-			stsafea_ecc_info_table[key_type].curve_id_total_length,
-			(PLAT_UI8*)&stsafea_ecc_info_table[key_type].curve_id);
+			stse_ecc_info_table[key_type].curve_id_total_length,
+			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eCurve_id_rsp,
-			stsafea_ecc_info_table[key_type].curve_id_total_length,
+			stse_ecc_info_table[key_type].curve_id_total_length,
 			pCurve_id_rsp);
 
 	if(key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 	}
@@ -574,13 +574,13 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
 
-		ePublic_key_first_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_first_element.pData = pPublic_key;
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_second_element);
 
-		ePublic_key_second_element.length = stsafea_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
 		stse_frame_push_element(&RspFrame, &ePublic_key_second_element);
 	}

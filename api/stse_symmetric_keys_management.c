@@ -53,9 +53,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 	pSession->type = STSE_VOLATILE_KEK_SESSION;
 
 	/* - allocate ECDHE buffer sizes according to ECC key type */
-	PLAT_UI16 pub_key_size = stsafea_ecc_info_table[ecc_key_type].public_key_size;
-	PLAT_UI16 priv_key_size = stsafea_ecc_info_table[ecc_key_type].private_key_size;
-	PLAT_UI16 shared_secret_size = stsafea_ecc_info_table[ecc_key_type].shared_secret_size;
+	PLAT_UI16 pub_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
+	PLAT_UI16 priv_key_size = stse_ecc_info_table[ecc_key_type].private_key_size;
+	PLAT_UI16 shared_secret_size = stse_ecc_info_table[ecc_key_type].shared_secret_size;
 
 	PLAT_UI8 host_ecdhe_public_key[pub_key_size];
 	PLAT_UI8 host_ecdhe_private_key[priv_key_size];
@@ -135,7 +135,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 	ret = stse_platform_hmac_sha256_compute(pHkdf_salt,
 											  STSAFEA_KEK_HKDF_SALT_SIZE,
 											  shared_secret,
-											  stsafea_ecc_info_table[ecc_key_type].shared_secret_size,
+											  stse_ecc_info_table[ecc_key_type].shared_secret_size,
 											  pHkdf_info,
 											  2 * pub_key_size,
 											  pSession->context.kek.base_key,
@@ -143,7 +143,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 
 	memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 	memset(host_ecdhe_public_key, 0, pub_key_size);
-	memset(shared_secret, 0, stsafea_ecc_info_table[ecc_key_type].shared_secret_size);
+	memset(shared_secret, 0, stse_ecc_info_table[ecc_key_type].shared_secret_size);
 
 	if(ret != STSE_OK)
 	{
@@ -186,21 +186,21 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
 	pSession->type = STSE_VOLATILE_KEK_SESSION;
 
-	PLAT_UI16 pub_key_size = stsafea_ecc_info_table[ecc_key_type].public_key_size;
-	PLAT_UI16 ecdhe_priv_key_size = stsafea_ecc_info_table[ecc_key_type].private_key_size;
-	PLAT_UI16 shared_secret_size = stsafea_ecc_info_table[ecc_key_type].shared_secret_size;
-	PLAT_UI16 signature_size = stsafea_ecc_info_table[private_ecc_key_type].signature_size;
+	PLAT_UI16 pub_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
+	PLAT_UI16 ecdhe_priv_key_size = stse_ecc_info_table[ecc_key_type].private_key_size;
+	PLAT_UI16 shared_secret_size = stse_ecc_info_table[ecc_key_type].shared_secret_size;
+	PLAT_UI16 signature_size = stse_ecc_info_table[private_ecc_key_type].signature_size;
 
 	PLAT_UI16 pub_key_size_stsafe_format = pub_key_size;
 	if(ecc_key_type == STSE_ECC_KT_CURVE25519)
 	{
-		pub_key_size_stsafe_format += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pub_key_size_stsafe_format += STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
 	else
 	{
-		pub_key_size_stsafe_format += STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pub_key_size_stsafe_format += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
-	PLAT_UI16 tbs_length = stsafea_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
+	PLAT_UI16 tbs_length = stse_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
 
 	PLAT_UI8 pHkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
 	PLAT_UI8 host_ecdhe_public_key[pub_key_size];
@@ -238,55 +238,55 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
 	/* - Prepare TBS buffer (concatenation of the two parties ECDHE Ephemeral public key)*/
 	memcpy(pTBS,
-		   (PLAT_UI8*)&stsafea_ecc_info_table[ecc_key_type].curve_id,
-		   stsafea_ecc_info_table[ecc_key_type].curve_id_total_length
+		   (PLAT_UI8*)&stse_ecc_info_table[ecc_key_type].curve_id,
+		   stse_ecc_info_table[ecc_key_type].curve_id_total_length
 	);
-	PLAT_UI16 copy_index = stsafea_ecc_info_table[ecc_key_type].curve_id_total_length;
+	PLAT_UI16 copy_index = stse_ecc_info_table[ecc_key_type].curve_id_total_length;
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
-		copy_index += STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
 	}
-	pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+	pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 	memcpy(pTBS + copy_index,
 		   host_ecdhe_public_key,
-		   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 
 		memcpy(pTBS + copy_index,
-			   host_ecdhe_public_key + stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size,
-			   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+			   host_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
+			   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	}
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
-		copy_index += STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
 	}
-	pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+	pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 	memcpy(pTBS + copy_index,
 		   stsafe_ecdhe_public_key,
-		   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 
 		memcpy(pTBS + copy_index,
-			   stsafe_ecdhe_public_key + stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size,
-			   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+			   stsafe_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
+			   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	}
 
 	ret = stsafea_sign_for_generic_public_key_slot(
@@ -353,7 +353,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 			pHkdf_salt,
 			STSAFEA_KEK_HKDF_SALT_SIZE,
 			shared_secret,
-			stsafea_ecc_info_table[ecc_key_type].shared_secret_size,
+			stse_ecc_info_table[ecc_key_type].shared_secret_size,
 			pHkdf_info,
 			( 2 * pub_key_size ),
 			pSession->context.kek.base_key,
@@ -362,7 +362,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
 	memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 	memset(host_ecdhe_public_key, 0, pub_key_size);
-	memset(shared_secret, 0, stsafea_ecc_info_table[ecc_key_type].shared_secret_size);
+	memset(shared_secret, 0, stse_ecc_info_table[ecc_key_type].shared_secret_size);
 
 	if(ret != STSE_OK)
 	{
@@ -995,10 +995,10 @@ stse_ReturnCode_t stse_establish_symmetric_key(
 		return STSE_API_INVALID_PARAMETER;
 	}
 
-	host_public_key_size = stsafea_ecc_info_table[ecc_key_type].public_key_size;
-	host_private_key_size = stsafea_ecc_info_table[ecc_key_type].private_key_size;
-	stsafe_ecdhe_public_key_size = stsafea_ecc_info_table[ecc_key_type].public_key_size;
-	shared_secret_size = stsafea_ecc_info_table[ecc_key_type].shared_secret_size;
+	host_public_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
+	host_private_key_size = stse_ecc_info_table[ecc_key_type].private_key_size;
+	stsafe_ecdhe_public_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
+	shared_secret_size = stse_ecc_info_table[ecc_key_type].shared_secret_size;
 
 	PLAT_UI8 host_public_key[host_public_key_size];
 	PLAT_UI8 host_private_key[host_private_key_size];
@@ -1129,24 +1129,24 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 	PLAT_UI8 pHkdf_info[STSAFEA_KT_LENGTH + STSAFEA_KT_LENGTH] = {STSAFEA_KT_SYMMETRIC_KEY, STSAFEA_KT_CONFIRMATION_KEY};
 
 	/* - Prepare asymmetric keys and shared secret buffers */
-	PLAT_UI8 host_ecdhe_public_key[stsafea_ecc_info_table[ecc_key_type].public_key_size];
-	PLAT_UI8 host_ecdhe_private_key[stsafea_ecc_info_table[ecc_key_type].private_key_size];
-	PLAT_UI8 stsafe_ecdhe_public_key[stsafea_ecc_info_table[ecc_key_type].public_key_size];
-	PLAT_UI8 shared_secret[2*stsafea_ecc_info_table[ecc_key_type].shared_secret_size];
+	PLAT_UI8 host_ecdhe_public_key[stse_ecc_info_table[ecc_key_type].public_key_size];
+	PLAT_UI8 host_ecdhe_private_key[stse_ecc_info_table[ecc_key_type].private_key_size];
+	PLAT_UI8 stsafe_ecdhe_public_key[stse_ecc_info_table[ecc_key_type].public_key_size];
+	PLAT_UI8 shared_secret[2*stse_ecc_info_table[ecc_key_type].shared_secret_size];
 
-	PLAT_UI16 pub_key_size_stsafe_format = stsafea_ecc_info_table[ecc_key_type].public_key_size;
+	PLAT_UI16 pub_key_size_stsafe_format = stse_ecc_info_table[ecc_key_type].public_key_size;
 	if(ecc_key_type == STSE_ECC_KT_CURVE25519)
 	{
-		pub_key_size_stsafe_format += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pub_key_size_stsafe_format += STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
 	else
 	{
-		pub_key_size_stsafe_format += STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pub_key_size_stsafe_format += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
-	PLAT_UI16 tbs_length = stsafea_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
+	PLAT_UI16 tbs_length = stse_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
 	PLAT_UI8 pTBS[tbs_length];
 
-	PLAT_UI16 signature_size = stsafea_ecc_info_table[private_ecc_key_type].signature_size;
+	PLAT_UI16 signature_size = stse_ecc_info_table[private_ecc_key_type].signature_size;
 	PLAT_UI8 signature[signature_size];
 
 	/* - Initialize the OKM length with the confirmation key length */
@@ -1186,65 +1186,65 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 
 	/* Copy curve ID for host key */
 	memcpy(pTBS,
-		   (PLAT_UI8*)&stsafea_ecc_info_table[ecc_key_type].curve_id,
-		   stsafea_ecc_info_table[ecc_key_type].curve_id_total_length);
+		   (PLAT_UI8*)&stse_ecc_info_table[ecc_key_type].curve_id,
+		   stse_ecc_info_table[ecc_key_type].curve_id_total_length);
 
-	PLAT_UI16 copy_index = stsafea_ecc_info_table[ecc_key_type].curve_id_total_length;
+	PLAT_UI16 copy_index = stse_ecc_info_table[ecc_key_type].curve_id_total_length;
 
 	/* Copy Host ECDHE public key */
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
-		copy_index += STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
 	}
 
-	pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+	pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 
 	memcpy(pTBS + copy_index,
 		   host_ecdhe_public_key,
-		   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 
 		memcpy(pTBS + copy_index,
-			   host_ecdhe_public_key + stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size,
-			   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+			   host_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
+			   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	}
 
 	/* Copy STSAFE ECDHE public key */
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
-		copy_index += STSAFEA_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
 	}
 
-	pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+	pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 
 	memcpy(pTBS + copy_index,
 		   stsafe_ecdhe_public_key,
-		   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-	copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
 	{
-		pTBS[copy_index] = UI16_B1(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		pTBS[copy_index+1] = UI16_B0(stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += STSAFEA_ECC_GENERIC_LENGTH_SIZE;
+		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
 
 		memcpy(pTBS + copy_index,
-			   stsafe_ecdhe_public_key + stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size,
-			   stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size);
-		copy_index += stsafea_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+			   stsafe_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
+			   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
+		copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 	}
 
 	ret = stsafea_sign_for_generic_public_key_slot(
@@ -1293,7 +1293,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 			pHkdf_salt,
 			STSAFEA_KEK_HKDF_SALT_SIZE,
 			shared_secret,
-			stsafea_ecc_info_table[ecc_key_type].shared_secret_size,
+			stse_ecc_info_table[ecc_key_type].shared_secret_size,
 			pHkdf_info,
 			STSAFEA_KT_LENGTH + STSAFEA_KT_LENGTH,
 			okm_buffer,
