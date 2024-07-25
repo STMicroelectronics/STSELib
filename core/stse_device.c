@@ -42,7 +42,7 @@ stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler)
   pStseHandler->io.BusRecovery = NULL;
   pStseHandler->io.PowerLineOff = stse_platform_power_off;
   pStseHandler->io.PowerLineOn = stse_platform_power_on;
-  pStseHandler->io.Busaddr = 0;
+  pStseHandler->io.busID = 0;
   pStseHandler->io.Devaddr = 0x20;
   pStseHandler->io.BusSpeed = 100;
   pStseHandler->io.BusType = STSE_BUS_TYPE_I2C;

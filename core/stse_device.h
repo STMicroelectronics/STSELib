@@ -141,7 +141,7 @@ typedef struct
 				PLAT_UI8,
 				PLAT_UI8
 		); /*<\var stse_io_t::PowerLineOn Bus power line on function callback */
-		PLAT_UI8 Busaddr;				/*<\var stse_io_t::Busaddr Bus Address */
+		PLAT_UI8 busID;					/*<\var stse_io_t::busID Bus ID */
 		PLAT_UI8 Devaddr;				/*<\var stse_io_t::Devaddr Device address */
 		PLAT_UI16 BusSpeed;				/*<\var stse_io_t::BusSpeed Bus speed */
 		stse_bus_t BusType;				/*<\var stse_io_t::BusType Bus type */
