@@ -34,7 +34,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 		switch(pSTSE->io.BusType)
 		{
 			case STSE_BUS_TYPE_I2C :
-				ret = stse_platform_i2c_init(pSTSE->io.Busaddr);
+				ret = stse_platform_i2c_init(pSTSE->io.busID);
 				if(ret != STSE_OK)
 				{
 					return ret;
@@ -97,7 +97,7 @@ stse_ReturnCode_t stse_device_power_on(stse_Handler_t * pSTSE)
 	}
 
 	/* - Power-on the device */
-	pSTSE->io.PowerLineOn(pSTSE->io.Busaddr,pSTSE->io.Devaddr);
+	pSTSE->io.PowerLineOn(pSTSE->io.busID,pSTSE->io.Devaddr);
 
 	/* - Wait for device to boot (tboot) */
 	stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
@@ -119,7 +119,7 @@ stse_ReturnCode_t stse_device_power_off(stse_Handler_t * pSTSE)
 	}
 
 	/* - Power-Off the device */
-	pSTSE->io.PowerLineOff(pSTSE->io.Busaddr,pSTSE->io.Devaddr);
+	pSTSE->io.PowerLineOff(pSTSE->io.busID,pSTSE->io.Devaddr);
 	return( STSE_OK );
 }
 

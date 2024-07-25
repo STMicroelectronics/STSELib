@@ -22,7 +22,7 @@ int main (void)
 
     stsafe_allocate_handler(stsafe_handler);
 	stsafe_handler.io.BusType = STSAFE_BUS_TYPE_I2C;
-	stsafe_handler.io.Busaddr = 3;
+	stsafe_handler.io.busID = 3;
 	stsafe_handler.io.Devaddr = 0x20;
     stsafe_ret = stsafe_init(&stsafe_handler);
 

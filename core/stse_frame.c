@@ -234,7 +234,7 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
     {
 		/* - Receive frame length from target STSAFE */
     	ret = pSTSE->io.BusSendStart(
-        		pSTSE->io.Busaddr,
+        		pSTSE->io.busID,
     			pSTSE->io.Devaddr,
     			pSTSE->io.BusSpeed,
     			pFrame->length);
@@ -244,7 +244,7 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 			pCurrent_element = pFrame->first_element;
 			while(pCurrent_element != pFrame->last_element) {
 				ret = pSTSE->io.BusSendContinue(
-						pSTSE->io.Busaddr,
+						pSTSE->io.busID,
 						pSTSE->io.Devaddr,
 						pSTSE->io.BusSpeed,
 						pCurrent_element->pData,
@@ -258,7 +258,7 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 			if(ret == STSE_OK)
 			{
 				ret = pSTSE->io.BusSendStop(
-						pSTSE->io.Busaddr,
+						pSTSE->io.busID,
 						pSTSE->io.Devaddr,
 						pSTSE->io.BusSpeed,
 						pCurrent_element->pData,
@@ -300,7 +300,7 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     {
 		/* - Receive frame length from target STSAFE */
 		ret = pSTSE->io.BusRecvStart(
-				pSTSE->io.Busaddr,
+				pSTSE->io.busID,
 				pSTSE->io.Devaddr,
 				pSTSE->io.BusSpeed,
 				&received_length
@@ -341,7 +341,7 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     		pCurrent_element->length = received_length;
     	}
         pSTSE->io.BusRecvContinue(
-    			pSTSE->io.Busaddr,
+    			pSTSE->io.busID,
     			pSTSE->io.Devaddr,
     			pSTSE->io.BusSpeed,
     			pCurrent_element->pData,
@@ -351,7 +351,7 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
         pCurrent_element = pCurrent_element->next;
     }
     pSTSE->io.BusRecvStop(
-			pSTSE->io.Busaddr,
+			pSTSE->io.busID,
 			pSTSE->io.Devaddr,
 			pSTSE->io.BusSpeed,
 			pCurrent_element->pData,
