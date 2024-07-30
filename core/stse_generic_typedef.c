@@ -100,3 +100,32 @@ const stse_ecc_info_t stse_ecc_info_table[STSE_ECC_NUMBER_OF_CURVES] = {
 		.signature_size		= (STSE_ED25519_SIGNATURE_R_VALUE_SIZE + STSE_ED25519_SIGNATURE_S_VALUE_SIZE)
 	}
 };
+
+stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
+		uint8_t curve_id_length,
+		const uint8_t * pCurve_id_value,
+		stse_ecc_key_type_t * pKey_type)
+{
+	stse_ReturnCode_t ret = STSE_OK;
+	stse_ecc_key_type_t key_type;
+
+	for(key_type = STSE_ECC_KT_NIST_P_256;
+		key_type < STSE_ECC_KT_INVALID;)
+	{
+		uint8_t info_curve_id_length = stse_ecc_info_table[key_type].curve_id_total_length-STSE_ECC_GENERIC_LENGTH_SIZE;
+		if(curve_id_length == info_curve_id_length)
+		{
+			if(memcmp(stse_ecc_info_table[key_type].curve_id.value,
+					  pCurve_id_value,
+					  info_curve_id_length) == 0)
+			{
+				break;
+			}
+		}
+		key_type++;
+	}
+
+	*pKey_type = key_type;
+
+	return ret;
+}

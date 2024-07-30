@@ -458,6 +458,11 @@ typedef struct {
 
 extern const stse_ecc_info_t stse_ecc_info_table[STSE_ECC_NUMBER_OF_CURVES];
 
+stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
+		uint8_t curve_id_length,
+		const uint8_t * pCurve_id_value,
+		stse_ecc_key_type_t * pKey_type);
+
 /** \}*/
 
 #endif /* STSE_GENERIC_TYPEDEF_H */
