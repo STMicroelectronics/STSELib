@@ -162,6 +162,76 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
 		PLAT_UI8 * pAuthentication_tag);
 
 /**
+ * \brief 		Start chunk encryption in AES GCM mode
+ * \details 	This service start chunk encryption in AES GCM mode using the specified key from STSAFE symmetric key table
+ * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in] 	slot_number 				Key slot in symmetric key table to be used
+ * \param[in]	IV_length					IV buffer length in bytes
+ * \param[in]	IV							IV buffer
+ * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	pAssociated_data			Buffer containing associated data
+ * \param[in]	message_length				Length of the message to encrypt
+ * \param[in]	pPlaintext_message			Buffer containing the message to encrypt
+ * \param[out]	pEncrypted_message			Buffer to store the encrypted message
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \details 	\include{doc} stse_aes_gcm_encrypt.dox
+ */
+stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 IV_length,
+		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pPlaintext_message,
+		PLAT_UI8 * pEncrypted_message);
+
+/**
+ * \brief 		Process chunk encryption in AES GCM mode
+ * \details 	This service process additional chunk encryption in AES GCM mode using the key specified in start command
+ * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	pAssociated_data			Buffer containing associated data
+ * \param[in]	message_length				Length of the message to encrypt
+ * \param[in]	pPlaintext_message			Buffer containing the message to encrypt
+ * \param[out]	pEncrypted_message			Buffer to store the encrypted message
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \details 	\include{doc} stse_aes_gcm_encrypt.dox
+ */
+stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pPlaintext_message,
+		PLAT_UI8 * pEncrypted_message);
+
+/**
+ * \brief 		Finish chunk encryption in AES GCM mode
+ * \details 	This service finish chunk encryption in AES GCM mode using the key specified in start command
+ * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in] 	authentication_tag_length	Length of the output authentication tag
+ * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	pAssociated_data			Buffer containing associated data
+ * \param[in] 	chunk_length 				Length of the chunk
+ * \param[in] 	pPlaintext_chunk 			Plaintext chunk to encrypt
+ * \param[out] 	pEncrypted_chunk 			Encrypted chunk
+ * \param[out] 	pAuthentication_tag 		Authentication tag
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \details 	\include{doc} stse_aes_gcm_encrypt.dox
+ */
+stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pPlaintext_message,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pAuthentication_tag);
+
+/**
  * \brief 		Decrypt payload in AES GCM mode
  * \details 	This service format and send decrypt command in AES GCM mode
  * \param[in] 	pSTSE 						Pointer to STSAFE Handler
@@ -184,6 +254,78 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt(
 		PLAT_UI8 authentication_tag_length,
 		PLAT_UI16 IV_length,
 		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pVerification_result,
+		PLAT_UI8 * pPlaintext_message);
+
+/**
+ * \brief 		Start chunk decryption in AES GCM mode
+ * \details 	This service start chunk decryption in AES GCM mode using the specified key from STSAFE symmetric key table
+ * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in] 	slot_number 				Key slot in symmetric key table to be used
+ * \param[in]	IV_length					IV buffer length in bytes
+ * \param[in]	IV							IV buffer
+ * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	pAssociated_data			Buffer containing associated data
+ * \param[in]	message_length				Length of the message to encrypt
+ * \param[in]	pEncrypted_message			Buffer containing the message to decrypt
+ * \param[out]	pPlaintext_message			Buffer to store the decrypted message
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \details 	\include{doc} stse_aes_gcm_encrypt.dox
+ */
+stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 IV_length,
+		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pPlaintext_message);
+
+/**
+ * \brief 		Process chunk decryption in AES GCM mode
+ * \details 	This service process additional chunk decryption in AES GCM mode using the key specified in start command
+ * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	pAssociated_data			Buffer containing associated data
+ * \param[in]	message_length				Length of the message to encrypt
+ * \param[in]	pEncrypted_message			Buffer containing the message to decrypt
+ * \param[out]	pPlaintext_message			Buffer to store the decrypted message
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \details 	\include{doc} stse_aes_gcm_encrypt.dox
+ */
+stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pPlaintext_message);
+
+/**
+ * \brief 		Finish chunk decryption in AES GCM mode
+ * \details 	This service finish chunk encryption in AES GCM mode using the key specified in start command
+ * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	authentication_tag_length	Length of the output authentication tag
+ * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	pAssociated_data			Buffer containing associated data
+ * \param[in] 	chunk_length 			Length of the chunk
+ * \param[in]	pEncrypted_message		Buffer containing the message to decrypt
+ * \param[in] 	pAuthentication_tag 	Authentication tag
+ * \param[out] 	pVerification_result 	Verification result flag
+ * \param[out]	pPlaintext_message		Buffer to store the decrypted message
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \details 	\include{doc} stse_aes_gcm_encrypt.dox
+ */
+stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
 		PLAT_UI16 associated_data_length,
 		PLAT_UI8 * pAssociated_data,
 		PLAT_UI16 message_length,
