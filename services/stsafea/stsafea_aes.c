@@ -505,6 +505,94 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
 	return ret;
 }
 
+stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 IV_length,
+		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pPlaintext_message,
+		PLAT_UI8 * pEncrypted_message)
+{
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pIV == NULL || IV_length == 0)
+	//|| (pAssociated_data 	== NULL && pPlaintext_message 	== NULL)
+	|| (pAssociated_data 	== NULL && associated_data_length != 0)
+	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message  == NULL && pPlaintext_message != NULL))
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	return STSE_OK;
+}
+
+stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pPlaintext_message,
+		PLAT_UI8 * pEncrypted_message)
+{
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pAssociated_data 	== NULL && associated_data_length != 0)
+	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message  == NULL && pPlaintext_message != NULL))
+	//|| (pAssociated_data 	== NULL && pPlaintext_message 	== NULL)
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	return STSE_OK;
+}
+
+stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pPlaintext_message,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pAuthentication_tag)
+{
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pAssociated_data 	== NULL && associated_data_length != 0)
+	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message  == NULL && pPlaintext_message != NULL)
+	|| (pAuthentication_tag  == NULL && authentication_tag_length == 0))
+	//|| (pAssociated_data 	== NULL && pPlaintext_message 	== NULL)
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	return STSE_OK;
+}
+
 stse_ReturnCode_t stsafea_aes_gcm_decrypt(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -605,4 +693,93 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt(
 	}
 
 	return ret;
+}
+
+stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 IV_length,
+		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pPlaintext_message)
+{
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pIV == NULL || IV_length == 0)
+	//|| (pAssociated_data 	== NULL && pPlaintext_message 	== NULL)
+	|| (pAssociated_data 	== NULL && associated_data_length != 0)
+	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message  == NULL && pPlaintext_message != NULL))
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	return STSE_OK;
+}
+
+stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pPlaintext_message)
+{
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pAssociated_data 	== NULL && associated_data_length != 0)
+	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message  == NULL && pPlaintext_message != NULL))
+	//|| (pAssociated_data 	== NULL && pPlaintext_message 	== NULL)
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	return STSE_OK;
+}
+
+stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_length,
+		PLAT_UI8 * pAssociated_data,
+		PLAT_UI16 message_length,
+		PLAT_UI8 * pEncrypted_message,
+		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pVerification_result,
+		PLAT_UI8 * pPlaintext_message)
+{
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pAssociated_data 	== NULL && associated_data_length != 0)
+	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message  == NULL && pPlaintext_message != NULL)
+	|| (pAuthentication_tag  == NULL && authentication_tag_length == 0))
+	//|| (pAssociated_data 	== NULL && pPlaintext_message 	== NULL)
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	return STSE_OK;
 }
