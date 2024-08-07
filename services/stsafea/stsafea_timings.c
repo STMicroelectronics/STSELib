@@ -88,35 +88,35 @@ const PLAT_UI16 stsafea_cmd_timings[4][30] = {
 	},
 	/* STSAFE_A120 */
 	{
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Echo */
-			STSAFEA_EXEC_TIME_DEFAULT,  /* Reset */
-			STSAFEA_EXEC_TIME_DEFAULT,  /* Generate Random */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Start Session */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Decrement zone counter */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Read zone */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Update zone */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Increment zone counter */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Derive LORA key */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Generate MAC */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify MAC */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Unwrap issuer envelope */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Delete MAC */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Hibernate */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Wrap Local Envelope */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Unwrap Local Envelope */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Put attribute */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Generate key */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Put key */
+			50,	/* Echo */
+			22,  /* Reset */
+			26,  /* Generate Random */
+			22,	/* Start Session */
+			23,	/* Decrement zone counter */
+			23,	/* Read zone */
+			22,	/* Update zone */
+			26,	/* Increment zone counter */
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Derive LORA key (Doesn't exist) */
+			23,	/* Generate MAC */
+			23,	/* Verify MAC */
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Unwrap issuer envelope (Doesn't exist)*/
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Delete MAC (Doesn't exist)*/
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Hibernate, (Doesn't exist)*/
+			25,	/* Wrap Local Envelope */
+			24,	/* Unwrap Local Envelope */
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Put attribute(not exist)  */
+			80,	/* Generate key */
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Put key (Doesn't exist)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Configure */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Query */
+			10,	/* Query */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Get Signature */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Generate Signature */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify Signature */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Establish Key */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Standby */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify Password */
-			STSAFEA_EXEC_TIME_DEFAULT,	/* Encrypt */
-			STSAFEA_EXEC_TIME_DEFAULT	/* Decrypt */
+			96,	/* Generate Signature */
+			156,	/* Verify Signature */
+			34,	/* Establish Key */ 
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Standby (Doesn't exist)*/
+			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify Password (Doesn't exist)*/
+			25,	/* Encrypt */
+			26	/* Decrypt */ fail
 	},
 	/* STSAFE_A200 */
 	{
