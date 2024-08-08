@@ -242,8 +242,8 @@ const PLAT_UI16 stsafea_extended_cmd_timings[4][27] = {
 			34,	/* Establish Key */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Standby (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify Password (Not applicable)*/
-			25,	/* Encrypt */
-			26	/* Decrypt */
+			25,	/*  Encrypt */
+			26	/*  Decrypt */
 	},
 	/* STSAFE_A200 */
 	{
