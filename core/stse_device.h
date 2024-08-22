@@ -64,7 +64,7 @@ typedef struct stse_perso_info_t {
 	PLAT_UI32 ext_cmd_encryption_status;
 	PLAT_UI32 ext_rsp_encryption_status;
 	PLAT_UI64 cmd_AC_status;
-	PLAT_UI32 ext_cmd_AC_status;
+	PLAT_UI64 ext_cmd_AC_status;
 } PLAT_PACKED_STRUCT stse_perso_info_t;
 
 
