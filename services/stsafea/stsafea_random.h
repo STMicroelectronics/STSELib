@@ -49,6 +49,19 @@ stse_ReturnCode_t stsafea_generate_random(
 		PLAT_UI8 random_size
 );
 
+/**
+ * \brief 			STSAFEA generate challenge service
+ * \details 		This service format and send/receive the generate challenge command/response
+ * \param[in]		pSTSE 			Pointer to target STSecureElement device
+ * \param[in]		challenge_size 	Challenge buffer size (expected STSE_EDDSA_CHALLENGE_SIZE)
+ * \param[out]		pChallenge 		Pointer to challenge buffer
+ * \return 			\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_generate_challenge(
+		stse_Handler_t *pSTSE,
+		PLAT_UI8 challenge_size,
+		PLAT_UI8 *pChallenge);
+
 /** \}*/
 
 #endif /*STSAFEA_RANDOM_H*/

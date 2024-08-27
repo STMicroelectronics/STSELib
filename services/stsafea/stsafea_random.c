@@ -31,7 +31,12 @@ stse_ReturnCode_t stsafea_generate_random(
 	PLAT_UI8 subject = 0x00;
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL)||(pRandom == NULL)||(random_size == 0))
+	if(pSTSE == NULL)
+	{
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pRandom == NULL)||(random_size == 0))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
@@ -53,6 +58,45 @@ stse_ReturnCode_t stsafea_generate_random(
 			&RspFrame,
 			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_RANDOM]
 	);
+
+	return( ret );
+}
+
+stse_ReturnCode_t stsafea_generate_challenge(
+		stse_Handler_t * pSTSE ,
+		PLAT_UI8 challenge_size,
+		PLAT_UI8 *pChallenge)
+{
+	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE;
+	PLAT_UI8 rsp_header;
+
+	if(pSTSE == NULL)
+	{
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pChallenge == NULL)||(challenge_size < STSE_EDDSA_CHALLENGE_SIZE))
+	{
+		return STSE_SERVICE_INVALID_PARAMETER;
+	}
+
+	/*- Create CMD frame and populate elements */
+	stse_frame_allocate(CmdFrame);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eExt_cmd_header,STSAFEA_HEADER_SIZE,&ext_cmd_header);
+
+	/*- Create Rsp frame and populate elements*/
+	stse_frame_allocate(RspFrame);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eChallenge,STSE_EDDSA_CHALLENGE_SIZE,pChallenge);
+
+	/*- Perform Transfer*/
+	ret = stse_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame,
+			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE]);
 
 	return( ret );
 }
