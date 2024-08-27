@@ -81,7 +81,7 @@ typedef enum stse_ecc_key_type_t {
 	STSE_ECC_KT_BP_P_512,
 	STSE_ECC_KT_CURVE25519,
 	STSE_ECC_KT_ED25519,
-	STSE_ECC_KT_INVALID = 0xFF
+	STSE_ECC_KT_INVALID
 }stse_ecc_key_type_t;
 
 typedef enum stse_aes_key_type_t{
@@ -102,7 +102,7 @@ typedef enum stse_hash_algorithm_t{
 	STSE_SHA3_256,
 	STSE_SHA3_384,
 	STSE_SHA3_512,
-	STSE_SHA_INVALID = 0xFF,
+	STSE_SHA_INVALID,
 }stse_hash_algorithm_t;
 
 /*!
