@@ -278,7 +278,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPublic_key == NULL)
+	if((key_type >= STSE_ECC_KT_INVALID)||(pPublic_key == NULL))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -449,7 +449,7 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 	}
 
 	if(pPublic_key 	== NULL
-	|| key_type 	== STSE_ECC_KT_CURVE25519)
+	|| key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
