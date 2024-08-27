@@ -343,17 +343,6 @@ stse_ReturnCode_t stse_platform_hmac_sha256_expand(PLAT_UI8  *pPseudorandom_key,
 											PLAT_UI8  *pOutput_keying_material, PLAT_UI16 output_keying_material_length);
 
 /*!
- *  \brief Perform an HASH using SHA256
- *  \param[in] 		pPayload 						Payload to hash
- *  \param[in] 		payload_length					Payload length
- *  \param[out] 	pHash 							Hash output buffer
- *  \param[in] 		hash_length						Expected hash length
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- */
-stse_ReturnCode_t stse_platform_hash_sha256_compute(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
-											 PLAT_UI8 *pHash, PLAT_UI32 hash_length);
-
-/*!
  *  \brief Platform Abstraction function for STSAFE power control initialization
  */
 stse_ReturnCode_t stse_platform_power_ctrl_init (void);
