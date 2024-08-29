@@ -77,19 +77,7 @@ typedef struct stsafea_private_key_slot_information_t{
 }stsafea_private_key_slot_information_t;
 
 /*!
- * \struct stsafea_generic_public_key_configuration_flags_t
- * \brief stsafea generic public key configuration flags type
- */
-typedef struct stsafea_generic_public_key_configuration_flags_t{
-	PLAT_UI8 filler_byte;
-	PLAT_UI8 change_right 				: STSE_1BIT_LEN;
-	PLAT_UI8 establish_symmetric_key 	: STSE_1BIT_LEN;
-	PLAT_UI8 start_volatile_kek_session : STSE_1BIT_LEN;
-	PLAT_UI8 filler 					: STSE_5BIT_LEN;
-}stsafea_generic_public_key_configuration_flags_t;
-
-/*!
- * \brief 		Encrypt a message
+ * \brief 		Get private key slot count
  * \details 	This service format and send the reset command
  * \param[in] 	pSTSE 						Pointer to STSAFE Handler
  * \param[out] 	pPrivate_key_slot_count 	Target STSAFE-A total Private key slot count
@@ -106,6 +94,13 @@ stse_ReturnCode_t stsafea_query_private_key_table(
 		PLAT_UI16 * pGlobal_usage_limit,
 		stsafea_private_key_slot_information_t * private_key_table_info);
 
+/*!
+ * \brief 		Get public key slot count
+ * \details 	This service format and send the reset command
+ * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[out] 	pPublic_key_slot_count 	Targeted STSAFE-A total public key slot count
+ * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
 stse_ReturnCode_t stsafea_query_generic_public_key_slot_count(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pGeneric_public_key_slot_count);
@@ -117,6 +112,15 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		stsafea_generic_public_key_configuration_flags_t * pConfiguration_flags,
 		stse_ecc_key_type_t * pKey_type);
 
+/*!
+ * \brief 		Get public key slot value
+ * \details 	This service format and send the reset command
+ * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	slot_number 			Public key slot value
+ * \param[in] 	key_type 				Targeted STSAFE-A public key type
+ * \param[out] 	pPublic_key 			Targeted STSAFE-A public key value
+ * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
 stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,

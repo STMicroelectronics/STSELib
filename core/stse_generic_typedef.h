@@ -456,6 +456,19 @@ typedef struct {
 	PLAT_UI16 signature_size;
 } stse_ecc_info_t;
 
+/*!
+ * \struct stsafea_generic_public_key_configuration_flags_t
+ * \brief stsafea generic public key configuration flags type
+ */
+typedef struct stsafea_generic_public_key_configuration_flags_t{
+	PLAT_UI8 filler_byte;
+	PLAT_UI8 change_right 				: STSE_1BIT_LEN;
+	PLAT_UI8 establish_symmetric_key 	: STSE_1BIT_LEN;
+	PLAT_UI8 start_volatile_kek_session : STSE_1BIT_LEN;
+	PLAT_UI8 entity_authentication		: STSE_1BIT_LEN;
+	PLAT_UI8 filler 					: STSE_4BIT_LEN;
+}stsafea_generic_public_key_configuration_flags_t;
+
 extern const stse_ecc_info_t stse_ecc_info_table[STSE_ECC_NUMBER_OF_CURVES];
 
 stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
