@@ -91,6 +91,14 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 		PLAT_UI8 *pPublic_key_X,
 		PLAT_UI8 *pPublic_key_Y);
 
+
+stse_ReturnCode_t stsafea_verify_entity_signature(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		stse_ecc_key_type_t key_type,
+		PLAT_UI8 *pSignature,
+		PLAT_UI8 *pSignature_validity);
+
 /** \}*/
 
 #endif /* STSAFEA_ECC_H */
