@@ -114,6 +114,19 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 		stsafea_life_cycle_state_t * pLife_cycle_state
 );
 
+/**
+ * \brief 		STSAFEA put generic public slot's configuration flags service
+ * \details 	This service set configuration flags of generic public slot
+ * \param[in] 	pSTSAFE 				Pointer to STSAFE Handler
+ * \param[in] 	slot_number 			Public key slot value
+ * \param[out] 	configuration_flags 	Generic public key slot's configuration flags
+ * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		stsafea_generic_public_key_configuration_flags_t configuration_flags);
+
 /** \}*/
 
 #endif /* STSAFEA_PUT_QUERY_H */
