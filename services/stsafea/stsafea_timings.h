@@ -26,15 +26,19 @@ extern "C" {
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
 
+#define STSAFEA_PRODUCT_COUNT 4U
+#define STSAFEA_MAX_CMD_COUNT 30U
+#define STSAFEA_MAX_EXT_CMD_COUNT 29U
+
 /*! \defgroup stsafea_symmetric_key_slots timings
  *  \ingroup stsafea_services
  *  @{
  */
 
-extern const PLAT_UI16 stsafea_cmd_timings[4][30];
-extern const PLAT_UI16 stsafea_extended_cmd_timings[4][27];
-extern const PLAT_UI16 stsafea_boot_time[4];
-extern const PLAT_UI16 stsafea_wakeup_time[4];
+extern const PLAT_UI16 stsafea_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_CMD_COUNT];
+extern const PLAT_UI16 stsafea_extended_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_EXT_CMD_COUNT];
+extern const PLAT_UI16 stsafea_boot_time[STSAFEA_PRODUCT_COUNT];
+extern const PLAT_UI16 stsafea_wakeup_time[STSAFEA_PRODUCT_COUNT];
 
 /** @}*/
 
