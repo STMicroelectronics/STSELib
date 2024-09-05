@@ -479,14 +479,7 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
-	if(key_type == STSE_ECC_KT_ED25519)
-	{
-		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
-		ePublic_key_first_element.pData = pPublic_key;
-		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
-	}
-	else
+	if(key_type <= STSE_ECC_KT_BP_P_512)
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
@@ -499,6 +492,13 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 		ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
 		stse_frame_push_element(&CmdFrame, &ePublic_key_second_element);
+	}
+	else
+	{
+		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.pData = pPublic_key;
+		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 
 	stse_frame_allocate(RspFrame);
