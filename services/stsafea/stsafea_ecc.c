@@ -578,6 +578,19 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
 		PLAT_UI8 *pSignature_validity)
 {
 	stse_ReturnCode_t ret;
+
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSignature == NULL
+	|| pSignature_validity == NULL)
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
 	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
 	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE;
 
