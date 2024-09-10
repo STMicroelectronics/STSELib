@@ -75,6 +75,8 @@ extern "C" {
 #include "services/stsafea/stsafea_ecc.h"
 #include "services/stsafea/stsafea_wrap_unwrap.h"
 #include "services/stsafea/stsafea_sessions.h"
+#include "services/stsafea/stsafea_public_key_slots.h"
+#include "services/stsafea/stsafea_entity_auth.h"
 #include "api/stse_data_storage.h"
 #include "api/stse_device_management.h"
 #include "api/stse_device_authentication.h"
