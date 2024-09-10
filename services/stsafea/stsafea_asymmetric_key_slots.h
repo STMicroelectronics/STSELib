@@ -39,11 +39,6 @@
 #include "services/stsafea/stsafea_hash.h"
 #include "services/stsafea/stsafea_put_query.h"
 
-/*! \defgroup stsafea_asymmetric_key_slots  Asymmetric key slots
- *  \ingroup stsafea_services
- *  @{
- */
-
 #define STSAFEA_PRIVATE_KEY_TABLE_INFO_COMMON_VALUES_LENGTH 	4U
 #define STSAFEA_EPHEMERAL_KEY_USAGE_LIMIT						1U
 
@@ -94,51 +89,12 @@ stse_ReturnCode_t stsafea_query_private_key_table(
 		PLAT_UI16 * pGlobal_usage_limit,
 		stsafea_private_key_slot_information_t * private_key_table_info);
 
-/*!
- * \brief 		Get public key slot count
- * \details 	This service format and send the reset command
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
- * \param[out] 	pPublic_key_slot_count 	Targeted STSAFE-A total public key slot count
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
- */
-stse_ReturnCode_t stsafea_query_generic_public_key_slot_count(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * pGeneric_public_key_slot_count);
-
-stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 * pPresence_flag,
-		stsafea_generic_public_key_configuration_flags_t * pConfiguration_flags,
-		stse_ecc_key_type_t * pKey_type);
-
-/*!
- * \brief 		Get public key slot value
- * \details 	This service format and send the reset command
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
- * \param[in] 	slot_number 			Public key slot value
- * \param[in] 	key_type 				Targeted STSAFE-A public key type
- * \param[out] 	pPublic_key 			Targeted STSAFE-A public key value
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
- */
-stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 * pPublic_key);
-
 stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
 		stse_ecc_key_type_t key_type,
 		PLAT_UI16 usage_limit,
 		PLAT_UI8 * pPublic_key);
-
-stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPublic_key);
 
 stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 		stse_Handler_t * pSTSE,

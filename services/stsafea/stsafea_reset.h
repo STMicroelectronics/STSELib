@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
- * \file	stsafea_random.h
- * \brief   Random services for STSAFE
+ * \file	stsafea_reset.h
+ * \brief   Reset services for STSAFE
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

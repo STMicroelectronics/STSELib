@@ -83,38 +83,3 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 	);
 	return( ret );
 }
-
-stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stsafea_generic_public_key_configuration_flags_t configuration_flags)
-{
-	stse_ReturnCode_t ret;
-
-	/* - Check stsafe handler initialization */
-	if (pSTSE == NULL)
-	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
-	}
-
-	PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
-	PLAT_UI8 attribute_tag = STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_CONFIGURATION_FLAGS;
-
-	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
-	stse_frame_element_allocate_push(&CmdFrame,eAttribute_tag,1,&attribute_tag);
-	stse_frame_element_allocate_push(&CmdFrame,eSlot_number,STSAFEA_SLOT_NUMBER_ID_SIZE,&slot_number);
-	stse_frame_element_allocate_push(&CmdFrame,eConfiguration_flags,sizeof(stsafea_generic_public_key_configuration_flags_t),(PLAT_UI8*)&configuration_flags);
-
-	PLAT_UI8 rsp_header;
-	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
-
-	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_PUT_ATTRIBUTE]
-	);
-	return ret;
-}

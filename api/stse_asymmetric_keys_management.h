@@ -21,6 +21,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_asymmetric_key_slots.h"
+#include "services/stsafea/stsafea_public_key_slots.h"
 #include "services/stsafea/stsafea_ecc.h"
 #include "core/stse_session.h"
 
