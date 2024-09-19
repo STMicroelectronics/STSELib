@@ -142,6 +142,19 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
 		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields);
 
 /**
+ * \brief 		Set symmetric key slot provisioning control fields
+ * \details 	Set symmetric key slot provisioning control fields
+ * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	slot_number			Slot number of the slot to query
+ * \param[in] 	pCtrl_fields		Input structure for the provisioning control fields of the target slot
+ * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields);
+
+/**
  * \brief 		Write symmetric key plaintext in stsafe symmetric key table
  * \details 	This API Write a symmetric key in stsafe symmetric key table
  * \param[in] 	pSTSE 			 	 Pointer to STSAFE Handler

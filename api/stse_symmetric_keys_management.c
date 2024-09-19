@@ -794,6 +794,19 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
 	return stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(pSTSE, slot_number, pCtrl_fields);
 }
 
+stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(pSTSE, slot_number, pCtrl_fields);
+}
+
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pKey,
