@@ -311,8 +311,12 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     }
 
     /* - Verify correct reception*/
-    if((ret & 0x3F)!= STSE_OK)
+    if((ret & 0x1F)!= STSE_OK)
     {
+#ifdef STSAFE_FRAME_DEBUG_LOG
+		printf("\n\r STSAFE Frame <  (1-byte) : { 0x%02X }\n\r", ret);
+		printf("\n\r");
+#endif
     	return( ret );
     }
 
