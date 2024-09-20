@@ -29,7 +29,6 @@ extern "C" {
 #include "core/stse_return_codes.h"
 #include "core/stse_generic_typedef.h"
 
-
 /*! \defgroup stse_device Device management
  *  \ingroup stse_core
  *  @{
@@ -46,7 +45,6 @@ typedef enum
 	STSE_VOLATILE_KEK_SESSION		/*!< Volatile KEK session */
 }stse_session_type_t;
 
-
 /*
  * \details STMicroelectronics Secure Element device type
  */
@@ -58,6 +56,8 @@ typedef enum stse_device_t {
 	STSAFE_L010				/*!< STSAFE-L010 target device */
 }stse_device_t;
 
+#define STSE_DEVICE_STSAFEA_FAMILY_INDEX STSAFE_A100
+#define STSE_DEVICE_STSAFEL_FAMILY_INDEX STSAFE_L010
 
 typedef struct stse_perso_info_t {
 	PLAT_UI32 cmd_encryption_status;
@@ -67,7 +67,6 @@ typedef struct stse_perso_info_t {
 	PLAT_UI64 cmd_AC_status;
 	PLAT_UI64 ext_cmd_AC_status;
 } PLAT_PACKED_STRUCT stse_perso_info_t;
-
 
 /*
  * \details STSE Bus type
