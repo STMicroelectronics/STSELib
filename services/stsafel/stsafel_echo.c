@@ -59,7 +59,7 @@ stse_ReturnCode_t stsafel_echo( stse_Handler_t * pSTSE ,
 	ret = stse_frame_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafel_cmd_timings[pSTSE->device_type][STSAFEL_CMD_ECHO]
+			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_ECHO)
 	);
 
 	return( ret );

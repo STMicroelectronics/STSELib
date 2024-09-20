@@ -48,4 +48,9 @@ const PLAT_UI16 stsafel_wakeup_time[STSAFEL_PRODUCT_COUNT] = {
     STSAFEL_WAKEUP_TIME_DEFAULT, /* STSAFE_L010 */
 };
 
-
+inline PLAT_UI16 stsafel_cmd_exec_duration(
+    stse_Handler_t * pSTSE,
+    stsafel_cmd_code_t command_code)
+{
+    return stsafel_cmd_timings[pSTSE->device_type - STSE_DEVICE_STSAFEL_FAMILY_INDEX][command_code];
+}

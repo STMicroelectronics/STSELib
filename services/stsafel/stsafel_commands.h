@@ -37,6 +37,9 @@
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
 
+#define STSAFEL_PRODUCT_COUNT 1U
+#define STSAFEL_MAX_CMD_COUNT 13U
+
 // #define STSAFEL_EXT_HEADER_SIZE 			    2U
 // #define STSAFEL_HEADER_SIZE 				    1U
 // #define STSAFEL_CMD_RSP_LEN_SIZE 			2U
@@ -53,21 +56,21 @@
  * \brief STSAFE-L command type
  */
 typedef enum stsafel_cmd_code_t {
-	STSAFEL_CMD_ECHO = 0x00U,                         /*!< STICK general purpose "Echo" command code */
-	STSAFEL_CMD_RESET,                                /*!< STICK general purpose "Reset" command code */
-	STSAFEL_CMD_HIBERNATE,                            /*!< STICK general purpose "Reset" command code */
-	STSAFEL_CMD_GET_DATA,                             /*!< STICK general purpose "Get data" command code */
-	STSAFEL_CMD_GET_PUBLIC_KEY_CERTIFICATE,           /*!< STICK general purpose "Get Public key certificate" command code */
-	STSAFEL_CMD_DECREMENT,                            /*!< STICK data partition "Decrement" command code */
-	STSAFEL_CMD_READ,                                 /*!< STICK data partition "Read" command code */
-	STSAFEL_CMD_UPDATE,                               /*!< STICK data partition "Update" command code */
-	STSAFEL_CMD_GENERATE_SIGNATURE = 0x11U,           /*!< STICK "Generate Signature" command code */
-	STSAFEL_CMD_PUT_DATA,                             /*!< STICK "Put Data" command code */
-	STSAFEL_CMD_INCREMENT = 0x16U,                    /*!< STICK "Regenerate" command code */
-	STSAFEL_CMD_REPEAT = 0x3EU,                       /*!< STICK "Repeat" command code */
+	STSAFEL_CMD_ECHO = 0x00U,                         /*!< STSAFE-L010 general purpose "Echo" command code */
+	STSAFEL_CMD_RESET,                                /*!< STSAFE-L010 general purpose "Reset" command code */
+	STSAFEL_CMD_HIBERNATE,                            /*!< STSAFE-L010 general purpose "Reset" command code */
+	STSAFEL_CMD_GET_DATA,                             /*!< STSAFE-L010 general purpose "Get data" command code */
+	STSAFEL_CMD_GET_PUBLIC_KEY_CERTIFICATE,           /*!< STSAFE-L010 general purpose "Get Public key certificate" command code */
+	STSAFEL_CMD_DECREMENT,                            /*!< STSAFE-L010 data partition "Decrement" command code */
+	STSAFEL_CMD_READ,                                 /*!< STSAFE-L010 data partition "Read" command code */
+	STSAFEL_CMD_UPDATE,                               /*!< STSAFE-L010 data partition "Update" command code */
+	STSAFEL_CMD_GENERATE_SIGNATURE = 0x11U,           /*!< STSAFE-L010 "Generate Signature" command code */
+	STSAFEL_CMD_PUT_DATA,                             /*!< STSAFE-L010 "Put Data" command code */
+	STSAFEL_CMD_INCREMENT = 0x16U,                    /*!< STSAFE-L010 "Regenerate" command code */
+	STSAFEL_CMD_REPEAT = 0x3EU,                       /*!< STSAFE-L010 "Repeat" command code */
 } stsafel_cmd_code_t;
 
-extern const PLAT_UI16 stsafel_maximum_command_length[4];
+extern const PLAT_UI16 stsafel_maximum_command_length[STSAFEL_PRODUCT_COUNT];
 
 /** \}*/
 /** \}*/
