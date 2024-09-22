@@ -67,7 +67,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
 		PLAT_UI16 message_length,
 		PLAT_UI8 *pPlaintext_message,
 		PLAT_UI8 *pEncrypted_message,
-		PLAT_UI8 *pAuthentication_tag,
+		PLAT_UI8 *pEncrypted_authentication_tag,
 		PLAT_UI8 *pCounter_presence,
 		PLAT_UI32 *pCounter)
 {
@@ -86,7 +86,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
 			message_length,
 			pPlaintext_message,
 			pEncrypted_message,
-			pAuthentication_tag,
+			pEncrypted_authentication_tag,
 			pCounter_presence,
 			pCounter);
 }
@@ -100,7 +100,7 @@ stse_ReturnCode_t stse_aes_ccm_decrypt(
 		PLAT_UI8 * pAssociated_data,
 		PLAT_UI16 message_length,
 		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pEncrypted_authentication_tag,
 		PLAT_UI8 * pVerification_result,
 		PLAT_UI8 * pPlaintext_message)
 {
@@ -118,7 +118,7 @@ stse_ReturnCode_t stse_aes_ccm_decrypt(
 			pAssociated_data,
 			message_length,
 			pEncrypted_message,
-			pAuthentication_tag,
+			pEncrypted_authentication_tag,
 			pVerification_result,
 			pPlaintext_message);
 }

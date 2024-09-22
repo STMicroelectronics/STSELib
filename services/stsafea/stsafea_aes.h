@@ -75,18 +75,18 @@ stse_ReturnCode_t stsafea_aes_ecb_decrypt(
 /**
  * \brief 		Encrypt payload in AES CCM* mode
  * \details 	This service format and send encrypt command in AES CCM* mode
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
- * \param[in] 	slot_number 				Key slot in symmetric key table to be used
- * \param[in] 	authentication_tag_length 	Expected length for the authentication tag
- * \param[in]	pNonce						Buffer containing the nonce
- * \param[in]	associated_data_length		Length of the associated data
- * \param[in]	pAssociated_data			Buffer containing associated data
- * \param[in]	message_length				Length of the message to encrypt
- * \param[in]	pPlaintext_message			Buffer containing the message to encrypt
- * \param[out]	pEncrypted_message			Buffer to store the encrypted message
- * \param[out]	pAuthentication_tag			Buffer to store the authentication tag
- * \param[out]	pCounter_presence			Counter presence flag
- * \param[out]	pCounter					Buffer containing counter value if present
+ * \param[in] 	pSTSE 						Pointer to STSAFE Handler
+ * \param[in] 	slot_number 					Key slot in symmetric key table to be used
+ * \param[in] 	authentication_tag_length 		Expected length for the authentication tag
+ * \param[in]	pNonce							Buffer containing the nonce
+ * \param[in]	associated_data_length			Length of the associated data
+ * \param[in]	pAssociated_data				Buffer containing associated data
+ * \param[in]	message_length					Length of the message to encrypt
+ * \param[in]	pPlaintext_message				Buffer containing the message to encrypt
+ * \param[out]	pEncrypted_message				Buffer to store the encrypted message
+ * \param[out]	pEncrypted_authentication_tag	Buffer to store the authentication tag
+ * \param[out]	pCounter_presence				Counter presence flag
+ * \param[out]	pCounter						Buffer containing counter value if present
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_encrypt(
@@ -99,24 +99,24 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 		PLAT_UI16 message_length,
 		PLAT_UI8 * pPlaintext_message,
 		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pEncrypted_authentication_tag,
 		PLAT_UI8 * pCounter_presence,
 		PLAT_UI32 * pCounter);
 
 /**
  * \brief 		Decrypt payload in AES CCM* mode
  * \details 	This service format and send decrypt command in AES CCM* mode
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
- * \param[in] 	slot_number 				Key slot in symmetric key table to be used
- * \param[in] 	authentication_tag_length 	Expected length for the authentication tag
- * \param[in]	pNonce						Buffer containing the nonce
- * \param[in]	associated_data_length		Length of the associated data
- * \param[in]	pAssociated_data			Buffer containing associated data
- * \param[in]	message_length				Length of the message to encrypt
- * \param[in]	pEncrypted_message			Buffer containing the message to decrypt
- * \param[in]	pAuthentication_tag			Buffer containing the authentication tag
- * \param[out]	pVerification_result		Verification result flag
- * \param[out]	pPlaintext_message			Buffer to store the decrypted message
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	slot_number 					Key slot in symmetric key table to be used
+ * \param[in] 	authentication_tag_length 		Expected length for the authentication tag
+ * \param[in]	pNonce							Buffer containing the nonce
+ * \param[in]	associated_data_length			Length of the associated data
+ * \param[in]	pAssociated_data				Buffer containing associated data
+ * \param[in]	message_length					Length of the message to encrypt
+ * \param[in]	pEncrypted_message				Buffer containing the message to decrypt
+ * \param[in]	pEncrypted_authentication_tag	Buffer containing the encrypted authentication tag
+ * \param[out]	pVerification_result			Verification result flag
+ * \param[out]	pPlaintext_message				Buffer to store the decrypted message
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_decrypt(
