@@ -197,7 +197,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 		PLAT_UI16 message_length,
 		PLAT_UI8 * pPlaintext_message,
 		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pEncrypted_authentication_tag,
 		PLAT_UI8 * pCounter_presence,
 		PLAT_UI32 * pCounter)
 {
@@ -220,9 +220,14 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 	if((pNonce == NULL)
 	|| (pAssociated_data 	== NULL && associated_data_length != 0)
 	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
-	|| (pPlaintext_message  == NULL)
-	|| (pEncrypted_message  == NULL)
-	|| (pAuthentication_tag == NULL))
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message 	== NULL && message_length != 0)
+	|| (pEncrypted_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_authentication_tag 	== NULL && authentication_tag_length != 0)
+	|| (pEncrypted_authentication_tag 	!= NULL && authentication_tag_length == 0)
+	|| (pCounter_presence  == NULL)
+	|| (pCounter == NULL))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -249,7 +254,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eEncrypted_message,message_length,pEncrypted_message);
-	stse_frame_element_allocate_push(&RspFrame,eAuthentication_tag,authentication_tag_length,pAuthentication_tag);
+	stse_frame_element_allocate_push(&RspFrame,eAuthentication_tag,authentication_tag_length,pEncrypted_authentication_tag);
 	stse_frame_element_allocate_push(&RspFrame,eCounter_presence,1,pCounter_presence);
 	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEA_COUNTER_VALUE_SIZE,(PLAT_UI8*)pCounter);
 
@@ -296,9 +301,6 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 
 	}
 
-	stse_frame_element_swap_byte_order(&eAssociated_data_length);
-	stse_frame_element_swap_byte_order(&eMessage_length);
-
 	return ret;
 }
 
@@ -311,7 +313,7 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 		PLAT_UI8 * pAssociated_data,
 		PLAT_UI16 message_length,
 		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pEncrypted_authentication_tag,
 		PLAT_UI8 * pVerification_result,
 		PLAT_UI8 * pPlaintext_message)
 {
@@ -334,10 +336,13 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 	if((pNonce == NULL)
 	|| (pAssociated_data 	== NULL && associated_data_length != 0)
 	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
-	|| (pEncrypted_message 	 == NULL)
-	|| (pAuthentication_tag  == NULL)
-	|| (pVerification_result == NULL)
-	|| (pPlaintext_message 	 == NULL))
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_message 	== NULL && message_length != 0)
+	|| (pEncrypted_message 	!= NULL && message_length == 0)
+	|| (pEncrypted_authentication_tag 	== NULL && authentication_tag_length != 0)
+	|| (pEncrypted_authentication_tag 	!= NULL && authentication_tag_length == 0)
+	|| (pVerification_result == NULL))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -358,7 +363,7 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 	stse_frame_element_allocate_push(&CmdFrame,eAssociated_data,associated_data_length,pAssociated_data);
 	stse_frame_element_allocate_push(&CmdFrame,eMessage_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&encrypted_message_length);
 	stse_frame_element_allocate_push(&CmdFrame,eEncrypted_message,message_length,pEncrypted_message);
-	stse_frame_element_allocate_push(&CmdFrame,eAuthentication_tag,authentication_tag_length,pAuthentication_tag);
+	stse_frame_element_allocate_push(&CmdFrame,eAuthentication_tag,authentication_tag_length,pEncrypted_authentication_tag);
 
 	/* - Prepare RSP Frame : [HEADER] [VERIFICATION RESULT] [PLAIN TEXT MESSAGE] */
 
