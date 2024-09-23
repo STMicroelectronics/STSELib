@@ -304,6 +304,147 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 	return ret;
 }
 
+stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 Nonce_length,
+		PLAT_UI8* pNonce,
+		PLAT_UI16 total_associated_data_length,
+		PLAT_UI32 total_message_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pCounter_presence,
+		PLAT_UI32 * pCounter)
+{
+	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_ENCRYPT;
+	PLAT_UI8 rsp_header;
+	stse_cmd_access_conditions_t cmd_ac_info;
+	PLAT_UI8 cmd_encryption_flag = 0;
+	PLAT_UI8 rsp_encryption_flag = 0;
+
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pNonce == NULL)
+	|| (pAssociated_data_chunk 	== NULL && associated_data_chunk_length != 0)
+	|| (pAssociated_data_chunk 	!= NULL && associated_data_chunk_length == 0)
+	|| (pPlaintext_message_chunk 	== NULL && message_chunk_length != 0)
+	|| (pPlaintext_message_chunk 	!= NULL && message_chunk_length == 0)
+	|| (pEncrypted_message_chunk 	== NULL && message_chunk_length != 0)
+	|| (pEncrypted_message_chunk 	!= NULL && message_chunk_length == 0)
+	|| (pCounter_presence  == NULL)
+	|| (pCounter == NULL))
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	stsafea_perso_info_get_ext_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header_ext, &cmd_encryption_flag);
+	stsafea_perso_info_get_ext_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header_ext, &rsp_encryption_flag);
+	stsafea_perso_info_get_ext_cmd_AC(pSTSE->pPerso_info, cmd_header_ext, &cmd_ac_info);
+
+	/* - Prepare CMD Frame */
+	stse_frame_allocate(CmdFrame);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header_ext,STSAFEA_HEADER_SIZE,&cmd_header_ext);
+	stse_frame_element_allocate_push(&CmdFrame,eSlot_number,1,&slot_number);
+	stse_frame_element_allocate_push(&CmdFrame,eNonce_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&Nonce_length);
+	stse_frame_element_allocate_push(&CmdFrame,eNonce,Nonce_length,pNonce);
+	stse_frame_element_allocate_push(&CmdFrame,eTotal_associated_data_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&total_associated_data_length);
+	stse_frame_element_allocate_push(&CmdFrame,eTotal_message_length,4,(PLAT_UI8*)&total_message_length);
+	stse_frame_element_allocate_push(&CmdFrame,eAssociated_data_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&associated_data_chunk_length);
+	stse_frame_element_allocate_push(&CmdFrame,eAssociated_data,associated_data_chunk_length,pAssociated_data_chunk);
+	stse_frame_element_allocate_push(&CmdFrame,eMessage_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&message_chunk_length);
+	stse_frame_element_allocate_push(&CmdFrame,ePlaintext_message,message_chunk_length,pPlaintext_message_chunk);
+
+	/* - Prepare RSP Frame */
+	stse_frame_allocate(RspFrame);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eEncrypted_message,message_chunk_length,pEncrypted_message_chunk);
+	stse_frame_element_allocate_push(&RspFrame,eCounter_presence,1,pCounter_presence);
+	stse_frame_element_allocate_push(&RspFrame,eCounter,4,(PLAT_UI8*)pCounter);
+
+	/* - Swap byte order */
+	stse_frame_element_swap_byte_order(&eNonce_length);
+	stse_frame_element_swap_byte_order(&eTotal_associated_data_length);
+	stse_frame_element_swap_byte_order(&eTotal_message_length);
+	stse_frame_element_swap_byte_order(&eAssociated_data_length);
+	stse_frame_element_swap_byte_order(&eMessage_length);
+
+	/* - Perform Transfer*/
+	if (cmd_encryption_flag || rsp_encryption_flag)
+	{
+		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_encryption_flag,
+				rsp_encryption_flag,
+				cmd_ac_info,
+				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
+	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_ac_info,
+				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
+	} else {
+		ret = stse_frame_transfer(pSTSE,
+				&CmdFrame,
+				&RspFrame,
+				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
+	}
+
+	if (*pCounter_presence != 0)
+	{
+		stse_frame_element_swap_byte_order(&eCounter);
+	}
+
+	return ret;
+}
+
+stse_ReturnCode_t stsafea_aes_ccm_encrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk)
+{
+	return stsafea_aes_gcm_encrypt_process(pSTSE,
+										associated_data_chunk_length,
+										pAssociated_data_chunk,
+										message_chunk_length,
+										pPlaintext_message_chunk,
+										pEncrypted_message_chunk);
+}
+
+stse_ReturnCode_t stsafea_aes_ccm_encrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pEncrypted_authentication_tag)
+{
+	return stsafea_aes_gcm_encrypt_finish(pSTSE,
+										authentication_tag_length,
+										associated_data_chunk_length,
+										pAssociated_data_chunk,
+										message_chunk_length,
+										pPlaintext_message_chunk,
+										pEncrypted_message_chunk,
+										pEncrypted_authentication_tag);
+}
+
 stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -336,10 +477,10 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 	if((pNonce == NULL)
 	|| (pAssociated_data 	== NULL && associated_data_length != 0)
 	|| (pAssociated_data 	!= NULL && associated_data_length == 0)
-	|| (pPlaintext_message 	== NULL && message_length != 0)
-	|| (pPlaintext_message 	!= NULL && message_length == 0)
 	|| (pEncrypted_message 	== NULL && message_length != 0)
 	|| (pEncrypted_message 	!= NULL && message_length == 0)
+	|| (pPlaintext_message 	== NULL && message_length != 0)
+	|| (pPlaintext_message 	!= NULL && message_length == 0)
 	|| (pEncrypted_authentication_tag 	== NULL && authentication_tag_length != 0)
 	|| (pEncrypted_authentication_tag 	!= NULL && authentication_tag_length == 0)
 	|| (pVerification_result == NULL))
@@ -404,6 +545,137 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 	}
 
 	return ret;
+}
+
+stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 Nonce_length,
+		PLAT_UI8* pNonce,
+		PLAT_UI16 total_associated_data_length,
+		PLAT_UI16 total_ciphertext_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_DECRYPT;
+	PLAT_UI8 rsp_header;
+	stse_cmd_access_conditions_t cmd_ac_info;
+	PLAT_UI8 cmd_encryption_flag = 0;
+	PLAT_UI8 rsp_encryption_flag = 0;
+
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pNonce == NULL)
+	|| (pAssociated_data_chunk 	== NULL && associated_data_chunk_length != 0)
+	|| (pAssociated_data_chunk 	!= NULL && associated_data_chunk_length == 0)
+	|| (pEncrypted_message_chunk 	== NULL && message_chunk_length != 0)
+	|| (pEncrypted_message_chunk 	!= NULL && message_chunk_length == 0)
+	|| (pPlaintext_message_chunk 	== NULL && message_chunk_length != 0)
+	|| (pPlaintext_message_chunk 	!= NULL && message_chunk_length == 0))
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	stsafea_perso_info_get_ext_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header_ext, &cmd_encryption_flag);
+	stsafea_perso_info_get_ext_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header_ext, &rsp_encryption_flag);
+	stsafea_perso_info_get_ext_cmd_AC(pSTSE->pPerso_info, cmd_header_ext, &cmd_ac_info);
+
+	/* - Prepare CMD Frame */
+	stse_frame_allocate(CmdFrame);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header_ext,STSAFEA_HEADER_SIZE,&cmd_header_ext);
+	stse_frame_element_allocate_push(&CmdFrame,eSlot_number,1,&slot_number);
+	stse_frame_element_allocate_push(&CmdFrame,eNonce_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&Nonce_length);
+	stse_frame_element_allocate_push(&CmdFrame,eIV,Nonce_length,pNonce);
+	stse_frame_element_allocate_push(&CmdFrame,eTotal_associated_data_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&total_associated_data_length);
+	stse_frame_element_allocate_push(&CmdFrame,eTotal_ciphertext_length,4,(PLAT_UI8*)&total_ciphertext_length);
+	stse_frame_element_allocate_push(&CmdFrame,eAssociated_data_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&associated_data_chunk_length);
+	stse_frame_element_allocate_push(&CmdFrame,eAssociated_data,associated_data_chunk_length,pAssociated_data_chunk);
+	stse_frame_element_allocate_push(&CmdFrame,eMessage_length,STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&message_chunk_length);
+	stse_frame_element_allocate_push(&CmdFrame,eEncrypted_message,message_chunk_length,pEncrypted_message_chunk);
+
+	/* - Prepare RSP Frame */
+	stse_frame_allocate(RspFrame);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,ePlaintext_message,message_chunk_length,pPlaintext_message_chunk);
+
+	/* - Swap byte order */
+	stse_frame_element_swap_byte_order(&eNonce_length);
+	stse_frame_element_swap_byte_order(&eTotal_associated_data_length);
+	stse_frame_element_swap_byte_order(&eTotal_ciphertext_length);
+	stse_frame_element_swap_byte_order(&eAssociated_data_length);
+	stse_frame_element_swap_byte_order(&eMessage_length);
+
+	if (cmd_encryption_flag || rsp_encryption_flag)
+	{
+		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_encryption_flag,
+				rsp_encryption_flag,
+				cmd_ac_info,
+				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
+	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_ac_info,
+				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
+	} else {
+		ret = stse_frame_transfer(pSTSE,
+				&CmdFrame,
+				&RspFrame,
+				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
+	}
+
+	return ret;
+}
+
+stse_ReturnCode_t stsafea_aes_ccm_decrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	return stsafea_aes_gcm_decrypt_process(pSTSE,
+											associated_data_chunk_length,
+											pAssociated_data_chunk,
+											message_chunk_length,
+											pEncrypted_message_chunk,
+											pPlaintext_message_chunk);
+}
+
+stse_ReturnCode_t stsafea_aes_ccm_decrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pVerification_result,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	return stsafea_aes_gcm_decrypt_finish(pSTSE,
+											authentication_tag_length,
+											associated_data_chunk_length,
+											pAssociated_data_chunk,
+											message_chunk_length,
+											pEncrypted_message_chunk,
+											pAuthentication_tag,
+											pVerification_result,
+											pPlaintext_message_chunk);
 }
 
 stse_ReturnCode_t stsafea_aes_gcm_encrypt(
@@ -1043,7 +1315,8 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
 	|| (pPlaintext_message_chunk 	== NULL && message_chunk_length != 0)
 	|| (pPlaintext_message_chunk 	!= NULL && message_chunk_length == 0)
 	|| (pEncrypted_message_chunk  == NULL && pPlaintext_message_chunk != NULL)
-	|| (pAuthentication_tag  == NULL && authentication_tag_length == 0))
+	|| (pAuthentication_tag  == NULL && authentication_tag_length == 0)
+	|| (pVerification_result == NULL))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
