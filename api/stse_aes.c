@@ -91,6 +91,90 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
 			pCounter);
 }
 
+stse_ReturnCode_t stse_aes_ccm_encrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 Nonce_length,
+		PLAT_UI8* pNonce,
+		PLAT_UI16 total_associated_data_length,
+		PLAT_UI32 total_message_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pCounter_presence,
+		PLAT_UI32 * pCounter)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_ccm_encrypt_start(
+			pSTSE,
+			slot_number,
+			Nonce_length,
+			pNonce,
+			total_associated_data_length,
+			total_message_length,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pPlaintext_message_chunk,
+			pEncrypted_message_chunk,
+			pCounter_presence,
+			pCounter);
+}
+
+stse_ReturnCode_t stse_aes_ccm_encrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_ccm_encrypt_process(
+			pSTSE,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pPlaintext_message_chunk,
+			pEncrypted_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_ccm_encrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pEncrypted_authentication_tag)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_ccm_encrypt_finish(
+			pSTSE,
+			authentication_tag_length,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pPlaintext_message_chunk,
+			pEncrypted_message_chunk,
+			pEncrypted_authentication_tag);
+}
+
 stse_ReturnCode_t stse_aes_ccm_decrypt(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -155,6 +239,164 @@ stse_ReturnCode_t stse_aes_gcm_encrypt(
 			pAuthentication_tag);
 }
 
+stse_ReturnCode_t stse_aes_ccm_decrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 Nonce_length,
+		PLAT_UI8* pNonce,
+		PLAT_UI16 total_associated_data_length,
+		PLAT_UI16 total_ciphertext_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_ccm_decrypt_start(
+			pSTSE,
+			slot_number,
+			Nonce_length,
+			pNonce,
+			total_associated_data_length,
+			total_ciphertext_length,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pEncrypted_message_chunk,
+			pPlaintext_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_ccm_decrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_ccm_decrypt_process(
+			pSTSE,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pEncrypted_message_chunk,
+			pPlaintext_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_ccm_decrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pVerification_result,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_ccm_decrypt_finish(
+			pSTSE,
+			authentication_tag_length,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pEncrypted_message_chunk,
+			pAuthentication_tag,
+			pVerification_result,
+			pPlaintext_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_gcm_encrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 IV_length,
+		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_gcm_encrypt_start(
+			pSTSE,
+			slot_number,
+			IV_length,
+			pIV,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pPlaintext_message_chunk,
+			pEncrypted_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_gcm_encrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_gcm_encrypt_process(
+			pSTSE,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pPlaintext_message_chunk,
+			pEncrypted_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_gcm_encrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pAuthentication_tag)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_gcm_encrypt_finish(
+			pSTSE,
+			authentication_tag_length,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pPlaintext_message_chunk,
+			pEncrypted_message_chunk,
+			pAuthentication_tag);
+}
+
 stse_ReturnCode_t stse_aes_gcm_decrypt(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -188,3 +430,82 @@ stse_ReturnCode_t stse_aes_gcm_decrypt(
 			pVerification_result,
 			pPlaintext_message);
 }
+
+stse_ReturnCode_t stse_aes_gcm_decrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 IV_length,
+		PLAT_UI8* pIV,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_gcm_decrypt_start(
+			pSTSE,
+			slot_number,
+			IV_length,
+			pIV,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pEncrypted_message_chunk,
+			pPlaintext_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_gcm_decrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_gcm_decrypt_process(
+			pSTSE,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pEncrypted_message_chunk,
+			pPlaintext_message_chunk);
+}
+
+stse_ReturnCode_t stse_aes_gcm_decrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pVerification_result,
+		PLAT_UI8 * pPlaintext_message_chunk)
+{
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	return stsafea_aes_gcm_decrypt_finish(
+			pSTSE,
+			authentication_tag_length,
+			associated_data_chunk_length,
+			pAssociated_data_chunk,
+			message_chunk_length,
+			pEncrypted_message_chunk,
+			pAuthentication_tag,
+			pVerification_result,
+			pPlaintext_message_chunk);
+}
+
