@@ -301,6 +301,11 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 
 	}
 
+	if (*pCounter_presence != 0)
+	{
+		stse_frame_element_swap_byte_order(&eCounter);
+	}
+
 	return ret;
 }
 
@@ -369,7 +374,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eEncrypted_message,message_chunk_length,pEncrypted_message_chunk);
 	stse_frame_element_allocate_push(&RspFrame,eCounter_presence,1,pCounter_presence);
-	stse_frame_element_allocate_push(&RspFrame,eCounter,4,(PLAT_UI8*)pCounter);
+	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEA_COUNTER_VALUE_SIZE,(PLAT_UI8*)pCounter);
 
 	/* - Swap byte order */
 	stse_frame_element_swap_byte_order(&eNonce_length);
