@@ -104,6 +104,81 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 		PLAT_UI32 * pCounter);
 
 /**
+ * \brief 		Start chunk encryption in AES CCM* mode
+ * \details 	This service start chunk encryption in AES CCM* mode using the specified key from STSAFE symmetric key table
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	slot_number 					Key slot in symmetric key table to be used
+ * \param[in]	Nonce_length					Nonce buffer length in bytes
+ * \param[in]	pNonce							Nonce buffer
+ * \param[in]	total_associated_data_length	Length of the total amount of associated data
+ * \param[in]	total_message_length			Length of the complete message to be encrypted by chunks
+ * \param[in]	associated_data_chunk_length	Length of the associated data chunk
+ * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	pPlaintext_message_chunk		Buffer containing 1st piece of plaintext message chunk to encrypt
+ * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
+ * \param[out]	pCounter_presence				Counter presence flag
+ * \param[out]	pCounter						Buffer containing counter value if present
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 Nonce_length,
+		PLAT_UI8* pNonce,
+		PLAT_UI16 total_associated_data_length,
+		PLAT_UI32 total_message_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pCounter_presence,
+		PLAT_UI32 * pCounter);
+
+/**
+ * \brief 		Process chunk encryption in AES CCM* mode
+ * \details 	This service process additional chunk encryption in AES CCM* mode using the key specified in start command
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in]	associated_data_chunk_length	Length of the associated data chunk
+ * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
+ * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_aes_ccm_encrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk);
+
+/**
+ * \brief 		Finish chunk encryption in AES CCM* mode
+ * \details 	This service finish chunk encryption in AES CCM* mode using the key specified in start command
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	authentication_tag_length		Length of the output authentication tag
+ * \param[in]	associated_data_chunk_length	Length of the associated data chunk
+ * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
+ * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
+ * \param[out] 	pEncrypted_authentication_tag	Encrypted authentication tag
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_aes_ccm_encrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pPlaintext_message_chunk,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pEncrypted_authentication_tag);
+
+/**
  * \brief 		Decrypt payload in AES CCM* mode
  * \details 	This service format and send decrypt command in AES CCM* mode
  * \param[in] 	pSTSE 							Pointer to STSAFE Handler
@@ -131,6 +206,79 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 		PLAT_UI8 * pAuthentication_tag,
 		PLAT_UI8 * pVerification_result,
 		PLAT_UI8 * pPlaintext_message);
+
+/**
+ * \brief 		Start chunk decryption in AES CCM* mode
+ * \details 	This service start chunk decryption in AES CCM* mode using the specified key from STSAFE symmetric key table
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	slot_number 					Key slot in symmetric key table to be used
+ * \param[in]	Nonce_length					Nonce buffer length in bytes
+ * \param[in]	pNonce							Nonce buffer
+ * \param[in]	total_associated_data_length	Length of the associated data
+ * \param[in]	total_ciphertext_length			Length of the complete ciphertext
+ * \param[in]	associated_data_chunk_length	Length of the associated data chunk
+ * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
+ * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 slot_number,
+		PLAT_UI16 Nonce_length,
+		PLAT_UI8* pNonce,
+		PLAT_UI16 total_associated_data_length,
+		PLAT_UI16 total_ciphertext_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk);
+
+/**
+ * \brief 		Process chunk decryption in AES CCM* mode
+ * \details 	This service process additional chunk decryption in AES CCM* mode using the key specified in start command
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in]	associated_data_chunk_length	Length of the associated data chunk
+ * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
+ * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_aes_ccm_decrypt_process(
+		stse_Handler_t * pSTSE,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pPlaintext_message_chunk);
+
+/**
+ * \brief 		Finish chunk decryption in AES CCM* mode
+ * \details 	This service finish chunk encryption in AES CCM* mode using the key specified in start command
+ * \param[in] 	pSTSE 							Pointer to STSAFE Handler
+ * \param[in] 	authentication_tag_length		Length of the output authentication tag
+ * \param[in]	associated_data_chunk_length	Length of the associated data chunk
+ * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
+ * \param[in] 	pAuthentication_tag 			Authentication tag
+ * \param[out] 	pVerification_result 			Verification result flag
+ * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
+ * \return \ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_aes_ccm_decrypt_finish(
+		stse_Handler_t * pSTSE,
+		PLAT_UI8 authentication_tag_length,
+		PLAT_UI16 associated_data_chunk_length,
+		PLAT_UI8 * pAssociated_data_chunk,
+		PLAT_UI16 message_chunk_length,
+		PLAT_UI8 * pEncrypted_message_chunk,
+		PLAT_UI8 * pAuthentication_tag,
+		PLAT_UI8 * pVerification_result,
+		PLAT_UI8 * pPlaintext_message_chunk);
 
 /**
  * \brief 		Encrypt payload in AES GCM mode
