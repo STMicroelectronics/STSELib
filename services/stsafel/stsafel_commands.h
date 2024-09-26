@@ -46,10 +46,7 @@
 // #define STSAFEL_COUNTER_VALUE_SIZE			4U
 #define STSAFEL_GENERIC_LENGTH_SIZE			2U
 #define STSAFEL_UID_SIZE 					8U
-#define STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010	507U
-
-#define STSAFEL_PROT_CMD_Msk				0x80U  /*!< STSAFE  Protected command mask */
-#define STSAFEL_PROT_RSP_Msk				0x40U  /*!< STSAFE  Protected rsp mask */
+#define STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010	750U
 
 /*!
  * \enum stsafel_cmd_code_t
