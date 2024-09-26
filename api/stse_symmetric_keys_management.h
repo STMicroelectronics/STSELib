@@ -159,15 +159,14 @@ stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
  * \details 	This API Write a symmetric key in stsafe symmetric key table
  * \param[in] 	pSTSE 			 	 Pointer to STSAFE Handler
  * \param[in] 	pKey 				 Key material to write in STSAFE
- * \param[in] 	key_info 			 Key information used to populate the symmetric key table
- * \param[in]	kek_session_ecc_type Key type to use in volatile KEK session
+ * \param[in] 	pSymmetric_key_info	 Key information used to populate the symmetric key table
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  * \details 	\include{doc} stsafe_write_symmetric_key_plaintext.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pKey,
-		stsafea_generic_key_information_t * key_info);
+		stsafea_generic_key_information_t *pSymmetric_key_info);
 
 /**
  * \brief 		Write symmetric key wrapped in stsafe symmetric key table

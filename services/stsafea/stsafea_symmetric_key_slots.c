@@ -563,8 +563,8 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
-		stsafea_generic_key_information_t * pSymmetric_key_info,
-		PLAT_UI8 * pSymmetric_key_value)
+		PLAT_UI8 * pSymmetric_key_value,
+		stsafea_generic_key_information_t * pSymmetric_key_info)
 {
 	stse_ReturnCode_t ret;
 	/* - Check stsafe handler initialization */
