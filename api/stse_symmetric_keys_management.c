@@ -810,7 +810,7 @@ stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pKey,
-		stsafea_generic_key_information_t * key_info)
+		stsafea_generic_key_information_t *pSymmetric_key_info)
 {
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -819,7 +819,7 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 	}
 
 	/* - Write the plaintext key */
-	return stsafea_write_symmetric_key_plaintext(pSTSE, key_info, pKey);
+	return stsafea_write_symmetric_key_plaintext(pSTSE, pKey, pSymmetric_key_info);
 }
 
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(

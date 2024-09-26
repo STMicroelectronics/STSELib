@@ -331,14 +331,14 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
  * \brief 		Write symmetric key plaintext in stsafe symmetric key table
  * \details 	This service format and send write symmetric key command
  * \param[in] 	pSTSE 			 		Pointer to STSAFE Handler
- * \param[in] 	pSymmetric_key_info 	Key information used to populate the symmetric key slot
  * \param[in] 	pSymmetric_key_value 	Key value buffer
+ * \param[in] 	pSymmetric_key_info 	Key information used to populate the symmetric key slot
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
-		stsafea_generic_key_information_t * pSymmetric_key_info,
-		PLAT_UI8 * pSymmetric_key_value);
+		PLAT_UI8 * pSymmetric_key_value,
+		stsafea_generic_key_information_t * pSymmetric_key_info);
 
 /**
  * \brief 		Generate wrap/unwrap key
