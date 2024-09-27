@@ -85,7 +85,7 @@ typedef struct
 				PLAT_UI8,	/* busID */
 				PLAT_UI8,	/* devAddr */
 				PLAT_UI16,	/* speed */
-				PLAT_UI16 *	/* pFrameLength */
+				PLAT_UI16 	/* pFrameLength */
 		); /*\var stse_io_t::BusRecvStart Bus Receive start function callback */
 		stse_ReturnCode_t (* BusRecvContinue) (
 				PLAT_UI8,	/*busID*/

@@ -406,7 +406,7 @@ stse_ReturnCode_t stse_platform_i2c_receive_start (
 		PLAT_UI8 busID,
 		PLAT_UI8 devAddr,
 		PLAT_UI16 speed,
-		PLAT_UI16 *pFrame_Length);
+		PLAT_UI16 frame_Length);
 
 stse_ReturnCode_t stse_platform_i2c_receive_continue (
 		PLAT_UI8 busID,

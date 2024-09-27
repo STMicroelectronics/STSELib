@@ -284,30 +284,32 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     PLAT_UI16 computed_crc;
     PLAT_UI16 filler_size=0;
     PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
+    PLAT_UI8 length_value[STSE_FRAME_LENGTH_SIZE];
 
     /*- Verify Parameters */
     if((pSTSE == NULL) || (pFrame == NULL))
     {
-    	return STSE_CORE_INVALID_PARAMETER;
+        return STSE_CORE_INVALID_PARAMETER;
     }
     /* - Verify Frame length */
     if(pFrame->element_count == 0 )
     {
-    	return( STSE_CORE_INVALID_PARAMETER );
+        return( STSE_CORE_INVALID_PARAMETER );
     }
 
+    /* ======================================================= */
+    /* ============== Get the total frame length ============= */
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
     {
-		/* - Receive frame length from target STSAFE */
-		ret = pSTSE->io.BusRecvStart(
-				pSTSE->io.busID,
-				pSTSE->io.Devaddr,
-				pSTSE->io.BusSpeed,
-				&received_length
-		);
+        /* - Receive frame length from target STSAFE */
+        ret = pSTSE->io.BusRecvStart(
+                pSTSE->io.busID,
+                pSTSE->io.Devaddr,
+                pSTSE->io.BusSpeed,
+				STSE_FRAME_LENGTH_SIZE + STSE_RSP_FRAME_HEADER_SIZE);
 
-		retry_count--;
-		stse_platform_Delay_ms(STSE_POLLING_RETRY_INTERVAL);
+        retry_count--;
+        stse_platform_Delay_ms(STSE_POLLING_RETRY_INTERVAL);
     }
 
     /* - Verify correct reception*/
@@ -320,70 +322,154 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     	return( ret );
     }
 
-    /* - Remove Length and CRC from received length value */
-    received_length -= STSE_FRAME_CRC_SIZE + STSE_FRAME_LENGTH_SIZE ;
+    /* Discard response header */
+    pSTSE->io.BusRecvContinue(
+            pSTSE->io.busID,
+            pSTSE->io.Devaddr,
+            pSTSE->io.BusSpeed,
+            NULL,
+            STSE_RSP_FRAME_HEADER_SIZE);
+
+    /* - Get STSAFE Response Length */
+    pSTSE->io.BusRecvStop(
+            pSTSE->io.busID,
+            pSTSE->io.Devaddr,
+            pSTSE->io.BusSpeed,
+            length_value,
+            STSE_FRAME_LENGTH_SIZE);
+    if(ret != STSE_OK)
+    {
+        return( ret );
+    }
+
+    /* - Store response Length */
+    received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE;
+
+    /* ======================================================= */
+    /* ====== Format the frame to handle CRC and filler ====== */
 
     /* - Compare STSAFE Received frame length with local RSP Frame length */
     if(received_length > pFrame->length)
     {
-    	filler_size = received_length - pFrame->length ;
+        /* Calculate needed filler to match both length */
+        filler_size = received_length - pFrame->length;
     }
+
+    /* Append filler frame element even if its length equal 0 */
     PLAT_UI8 filler[filler_size];
     stse_frame_element_allocate_push(pFrame,
-        			eFiller,
-    				filler_size,
-    				filler);
+                    eFiller,
+                    filler_size,
+                    filler);
 
     /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
     stse_frame_element_allocate_push(pFrame,eCRC,STSE_FRAME_CRC_SIZE,received_crc);
 
-    /* - Perform frame element reception and populate local RSP Frame */
-    pCurrent_element = pFrame->first_element;
-    while (pCurrent_element != pFrame->last_element){
-    	if(received_length < pCurrent_element->length)
-    	{
-    		pCurrent_element->length = received_length;
-    	}
+    /* ======================================================= */
+    /* ========= Receive the frame in frame elements ========= */
+
+    ret = STSE_PLATFORM_BUS_ACK_ERROR;
+    while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
+    {
+        /* - Receive frame length from target STSAFE */
+        ret = pSTSE->io.BusRecvStart(
+                pSTSE->io.busID,
+                pSTSE->io.Devaddr,
+                pSTSE->io.BusSpeed,
+                STSE_FRAME_LENGTH_SIZE + received_length + STSE_FRAME_CRC_SIZE);
+
+        retry_count--;
+        stse_platform_Delay_ms(STSE_POLLING_RETRY_INTERVAL);
+    }
+
+    /* - Verify correct reception*/
+    if(ret != STSE_OK)
+    {
+        return( ret );
+    }
+
+    /* Receive response header */
+    pSTSE->io.BusRecvContinue(
+            pSTSE->io.busID,
+            pSTSE->io.Devaddr,
+            pSTSE->io.BusSpeed,
+            pFrame->first_element->pData,
+            STSE_RSP_FRAME_HEADER_SIZE);
+
+    ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEA_RSP_STATUS_MASK);
+
+    if(ret != STSE_OK)
+    {
+    	return( ret );
+    }
+
+    /* Substract response header already read in STSAFE-A */
+    received_length -= STSE_RSP_FRAME_HEADER_SIZE;
+
+    /* Receive and discard length (already stored) */
+    pSTSE->io.BusRecvContinue(
+            pSTSE->io.busID,
+            pSTSE->io.Devaddr,
+            pSTSE->io.BusSpeed,
+            NULL,
+            STSE_FRAME_LENGTH_SIZE);
+
+    /* If first element is longer than jsut the header */
+    if(pFrame->first_element->length > STSE_RSP_FRAME_HEADER_SIZE)
+    {
+        /* Receive missing bytes after discarding the 2 bytes length */
         pSTSE->io.BusRecvContinue(
-    			pSTSE->io.busID,
-    			pSTSE->io.Devaddr,
-    			pSTSE->io.BusSpeed,
-    			pCurrent_element->pData,
-    			pCurrent_element->length
-		);
+                pSTSE->io.busID,
+                pSTSE->io.Devaddr,
+                pSTSE->io.BusSpeed,
+                pFrame->first_element->pData + STSE_RSP_FRAME_HEADER_SIZE,
+                pFrame->first_element->length - STSE_RSP_FRAME_HEADER_SIZE);
+    }
+
+    /* - Perform frame element reception and populate local RSP Frame */
+    pCurrent_element = pFrame->first_element->next;
+    while (pCurrent_element != pFrame->last_element){
+        if(received_length < pCurrent_element->length)
+        {
+            pCurrent_element->length = received_length;
+        }
+        pSTSE->io.BusRecvContinue(
+                pSTSE->io.busID,
+                pSTSE->io.Devaddr,
+                pSTSE->io.BusSpeed,
+                pCurrent_element->pData,
+                pCurrent_element->length
+        );
         received_length -= pCurrent_element->length;
         pCurrent_element = pCurrent_element->next;
     }
     pSTSE->io.BusRecvStop(
-			pSTSE->io.busID,
-			pSTSE->io.Devaddr,
-			pSTSE->io.BusSpeed,
-			pCurrent_element->pData,
-			pCurrent_element->length
-	);
+            pSTSE->io.busID,
+            pSTSE->io.Devaddr,
+            pSTSE->io.BusSpeed,
+            pCurrent_element->pData,
+            pCurrent_element->length
+    );
 
-#ifdef STSAFE_FRAME_DEBUG_LOG
+    #ifdef STSAFE_FRAME_DEBUG_LOG
     printf("\n\r STSAFE Frame < ");
     stse_frame_debug_print(pFrame);
     printf("\n\r");
-#endif
+    #endif
 
-    /* - swap CRC */
-
+    /* - Swap CRC */
     stse_frame_element_swap_byte_order(&eCRC);
 
     /* - Pop CRC element from Frame*/
-
     stse_frame_pop_element(pFrame);
 
-
     /* - Verify CRC */
-
     computed_crc = stse_frame_crc16_compute(pFrame);
     if(computed_crc != *(PLAT_UI16 *)received_crc)
     {
-    	return( STSE_CORE_FRAME_CRC_ERROR );
+        return( STSE_CORE_FRAME_CRC_ERROR );
     }
+
     return( STSE_OK );
 }
 
