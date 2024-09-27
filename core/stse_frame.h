@@ -32,7 +32,8 @@
 #define STSE_FRAME_CRC_SIZE 					2U
 #define STSE_FRAME_LENGTH_SIZE 					2U
 #define STSE_RSP_FRAME_HEADER_SIZE				1U
-#define STSE_RSP_STATUS_MASK					0x1F
+#define STSE_STSAFEA_RSP_STATUS_MASK			0x1F
+#define STSE_STSAFEL_RSP_STATUS_MASK			0x0F
 
 typedef struct stse_frame_t stse_frame_t;
 typedef struct stse_frame_element_t stse_frame_element_t;

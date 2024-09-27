@@ -54,7 +54,8 @@ typedef enum stse_device_t {
 	STSAFE_A100 = 0,		/*!< STSAFE-A100 target device */
 	STSAFE_A110,			/*!< STSAFE-A110 target device */
 	STSAFE_A120,			/*!< STSAFE-A120 target device */
-	STSAFE_A200				/*!< STSAFE-A200 target device */
+	STSAFE_A200,			/*!< STSAFE-A200 target device */
+	STSAFE_L010				/*!< STSAFE-L010 target device */
 }stse_device_t;
 
 

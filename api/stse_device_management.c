@@ -63,7 +63,9 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 		}
 
 		/*- STSE device power-on delay */
-		stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
+		if(pSTSE->device_type != STSAFE_L010)
+		{
+			stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
 
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
 		if (pSTSE->pPerso_info == NULL)
