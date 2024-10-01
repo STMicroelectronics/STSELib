@@ -1,0 +1,423 @@
+'----------------------------- PLANTUML Configuration -------------------'
+'
+' Author : CS-Apps
+' Brief : Theme for PlantUML aligned with : https://brandportal.st.com/document/8#/print/block-diagrams-charts
+'                                           https://brandportal.st.com/document/6#/basics/colors
+'
+'-------------------------- THEME COLORS and FONTS -----------------------------------------
+
+!$ST_FONT = Helvetica
+
+' ==== Primary colors ====
+
+!$ST_WHITE =  		  "#FFFFFF"
+
+!$ST_DARK_BLUE = 	  "#03234B"
+!$ST_DARK_BLUE_75 =   "#425A78"
+!$ST_DARK_BLUE_50 =   "#8191A5"
+!$ST_DARK_BLUE_25 =   "#BDC5D0"
+
+!$ST_BLUE = 		  "#3CB4E6"
+!$ST_BLUE_75 = 		  "#6DC7EC"
+!$ST_BLUE_50 = 		  "#9DD9F2"
+!$ST_BLUE_25 = 		  "#CEECF9"
+
+!$ST_YELLOW = 	      "#FFD200"
+!$ST_YELLOW_75 =      "#FFDD40"
+!$ST_YELLOW_50 =      "#FFE87F"
+!$ST_YELLOW_25 =      "#FFF4BF"
+
+!$ST_PINK =   		  "#E6007E"
+!$ST_PINK_75 =		  "#EC409E"
+!$ST_PINK_50 =		  "#F27FBE"
+!$ST_PINK_25 =		  "#F8BCDD"
+
+' === Secondary colors ===
+
+!$ST_GREY =			  "#464650"
+!$ST_GREY_75 =		  "#74747C"
+!$ST_GREY_50 =		  "#A2A2A7"
+!$ST_GREY_25 =		  "#D1D1D3"
+
+!$ST_GREEN = 		  "#49B170"
+!$ST_GREEN_75 = 	  "#77C594"
+!$ST_GREEN_50 = 	  "#A4D8B7"
+!$ST_GREEN_25 = 	  "#D1EBDB"
+
+!$ST_DARK_GREEN = 	  "#04572F"
+!$ST_DARK_GREEN_75 =  "#438163"
+!$ST_DARK_GREEN_50 =  "#81AB97"
+!$ST_DARK_GREEN_25 =  "#BDD3C8"
+
+!$ST_PURPLE = 		  "#8C0078"
+!$ST_PURPLE_75 = 	  "#A940A9"
+!$ST_PURPLE_50 = 	  "#C57FBB"
+!$ST_PURPLE_25 = 	  "#E2BFDD"
+
+'-------------------------- GENERAL THEME --------------------------------------------------
+skinparam shadowing             false
+skinparam  Arrow {
+    Color            $ST_DARK_BLUE
+    FontColor        $ST_DARK_BLUE
+    FontName         $ST_FONT
+    FontSize         12
+    MessageAlignment center
+    HeadColor        $ST_DARK_BLUE
+    Thickness        2
+    FontStyle        normal
+    LollipopColor    $ST_DARK_BLUE
+  }
+
+
+skinparam FontColor				$ST_DARK_BLUE
+skinparam Linetype           ortho
+
+'--------------------- ACTIVITY DIAGRAM THEME ---------------------------------------------
+
+
+skinparam Activity {
+  BackgroundColor           $ST_BLUE_25
+  BorderColor               $ST_DARK_BLUE
+  FontColor                 $ST_DARK_BLUE
+  FontStyle                 normal
+  FontSize                  12
+  Diamond {
+    BackgroundColor    $ST_BLUE_25
+    BorderColor        $ST_DARK_BLUE
+    FontColor          $ST_DARK_BLUE
+  }
+}
+
+'--------------------- COMPONENT DIAGRAM THEME ---------------------------------------------
+
+skinparam Package {
+    Style  frame
+}
+
+skinparam component {
+    Style rectangle
+}
+
+skinparam Rectangle {
+  BackgroundColor 		$ST_WHITE
+  BorderColor     		$ST_DARK_BLUE
+  FontSize        		16
+  FontColor       		$ST_DARK_BLUE
+  FontStyle       		bold
+  BorderThickness 		1.5
+  StereotypeFontName 	$ST_FONT
+  StereotypeFontSize 	12
+  StereotypeFontColor 	$ST_DARK_BLUE
+  StereotypeFontStyle 	normal
+}
+
+skinparam File {
+  BackgroundColor $ST_WHITE
+  BorderColor     $ST_DARK_BLUE
+  FontSize        12
+  FontColor       $ST_DARK_BLUE
+  FontStyle       normal
+  BorderThickness 1 
+  Stereotype {
+    FontName $ST_FONT
+    FontSize 12
+    FontColor $ST_DARK_BLUE
+    FontStyle normal
+  }
+}
+
+skinparam Frame {
+  BackgroundColor $ST_WHITE
+  HeaderFontColor $ST_DARK_BLUE
+  HeaderBackgroundColor $ST_DARK_BLUE
+  BorderColor     $ST_DARK_BLUE
+  FontSize        14
+  FontColor       $ST_DARK_BLUE
+  FontStyle       bold
+  BorderThickness 1 
+  Stereotype {
+    FontName $ST_FONT
+    FontSize 10
+    FontColor $ST_DARK_BLUE
+    FontStyle normal
+  }
+}
+
+skinparam Node {
+  BackgroundColor 		$ST_BLUE
+  BorderColor     		$ST_DARK_BLUE
+  FontSize        		16
+  FontColor       		$ST_WHITE
+  FontStyle       		bold
+  BorderThickness 		1.5
+  StereotypeFontName 	$ST_FONT
+  StereotypeFontSize 	12
+  StereotypeFontColor 	$ST_WHITE
+  StereotypeFontStyle 	normal
+}
+
+
+'--------------------- SEQUENCE THEME ---------------------------------------------
+
+skinparam	Sequence {
+
+    BorderColor 		$ST_DARK_BLUE
+    BackgroundColor 	$ST_WHITE
+    StartColor 			$ST_DARK_BLUE
+    EndColor 			$ST_DARK_BLUE
+
+    ReferenceAlignment          center
+    ReferenceBackgroundColor    $ST_WHITE
+    ReferenceBorderColor        $ST_DARK_BLUE
+    ReferenceBorderThickness    1
+    ReferenceFontColor          $ST_DARK_BLUE
+    ReferenceFontName           $ST_FONT
+    ReferenceFontSize           12
+    ReferenceFontStyle          normal
+    ReferenceHeaderBackgroundColor  $ST_WHITE
+
+    Message {
+      Alignment     center
+      TextAligmenet center
+    }
+
+    Title {
+        FontColor $ST_DARK_BLUE
+        FontName  $ST_FONT
+        FontSize  16
+        FontStyle bold
+    }
+
+    Box {
+        BackgroundColor $ST_WHITE
+        BorderColor     $ST_DARK_BLUE
+        FontColor       $ST_DARK_BLUE
+        FontName        $ST_FONT
+    }
+
+    Group {
+      
+      BackgroundColor   $ST_DARK_BLUE
+      BorderColor 		  $ST_DARK_BLUE
+      FontColor 		    $ST_DARK_BLUE
+      FontName          $ST_FONT
+      FontStyle         normal
+      FontSize          12
+      
+      Header {
+        FontColor        $ST_WHITE
+        FontSize 		 12
+        FontStyle 	     normal
+        BackgroundColor  $ST_DARK_BLUE
+      }
+      
+      Body {
+        BackgroundColor    $ST_WHITE
+      }
+    }
+
+    Divider {
+      BackgroundColor 	$ST_BLUE_25
+      BorderColor 		$ST_DARK_BLUE
+      BorderThickness 	1
+      FontColor 		$ST_WHITE
+    }   
+
+    
+
+
+    Stereotype {
+      FontName  $ST_FONT
+      FontSize  12
+      FontColor $ST_WHITE
+      FontStyle normal
+    }  
+
+}
+
+''
+
+skinparam stereotype {
+    StereotypePosition          center
+    CBackgroundColor 			$ST_WHITE
+    CBorderColor 				$ST_DARK_BLUE
+    ABackgroundColor 			$ST_WHITE
+    ABorderColor 				$ST_DARK_BLUE
+    IBackgroundColor 			$ST_WHITE
+    IBorderColor 				$ST_DARK_BLUE
+    EBackgroundColor 			$ST_WHITE
+    EBorderColor 				$ST_DARK_BLUE
+    NBackgroundColor 			$ST_WHITE
+    NBorderColor 				$ST_DARK_BLUE
+}
+
+skinparam participant {
+	FontName					$ST_FONT
+	FontColor 					$ST_WHITE
+	FontStyle					normal
+    FontSize                    12
+	BorderColor 				$ST_DARK_BLUE
+	BackgroundColor 			$ST_DARK_BLUE
+	BorderThickness 			1
+	Padding                     100
+}
+
+skinparam Actor {
+    BorderColor 		        $ST_DARK_BLUE
+    TitleFontColor 				$ST_DARK_BLUE
+    BackgroundColor 			$ST_WHITE
+    StartColor 					$ST_DARK_BLUE
+    EndColor 					$ST_DARK_BLUE
+    BoxBackgroundColor 			$ST_BLUE_25
+    BoxBorderColor 				$ST_BLUE_25
+    BoxFontColor 				$ST_WHITE
+    DelayFontColor 				$ST_DARK_BLUE
+    LifeLineBorderColor 		$ST_DARK_BLUE
+    LifeLineBorderThickness 	1
+    LifeLineBackgroundColor 	$ST_WHITE
+    GroupBorderColor 			$ST_DARK_BLUE
+    GroupFontColor 				$ST_DARK_BLUE
+    GroupHeaderFontColor 		$ST_WHITE
+    DividerBackgroundColor 		$ST_BLUE_25
+    DividerBorderColor 			$ST_BLUE_25
+    DividerBorderThickness 		1
+    DividerFontColor 			$ST_WHITE
+    ReferenceBackgroundColor 	$ST_WHITE
+    ReferenceBorderColor 		$ST_DARK_BLUE
+    ReferenceFontColor 			$ST_DARK_BLUE
+    ReferenceHeaderFontColor 	$ST_DARK_BLUE
+    StereotypeFontColor 		$ST_DARK_BLUE
+    StereotypeFontSize 			10
+    StereotypeFontStyle			normal
+	FontColor 					$ST_DARK_BLUE
+    FontSize                    12
+	FontName					$ST_FONT
+	FontStyle					normal
+}
+
+skinparam entity {
+	BorderColor 				$ST_DARK_BLUE
+	BackgroundColor 			$ST_WHITE 
+	FontColor 					$ST_DARK_BLUE
+    FontSize                    12
+	FontName					$ST_FONT
+	FontStyle					normal
+}
+
+skinparam note {
+	TextAlignment          		center
+	Shadowing					false
+	BorderThickness 			1
+	BackgroundColor 			$ST_DARK_BLUE
+	BorderColor 				$ST_DARK_BLUE
+	FontColor 					$ST_WHITE
+    FontSize                    12
+	FontName					$ST_FONT
+	FontStyle					normal
+}
+
+skinparam interface {
+    FontColor 					$ST_PINK
+    FontSize                    12
+	BackgroundColor  			$ST_BLUE_25
+	BorderColor  				$ST_BLUE_25
+	FontName					$ST_FONT
+	FontStyle					normal
+}
+
+skinparam usecase {
+	FontColor 					$ST_DARK_BLUE
+	BorderColor 				$ST_DARK_BLUE
+	BackgroundColor 			$ST_WHITE 
+	BorderThickness 			1
+	StereotypeFontColor 		$ST_DARK_BLUE
+    StereotypeFontSize 			10
+    StereotypeFontStyle			normal
+}
+
+'--------------------- TIMING THEME ---------------------------------------------
+
+<style>
+timingDiagram {
+    LineThickness 1
+    LineColor $ST_DARK_BLUE
+    FontColor $ST_DARK_BLUE
+
+    constraintArrow {
+      LineColor $ST_PINK
+    }
+    arrow {
+      LineColor $ST_PINK
+    }
+    concise {
+	  FontColor       $ST_WHITE
+      BackgroundColor $ST_DARK_BLUE_75 
+      LineColor       $ST_DARK_BLUE
+    }
+    robust {
+      LineThickness   2
+      LineColor       $ST_DARK_BLUE
+    }
+    clock {
+      LineThickness   2
+      LineColor       $ST_DARK_BLUE
+    }
+    binary {
+      LineThickness   2
+      LineColor       $ST_DARK_BLUE 
+    }
+}
+</style>
+
+'--------------------------------------------------------------------'
+
+'--------------------------------------------------------------------'
+
+skinparam SequenceGroupBodyBackgroundColor transparent
+	
+    hide footbox
+
+    !$STSE_API = $ST_GREEN_50
+    !$STSE_SERVICE = $ST_YELLOW_50
+    !$STSE_CORE = $ST_PINK_25 
+    !$STSE_ACTIVITY = $ST_DARK_BLUE_25
+
+
+    ' set legend to have a white background
+    skinparam legend {
+        BackgroundColor #White
+        BorderColor $ST_DARK_BLUE
+        EntrySeparator #White
+    }
+
+
+    !procedure $add_legend()
+    legend right 
+        <#White,#White>| | |<font color=$STSE_API><&media-stop></font> | <b>API routine</b> |
+        | | |<font color=$STSE_SERVICE><&media-stop></font> | <b>service routine</b> |
+        | | |<font color=$STSE_CORE><&media-stop></font> | <b>core/platform routine</b> |
+    endlegend
+    !endprocedure
+
+
+    !procedure $command_exchange($participant_sender,$cmd,$param,$participant_target,$return)
+    $participant_sender -> $participant_target : <b>$cmd</b>$param
+            activate $participant_target $STSE_ACTIVITY
+            return $return
+    !endprocedure
+
+    !procedure $stsafea_service_uml($service_name,$cmd,$param,$return)
+
+        'Define participant (define order = display order left to right)
+
+        participant HOST 
+        participant SE as "STSAFE-Axxx"
+    
+    group $service_name
+        activate STSE $STSE_ACTIVITY
+        $command_exchange(HOST,$cmd,$param,SE,$return)
+    end 
+    !endprocedure
+
+
+    '--------------------------------------------------------------------'

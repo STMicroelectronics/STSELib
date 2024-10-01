@@ -40,11 +40,11 @@
  * \details 	This API perform host key provisioning in plaintext, \n
  * 				it use the put attribute command if the device isn't a STSAFE-A120 \n
  * 				and it use the "write host key" command if it is a STSAFE-A120
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	host_ecc_key_type 		Key type
  * \param[in] 	host_keys 			Pointer to the key structure
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafe_host_key_provisioning.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_host_key_provisioning.dox
  */
 stse_ReturnCode_t stse_host_key_provisioning (
 		stse_Handler_t * pSTSE ,
@@ -54,11 +54,11 @@ stse_ReturnCode_t stse_host_key_provisioning (
 /**
  * \brief 		Host key provisioning wrapped
  * \details 	This API perform host key provisioning with the key wrapped using a volatile KEK session
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	host_key_type 		Key type
  * \param[in] 	host_keys 			Pointer to the key structure
  * \param[in] 	ecdhe_key_type 		ECC key type to use in KEK session
- * \return 		\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped.dox
  */
 stse_ReturnCode_t stse_host_key_provisioning_wrapped (
@@ -70,7 +70,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 /**
  * \brief 		Host key provisioning wrapped and authenticated
  * \details 	This API perform host key provisioning with the key wrapped using an authenticated volatile KEK session
- * \param[in] 	pSTSE 								Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 								Pointer to STSE Handler
  * \param[in] 	host_key_type 						Key type
  * \param[in] 	host_keys 							Pointer to the key structure
  * \param[in] 	ecdhe_key_type 						ECC key type to use in KEK session
@@ -78,7 +78,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
  * \param[in] 	signature_hash_algo 				Hash algo used for the signature digest
  * \param[in] 	signature_private_key_type 			Key type of the private key used in authentication
  * \param[in] 	signature_private_key 				Private key used in authentication
- * \return 		\ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped_authenticated.dox
  */
 stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
@@ -94,9 +94,9 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 /**
  * \brief 		Get symmetric key slot count
  * \details 	Get the number of slot in symmetric key table
- * \param[in] 	pSTSE 			 		Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			 		Pointer to STSE Handler
  * \param[out] 	pSymmetric_key_slot_count	Number of slot in symmetric key table
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slots_count(
 		stse_Handler_t * pSTSE,
@@ -105,10 +105,10 @@ stse_ReturnCode_t stse_get_symmetric_key_slots_count(
 /**
  * \brief 		Get one symmetric key slot info
  * \details 	Get the informations of one slot in symmetric key table
- * \param[in] 	pSTSE 					Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	slot_number					Slot number to get the information
  * \param[out]  pSymmetric_key_slot_info	Buffer to store the information structure
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slot_info(
 		stse_Handler_t * pSTSE,
@@ -118,10 +118,10 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
 /**
  * \brief 		Get symmetric key slot info
  * \details 	Get the informations of all slot of symmetric key table
- * \param[in] 	pSTSE 			 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			 			Pointer to STSE Handler
  * \param[in]	total_slot_count			Target Device total symmetric key slots number
  * \param[out] 	symmetric_key_table_info	Buffer to store the information structure list for all slots
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_table_info(
 		stse_Handler_t * pSTSE,
@@ -131,10 +131,10 @@ stse_ReturnCode_t stse_get_symmetric_key_table_info(
 /**
  * \brief 		Get symmetric key slot provisioning control fields
  * \details 	Get symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	slot_number			Slot number of the slot to query
  * \param[out] 	pCtrl_fields		Output structure for the provisioning control fields of the target slot
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
 		stse_Handler_t * pSTSE,
@@ -144,10 +144,10 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
 /**
  * \brief 		Set symmetric key slot provisioning control fields
  * \details 	Set symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 				Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	slot_number			Slot number of the slot to query
  * \param[in] 	pCtrl_fields		Input structure for the provisioning control fields of the target slot
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
 		stse_Handler_t * pSTSE,
@@ -157,11 +157,11 @@ stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
 /**
  * \brief 		Write symmetric key plaintext in stsafe symmetric key table
  * \details 	This API Write a symmetric key in stsafe symmetric key table
- * \param[in] 	pSTSE 			 	 Pointer to STSAFE Handler
- * \param[in] 	pKey 				 Key material to write in STSAFE
+ * \param[in] 	pSTSE 			 	 Pointer to STSE Handler
+ * \param[in] 	pKey 				 Key material to write in STSE
  * \param[in] 	pSymmetric_key_info	 Key information used to populate the symmetric key table
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafe_write_symmetric_key_plaintext.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_write_symmetric_key_plaintext.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
@@ -171,12 +171,12 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 /**
  * \brief 		Write symmetric key wrapped in stsafe symmetric key table
  * \details 	This API Write a symmetric key in stsafe symmetric key table inside a volatile KEK session
- * \param[in] 	pSTSE 			 	 Pointer to STSAFE Handler
- * \param[in] 	pKey 				 Key material to write in STSAFE
+ * \param[in] 	pSTSE 			 	 Pointer to STSE Handler
+ * \param[in] 	pKey 				 Key material to write in STSE
  * \param[in] 	key_info 			 Key information used to populate the symmetric key table
  * \param[in]	kek_session_ecc_type Key type to use in volatile KEK session
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafe_write_symmetric_key_wrapped.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_write_symmetric_key_wrapped.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 		stse_Handler_t * pSTSE,
@@ -187,16 +187,16 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 /**
  * \brief 		Authenticated write symmetric key in stsafe symmetric key table
  * \details 	This API Write a symmetric key in stsafe symmetric key table inside an authenticated volatile KEK session
- * \param[in] 	pSTSE 			 					Pointer to STSAFE Handler
- * \param[in] 	pKey 				 				Key material to write in STSAFE
+ * \param[in] 	pSTSE 			 					Pointer to STSE Handler
+ * \param[in] 	pKey 				 				Key material to write in STSE
  * \param[in] 	key_info 			 				Key information used to populate the symmetric key table
  * \param[in]	kek_session_ecc_type 				Key type to use in volatile KEK session
  * \param[in] 	signature_public_key_slot_number 	Slot number of the public key used in authentication
  * \param[in] 	signature_hash_algo 				Hash algo used for the signature digest
  * \param[in] 	signature_private_key_type 			Key type of the private key used in authentication
  * \param[in] 	signature_private_key 				Private key used in authentication
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafe_write_symmetric_key.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_write_symmetric_key_wrapped_authenticated.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
 		stse_Handler_t * pSTSE,
@@ -211,12 +211,13 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
 /**
  * \brief 		Establish symmetric key in stsafe symmetric key table
  * \details 	This API establish one or more symmetric keys in stsafe symmetric key table through an ECDHE process
- * \param[in] 	pSTSE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	ecc_key_type 		Key type to use for the ECDHE
+ * \param[in]   key_infos_count		Number of keys
  * \param[in] 	key_infos_list 		Key information list used to populate the symmetric key table
  * \param[out]	key_list			Key list resulting of the ECDHE ( OKM[1..N] )
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafe_establish_symmetric_key.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_establish_symmetric_key.dox
  */
 stse_ReturnCode_t stse_establish_symmetric_key(
 		stse_Handler_t * pSTSE,
@@ -230,14 +231,15 @@ stse_ReturnCode_t stse_establish_symmetric_key(
  * \details 	This API establish one or more symmetric keys in stsafe symmetric key table through an authenticated ECDHE process
  * \param[in] 	pSTSE 						 	 Pointer to STSE Handler
  * \param[in] 	key_type 					 	 Key type to use for the ECDHE
+ * \param[in] 	key_infos_count 				 Number of key infos
  * \param[in] 	key_infos_list 					 Key information list used to populate the symmetric key table
  * \param[out]	key_list						 Key list resulting of the ECDHE ( OKM[1..N] )
  * \param[in] 	signature_public_key_slot_number Generic public key slot number used for the authentication
  * \param[in] 	hash_algo						 Hash algorithm ID used to hash the authentication digest
  * \param[in] 	private_key_type				 Key type of the authentication private key
  * \param[in] 	private_key						 Authentication private key buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
- * \details 	\include{doc} stsafe_establish_symmetric_key.dox
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_establish_symmetric_key.dox
  */
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 		stse_Handler_t * pSTSE,

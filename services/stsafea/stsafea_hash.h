@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
-/*! \defgroup stsafea_hash Hash
+/*! \defgroup stsafea_hash STSAFE-A Hash
  *  \ingroup stsafea_services
  *  @{
  */
@@ -96,7 +96,7 @@ extern const stsafea_hash_info_t stsafea_hash_info_table[];
  * \param[in] 		sha_algorithm	\ref stse_hash_algorithm_t SHA algorithm
  * \param[in] 		pMessage		Pointer to message buffer
  * \param[in]		message_size	Input message length in bytes
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_start_hash( stse_Handler_t * pSTSE,
 		stse_hash_algorithm_t 	sha_algorithm,
@@ -109,7 +109,7 @@ stse_ReturnCode_t stsafea_start_hash( stse_Handler_t * pSTSE,
  * \param[in]		pSTSE			Pointer to target SE handler
  * \param[in] 		pMessage		Pointer to message buffer
  * \param[in]		message_size	Input message length in bytes
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_process_hash(
 		stse_Handler_t * pSTSE,
@@ -120,16 +120,16 @@ stse_ReturnCode_t stsafea_process_hash(
 /**
  * \brief 			STSAFEA start hash service
  * \details 		This service format and send/receive STSAFE-Axxx process hash command/response
- * \param[in]		pSTSE			Pointer to target SE handler
- * \param[in]		sha_algorithm	\ref stse_hash_algorithm_t sha_algorithm
- * \param[in] 		pMessage		Pointer to message buffer
- * \param[in]		message_size	Input message length in bytes
- * \param[out] 		pDigest			Pointer to digest buffer
- * \param[out]		pDigest_size	Digest buffer length in bytes
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in]       pSTSE			Pointer to target SE handler
+ * \param[in] 		sha_algorithm	\ref stse_hash_algorithm_t SHA algorithm
+ * \param[in]       pMessage		Pointer to message buffer
+ * \param[in]       message_size	Input message length in bytes
+ * \param[out]      pDigest			Pointer to digest buffer
+ * \param[out]      pDigest_size	Digest buffer length in bytes
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_finish_hash(
-		stse_Handler_t * pSTSE,
+		stse_Handler_t *pSTSE,
 		stse_hash_algorithm_t sha_algorithm,
 		PLAT_UI8* pMessage,
 		PLAT_UI16 message_size,

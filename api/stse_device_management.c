@@ -84,13 +84,13 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 
 stse_ReturnCode_t stse_device_power_on(stse_Handler_t * pSTSE)
 {
-	/* - Check STSAFE handler initialization */
+	/* - Check STSE handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
 	}
 
-	/* - Check STSAFE PowerLineOn callback initialization */
+	/* - Check STSE PowerLineOn callback initialization */
 	if (pSTSE->io.PowerLineOn == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
@@ -106,13 +106,13 @@ stse_ReturnCode_t stse_device_power_on(stse_Handler_t * pSTSE)
 
 stse_ReturnCode_t stse_device_power_off(stse_Handler_t * pSTSE)
 {
-	/* - Check STSAFE handler initialization */
+	/* - Check STSE handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
 	}
 
-	/* - Check STSAFE PowerLineOff callback initialization */
+	/* - Check STSE PowerLineOff callback initialization */
 	if (pSTSE->io.PowerLineOff == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );

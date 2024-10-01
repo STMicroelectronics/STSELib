@@ -38,49 +38,56 @@
  * \param[in] pSTSE 			the pointer to STSE handler
  * \param[in] certificate_zone 	Zone containing STSE Device certificate chain
  * \param[out] pDevice_id 		the pointer to an array of 11 bytes returning the STSE Device ID
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_get_device_id.dox
  */
-stse_ReturnCode_t stse_get_device_id(stse_Handler_t * pSTSE, PLAT_UI8 certificate_zone, PLAT_UI8* pDevice_id);
+stse_ReturnCode_t stse_get_device_id(stse_Handler_t * pSTSE, 
+		PLAT_UI8 certificate_zone, 
+		PLAT_UI8* pDevice_id);
 
 /**
  * \brief Get STSE Device Certificate Size
  * \details This function reads the STSE Certificate Size
  * \param[in] pSTSE 			Pointer to STSE handler
- * \param[in] Certificate_zone 	Zone containing STSE Device certificate chain
- * \param[out] certificate_size Returned size of the STSE certificate
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in] certificate_zone 	Zone containing STSE Device certificate chain
+ * \param[out] pCertificate_size Returned size of the STSE certificate
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details \include{doc} stse_get_device_certificate_size.dox
  */
-stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t * pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 * pCertificate_size);
+stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t * pSTSE, 
+		PLAT_UI8 certificate_zone, 
+		PLAT_UI16 * pCertificate_size);
 
 /**
  * \brief Get STSE Device Certificate
  * \details This function reads the STSE Zone where the
  *          certificate is stored
  * \param[in] pSTSE 			Pointer to STSE handler
- * \param[in] Certificate_zone 	Zone containing STSE Device certificate chain
+ * \param[in] certificate_zone 	Zone containing STSE Device certificate chain
  * \param[in] certificate_size 	Indicate the STSE certificate size
  * \param[out] pCertificate 	Pointer to an array returning the STSE certificate
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details \include{doc} stse_get_device_certificate.dox
  */
-stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t * pSTSE, PLAT_UI8 Certificate_zone, PLAT_UI16 certificate_size, PLAT_UI8* pCertificate);
+stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t * pSTSE, 
+		PLAT_UI8 certificate_zone, 
+		PLAT_UI16 certificate_size, 
+		PLAT_UI8* pCertificate);
 
 /**
  * \brief STSE Device Authenticate
  * \details This function is a 1-step authentication for the STSE device, including parsing and verifying a certificate chain
  * \param[in] pSTSE 					Pointer to STSE handler
  * \param[in] pRoot_CA_certificate 		Root CA certificate used to verify the STSE Device certificate
- * \param[in] Certificate_zone 			Zone containing STSE Device certificate chain
+ * \param[in] certificate_zone 			Zone containing STSE Device certificate chain
  * \param[in] priv_key_slot_number 		Private key slot of the STSE Device associated to the leaf certificate public key
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_device_authenticate.dox
  */
 stse_ReturnCode_t stse_device_authenticate(
 		stse_Handler_t * pSTSE,
 		const PLAT_UI8 *pRoot_CA_certificate,
-		PLAT_UI8 Certificate_zone,
+		PLAT_UI8 certificate_zone,
 		PLAT_UI8 priv_key_slot_number);
 
 #endif /* STSE_DEVICE_AUTHENTICATION_H */

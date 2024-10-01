@@ -28,7 +28,7 @@
 #include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_sessions.h"
 
-/*! \defgroup stsafea_wrap Wrap/Un-wrap
+/*! \defgroup stsafea_wrap STSAFE-A Wrap/Un-wrap
  *  \ingroup stsafea_services
  *  \{
  */
@@ -42,7 +42,7 @@
  * \param[in]	payload_size			size of the payload buffer
  * \param[out] 	pWrapped_Payload		Pointer to the wrapped payload buffer
  * \param[in]	wrapped_payload_size	size of the wrapped payload buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_wrap_payload(
 		stse_Handler_t 	*pSTSE,
@@ -62,7 +62,7 @@ stse_ReturnCode_t stsafea_wrap_payload(
  * \param[in]	wrapped_payload_size	Size of the wrapped payload buffer
  * \param[out]	pPayload				Pointer to the plain text payload buffer
  * \param[in]	payload_size			Size of the payload buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_unwrap_payload(
 		stse_Handler_t 	*pSTSE,

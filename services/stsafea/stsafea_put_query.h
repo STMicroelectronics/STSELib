@@ -34,7 +34,7 @@
  *
  *  ---------------------------------------------------------------------------------------
 */
-/*! \defgroup stsafea_put_query Put Query
+/*! \defgroup stsafea_put_query STSAFE-A Put and Queries
  *  \ingroup stsafea_services
  *  @{
  */
@@ -93,9 +93,9 @@ typedef enum stsafea_life_cycle_state_t {
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSAFE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSAFE 			Pointer to STSE Handler
  * \param[in] 	life_cycle_state 	Life cycle state
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_put_life_cyle_state(
 		stse_Handler_t * pSTSAFE,
@@ -105,9 +105,9 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSAFE 			Pointer to STSAFE Handler
+ * \param[in] 	pSTSAFE 			Pointer to STSE Handler
  * \param[out] 	pLife_cycle_state 	Life cycle state
- * \return 		\ref stse_ReturnCode_t : STSAFE_OK on success ; error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_life_cycle_state(
 		stse_Handler_t * pSTSAFE,
