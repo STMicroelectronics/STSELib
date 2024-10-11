@@ -37,24 +37,27 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 
 	PLAT_UI32 digestSize = stsafea_hash_info_table[hash_algo].length;
 	PLAT_UI8 digest[digestSize];
+	PLAT_UI8 * digestPtr = digest;
 
-	/*
-	 * Only STSAFE-A120 support Hash features
-	 */
+	if(parent->SignatureAlgorithm == SIG_EDDSA_ED25519)
+	{
+		digestPtr = (PLAT_UI8*)child->tbs;
+		digestSize = child->tbsSize;
+		ret = STSE_OK;
+	}
 #ifdef STSE_CONF_USE_COMPANION
-	if(stsafe_x509_parser_companion_handler != NULL
+	else if(stsafe_x509_parser_companion_handler != NULL
 	&& stsafe_x509_parser_companion_handler->device_type == STSAFE_A120
 #ifdef STSE_CONF_HASH_SHA_256
 	&& hash_algo >= STSE_SHA_256
 #endif
-	)
 	{
 		ret = stse_compute_hash(
 				stsafe_x509_parser_companion_handler,
 				hash_algo,
 				(PLAT_UI8*)child->tbs,
 				child->tbsSize,
-				digest,
+				digestPtr,
 				(PLAT_UI16*)&digestSize);
 	}
 	else
@@ -64,7 +67,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 				hash_algo,
 				(PLAT_UI8*)child->tbs,
 				child->tbsSize,
-				digest,
+				digestPtr,
 				&digestSize);
 	}
 
@@ -73,7 +76,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 	  return (ret);
 	}
 
-	return(stse_certificate_verify_signature(parent, digest, digestSize, child->Sign.pR, child->Sign.rSize, child->Sign.pS, child->Sign.sSize));
+	return(stse_certificate_verify_signature(parent, digestPtr, digestSize, child->Sign.pR, child->Sign.rSize, child->Sign.pS, child->Sign.sSize));
 }
 
 stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *cert,
@@ -109,29 +112,38 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 #endif
 
 	/* Extract and format the public key from the certificate */
-	memcpy(pub_key, cert->PubKey.pX, (pub_key_size>>1));
-	if(*cert->pPubKey_point_representation_id == 0x04)
+	if(cert->SignatureAlgorithm == SIG_EDDSA_ED25519)
 	{
-		memcpy(pub_key + (pub_key_size>>1), 	cert->PubKey.pY, (pub_key_size>>1));
+		memcpy(pub_key, cert->PubKey.pX, pub_key_size);
 	}
 	else
 	{
-#ifdef STSE_CONF_USE_COMPANION
-		if(stsafe_x509_parser_companion_handler != NULL)
+		memcpy(pub_key, cert->PubKey.pX, (pub_key_size>>1));
+		if(*cert->pPubKey_point_representation_id == 0x04)
 		{
+			memcpy(pub_key + (pub_key_size>>1), 	cert->PubKey.pY, (pub_key_size>>1));
+		}
+		else
+		{
+#ifdef STSE_CONF_USE_COMPANION
+			if(stsafe_x509_parser_companion_handler != NULL)
+			{
+
 			stsafea_ecc_decompress_public_key(
 				stsafe_x509_parser_companion_handler,
 				key_type,
 				*cert->pPubKey_point_representation_id,
 				pub_key,
 				pub_key + (pub_key_size>>1));
-		}
-		else
+			}
+			else
 #endif
-		{
-			return STSE_CERT_UNSUPPORTED_FEATURE;
+			{
+				return STSE_CERT_UNSUPPORTED_FEATURE;
+			}
 		}
 	}
+
 
 	/* Format the signature */
 	memcpy(signature, 						signatureR, 	 (signature_size>>1));
@@ -203,7 +215,11 @@ stse_ecc_key_type_t stse_certificate_get_key_type(const stse_certificate_t *cert
 		case EC_bp512r1:
 			return STSE_ECC_KT_BP_P_512;
 #endif
-		default:
+#ifdef STSE_CONF_ECC_ED25519
+		  case EC_Ed25519:
+			return STSE_ECC_KT_ED25519;
+#endif
+		  default:
 			return STSE_ECC_KT_INVALID;
 	}
 }
@@ -223,6 +239,8 @@ stse_hash_algorithm_t stse_certificate_get_sig_hash_algo(const stse_certificate_
 #endif
 #ifdef STSE_CONF_HASH_SHA_256
 		case SIG_ECDSA_SHA256:
+			return STSE_SHA_256;
+		case SIG_EDDSA_ED25519:
 			return STSE_SHA_256;
 #endif
 #ifdef STSE_CONF_HASH_SHA_384

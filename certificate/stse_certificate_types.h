@@ -54,10 +54,11 @@ typedef enum {
 /** \brief Definitions of available signature algorithms */
 typedef enum {
 	SIG_ECDSA_SHA1 = 0,	/*!< ECDSA with SHA1 algorithm */
-	SIG_ECDSA_SHA224,	/*!< ECDSA with SHA224 algorithm */
-	SIG_ECDSA_SHA256,	/*!< ECDSA with SHA256 algorithm */
-	SIG_ECDSA_SHA384,	/*!< ECDSA with SHA384 algorithm */
-	SIG_ECDSA_SHA512,	/*!< ECDSA with SHA512 algorithm */
+	SIG_ECDSA_SHA224,	  /*!< ECDSA with SHA224 algorithm */
+	SIG_ECDSA_SHA256,	  /*!< ECDSA with SHA256 algorithm */
+	SIG_ECDSA_SHA384,	  /*!< ECDSA with SHA384 algorithm */
+	SIG_ECDSA_SHA512,	  /*!< ECDSA with SHA512 algorithm */
+  SIG_EDDSA_ED25519,  /*!< EDDSA with ED25519 algorithm */
 }stse_certificate_signature_algorithms_t;
 
 /** \brief Definitions of supported Name Attributes */
@@ -76,14 +77,15 @@ typedef enum {
 /** \brief Definitions of supported Elliptic Curve Names */
 typedef enum {
 	EC_P256 = 0,		/*!< NIST P-256 */
-	EC_P384, 			/*!< NIST P-384 */
-	EC_P521, 			/*!< NIST P-521 */
+	EC_P384, 			  /*!< NIST P-384 */
+	EC_P521, 			  /*!< NIST P-521 */
 	EC_bp256r1,  		/*!< brainpoolP256r1 */
 	EC_bp256t1,  		/*!< brainpoolP256t1 */
 	EC_bp384r1,  		/*!< brainpoolP384r1 */
 	EC_bp384t1,  		/*!< brainpoolP384t1 */
 	EC_bp512r1,  		/*!< brainpoolP512r1 */
 	EC_bp512t1,  		/*!< brainpoolP512t1 */
+	EC_Ed25519,  		/*!< Ed25519 */
 }stse_certificate_elliptic_curves_t;
 
 /** \brief Definitions of supported Extensions types */
@@ -162,7 +164,7 @@ typedef struct stse_cert_public_key_t
 } stse_cert_public_key_t;
 
 /** \brief typedef for the structure keeping the ECDSA Signature */
-typedef struct ECDSAsign_st
+typedef struct stse_cert_signature_t
 {
   const PLAT_UI8 *pR; 	/*!< Pointer to r */
   PLAT_I32  rSize;   	/*!< size to r */
