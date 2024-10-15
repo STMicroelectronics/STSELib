@@ -32,7 +32,13 @@ stse_ReturnCode_t stse_ecc_verify_signature(
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	/* - Check device type */
+	if (pSTSE->device_type == STSAFE_L010)
+	{
+		return( STSE_API_INCOMPATIBLE_DEVICE_TYPE );
 	}
 
 	if(pPublic_key 			== NULL
@@ -61,7 +67,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
 	if(pMessage   == NULL
@@ -70,7 +76,12 @@ stse_ReturnCode_t stse_ecc_generate_signature(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	ret = stsafea_ecc_generate_signature(pSTSE, slot_number, key_type, pMessage, message_length, pSignature);
+	if (pSTSE->device_type == STSAFE_L010)
+	{
+		ret = stsafel_ecc_generate_signature(pSTSE, key_type, pMessage, message_length, pSignature);
+	} else {
+		ret = stsafea_ecc_generate_signature(pSTSE, slot_number, key_type, pMessage, message_length, pSignature);
+	}
 
 	return ret;
 }
@@ -87,7 +98,13 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	/* - Check device type */
+	if (pSTSE->device_type == STSAFE_L010)
+	{
+		return( STSE_API_INCOMPATIBLE_DEVICE_TYPE );
 	}
 
 	if(pPublic_key	  == NULL
@@ -117,7 +134,13 @@ stse_ReturnCode_t stse_ecc_decompress_public_key(
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	/* - Check device type */
+	if (pSTSE->device_type == STSAFE_L010)
+	{
+		return( STSE_API_INCOMPATIBLE_DEVICE_TYPE );
 	}
 
 	if(pPublic_key_X == NULL

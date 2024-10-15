@@ -30,6 +30,7 @@
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_asymmetric_key_slots.h"
 #include "services/stsafea/stsafea_ecc.h"
+#include "services/stsafel/stsafel_ecc.h"
 
 /** \defgroup 	stse_ecc 	STSE ECC
  *  \ingroup 	stse_api

@@ -109,6 +109,7 @@ enum stse_ReturnCode_t {
 	STSE_API_SESSION_ERROR,
 	STSE_API_KEY_NOT_FOUND,
 	STSE_API_INVALID_SIGNATURE,
+	STSE_API_INCOMPATIBLE_DEVICE_TYPE,
 
 	/* - STSE Certificate layer response code (MSB Mask 0x05xx)*/
 	STSE_CERT_INVALID_PARAMETER	  		= 0x0501,	/*!< STSE Wrong function parameters */
