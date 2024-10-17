@@ -142,6 +142,15 @@ typedef enum stse_hash_algorithm_t{
 }stse_hash_algorithm_t;
 
 /*!
+ * \enum stse_hibernate_wake_up_mode_t
+ * \brief STSE hibernate wake up mode (STSAFE-A only)
+ */
+typedef enum {
+    STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET    = 0x01, /*!< Wake up from hibernate after I2C start condition or after reset. */
+	STSAFEA_HIBERNATE_WAKEUP_RESET_ONLY 	 = 0x02  /*!< Wake up from hibernate after reset only. */
+} stse_hibernate_wake_up_mode_t;
+
+/*!
  * \enum stse_cmd_protection_t
  * \brief STSE Command Protection enumeration
  */

@@ -29,43 +29,47 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 {
 	stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
 
-	if(pSTSE != NULL)
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
 	{
-		switch(pSTSE->io.BusType)
-		{
-			case STSE_BUS_TYPE_I2C :
-				ret = stse_platform_i2c_init(pSTSE->io.busID);
-				if(ret != STSE_OK)
-				{
-					return ret;
-				}
-				break;
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
 
-			default :
-				return (STSE_CORE_INVALID_PARAMETER);
-		}
+	switch(pSTSE->io.BusType)
+	{
+		case STSE_BUS_TYPE_I2C :
+			ret = stse_platform_i2c_init(pSTSE->io.busID);
+			if(ret != STSE_OK)
+			{
+				return ret;
+			}
+			break;
 
-		if(ret != STSE_OK)
-		{
-			return ret;
-		}
+		default :
+			return (STSE_CORE_INVALID_PARAMETER);
+	}
 
-		/* - Initialize Host platform */
-		ret = stse_services_platform_init();
-		if(ret != STSE_OK)
-		{
-			return ret;
-		}
-		ret = stse_crypto_platform_init();
-		if(ret != STSE_OK)
-		{
-			return ret;
-		}
+	if(ret != STSE_OK)
+	{
+		return ret;
+	}
 
-		/*- STSE device power-on delay */
-		if(pSTSE->device_type != STSAFE_L010)
-		{
-			stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
+	/* - Initialize Host platform */
+	ret = stse_services_platform_init();
+	if(ret != STSE_OK)
+	{
+		return ret;
+	}
+	ret = stse_crypto_platform_init();
+	if(ret != STSE_OK)
+	{
+		return ret;
+	}
+
+	/*- STSE device power-on delay */
+	if(pSTSE->device_type != STSAFE_L010)
+	{
+		stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
 
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
 		if (pSTSE->pPerso_info == NULL)
@@ -80,21 +84,32 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 }
 
 stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
-										stsafea_hibernate_wake_up_mode_t wake_up_mode)
-{
-	return stsafea_hibernate(pSTSE, wake_up_mode);
+										stse_hibernate_wake_up_mode_t wake_up_mode)
+{	
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return stsafel_hibernate(pSTSE);
+	} else {
+		return stsafea_hibernate(pSTSE, wake_up_mode);
+	}
 }
 
 stse_ReturnCode_t stse_device_power_on(stse_Handler_t * pSTSE)
 {
 	/* - Check STSE handler initialization */
-	if (pSTSE == NULL)
+	if(pSTSE == NULL)
 	{
-		return( STSE_API_INVALID_PARAMETER );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
 	/* - Check STSE PowerLineOn callback initialization */
-	if (pSTSE->io.PowerLineOn == NULL)
+	if(pSTSE->io.PowerLineOn == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
 	}
@@ -110,13 +125,13 @@ stse_ReturnCode_t stse_device_power_on(stse_Handler_t * pSTSE)
 stse_ReturnCode_t stse_device_power_off(stse_Handler_t * pSTSE)
 {
 	/* - Check STSE handler initialization */
-	if (pSTSE == NULL)
+	if(pSTSE == NULL)
 	{
-		return( STSE_API_INVALID_PARAMETER );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
 	/* - Check STSE PowerLineOff callback initialization */
-	if (pSTSE->io.PowerLineOff == NULL)
+	if(pSTSE->io.PowerLineOff == NULL)
 	{
 		return( STSE_API_INVALID_PARAMETER );
 	}
@@ -128,7 +143,18 @@ stse_ReturnCode_t stse_device_power_off(stse_Handler_t * pSTSE)
 
 stse_ReturnCode_t stse_device_echo(stse_Handler_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI8 *pOut, PLAT_UI16 size)
 {
-	return stsafea_echo(pSTSE, pIn, pOut, size);
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return stsafel_echo(pSTSE, pIn, pOut, size);
+	} else {
+		return stsafea_echo(pSTSE, pIn, pOut, size);
+	}
 }
 
 stse_ReturnCode_t stse_device_lock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length)
@@ -136,9 +162,15 @@ stse_ReturnCode_t stse_device_lock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword, P
 	stse_ReturnCode_t ret;
 	PLAT_UI8 password_verification_status = 0;
 
+	/* - Check STSAFE handler initialization */
 	if(pSTSE == NULL)
 	{
-		return STSE_API_INVALID_PARAMETER;
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 
 	if(pPassword == NULL || password_length != STSAFEA_PASSWORD_LENGTH)
@@ -175,9 +207,15 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
 	PLAT_UI8 password_verification_status = 0;
 	PLAT_UI8 remaining_tries;
 
+	/* - Check STSAFE handler initialization */
 	if(pSTSE == NULL)
 	{
-		return STSE_API_INVALID_PARAMETER;
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 
 	if(pPassword == NULL || password_length != STSAFEA_PASSWORD_LENGTH)
@@ -210,15 +248,39 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
 
 stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE)
 {
-	return stsafea_reset(pSTSE);
+	stse_ReturnCode_t ret;
+
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		ret = stsafel_reset(pSTSE);
+	} else {
+		ret = stsafea_reset(pSTSE);
+	}
+
+	return ret;
 }
 
 
 stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pRecord_count)
-{
+{	
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+	}
 
 	return stsafea_get_command_count(pSTSE,pRecord_count);
-
 }
 
 stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
@@ -226,12 +288,34 @@ stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
 										 stse_cmd_authorization_CR_t *pChange_rights,
 										 stse_cmd_authorization_record_t *pRecord_table)
 {
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+	}
+
     return stsafea_get_command_AC_table(pSTSE, record_count,pChange_rights,pRecord_table);
 }
 
 stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
 		stsafea_life_cycle_state_t *pLife_cycle_state)
 {
+	/* - Check STSAFE handler initialization */
+	if(pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+	}
+
     return stsafea_query_life_cycle_state(pSTSE, pLife_cycle_state);
 }
 

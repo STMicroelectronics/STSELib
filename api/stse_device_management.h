@@ -23,12 +23,17 @@
 
 #include "core/stse_return_codes.h"
 #include "core/stse_device.h"
+
 #include "services/stsafea/stsafea_echo.h"
 #include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafea/stsafea_password.h"
 #include "services/stsafea/stsafea_low_power.h"
 #include "services/stsafea/stsafea_reset.h"
 #include "services/stsafea/stsafea_commands.h"
+
+#include "services/stsafel/stsafel_echo.h"
+#include "services/stsafel/stsafel_low_power.h"
+#include "services/stsafel/stsafel_reset.h"
 
 /** \defgroup 	stse_device_management 	STSE Device Management
  *  \ingroup 	stse_api
@@ -63,10 +68,10 @@ stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE);
  * \details 	This function call hibernate service to put the device in hibernate
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in]	wake_up_mode 		Event to wake up from,
- * 									listed in enum \ref stsafea_hibernate_wake_up_mode_t
+ * 									listed in enum \ref stse_hibernate_wake_up_mode_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE, stsafea_hibernate_wake_up_mode_t wake_up_mode);
+stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE, stse_hibernate_wake_up_mode_t wake_up_mode);
 
 /**
  * \brief 		Power-on target device

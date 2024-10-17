@@ -33,22 +33,16 @@
  *  @{
  */
 
-typedef enum {
-    STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET    = 0x01, /*!< Wake up from hibernate after I2C start condition or after reset. */
-	STSAFEA_HIBERNATE_WAKEUP_RESET_ONLY 	 = 0x02  /*!< Wake up from hibernate after reset only. */
-} stsafea_hibernate_wake_up_mode_t;
-
-
 /**
  * \brief 		Put target device in hibernate mode
  * \details 	This function format and send hibernate command to target device
  * \param[in] 	pSTSAFE 			Pointer to STSE Handler
- * \param[in]	wake_up_mode 		Event to wake up from,
- * 									listed in enum \ref stsafea_hibernate_wake_up_mode_t
+ * \param[in]	wake_up_mode 		Event to wake up from (STSAFE-A110 only)
+ * 									listed in enum \ref stse_hibernate_wake_up_mode_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSAFE,
-									 stsafea_hibernate_wake_up_mode_t wake_up_mode);
+									 stse_hibernate_wake_up_mode_t wake_up_mode);
 
 /** \}*/
 
