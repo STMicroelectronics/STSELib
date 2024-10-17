@@ -35,46 +35,35 @@
 #define STSAFEL_DATA_ZONE_COUNTER_LENGTH 3U
 
 /*!
- * \brief STSAFEL decrement service option structure
- */
-typedef struct stsafel_decrement_option_t{
-    PLAT_UI8 new_decrement_ac:4;                /*!< 0b0000: Access always authorized
-                                                  \n 0b0001: Access authorized under pairing session only
-                                                  \n 0b0010: Access authorized under companion session only
-                                                  \n Other: Access never */
-    PLAT_UI8 new_decrement_ac_change_right:1;   /*!< 0b0: Access condition change authorized
-                                                  \n 0b1: Access condition change forbidden*/
-    PLAT_UI8 change_ac_indicator:1;             /*!< 0b0: request access condition change
-                                                  \n 0b1: ignore access condition change */
-    PLAT_UI8 filler:2;                          /*!< Must be 0b00 */
-}stsafel_decrement_option_t;
-
-/*!
  * \brief STSAFEL read service option structure
  */
 typedef struct stsafel_read_option_t{
-    PLAT_UI8 new_read_ac:4;                 /*!< \brief New read access condition \n - 0000b : ALWAYS \n - 0001b : pairing session \n - 0010b : companion session \n - Other : NEVER */
-    PLAT_UI8 new_read_ac_change_right:1;    /*!< \brief New read access condition change right \n - 0b : NEVER \n - 1b : ALWAYS */
-    PLAT_UI8 change_ac_indicator:1;         /*!< \brief Change access condition indicator \n - 0b : Do not change access condition \n - 1b : Change access condition */
-    PLAT_UI8 filler:2;                      /*!< \brief Option filler ; Must be 0b00 */
+    stse_zone_ac_t new_read_ac:STSE_4BIT_LEN;                           /*!< \brief New read access condition */
+    stse_ac_change_right_t new_read_ac_change_right:STSE_1BIT_LEN;      /*!< \brief New read access condition change right */
+    stse_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;  /*!< \brief Change access condition indicator */
+    PLAT_UI8 filler:STSE_2BIT_LEN;                                      /*!< \brief Option filler ; Must be 0b00 */
 }stsafel_read_option_t;
 
 /*!
  * \brief STSAFEL update service option structure
  */
 typedef struct stsafel_update_option_t{
-    PLAT_UI8 new_update_ac:4;               /*!< 0b0000: Access always authorized
-                                              \n 0b0001: Access authorized under pairing session only
-                                              \n 0b0010: Access authorized under companion session only
-                                              \n Other: Access never */
-    PLAT_UI8 new_update_ac_change_right:1;  /*!< 0b0: Access condition change authorized
-                                              \n 0b1: Access condition change forbidden*/
-    PLAT_UI8 change_ac_indicator:1;         /*!< 0b0: request access condition change
-                                              \n 0b1: ignore access condition change */
-    PLAT_UI8 filler:1;                      /*!< Must be 0b0 */
-    PLAT_UI8 atomicity:1;                   /*!< 0b0: non-atomic update
-                                              \n 0b1: atomic update */
+    stse_zone_ac_t new_update_ac:STSE_4BIT_LEN;
+    stse_ac_change_right_t new_update_ac_change_right:STSE_1BIT_LEN;
+    stse_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;
+    PLAT_UI8 filler:STSE_1BIT_LEN;
+    stse_zone_update_atomicity_t atomicity:STSE_1BIT_LEN;
 }stsafel_update_option_t;
+
+/*!
+ * \brief STSAFEL decrement service option structure
+ */
+typedef struct stsafel_decrement_option_t{
+    stse_zone_ac_t new_decrement_ac:STSE_4BIT_LEN;
+    stse_ac_change_right_t new_decrement_ac_change_right:STSE_1BIT_LEN;
+    stse_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;
+    PLAT_UI8 filler:STSE_2BIT_LEN;
+}stsafel_decrement_option_t;
 
 /**
  * \brief       Send a read data zone command to target device
@@ -92,7 +81,8 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
         stsafel_read_option_t option,
         PLAT_UI16 offset,
         PLAT_UI8 *pData,
-        PLAT_UI16 data_length);
+        PLAT_UI16 data_length,
+        stse_cmd_protection_t protection);
 
 /**
  * \brief       Send an update data zone command to target device
@@ -110,7 +100,8 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
         stsafel_update_option_t option,
         PLAT_UI16 offset,
         PLAT_UI8 *pData ,
-        PLAT_UI16 data_length);
+        PLAT_UI16 data_length,
+        stse_cmd_protection_t protection);
 
 /**
  * \brief       Send a read counter zone command to target device
@@ -130,7 +121,8 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
         PLAT_UI16 offset,
         PLAT_UI8 *pData,
         PLAT_UI16 data_length,
-        PLAT_UI32 *pCounter_value);
+        PLAT_UI32 *pCounter_value,
+        stse_cmd_protection_t protection);
 
 /**
  * \brief       Send a decrement counter zone command to target device
@@ -152,7 +144,8 @@ stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
         PLAT_UI16 offset,
         PLAT_UI8 *pData,
 		PLAT_UI16  data_length,
-        PLAT_UI32 *pNew_counter_value);
+        PLAT_UI32 *pNew_counter_value,
+        stse_cmd_protection_t protection);
 
 /** \}*/
 

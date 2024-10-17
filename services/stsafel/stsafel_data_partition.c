@@ -24,7 +24,8 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
     stsafel_read_option_t option,
     PLAT_UI16 offset,
     PLAT_UI8 *pData,
-    PLAT_UI16 data_length)
+    PLAT_UI16 data_length,
+	stse_cmd_protection_t protection)
 {
     stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
@@ -71,7 +72,8 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
     stsafel_update_option_t option,
     PLAT_UI16 offset,
     PLAT_UI8 *pData ,
-    PLAT_UI16 data_length)
+    PLAT_UI16 data_length,
+	stse_cmd_protection_t protection)
 {
     stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_UPDATE;
@@ -117,7 +119,8 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
     PLAT_UI16 offset,
     PLAT_UI8 *pData,
     PLAT_UI16 data_length,
-    PLAT_UI32 *pCounter_value)
+    PLAT_UI32 *pCounter_value,
+	stse_cmd_protection_t protection)
 {
     stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
@@ -175,7 +178,8 @@ stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
     PLAT_UI16 offset,
     PLAT_UI8 *pData,
 	PLAT_UI16  data_length,
-    PLAT_UI32 *pNew_counter_value)
+    PLAT_UI32 *pNew_counter_value,
+	stse_cmd_protection_t protection)
 {
     stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_DECREMENT;

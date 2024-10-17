@@ -142,6 +142,14 @@ typedef enum stse_hash_algorithm_t{
 }stse_hash_algorithm_t;
 
 /*!
+ * \enum stse_cmd_protection_t
+ * \brief STSE Command Protection enumeration
+ */
+typedef enum stse_cmd_protection_t {
+	STSE_NO_PROT = 0,						/*!< No command / response payload protection */
+} stse_cmd_protection_t;
+
+/*!
  * \struct stse_cmd_authorization_CR_t
  * \brief STSE commands authorization change request type
  */
@@ -178,6 +186,44 @@ typedef struct stse_cmd_authorization_record_t{
 	PLAT_UI8 rsp : STSE_1BIT_LEN;
 	} host_encryption_flags;
 } stse_cmd_authorization_record_t;
+
+/**
+ * \enum stse_zone_update_atomicity_t
+ * \brief STSE Update command atomicity enumeration
+ */
+typedef enum stse_zone_update_atomicity_t {
+	STSE_NON_ATOMIC_ACCESS = 0,		/*!< Non Atomic Access*/
+	STSE_ATOMIC_ACCESS				/*!< Atomic Access*/
+} stse_zone_update_atomicity_t;
+
+/**
+ * \enum stse_zone_ac_t
+ * \brief STSE data storage access condition enumeration
+ */
+typedef enum stse_zone_ac_t{
+	STSE_AC_ALWAYS= 0,		/*!< Zone/counter access always granted */
+	STSE_AC_HOST,			/*!< Zone/counter access granted on Host C-MAC validation */
+	STSE_AC_AUTH,			/*!< Zone/counter access granted on Auth C-MAC validation */
+	STSE_AC_NEVER = 7		/*!< Zone/counter access never granted */
+}stse_zone_ac_t;
+
+/**
+ * \enum stse_zone_ac_change_indicator_t
+ * \brief STSE data storage access condition change indicator
+ */
+typedef enum stse_zone_ac_change_indicator_t {
+	STSE_AC_IGNORE = 0,		/*!< Ignore access condition change */
+	STSE_AC_CHANGE			/*!< Request access condition change */
+}stse_zone_ac_change_indicator_t;
+
+/**
+ * \enum stse_ac_change_right_t
+ * \brief STSE data storage access condition change right enumeration
+ */
+typedef enum stse_ac_change_right_t {
+		STSE_ACCR_DISABLED = 0,		/*!< Change the AC is forbidden */
+		STSE_ACCR_ENABLE			/*!< Change the AC is authorized */
+}stse_ac_change_right_t;
 
 #define STSE_ECC_GENERIC_LENGTH_SIZE                        2U
 #define STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID 		0x04

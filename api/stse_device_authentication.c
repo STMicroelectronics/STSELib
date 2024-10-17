@@ -51,7 +51,7 @@ stse_ReturnCode_t stse_get_device_id(stse_Handler_t * pSTSE, PLAT_UI8 certificat
 			pDevice_id,						/* Returned certificate size */
 			STSE_CERTIFICATE_DEVICE_ID_SIZE,		/* Certificate size length */
 			0,										/* No maximum chunck size (No chunck at all) */
-			STSAFEA_NO_PROT);						/* No protection */
+			STSE_NO_PROT);						/* No protection */
 
 	return ret;
 }
@@ -80,7 +80,7 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t * pSTSE, PLAT_
 			certificate_size_ui8,				/* Returned certificate size */
 			STSE_CERTIFICATE_SIZE_LENGTH,		/* Certificate size length 2 bytes */
 			0,									/* No maximum chunck size (No chunck at all) */
-			STSAFEA_NO_PROT);					/* No protection */
+			STSE_NO_PROT);					/* No protection */
 
 	if(ret != STSE_OK)
 	{
@@ -114,7 +114,7 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t * pSTSE, PLAT_UI8 c
 			pCertificate,						/* Returned certificate size */
 			certificate_size,					/* Certificate size length */
 			255,								/* No maximum chunck size (No chunck at all) */
-			STSAFEA_NO_PROT);					/* No protection */
+			STSE_NO_PROT);					/* No protection */
 
 	if(ret != STSE_OK)
 	{
@@ -152,7 +152,7 @@ stse_ReturnCode_t stse_device_authenticate(
 			certificate_size_ui8,				/* Returned certificate size */
 			STSE_CERTIFICATE_SIZE_LENGTH,		/* Certificate size length 2 bytes */
 			0,									/* No maximum chunck size (No chunck at all) */
-			STSAFEA_NO_PROT);					/* No protection */
+			STSE_NO_PROT);					/* No protection */
 
 	if(ret != STSE_OK)
 	{
@@ -191,7 +191,13 @@ stse_ReturnCode_t stse_device_authenticate(
 	PLAT_UI16 signature_size = stse_ecc_info_table[key_type].signature_size;
 	PLAT_UI8 signature[signature_size];
 
-	PLAT_UI16 challenge_size = stse_ecc_info_table[key_type].private_key_size;
+	PLAT_UI16 challenge_size;
+	if(pSTSE->device_type == STSAFE_L010)
+	{
+		challenge_size = STSAFEL_ECC_SIGNATURE_CHALLENGE_LENGTH;
+	} else {
+		challenge_size = stse_ecc_info_table[key_type].private_key_size;
+	}
 	PLAT_UI8 challenge[challenge_size];
 
 	/* - Generate random challenge */
@@ -222,7 +228,7 @@ stse_ReturnCode_t stse_device_authenticate(
 			&signature[signature_size >> 1], (signature_size >> 1));
 	if(ret != STSE_OK)
 	{
-		return( STSE_API_INVALID_SIGNATURE );
+		return ret;
 	}
 
 	return STSE_OK;

@@ -47,54 +47,15 @@
 #define STSAFEA_ZIR_AC_UPDATE_CR_GET(x)		( ( (x) & STSAFEA_ZIR_AC_UPDATE_CR_Msk) >> STSAFEA_ZIR_AC_UPDATE_CR_Pos )
 #define STSAFEA_ZIR_AC_UPDATE_GET(x)		( ( (x) & STSAFEA_ZIR_AC_UPDATE_Msk) >> STSAFEA_ZIR_AC_UPDATE_Pos )
 
-
-/**
- * \enum stsafea_atomicity_t
- * \brief STSAFE Update service atomicity enumeration
- */
-typedef enum stsafea_atomicity_t {
-	STSAFEA_NON_ATOMIC_ACCESS = 0,		/*!< Non Atomic Access*/
-	STSAFEA_ATOMIC_ACCESS				/*!< Atomic Access*/
-}stsafea_atomicity_t;
-
-/**
- * \enum stsafea_ac_t
- * \brief STSAFE data storage access condition enumeration
- */
-typedef enum stsafea_ac_t{
-	STSAFEA_AC_ALWAYS= 0,		/*!< Zone/counter access always granted */
-	STSAFEA_AC_HOST,			/*!< Zone/counter access granted on Host C-MAC validation */
-	STSAFEA_AC_AUTH,			/*!< Zone/counter access granted on Auth C-MAC validation */
-	STSAFEA_AC_NEVER = 7		/*!< Zone/counter access never granted */
-}stsafea_ac_t;
-
-/**
- * \enum stsafea_zone_ac_change_indicator_t
- * \brief STSAFE data storage access condition change indicator
- */
-typedef enum stsafea_zone_ac_change_indicator_t {
-	STSAFEA_AC_CHANGE = 0,		/*!< request access condition change */
-	STSAFEA_AC_IGNORE			/*!< ignore access condition change */
-}stsafea_zone_ac_change_indicator_t;
-
-/**
- * \enum stsafea_ac_change_right_t
- * \brief STSAFE data storage access condition change right enumeration
- */
-typedef enum stsafea_ac_change_right_t {
-		STSAFE_ACCR_DISABLED = 0,		/*!< accessible under pairing session*/
-		STSAFE_ACCR_ENABLE				/*!<  Always accessible*/
-}stsafea_ac_change_right_t;
-
 /**
  * \struct stsafea_read_option_t
  * \brief STSAFE Read service options
  */
 typedef struct stsafea_read_option_t {
-	stsafea_ac_t new_read_ac:STSE_3BIT_LEN;									/*!< Access condition */
-	stsafea_ac_change_right_t new_read_ac_change_right:STSE_1BIT_LEN;		/*!< Access condition change right */
-	stsafea_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;	/*!< Access condition change indicator */
-	PLAT_UI8 filler:STSE_3BIT_LEN;											/*!< Must be 0b0 */
+	stse_zone_ac_t new_read_ac:STSE_3BIT_LEN;							/*!< Access condition */
+	stse_ac_change_right_t new_read_ac_change_right:STSE_1BIT_LEN;		/*!< Access condition change right */
+	stse_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;	/*!< Access condition change indicator */
+	PLAT_UI8 filler:STSE_3BIT_LEN;										/*!< Must be 0b0 */
 }stsafea_read_option_t;
 
 /**
@@ -102,11 +63,11 @@ typedef struct stsafea_read_option_t {
  * \brief STSAFE Update service options
  */
 typedef struct stsafea_update_option_t {
-	stsafea_ac_t new_update_ac:STSE_3BIT_LEN;								/*!< Access condition */
-	stsafea_ac_change_right_t new_update_ac_change_right:STSE_1BIT_LEN;		/*!< Access condition change right */
-	stsafea_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;	/*!< Access condition change indicator */
-	PLAT_UI8 filler:STSE_2BIT_LEN;											/*!< Must be 0b0 */
-	stsafea_atomicity_t atomicity:STSE_1BIT_LEN;							/*!< Atomicity */
+	stse_zone_ac_t new_update_ac:STSE_3BIT_LEN;							/*!< Access condition */
+	stse_ac_change_right_t new_update_ac_change_right:STSE_1BIT_LEN;	/*!< Access condition change right */
+	stse_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;	/*!< Access condition change indicator */
+	PLAT_UI8 filler:STSE_2BIT_LEN;										/*!< Must be 0b0 */
+	stse_zone_update_atomicity_t atomicity:STSE_1BIT_LEN;							/*!< Atomicity */
 } PLAT_PACKED_STRUCT stsafea_update_option_t;
 
 /**
@@ -114,10 +75,10 @@ typedef struct stsafea_update_option_t {
  * \brief STSAFE decrement service options
  */
 typedef struct stsafea_decrement_option_t {
-	stsafea_ac_t new_decrement_ac:STSE_3BIT_LEN;							/*!< Access condition */
-	stsafea_ac_change_right_t new_decrement_ac_change_right:STSE_1BIT_LEN;	/*!< Access condition change right */
-	stsafea_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;	/*!< Access condition change indicator */
-	PLAT_UI8 filler:STSE_3BIT_LEN;											/*!< Must be 0b0 */
+	stse_zone_ac_t new_decrement_ac:STSE_3BIT_LEN;						/*!< Access condition */
+	stse_ac_change_right_t new_decrement_ac_change_right:STSE_1BIT_LEN;	/*!< Access condition change right */
+	stse_zone_ac_change_indicator_t change_ac_indicator:STSE_1BIT_LEN;	/*!< Access condition change indicator */
+	PLAT_UI8 filler:STSE_3BIT_LEN;										/*!< Must be 0b0 */
 } PLAT_PACKED_STRUCT stsafea_decrement_option_t;
 
 /**
@@ -128,10 +89,10 @@ typedef struct {
 	PLAT_UI8 index;
 	PLAT_UI8 zone_type;
 	uint16_t data_segment_length;
-	stsafea_ac_change_right_t read_ac_cr;
-	stsafea_ac_t read_ac;
-	stsafea_ac_change_right_t update_ac_cr;
-	stsafea_ac_t update_ac;
+	stse_ac_change_right_t read_ac_cr;
+	stse_zone_ac_t read_ac;
+	stse_ac_change_right_t update_ac_cr;
+	stse_zone_ac_t update_ac;
 	uint32_t counter_value;
 }stsafea_data_partition_record_t;
 
@@ -167,7 +128,7 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8 *data,
 		PLAT_UI8  data_length,
 		PLAT_UI32 * new_counter_value,
-		stsafea_cmd_protection_t protection);
+		stse_cmd_protection_t protection);
 
 stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
@@ -176,7 +137,7 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8 *pReadBuffer,
 		PLAT_UI16 read_length,
 		PLAT_UI32 *pCounter_value,
-		stsafea_cmd_protection_t protection);
+		stse_cmd_protection_t protection);
 
 stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
@@ -184,7 +145,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI16 read_offset,
 		PLAT_UI8 *pReadBuffer,
 		PLAT_UI16 read_length,
-		stsafea_cmd_protection_t protection);
+		stse_cmd_protection_t protection);
 
 stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
@@ -192,7 +153,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI16 offset,
 		PLAT_UI8 *data ,
 		PLAT_UI32 data_length,
-		stsafea_cmd_protection_t protection);
+		stse_cmd_protection_t protection);
 
 /** \}*/
 

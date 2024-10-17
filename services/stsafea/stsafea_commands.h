@@ -129,20 +129,6 @@ typedef enum stsafea_extended_cmd_code_t {
 	STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY			/*!< STSAFE-A Decompress command code */
 }stsafea_extended_cmd_code_t;
 
-/*!
- * \enum stsafea_cmd_protection_t
- * \brief STSAFE-Axxx Command Protection enumeration
- */
-typedef enum stsafea_cmd_protection_t {
-	STSAFEA_NO_PROT = 0,						/*!< No command / response payload protection */
-	STSAFEA_OTHER_SESSION_RMAC_PROTECTED = 2,	/*!< Response protection over other session */
-	STSAFEA_HOST_SESSION_RMAC_PROTECTED,		/*!< Response protection over Host session */
-	STSAFEA_OTHER_SESSION_CMAC_PROTECTED,		/*!< Command protection over other session */
-	STSAFEA_HOST_SESSION_CMAC_PROTECTED,		/*!< Command protection over Host session */
-	STSAFEA_OTHER_SESSION_CMAC_RMAC_PROTECTED,	/*!< Command and response protection over other session */
-	STSAFEA_HOST_SESSION_CMAC_RMAC_PROTECTED	/*!< Command and response protection over Host session */
-}stsafea_cmd_protection_t;
-
 extern const PLAT_UI16 stsafea_maximum_command_length[4];
 
 stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE , PLAT_UI8 *pCommand_count);
@@ -154,7 +140,7 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 
 stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE);
 
-void stsafea_perso_info_get_cmd_AC (stse_perso_info_t *pPerso ,
+void stsafea_perso_info_get_cmd_AC (stse_perso_info_t *pPerso,
 		PLAT_UI8 command_code,
 		stse_cmd_access_conditions_t *pProtection);
 

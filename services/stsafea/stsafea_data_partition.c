@@ -102,10 +102,10 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 		{
 			pRecord_table->index = raw_data[i++];
 			pRecord_table->zone_type = raw_data[i++];
-			pRecord_table->read_ac_cr = (stsafea_ac_change_right_t)STSAFEA_ZIR_AC_READ_CR_GET(raw_data[i]);
-			pRecord_table->read_ac = (stsafea_ac_t)STSAFEA_ZIR_AC_READ_GET(raw_data[i]);
-			pRecord_table->update_ac_cr = (stsafea_ac_change_right_t)STSAFEA_ZIR_AC_UPDATE_CR_GET(raw_data[i]);
-			pRecord_table->update_ac = (stsafea_ac_t)STSAFEA_ZIR_AC_UPDATE_GET(raw_data[i++]);
+			pRecord_table->read_ac_cr = (stse_ac_change_right_t)STSAFEA_ZIR_AC_READ_CR_GET(raw_data[i]);
+			pRecord_table->read_ac = (stse_zone_ac_t)STSAFEA_ZIR_AC_READ_GET(raw_data[i]);
+			pRecord_table->update_ac_cr = (stse_ac_change_right_t)STSAFEA_ZIR_AC_UPDATE_CR_GET(raw_data[i]);
+			pRecord_table->update_ac = (stse_zone_ac_t)STSAFEA_ZIR_AC_UPDATE_GET(raw_data[i++]);
 			pRecord_table->data_segment_length = UI16_B1_SET(raw_data[i++]);
 			pRecord_table->data_segment_length += UI16_B0_SET(raw_data[i++]);
 			if(pRecord_table->zone_type == 1)
@@ -132,7 +132,7 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8* pData,
 		PLAT_UI8  data_length,
 		PLAT_UI32* pNew_counter_value,
-		stsafea_cmd_protection_t protection)
+		stse_cmd_protection_t protection)
 {
 	(void)protection;
 	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
@@ -198,7 +198,7 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8* pAssociated_data,
 		PLAT_UI16 Associated_data_length,
 		PLAT_UI32* pCounter_value,
-		stsafea_cmd_protection_t protection)
+		stse_cmd_protection_t protection)
 {
 	(void)protection;
 	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
@@ -262,7 +262,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI16 offset,
 		PLAT_UI8 *pReadBuffer,
 		PLAT_UI16 read_length,
-		stsafea_cmd_protection_t protection)
+		stse_cmd_protection_t protection)
 {
 	(void)protection;
 	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
@@ -322,7 +322,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI16 offset,
 		PLAT_UI8 *pData ,
 		PLAT_UI32 data_length,
-		stsafea_cmd_protection_t protection)
+		stse_cmd_protection_t protection)
 {
 	(void)protection;
 	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
