@@ -16,6 +16,8 @@
  ******************************************************************************
  */
 
+#include "services/stsafel/stsafel_device_info.h"
+
 stse_ReturnCode_t stsafel_get_device_UID(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pDevice_UID)
