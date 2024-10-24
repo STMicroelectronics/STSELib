@@ -92,11 +92,17 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pSTSE->device_type == STSAFE_L010)
+	switch (pSTSE->device_type)
 	{
-		return stsafel_hibernate(pSTSE);
-	} else {
-		return stsafea_hibernate(pSTSE, wake_up_mode);
+		case STSAFE_L010:
+			return stsafel_hibernate(pSTSE);
+		case STSAFE_A100:
+		case STSAFE_A110:
+		case STSAFE_A200:
+			return stsafea_hibernate(pSTSE, wake_up_mode);
+		case STSAFE_A120:
+		default:
+			return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 }
 
@@ -318,4 +324,3 @@ stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
 
     return stsafea_query_life_cycle_state(pSTSE, pLife_cycle_state);
 }
-
