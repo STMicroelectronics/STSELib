@@ -44,7 +44,7 @@
  * \param[in] 	challenge_length 	Challenge length
  * \param[in] 	pChallenge 			Challenge to be signed
  * \param[out]	pSignature			Signature output buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_ecc_generate_signature(
 		stse_Handler_t * pSTSE,

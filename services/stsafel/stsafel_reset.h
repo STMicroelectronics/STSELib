@@ -27,7 +27,7 @@
 #include "services/stsafel/stsafel_commands.h"
 #include "services/stsafel/stsafel_timings.h"
 
-/*! \defgroup stsafel_reset Reset
+/*! \defgroup stsafel_reset STSAFE-L Reset
  *  \ingroup stsafel_services
  *  @{
  */
@@ -36,7 +36,7 @@
  * \brief 		Send reset command to target device
  * \details 	This service format and send the reset command
  * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE);
 

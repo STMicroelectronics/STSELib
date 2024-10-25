@@ -28,7 +28,7 @@
 #include "services/stsafel/stsafel_timings.h"
 
 
-/*! \defgroup stsafel_echo Echo
+/*! \defgroup stsafel_echo STSAFE-L Echo
  *  \ingroup stsafel_services
  *  @{
  */
@@ -40,7 +40,7 @@
  * \param[in]	message				Message buffer to send the echo command
  * \param[in]	echoed_message		Message buffer to receive the echo response
  * \param[in]	message_size		Size of the echo message
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_echo(
 		stse_Handler_t * pSTSE,

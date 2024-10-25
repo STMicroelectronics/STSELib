@@ -27,7 +27,7 @@
 #include "services/stsafel/stsafel_commands.h"
 #include "services/stsafel/stsafel_timings.h"
 
-/*! \defgroup stsafel_data_partition Data partition
+/*! \defgroup stsafel_data_partition STSAFE-L Data partition
  *  \ingroup stsafel_services
  *  @{
  */
@@ -74,7 +74,8 @@ typedef struct stsafel_decrement_option_t{
  * \param[in]   offset               Offset of data to be read
  * \param[in]   pData                Pointer to the read data buffer
  * \param[in]   data_length          Data buffer length in byte
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in]   protection           \ref stse_cmd_protection_t Command protection flag
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
         PLAT_UI8 zone_index,
@@ -93,7 +94,8 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
  * \param[in]   offset               Offset used for new data update
  * \param[in]   pData                Pointer to the new data buffer (data to be written in the zone)
  * \param[in]   data_length          New data buffer length in byte
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in]   protection           \ref stse_cmd_protection_t Command protection flag
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
         PLAT_UI8 zone_index,
@@ -113,7 +115,8 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
  * \param[in]   pData                Pointer to the read data buffer
  * \param[in]   data_length          Associated data buffer length in byte
  * \param[out]  pCounter_value       Pointer to counter read buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in]   protection           \ref stse_cmd_protection_t Command protection flag
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
         PLAT_UI8 zone_index,
@@ -135,7 +138,8 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
  * \param[in]   pData                Pointer to the new associated data buffer (data to be written along with counter decrement in the zone)
  * \param[in]   data_length          New associated data buffer length in byte
  * \param[out]  pNew_counter_value   Pointer to counter read buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \param[in]   protection           \ref stse_cmd_protection_t Command protection flag
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
         PLAT_UI8 zone_index,

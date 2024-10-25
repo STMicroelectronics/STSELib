@@ -27,7 +27,7 @@
 #include "services/stsafel/stsafel_commands.h"
 #include "services/stsafel/stsafel_timings.h"
 
-/*! \defgroup stsafel_device_info STSAFE-L device info
+/*! \defgroup stsafel_device_info STSAFE-L Device info
  *  \ingroup stsafel_services
  *  @{
  */
@@ -70,7 +70,7 @@ typedef struct /*!< Device traceability info */
  * \details 	This service format and send the get UID command
  * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[out]	pDevice_UID			Device unique identifier
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_device_UID(
 		stse_Handler_t * pSTSE,
@@ -81,7 +81,7 @@ stse_ReturnCode_t stsafel_get_device_UID(
  * \details 	This service format and send the get traceability info command
  * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[out]	pDevice_traceability	Device traceability info
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_device_traceability(
 		stse_Handler_t * pSTSE,
@@ -96,7 +96,7 @@ stse_ReturnCode_t stsafel_get_device_traceability(
  * \param[in]	pAdditional_data            Additional data relative to requested info
  * \param[in]	device_info_expected_length	Expected device info length
  * \param[out]	pDevice_info			    Device info output buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_data(
 		stse_Handler_t * pSTSE,
@@ -113,7 +113,7 @@ stse_ReturnCode_t stsafel_get_data(
  * \param[in]	tag                         Tag of the data to put
  * \param[in]	device_info_length	        Device info length
  * \param[in]	pDevice_info			    Device info buffer
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_put_data(
 		stse_Handler_t * pSTSE,

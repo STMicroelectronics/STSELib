@@ -27,7 +27,7 @@ extern "C" {
 #include "core/stse_platform.h"
 #include "services/stsafel/stsafel_commands.h"
 
-/*! \defgroup stsafel_symmetric_key_slots timings
+/*! \defgroup stsafel_timings STSAFE-L Timings
  *  \ingroup stsafel_services
  *  @{
  */

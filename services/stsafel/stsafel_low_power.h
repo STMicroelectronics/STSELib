@@ -27,7 +27,7 @@
 #include "services/stsafel/stsafel_commands.h"
 #include "services/stsafel/stsafel_timings.h"
 
-/*! \defgroup stsafel_low_power Low power
+/*! \defgroup stsafel_low_power STSAFE-L Low power
  *  \ingroup stsafel_services
  *  @{
  */
@@ -36,7 +36,7 @@
  * \brief 		Send hibernate command to target device
  * \details 	This service format and send the hibernate command
  * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_hibernate(stse_Handler_t * pSTSE);
 
@@ -44,7 +44,7 @@ stse_ReturnCode_t stsafel_hibernate(stse_Handler_t * pSTSE);
  * \brief 		Send wakeup command to target device
  * \details 	This service format and send the wakeup command
  * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_wakeup(stse_Handler_t * pSTSE);
 
