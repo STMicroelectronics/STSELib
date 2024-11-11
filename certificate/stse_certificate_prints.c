@@ -92,6 +92,9 @@ void stse_certificate_print_signature_algorithm(PLAT_I32 type)
 {
   switch (type)
   {
+  	  case SIG_EDDSA_ED25519:
+  		printf("eddsa-with-SHA256");
+  		break;
 	  case SIG_ECDSA_SHA1:
 		printf("ecdsa-with-SHA1");
 		break;
@@ -181,6 +184,10 @@ void stse_certificate_print_elliptic_curve(PLAT_I32 type)
 	  case EC_bp512t1:
 		printf("brainpoolP512t1");
 		break;
+  	  case EC_Ed25519:
+  		printf("ed25519");
+  		break;
+
 	  default:
 		printf("Failed Identification of EllipticCurve");
 		break;
