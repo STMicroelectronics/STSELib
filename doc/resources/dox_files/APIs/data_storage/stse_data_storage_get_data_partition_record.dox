@@ -1,0 +1,62 @@
+\b Description 
+Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
+\n\n
+
+@startuml
+    'Define participant (define order = display order left to right)
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+    
+    activate HOST $STSE_ACTIVITY
+    group stse_data_storage_get_data_partition_record
+        
+        HOST -> STSE : Query "DATA PARTITION CONFIGURATION"  
+        activate STSE $STSE_ACTIVITY
+        return Data partition configuration
+        rnote over HOST
+            Extract Number of partition 
+            from Data partition configuration
+        end note
+        rnote over HOST
+            Instantiate Data partition table buffer
+            according to Number of partition
+        end note
+        
+        HOST -> STSE : Query "DATA PARTITION CONFIGURATION"  
+        activate STSE $STSE_ACTIVITY
+        return Data partition configuration
+        rnote over HOST
+            Extract requested data partition record
+            from partitioning table
+        end note
+
+    end 
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example 
+\n The following applicative code snippet illustrates how to use this API function in main application.
+\n\n
+
+\code{.c}
+
+	/*- Get data partition record */
+	
+    uint8_t zone_index = 0;
+	
+    stse_ret = stse_data_storage_get_data_partition_record(
+			&stse_handler,
+			zone_index
+	);
+	if( stse_ret != STSE_OK )
+	{
+		/* Handle Error */
+	}
+
+\endcode
+
+\sa stse_init
+\sa stse_data_storage_get_total_partition_count
+\sa stse_data_storage_get_partitioning_table
+
+<div style="page-break-after: always;"></div>
