@@ -63,6 +63,21 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
 		PLAT_UI16 Partitioning_table_length
 );
 
+/**
+ * \brief Get the data partition record at a given index
+ * \details This API functions use the STSE get service to report the data partition record from the target STSE device zone index
+ * \param[in]	pSTSE 					Pointer to target STSE handler
+ * \param[in]	zone_index				Target STSE zone index
+ * \param[out]	pData_partition_record 	Pointer to the data partition record
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_data_storage_get_data_partition_record.dox
+ */
+stse_ReturnCode_t stse_data_storage_get_data_partition_record(
+		stse_Handler_t* pSTSE,
+		PLAT_UI8 zone_index,
+		stsafea_data_partition_record_t*  pData_partition_record
+);
+
 /*!
  * \brief 		Read one memory zone of the STSE device
  * \param[in]   pSTSE 		Pointer to target STSE handler

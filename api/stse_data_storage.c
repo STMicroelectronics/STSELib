@@ -25,7 +25,6 @@ stse_ReturnCode_t stse_data_storage_get_total_partition_count(
 		PLAT_UI8* total_partition_count
 		)
 {
-
 	return stsafea_get_total_partition_count(pSTSE, total_partition_count);
 }
 
@@ -42,6 +41,42 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
 			total_partition_count,
 			pPartitioning_table,
 			Partitioning_table_length);
+}
+
+stse_ReturnCode_t stse_data_storage_get_data_partition_record(
+		stse_Handler_t* pSTSE,
+		PLAT_UI8 zone_index,
+		stsafea_data_partition_record_t*  pData_partition_record)
+{
+	stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+	PLAT_UI8 total_partition_count;
+
+	ret = stsafea_get_total_partition_count(pSTSE, &total_partition_count);
+	if (ret != STSE_OK)
+	{
+		return(ret);
+	}
+
+	if (zone_index > total_partition_count)
+	{
+		return STSE_API_BOUNDARY_EXCEEDED;
+	}
+
+	stsafea_data_partition_record_t pPartitioning_table[total_partition_count];
+
+	ret = stse_data_storage_get_partitioning_table(
+		pSTSE,
+		total_partition_count,
+		pPartitioning_table,
+		total_partition_count*sizeof(stsafea_data_partition_record_t));
+	if (ret != STSE_OK)
+	{
+		return(ret);
+	}
+
+	*pData_partition_record = pPartitioning_table[zone_index];
+
+	return STSE_OK;
 }
 
 stse_ReturnCode_t stse_data_storage_read_data_zone(
