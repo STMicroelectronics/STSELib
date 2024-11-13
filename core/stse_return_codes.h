@@ -99,6 +99,7 @@ enum stse_ReturnCode_t {
 	STSE_SERVICE_HANDLER_NOT_INITIALISED,   		/*!< STSE is not initialized please run stsafe_init function first */
 	STSE_SERVICE_SESSION_ERROR,
 	STSE_SERVICE_BUFFER_OVERFLOW,
+	STSE_SERVICE_INVALID_MAC,
 
 	/* - STSE API layer response code (MSB Mask 0x04xx)*/
 	STSE_API_INVALID_PARAMETER			= 0x0401,
@@ -106,6 +107,7 @@ enum stse_ReturnCode_t {
 	STSE_API_SESSION_ERROR,
 	STSE_API_KEY_NOT_FOUND,
 	STSE_API_INVALID_SIGNATURE,
+	STSE_API_BOUNDARY_EXCEEDED,
 
 	/* - STSE Certificate layer response code (MSB Mask 0x05xx)*/
 	STSE_CERT_INVALID_PARAMETER	  		= 0x0501,	/*!< STSE Wrong function parameters */
