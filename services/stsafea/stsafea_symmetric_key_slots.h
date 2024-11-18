@@ -50,7 +50,6 @@
 /*Todo : Check if KT is for Symmetric key only */
 #define STSAFEA_KT_LENGTH					1U
 #define STSAFEA_KT_MAC_SESSION_KEY			0x04
-#define STSAFEA_KT_EAP_BASE_KEY				0x08
 #define STSAFEA_KT_KEY_CONFIRMATION_KEY 	0x0B
 #define STSAFEA_KT_DUMMY					0xFF
 #define STSAFEA_KT_VOLATILE_BASE_KEK 		0x10
@@ -65,9 +64,6 @@ typedef enum stsafea_symmetric_key_slot_t {
 	STSAFEA_STATIC_PRIVATE_KEY_SLOT_2,			/*!< static private key slot 2 */
 	STSAFEA_STATIC_PRIVATE_KEY_SLOT_3,			/*!< static private key slot 3 */
 	STSAFEA_STATIC_PRIVATE_KEY_SLOT_4,			/*!< static private key slot 4 */
-	STSAFEA_EAP_PERIPHERAL_KEY_SLOTS	= 0x80,	/*!< Enhanced Authentication Protocol peripheral key slots */
-	STSAFEA_EAP_COMPANION_SLOT,					/*!< Enhanced Authentication Protocol companion key slots */
-	STSAFEA_EAP_KEY_CONFIRMATION,				/*!< Enhanced Authentication Protocol key confirmation */
 	STSAFEA_EPHEMERAL_KEY_SLOT 			= 0xFF	/*!< Ephemeral key slot 4 */
 }stsafea_symmetric_key_slot_t;
 
