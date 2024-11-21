@@ -236,10 +236,10 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if (key_type == STSE_ECC_KT_ED25519)
+/*	if (key_type == STSE_ECC_KT_ED25519)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
-	}
+	}*/
 
 	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
 	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_GENERATE_ECDHE;
