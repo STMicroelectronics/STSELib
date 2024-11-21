@@ -33,7 +33,6 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 {
 	stse_ReturnCode_t ret;
 
-
 	/* - Check function parameters */
 	if (pSTSE == NULL)
 	{
@@ -141,9 +140,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 											  pSession->context.kek.base_key,
 											  STSAFEA_KEK_KEY_SIZE);
 
+	memset(shared_secret, 0, stse_ecc_info_table[ecc_key_type].shared_secret_size);
 	memset(stsafe_ecdhe_public_key, 0, pub_key_size);
 	memset(host_ecdhe_public_key, 0, pub_key_size);
-	memset(shared_secret, 0, stse_ecc_info_table[ecc_key_type].shared_secret_size);
 
 	if(ret != STSE_OK)
 	{
@@ -703,6 +702,141 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 
 	/* - Stop volatile KEK */
 	ret = stse_stop_volatile_KEK_session(pSTSE,&volatile_KEK_session);
+
+	return ret;
+}
+
+stse_ReturnCode_t stse_establish_host_key(
+		stse_Handler_t *pSTSE ,
+		stse_ecc_key_type_t host_ecdh_key_type,
+		stsafea_host_key_type_t host_keys_type,
+		PLAT_UI8 *host_mac_key,
+		PLAT_UI8 *host_cipher_key)
+{
+	stse_ReturnCode_t ret;
+
+	/* - Check function parameters */
+	if (pSTSE == NULL)
+	{
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if(host_ecdh_key_type == STSE_ECC_KT_ED25519 || host_mac_key == NULL || host_cipher_key == NULL)
+	{
+		return STSE_API_INVALID_PARAMETER;
+	}
+
+	/* - allocate ECDHE buffer sizes according to ECC key type */
+	PLAT_UI16 pub_key_size = stse_ecc_info_table[host_ecdh_key_type].public_key_size;
+	PLAT_UI16 priv_key_size = stse_ecc_info_table[host_ecdh_key_type].private_key_size;
+	PLAT_UI16 shared_secret_size = stse_ecc_info_table[host_ecdh_key_type].shared_secret_size;
+	PLAT_UI16 hkdf_info_size = 2 * pub_key_size;
+
+	PLAT_UI8 host_ecdhe_public_key[pub_key_size];
+	PLAT_UI8 host_ecdhe_private_key[priv_key_size];
+	PLAT_UI8 stsafe_ecdhe_public_key[pub_key_size];
+
+	PLAT_UI8 shared_secret[2 * shared_secret_size];
+
+	PLAT_UI8 pHkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
+	PLAT_UI8 pHkdf_info[hkdf_info_size];
+
+	/* - Initialize the OKM length with the confirmation key length */
+	PLAT_UI16 host_mac_key_length = host_keys_type == STSAFEA_AES_256_HOST_KEY ? STSAFEA_HOST_AES_256_MAC_KEY_SIZE : STSAFEA_HOST_AES_128_MAC_KEY_SIZE;
+	PLAT_UI16 host_cipher_key_length = host_keys_type == STSAFEA_AES_256_HOST_KEY ? STSAFEA_HOST_AES_256_CIPHER_KEY_SIZE : STSAFEA_HOST_AES_128_CIPHER_KEY_SIZE;
+	PLAT_UI8 okm_buffer[host_mac_key_length + host_cipher_key_length];
+
+	/* - Generate local host ECDHE key pair */
+	ret = stse_platform_ecc_generate_key_pair(
+			host_ecdh_key_type,
+			host_ecdhe_private_key,
+			host_ecdhe_public_key);
+	if(ret != STSE_OK)
+	{
+		/* Clear generated keypair on ECC key generation failure */
+		memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
+		memset(host_ecdhe_private_key, 0, sizeof(host_ecdhe_private_key));
+		return( STSE_UNEXPECTED_ERROR );
+	}
+
+	/* - Generate ECDHE key pair on target SE */
+	ret = stsafea_generate_ECDHE_key_pair(
+			pSTSE,
+			host_ecdh_key_type,
+			stsafe_ecdhe_public_key);
+	if(ret != STSE_OK)
+	{
+		/* Clear key pairs info on SE ECDHE key pair generation error  */
+		memset(stsafe_ecdhe_public_key, 0, sizeof(stsafe_ecdhe_public_key));
+		memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
+		memset(host_ecdhe_private_key, 0, sizeof(host_ecdhe_private_key));
+		return( ret );
+	}
+
+	/* - Process Diffie-Hellman on host side */
+	ret = stse_platform_ecc_ecdh(
+			host_ecdh_key_type,
+			stsafe_ecdhe_public_key,
+			host_ecdhe_private_key,
+			shared_secret);
+
+	memset(host_ecdhe_private_key, 0, sizeof(host_ecdhe_private_key));
+	if(ret != STSE_OK)
+	{
+		memset(stsafe_ecdhe_public_key, 0, sizeof(stsafe_ecdhe_public_key));
+		memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
+		return( STSE_UNEXPECTED_ERROR );
+	}
+
+	/* - Derive host keys from shared secret */
+	memcpy(pHkdf_info,
+		   host_ecdhe_public_key,
+		   pub_key_size);
+
+	memcpy(pHkdf_info + pub_key_size,
+		   stsafe_ecdhe_public_key,
+		   pub_key_size);
+
+	ret = stse_platform_hmac_sha256_compute(pHkdf_salt,
+											STSAFEA_KEK_HKDF_SALT_SIZE,
+											shared_secret,
+											stse_ecc_info_table[host_ecdh_key_type].shared_secret_size,
+											pHkdf_info,
+											2 * pub_key_size,
+											okm_buffer,
+											host_mac_key_length + host_cipher_key_length);
+
+	memset(shared_secret, 0, sizeof(shared_secret));
+	memset(stsafe_ecdhe_public_key, 0, sizeof(stsafe_ecdhe_public_key));
+
+	if(ret != STSE_OK)
+	{
+		memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
+		memset(okm_buffer, 0, sizeof(okm_buffer));
+		return( STSE_UNEXPECTED_ERROR );
+	}
+
+	/* - Establish the host keys through STSAFE */
+	ret = stsafea_establish_host_key(
+			pSTSE,
+			host_ecdh_key_type,
+			host_ecdhe_public_key,
+			host_keys_type);
+
+	memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
+	if(ret != STSE_OK)
+	{
+		memset(okm_buffer, 0, sizeof(okm_buffer));
+		return( ret );
+	}
+
+	memcpy(host_mac_key,
+			okm_buffer,
+			host_mac_key_length);
+	memcpy(host_cipher_key,
+			okm_buffer + host_mac_key_length,
+			host_cipher_key_length);
+	memset(okm_buffer, 0, sizeof(okm_buffer));
 
 	return ret;
 }
