@@ -73,7 +73,7 @@ typedef struct stsafea_private_key_slot_information_t{
 
 /*!
  * \brief 		Get private key slot count
- * \details 	This service format and send the reset command
+ * \details 	This service format and send the get private key slot count command
  * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[out] 	pPrivate_key_slot_count 	Target STSAFE-A total Private key slot count
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -96,6 +96,14 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 		PLAT_UI16 usage_limit,
 		PLAT_UI8 * pPublic_key);
 
+/*!
+ * \brief 		Generate ECDHE key pair
+ * \details 	This service format and send the generate ECDHE key pair command
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
+ * \param[in] 	key_type 					Curve type for the ECDHE key pair
+ * \param[out] 	pPublic_key 				generated ECDHE public key
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t key_type,
