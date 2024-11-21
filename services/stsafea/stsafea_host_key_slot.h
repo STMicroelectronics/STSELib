@@ -46,9 +46,6 @@
 #define STSAFEA_HOST_AES_256_KEYS_SIZE 					STSAFEA_HOST_AES_256_MAC_KEY_SIZE \
 														+ STSAFEA_HOST_AES_256_CIPHER_KEY_SIZE
 
-#define STSAFEA_COMPANION_MAC_SIZE						4U
-#define STSAFEA_KEY_USAGE_LIMIT_SIZE 					2U
-
 #define STSAFEA_KEK_KEY_SIZE 							STSAFEA_AES_256_KEY_SIZE
 #define STSAFEA_KEK_HKDF_SALT_SIZE 						STSAFEA_SHA_256_HASH_SIZE
 #define STSAFEA_KEK_HKDF_SALT 	   						{0xE4,0x5D,0x4C,0xFD,0x20,0x15,0xDE,0x9E,\
@@ -93,11 +90,11 @@ typedef union
 
 typedef struct
 {
-	PLAT_UI8 wrapped_anonymous : 1;
-	PLAT_UI8 plaintext 	  : 1;
-	PLAT_UI8 reprovision  : 1;
-	PLAT_UI8 change_right : 1;
-	PLAT_UI8 filler : 4;
+	PLAT_UI8 wrapped_anonymous	: 1;
+	PLAT_UI8 plaintext			: 1;
+	PLAT_UI8 reprovision		: 1;
+	PLAT_UI8 change_right		: 1;
+	PLAT_UI8 filler				: 4;
 	PLAT_UI8 wrapped_authentication_key;
 }stsafea_host_key_provisioning_ctrl_fields_t;
 
@@ -182,7 +179,21 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped (
 		stsafea_host_key_type_t key_type,
 		PLAT_UI8* pHost_key_envelope);
 
+/**
+ * \brief 		Establish host key using ECDH & HKDF processes
+ * \details 	Provision host key using the establish host key command
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in]   public_key_type		ECDHE host public key type
+ * \param[in]   pPublic_key 		ECDHE host public key
+ * \param[in] 	host_key_type		Host key type
+ * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_establish_host_key (
+		stse_Handler_t *pSTSE ,
+		stse_ecc_key_type_t host_ecdh_public_key_type,
+		PLAT_UI8 *pPublic_key,
+		stsafea_host_key_type_t host_keys_type);
+
 /** \}*/
 
 #endif /*STSAFEA_HOST_KEY_SLOT_H*/
-

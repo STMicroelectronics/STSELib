@@ -92,6 +92,24 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 		PLAT_UI8 * signature_private_key);
 
 /**
+ * \brief 		Host key establishment
+ * \details 	This API establish  host key, it use the "establish host key" command in case of STSAFE-A120
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	host_ecdh_key_type 		ECDHE host key pair type
+ * \param[in] 	host_keys_type 			Host keys type
+ * \param[in] 	host_mac_key 			Pointer to the host mac key buffer
+ * \param[in] 	host_mac_key 			Pointer to the host cipher key buffer
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_host_key_provisioning.dox
+ */
+ stse_ReturnCode_t stse_establish_host_key(
+			stse_Handler_t *pSTSE ,
+			stse_ecc_key_type_t host_ecdh_key_type,
+			stsafea_host_key_type_t host_keys_type,
+			PLAT_UI8 *host_mac_key,
+			PLAT_UI8 *host_cipher_key);
+
+/**
  * \brief 		Get symmetric key slot count
  * \details 	Get the number of slot in symmetric key table
  * \param[in] 	pSTSE 			 		Pointer to STSE Handler
