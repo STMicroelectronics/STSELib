@@ -67,24 +67,23 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 				cmd_encryption_flag,
 				rsp_encryption_flag,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
 	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
 	} else {
-
-		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
 	}
 
 	return( ret );
 }
+
