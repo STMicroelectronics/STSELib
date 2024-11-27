@@ -189,7 +189,7 @@ void stse_frame_debug_print(stse_frame_t* pFrame)
 				if(pCurrent_element->pData != NULL) {
 					printf("0x%02X ", pCurrent_element->pData[data_index]);
 				} else {
-					printf("- ");
+					printf("0x00 ");
 				}
 			}
     	}
