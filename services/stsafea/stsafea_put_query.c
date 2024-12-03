@@ -19,7 +19,7 @@
 #include <services/stsafea/stsafea_put_query.h>
 
 stse_ReturnCode_t stsafea_put_life_cyle_state(
-		stse_Handler_t * pSTSAFE,
+		stse_Handler_t * pSTSE,
 		stsafea_life_cycle_state_t life_cycle_state)
 {
 	stse_ReturnCode_t ret;
@@ -27,9 +27,9 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
 	PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_LIFE_CYCLE_STATE;
 	PLAT_UI8 rsp_header;
 
-	if(pSTSAFE == NULL)
+	if (pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
 	/*- Create CMD frame and populate elements */
@@ -43,16 +43,16 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSAFE,
+	ret = stse_frame_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSAFE->device_type][STSAFEA_CMD_QUERY]
+			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
 	);
 	return( ret );
 }
 
 stse_ReturnCode_t stsafea_query_life_cycle_state(
-		stse_Handler_t * pSTSAFE,
+		stse_Handler_t * pSTSE,
 		stsafea_life_cycle_state_t *pLife_cycle_state)
 {
 	stse_ReturnCode_t ret;
@@ -60,9 +60,9 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 	PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_LIFE_CYCLE_STATE;
 	PLAT_UI8 rsp_header;
 
-	if(pSTSAFE == NULL)
+	if (pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
 	/*- Create CMD frame and populate elements */
@@ -76,10 +76,10 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 	stse_frame_element_allocate_push(&RspFrame,eLife_cycle_state,1,(PLAT_UI8*)pLife_cycle_state);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSAFE,
+	ret = stse_frame_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSAFE->device_type][STSAFEA_CMD_QUERY]
+			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
 	);
 	return( ret );
 }
