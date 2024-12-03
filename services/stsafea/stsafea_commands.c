@@ -34,7 +34,7 @@ stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE , PLAT_UI8 *pC
 
 	if(pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
 	}
 
 	/*- Create CMD frame and populate elements */
@@ -72,7 +72,7 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 
 	if(pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
 	}
 
 	/*- Create CMD frame and populate elements */

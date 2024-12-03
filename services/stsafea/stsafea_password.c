@@ -30,7 +30,12 @@ stse_ReturnCode_t stsafea_verify_password(
 	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_PASSWORD;
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL) || (password_length != STSAFEA_PASSWORD_LENGTH))
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((password_length != STSAFEA_PASSWORD_LENGTH))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
@@ -65,9 +70,9 @@ stse_ReturnCode_t stsafea_delete_password(stse_Handler_t * pSTSE)
 	PLAT_UI8 tag = STSAFEA_DELETE_TAG_PASSWORD;
 	PLAT_UI8 rsp_header;
 
-	if(pSTSE == NULL)
+	if (pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
 	/*- Create CMD frame and populate elements */

@@ -36,7 +36,7 @@ stse_ReturnCode_t stsafea_get_total_partition_count( stse_Handler_t* pSTSE,
 
 	if(pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
 	}
 
 	/*- Create CMD frame and populate elements */
@@ -74,7 +74,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 
 	if(pSTSE == NULL)
 	{
-		return STSE_SERVICE_INVALID_PARAMETER;
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
 	}
 
 	/*- Create CMD frame and populate elements */
@@ -140,10 +140,14 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 	PLAT_UI8 cmd_header = STSAFEA_CMD_DECREMENT;
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL) || (pData == NULL) ||
-		(pNew_counter_value == NULL) || (amount == 0))
+	if(pSTSE == NULL)
 	{
-		return ret;
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pData == NULL) || (pNew_counter_value == NULL) || (amount == 0))
+	{
+		return STSE_SERVICE_INVALID_PARAMETER;
 	}
 
 
@@ -202,7 +206,12 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 	PLAT_UI8 cmd_header = STSAFEA_CMD_READ;
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL) || (pCounter_value == NULL))
+	if(pSTSE == NULL)
+	{
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pCounter_value == NULL))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
@@ -261,7 +270,12 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 	PLAT_UI8 cmd_header = STSAFEA_CMD_READ;
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL) || (pReadBuffer == NULL) || (read_length == 0))
+	if(pSTSE == NULL)
+	{
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pReadBuffer == NULL) || (read_length == 0))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
@@ -316,7 +330,12 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 	PLAT_UI8 cmd_header = STSAFEA_CMD_UPDATE;
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL) || (pData == NULL) || (data_length == 0))
+	if(pSTSE == NULL)
+	{
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pData == NULL) || (data_length == 0))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
