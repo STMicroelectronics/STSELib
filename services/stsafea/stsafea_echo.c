@@ -33,8 +33,12 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 	PLAT_UI8 cmd_encryption_flag = 0;
 	PLAT_UI8 rsp_encryption_flag = 0;
 
-	if((pSTSE == NULL) || (pMessage ==NULL) ||
-		(pEchoed_message == NULL))
+	if(pSTSE == NULL)
+	{
+		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+	}
+
+	if((pMessage ==NULL) || (pEchoed_message == NULL))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}

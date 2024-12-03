@@ -67,7 +67,12 @@ stse_ReturnCode_t stsafea_start_hash(
 	PLAT_UI8 rsp_header;
 	PLAT_UI16 hash_algo_id_length = STSAFEA_HASH_ALGO_ID_SIZE;
 
-	if((pSTSE == NULL)||(pMessage == NULL)||(message_size == 0))
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pMessage == NULL)||(message_size == 0))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
@@ -103,7 +108,12 @@ stse_ReturnCode_t stsafea_process_hash(
 	PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX,STSAFEA_EXTENDED_CMD_PROCESS_HASH};
 	PLAT_UI8 rsp_header;
 
-	if((pSTSE == NULL)||(pMessage == NULL)||(message_size == 0))
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if((pMessage == NULL)||(message_size == 0))
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
@@ -143,8 +153,12 @@ stse_ReturnCode_t stsafea_finish_hash(
 	PLAT_UI16 expected_digest_size = stsafea_hash_info_table[sha_algorithm].length;
 
 	/*- Verify Parameters */
-	if(pSTSE 			== NULL
-	|| pDigest			== NULL
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if(pDigest			== NULL
 	|| pDigest_size 	== NULL
 	|| (pMessage != NULL && message_size == 0)
 	|| (pMessage == NULL && message_size != 0))

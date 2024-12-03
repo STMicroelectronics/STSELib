@@ -93,24 +93,24 @@ typedef enum stsafea_life_cycle_state_t {
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSAFE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	life_cycle_state 	Life cycle state
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_put_life_cyle_state(
-		stse_Handler_t * pSTSAFE,
+		stse_Handler_t * pSTSE,
 		stsafea_life_cycle_state_t life_cycle_state
 );
 
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSAFE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE	 			Pointer to STSE Handler
  * \param[out] 	pLife_cycle_state 	Life cycle state
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_life_cycle_state(
-		stse_Handler_t * pSTSAFE,
+		stse_Handler_t * pSTSE,
 		stsafea_life_cycle_state_t * pLife_cycle_state
 );
 
