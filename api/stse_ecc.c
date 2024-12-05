@@ -24,7 +24,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
 		PLAT_UI8 *pSignature,
 		PLAT_UI8 *pMessage,
 		PLAT_UI16 message_length,
-		PLAT_UI8 message_is_hashed,
+		PLAT_UI8 eddsa_variant,
 		PLAT_UI8 *pSignature_validity)
 {
 	stse_ReturnCode_t ret;
@@ -43,7 +43,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	ret = stsafea_ecc_verify_signature(pSTSE, key_type, pPublic_key, pSignature, pMessage, message_length, message_is_hashed, pSignature_validity);
+	ret = stsafea_ecc_verify_signature(pSTSE, key_type, pPublic_key, pSignature, pMessage, message_length, eddsa_variant, pSignature_validity);
 
 	return ret;
 }

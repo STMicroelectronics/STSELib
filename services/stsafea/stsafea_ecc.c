@@ -248,7 +248,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 		PLAT_UI8 *pSignature,
 		PLAT_UI8 *pMessage,
 		PLAT_UI16 message_length,
-		PLAT_UI8 message_is_hashed,
+		PLAT_UI8 eddsa_variant,
 		PLAT_UI8 *pSignature_validity)
 {
 	stse_ReturnCode_t ret;
@@ -289,7 +289,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	};
 
 	/* Hash elements*/
-	stse_frame_element_allocate(eEdDSA_variant, 1, &message_is_hashed);
+	stse_frame_element_allocate(eEdDSA_variant, 1, &eddsa_variant);
 
 	PLAT_UI8 rsp_header;
 

@@ -47,7 +47,7 @@
  * \param[in] 	pSignature 				Signature buffer
  * \param[in] 	pMessage 				Message used in signature
  * \param[in] 	message_length 			Message length
- * \param[in] 	message_is_hashed 		Flag indicating a hashed message (1) or a plaintext (0)
+ * \param[in] 	eddsa_variant 			Flag indicating a pre-hashed EdDSA (1) message or a pure EdDSA (0) plaintext message. Used only in case of Edwards25519 public key
  * \param[out] 	pSignature_validity		Signature validity flag (1 = valid signature, invalid otherwise)
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_ecc_verify_signature.dox
@@ -59,7 +59,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
 		PLAT_UI8 *pSignature,
 		PLAT_UI8 *pMessage,
 		PLAT_UI16 message_length,
-		PLAT_UI8 message_is_hashed,
+		PLAT_UI8 eddsa_variant,
 		PLAT_UI8 *pSignature_validity);
 
 /**
