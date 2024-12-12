@@ -1,6 +1,18 @@
 # Release Note
 
-## v1.0.2 (Latest)
+## v1.0.3 (Latest)
+- [api] Add stse_data_storage_get_data_partition_record API
+- [api] Fix stse_compute_hash bug leading to STSE_COMMAND_NOT_AUTHORIZED
+- [services & api] Add Host key establishment V2
+- [services & api] Reword message_is_hashed argument from stse_ecc_verify_signature
+- [services] update echo for host session usage
+- [services] Update command Generate ECDHE key pair
+- [services] Fix error code in case of handler not initialized
+- [core] Fix stse_frame_receive
+- [core] Add dedicated frame constant definitions & error codes
+- [core] Update stse_frame_debug_print function
+
+## v1.0.2 
 - [doc] Add HTML documentation
 - [api] Add AES-GCM & AES-CCM* by chunks api
 - [api] Add symmetric key slot provisioning api
