@@ -18,6 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "services/stsafea/stsafea_host_key_slot.h"
+#include "services/stsafea/stsafea_hash.h"
 
 /* Exported functions --------------------------------------------------------*/
 
@@ -312,7 +313,7 @@ stse_ReturnCode_t stsafea_establish_host_key (
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPublic_key == NULL)
+	if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) || (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -377,3 +378,118 @@ stse_ReturnCode_t stsafea_establish_host_key (
 	return( ret );
 }
 
+stse_ReturnCode_t stsafea_establish_host_key_authenticated (
+		stse_Handler_t *pSTSE ,
+		stse_ecc_key_type_t host_ecdh_public_key_type,
+		PLAT_UI8 *pPublic_key,
+		stsafea_host_key_type_t host_keys_type,
+		PLAT_UI8 signature_public_key_slot,
+		stse_ecc_key_type_t signature_public_key_type,
+		stse_hash_algorithm_t signature_hash_algo,
+		PLAT_UI8 *pSignature)
+{
+	stse_ReturnCode_t ret;
+
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) ||
+		(host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY) || (signature_public_key_type >= STSE_ECC_KT_INVALID) ||
+		(signature_hash_algo >= STSE_SHA_INVALID) || (pSignature == NULL))
+	{
+		return( STSE_SERVICE_INVALID_PARAMETER );
+	}
+
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_ESTABLISH_HOST_KEY_V2;
+
+	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
+
+	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[host_ecdh_public_key_type].coordinate_or_key_size),
+			UI16_B0(stse_ecc_info_table[host_ecdh_public_key_type].coordinate_or_key_size),
+	};
+	stse_frame_element_allocate(ePublic_key_length_first_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+	stse_frame_element_allocate(ePublic_key_length_second_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
+
+	stse_frame_element_allocate(ePublic_key_first_element, stse_ecc_info_table[host_ecdh_public_key_type].coordinate_or_key_size, pPublic_key);
+	stse_frame_element_allocate(ePublic_key_second_element, stse_ecc_info_table[host_ecdh_public_key_type].coordinate_or_key_size, NULL);
+
+	/* command frame */
+	stse_frame_allocate(CmdFrame);
+	stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame, eCmd_header_extended, STSAFEA_HEADER_SIZE, &cmd_header_extended);
+
+	/* Host ECDH curve ID of public key */
+	stse_frame_element_allocate_push(&CmdFrame, eCurve_id, stse_ecc_info_table[host_ecdh_public_key_type].curve_id_total_length, (PLAT_UI8*)&stse_ecc_info_table[host_ecdh_public_key_type].curve_id);
+
+	/* Host ECDH public key */
+	if(host_ecdh_public_key_type == STSE_ECC_KT_CURVE25519)
+	{
+		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
+		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
+	}
+	else
+	{
+		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
+
+		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
+		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
+
+		stse_frame_push_element(&CmdFrame, &ePublic_key_length_second_element);
+		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
+		stse_frame_push_element(&CmdFrame, &ePublic_key_second_element);
+	}
+
+	/* Algorithm ID */
+	PLAT_UI8 algorithm_id = 0x03;
+	stse_frame_element_allocate_push(&CmdFrame, eAlgorithm_id, 1, &algorithm_id);
+
+	/* Host key type */
+	stse_frame_element_allocate_push(&CmdFrame, eHost_keys_type, 1, &host_keys_type);
+
+	/* Filler */
+	PLAT_UI8 filler = 0x00;
+	stse_frame_element_allocate_push(&CmdFrame, eFiller, 1, &filler);
+
+	/* Public key slot number */
+	stse_frame_element_allocate_push(&CmdFrame, eSignature_public_key_slot, 1, &signature_public_key_slot);
+
+	/* Hash algo ID */
+	stse_frame_element_allocate(eHash_algo_id, STSAFEA_GENERIC_LENGTH_SIZE, NULL);
+	if(signature_public_key_type != STSE_ECC_KT_ED25519)
+	{
+		eHash_algo_id.length = STSAFEA_HASH_ALGO_ID_SIZE;
+		eHash_algo_id.pData = (PLAT_UI8*)&stsafea_hash_info_table[signature_hash_algo].id;
+	}
+	stse_frame_push_element(&CmdFrame, &eHash_algo_id);
+
+	/* Signature elements */
+	PLAT_UI8 pSignature_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[signature_public_key_type].signature_size>>1),
+			UI16_B0(stse_ecc_info_table[signature_public_key_type].signature_size>>1),
+	};
+
+	stse_frame_element_allocate_push(&CmdFrame, eSignature_R_length, STSE_ECC_GENERIC_LENGTH_SIZE, pSignature_length_element);
+	stse_frame_element_allocate_push(&CmdFrame, eSignature_R, (stse_ecc_info_table[signature_public_key_type].signature_size>>1), pSignature);
+	stse_frame_element_allocate_push(&CmdFrame, eSignature_S_length, STSE_ECC_GENERIC_LENGTH_SIZE, pSignature_length_element);
+	stse_frame_element_allocate_push(&CmdFrame, eSignature_S, (stse_ecc_info_table[signature_public_key_type].signature_size>>1), pSignature + (stse_ecc_info_table[signature_public_key_type].signature_size>>1));
+
+	/* response frame */
+	PLAT_UI8 rsp_header;
+	stse_frame_allocate(RspFrame);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
+
+	/*- Perform Transfer*/
+	ret = stse_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame,
+			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ESTABLISH_HOST_KEY_V2]
+	);
+
+	return( ret );
+}

@@ -56,7 +56,8 @@
 typedef enum
 {
 	STSAFEA_AES_128_HOST_KEY = 0,
-	STSAFEA_AES_256_HOST_KEY
+	STSAFEA_AES_256_HOST_KEY,
+	STSAFEA_AES_INVALID_HOST_KEY
 }stsafea_host_key_type_t;
 
 typedef struct{
@@ -95,7 +96,7 @@ typedef struct
 	PLAT_UI8 reprovision		: 1;
 	PLAT_UI8 change_right		: 1;
 	PLAT_UI8 filler				: 4;
-	PLAT_UI8 wrapped_authentication_key;
+	PLAT_UI8 wrapped_or_DH_derived_authentication_key;
 }stsafea_host_key_provisioning_ctrl_fields_t;
 
 /**
@@ -193,6 +194,29 @@ stse_ReturnCode_t stsafea_establish_host_key (
 		stse_ecc_key_type_t host_ecdh_public_key_type,
 		PLAT_UI8 *pPublic_key,
 		stsafea_host_key_type_t host_keys_type);
+
+/**
+ * \brief 		Authenticated establish host key using ECDH & HKDF processes
+ * \details 	Provision host key using the authenticated establish host key command
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
+ * \param[in]   host_ecdh_public_key_type	ECDHE host public key type
+ * \param[in]   pPublic_key 				ECDHE host public key
+ * \param[in] 	host_keys_type				Host key type
+ * \param[in] 	signature_public_key_slot	Generic public key slot holding key used to verify signature
+ * \param[in] 	signature_public_key_type	Public key's type stored through generic public key slot
+ * \param[in] 	signature_hash_algo			Hashing algorithm used for the signature
+ * \param[in] 	pSignature					Pointer to buffer containing signature
+ * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
+ */
+stse_ReturnCode_t stsafea_establish_host_key_authenticated (
+		stse_Handler_t *pSTSE ,
+		stse_ecc_key_type_t host_ecdh_public_key_type,
+		PLAT_UI8 *pPublic_key,
+		stsafea_host_key_type_t host_keys_type,
+		PLAT_UI8 signature_public_key_slot,
+		stse_ecc_key_type_t signature_public_key_type,
+		stse_hash_algorithm_t signature_hash_algo,
+		PLAT_UI8 *pSignature);
 
 /** \}*/
 
