@@ -417,11 +417,9 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify( stse_session_t *pSe
 
 		/*- Pop R-MAC from frame*/
 		stse_frame_pop_element(pRsp_frame);
-		stse_frame_pop_element(pRsp_frame);
 		PLAT_UI16 rsp_payload_length = (pRsp_frame->length - (pRsp_frame->first_element->length));
 
 		/*- Initialize AES C-MAC computation */
-
 		stse_platform_aes_cmac_init(
 				pSession->context.host.pHost_MAC_key,
 				(pSession->context.host.key_type == STSE_AES_128_KT)?
@@ -441,7 +439,9 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify( stse_session_t *pSe
 			{
 				aes_cmac_block[i] = 0x00U; /* 0x00 padding */
 			}
-		} else {
+		}
+		else
+		{
 			aes_cmac_block[0] = UI32_B2(pSession->context.host.MAC_counter);
 			aes_cmac_block[1] = UI32_B1(pSession->context.host.MAC_counter);
 			aes_cmac_block[2] = UI32_B0(pSession->context.host.MAC_counter);
@@ -456,11 +456,9 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify( stse_session_t *pSe
 		stse_platform_aes_cmac_append(aes_cmac_block, STSAFEA_HOST_AES_BLOCK_SIZE);
 
 		/*- Prepare AES CMAC input for response MAC verification  */
-
 		stse_frame_allocate(r_mac_frame);
 
 		/*- Create r_mac_frame head :[MAC TYPE] [CMD HEADER] [CMD PAYLOAD LENGTH] [CMD PAYLOAD] ... */
-
 		stse_frame_element_allocate_push(
 			&r_mac_frame,
 			eMACType,
@@ -485,7 +483,6 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify( stse_session_t *pSe
 		stse_frame_update(&r_mac_frame);
 
 		/*- Create r_mac_frame head : ... [RSP HEADER] [RSP PAYLOAD LENGTH] [RSP PAYLOAD] */
-
 		stse_frame_element_allocate_push(
 				&r_mac_frame,
 				eRSP_header,
@@ -502,7 +499,6 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify( stse_session_t *pSe
 		eRsp_Length.next = pRsp_frame->first_element->next;
 
 		/*- Perform additional AES-CMAC round(s) on R-MAC frame*/
-
 		pElement = r_mac_frame.first_element;
 		while(pElement != NULL)
 		{

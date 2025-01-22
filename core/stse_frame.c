@@ -484,8 +484,13 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
     /* - Pop CRC element from Frame*/
     stse_frame_pop_element(pFrame);
 
-    /* - Verify CRC */
+    /* - Compute CRC */
     computed_crc = stse_frame_crc16_compute(pFrame);
+
+    /* - Pop Filler element from Frame*/
+    stse_frame_pop_element(pFrame);
+
+    /* - Verify CRC */
     if(computed_crc != *(PLAT_UI16 *)received_crc)
     {
         return( STSE_CORE_FRAME_CRC_ERROR );
