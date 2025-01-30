@@ -253,7 +253,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(host_ecdhe_public_key == NULL)
+	if(host_ecdhe_public_key == NULL || key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -284,6 +284,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -292,6 +293,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
@@ -340,8 +342,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if((host_ecdhe_public_key == NULL)
-	|| (pSignature 			  == NULL))
+	if(host_ecdhe_public_key == NULL || pSignature == NULL || key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -384,6 +385,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -392,6 +394,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -408,7 +411,9 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 	stse_frame_element_allocate_push(&CmdFrame, eFiller, 1, &filler_1_byte);
 	stse_frame_element_allocate_push(&CmdFrame, eSignature_public_key_slot_number, 1, &signature_public_key_slot_number);
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(signature_key_type != STSE_ECC_KT_ED25519)
+#endif
 	{
 		eHash_algo_id.length = STSAFEA_HASH_ALGO_ID_SIZE;
 		eHash_algo_id.pData = (PLAT_UI8*)&stsafea_hash_info_table[hash_algo].id;

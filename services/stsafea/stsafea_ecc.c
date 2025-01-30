@@ -14,7 +14,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(host_ecdhe_public_key == NULL)
+	if (host_ecdhe_public_key == NULL || key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -44,6 +44,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -52,6 +53,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -95,10 +97,8 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if((host_ecdhe_public_key == NULL)
-	|| (pSignature 			  == NULL)
-	|| (ecdhe_key_type 	   == STSE_ECC_KT_ED25519)
-	|| (signature_key_type == STSE_ECC_KT_CURVE25519))
+	if (host_ecdhe_public_key == NULL || pSignature == NULL ||
+		ecdhe_key_type >= STSE_ECC_KT_INVALID || signature_key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -147,6 +147,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 			(PLAT_UI8*)&stse_ecc_info_table[ecdhe_key_type].curve_id);
 
 	/* FRAME : [HEADER] [EXT HEADER] [CURVE ID] [PUBLIC KEY] */
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecdhe_key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -155,6 +156,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
@@ -177,7 +179,9 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 	stse_frame_element_allocate_push(&CmdFrame, eSignature_public_key_slot_number, 1, &signature_public_key_slot_number);
 
 	/* FRAME : [HEADER] [EXT HEADER] [CURVE ID] [PUBLIC KEY] [KDF ID] [FILLER] [SIGNATURE KEY SLOT] [HASH ALGO] */
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(signature_key_type != STSE_ECC_KT_ED25519)
+#endif
 	{
 		eHash_algo_id.length = STSAFEA_HASH_ALGO_ID_SIZE;
 		eHash_algo_id.pData = (PLAT_UI8*)&stsafea_hash_info_table[hash_algo].id;
@@ -259,10 +263,9 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPublic_key 			== NULL
-	|| pSignature 			== NULL
-	|| pMessage 			== NULL
-	|| pSignature_validity 	== NULL)
+	if (pPublic_key == NULL || pSignature 			== NULL ||
+		pMessage 	== NULL	|| pSignature_validity 	== NULL ||
+		key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -289,7 +292,9 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	};
 
 	/* Hash elements*/
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	stse_frame_element_allocate(eEdDSA_variant, 1, &eddsa_variant);
+#endif
 
 	PLAT_UI8 rsp_header;
 
@@ -300,6 +305,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -308,6 +314,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
@@ -329,10 +336,12 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	stse_frame_element_allocate_push(&CmdFrame, eSignature_S_length, STSE_ECC_GENERIC_LENGTH_SIZE, pSignature_length_element);
 	stse_frame_element_allocate_push(&CmdFrame, eSignature_S, (stse_ecc_info_table[key_type].signature_size>>1), pSignature + (stse_ecc_info_table[key_type].signature_size>>1));
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&CmdFrame, &eEdDSA_variant);
 	}
+#endif
 
 	stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE,(PLAT_UI8*)&message_length);
 	stse_frame_element_allocate_push(&CmdFrame, eMessage, message_length,pMessage);
@@ -373,8 +382,7 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pMessage   == NULL
-	|| pSignature == NULL)
+	if (pMessage == NULL || pSignature == NULL || key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -430,9 +438,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPublic_key	  == NULL
-	|| pShared_secret == NULL
-	|| key_type == STSE_ECC_KT_CURVE25519)
+	if(pPublic_key == NULL || pShared_secret == NULL || key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -465,6 +471,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,ePrivate_key_slot_number,STSAFEA_SLOT_NUMBER_ID_SIZE,&private_key_slot_number);
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
@@ -473,6 +480,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
@@ -537,8 +545,7 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPublic_key_X == NULL
-	|| pPublic_key_Y == NULL)
+	if (pPublic_key_X == NULL || pPublic_key_Y == NULL || key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}

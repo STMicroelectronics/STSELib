@@ -22,7 +22,14 @@
 stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_t *parent, const stse_certificate_t *child)
 {
 	stse_ReturnCode_t ret;
-	stse_hash_algorithm_t hash_algo = stse_certificate_get_sig_hash_algo(child);
+	stse_hash_algorithm_t hash_algo;
+
+	if ((parent == NULL) || (child == NULL))
+	{
+		return( STSE_CERT_INVALID_PARAMETER );
+	}
+
+	hash_algo = stse_certificate_get_sig_hash_algo(child);
 
 	PLAT_UI32 digestSize = stsafea_hash_info_table[hash_algo].length;
 	PLAT_UI8 digest[digestSize];
@@ -71,7 +78,19 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 	(void)signatureRsize;
 	(void)signatureSsize;
 	stse_ReturnCode_t ret;
-	stse_ecc_key_type_t key_type = stse_certificate_get_key_type(cert);
+	stse_ecc_key_type_t key_type;
+
+	if ((cert == NULL) || (digest == NULL) || (signatureR == NULL) || (signatureS == NULL))
+	{
+		return( STSE_CERT_INVALID_PARAMETER );
+	}
+
+	key_type = stse_certificate_get_key_type(cert);
+	if (key_type >= STSE_ECC_KT_INVALID)
+	{
+		return( STSE_CERT_INVALID_CERTIFICATE );
+	}
+
 	PLAT_UI8 pub_key_size = stse_ecc_info_table[key_type].public_key_size;
 	PLAT_UI8 pub_key[pub_key_size];
 	PLAT_UI8 signature_size = stse_ecc_info_table[key_type].signature_size;
@@ -145,20 +164,32 @@ stse_ecc_key_type_t stse_certificate_get_key_type(const stse_certificate_t *cert
 {
 	switch (cert->EllipticCurve)
 	{
-		  case EC_P256:
+#ifdef STSE_CONF_ECC_NIST_P_256
+		case EC_P256:
 			return STSE_ECC_KT_NIST_P_256;
-		  case EC_P384:
+#endif
+#ifdef STSE_CONF_ECC_NIST_P_384
+		case EC_P384:
 			return STSE_ECC_KT_NIST_P_384;
-		  case EC_P521:
+#endif
+#ifdef STSE_CONF_ECC_NIST_P_521
+		case EC_P521:
 			return STSE_ECC_KT_NIST_P_521;
-		  case EC_bp256r1:
+#endif
+#ifdef STSE_CONF_ECC_BRAINPOOL_P_256
+		case EC_bp256r1:
 			return STSE_ECC_KT_BP_P_256;
-		  case EC_bp384r1:
+#endif
+#ifdef STSE_CONF_ECC_BRAINPOOL_P_384
+		case EC_bp384r1:
 			return STSE_ECC_KT_BP_P_384;
-		  case EC_bp512r1:
+#endif
+#ifdef STSE_CONF_ECC_BRAINPOOL_P_512
+		case EC_bp512r1:
 			return STSE_ECC_KT_BP_P_512;
-		  default:
-			  return STSE_ECC_KT_INVALID;
+#endif
+		default:
+			return STSE_ECC_KT_INVALID;
 	}
 }
 

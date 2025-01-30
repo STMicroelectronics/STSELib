@@ -341,12 +341,14 @@ stse_ReturnCode_t stsafea_establish_host_key (
 
 	stse_frame_element_allocate_push(&CmdFrame, eCurve_id, stse_ecc_info_table[host_ecdh_public_key_type].curve_id_total_length, (PLAT_UI8*)&stse_ecc_info_table[host_ecdh_public_key_type].curve_id);
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(host_ecdh_public_key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
 		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 

@@ -73,14 +73,30 @@
  * \brief STSE ECC key type
  */
 typedef enum stse_ecc_key_type_t {
-	STSE_ECC_KT_NIST_P_256 = 0x00,
+#ifdef STSE_CONF_ECC_NIST_P_256
+	STSE_ECC_KT_NIST_P_256,
+#endif
+#ifdef STSE_CONF_ECC_NIST_P_384
 	STSE_ECC_KT_NIST_P_384,
+#endif
+#ifdef STSE_CONF_ECC_NIST_P_521
 	STSE_ECC_KT_NIST_P_521,
+#endif
+#ifdef STSE_CONF_ECC_BRAINPOOL_P_256
 	STSE_ECC_KT_BP_P_256,
+#endif
+#ifdef STSE_CONF_ECC_BRAINPOOL_P_384
 	STSE_ECC_KT_BP_P_384,
+#endif
+#ifdef STSE_CONF_ECC_BRAINPOOL_P_512
 	STSE_ECC_KT_BP_P_512,
+#endif
+#ifdef STSE_CONF_ECC_CURVE_25519
 	STSE_ECC_KT_CURVE25519,
+#endif
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	STSE_ECC_KT_ED25519,
+#endif
 	STSE_ECC_KT_INVALID
 }stse_ecc_key_type_t;
 
@@ -150,10 +166,6 @@ typedef struct stse_cmd_authorization_record_t{
 #define STSE_ECC_GENERIC_LENGTH_SIZE                        2U
 #define STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID 		0x04
 #define STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE    1U
-#define STSE_ECC_NUMBER_OF_MONTGOMERY_CURVES                2U
-#define STSE_ECC_NUMBER_OF_WEIERSTRASS_CURVES               6U
-#define STSE_ECC_NUMBER_OF_CURVES                           STSE_ECC_NUMBER_OF_MONTGOMERY_CURVES \
-                                                          + STSE_ECC_NUMBER_OF_WEIERSTRASS_CURVES
 #define STSE_ECC_CURVE_ID_LENGTH_SIZE                       STSE_ECC_GENERIC_LENGTH_SIZE
 #define STSE_ECC_CURVE_ID_VALUE_MAX_SIZE                    9U
 
@@ -164,9 +176,9 @@ typedef struct stse_cmd_authorization_record_t{
  *  ---------------------------------------------------------------------------------------
 */
 
-#define STSE_NIST_P_256_ID_LENGTH_SIZE 				2U
-#define STSE_NIST_P_256_ID_LENGTH					{0x00,0x08}
-#define STSE_NIST_P_256_ID_VALUE_SIZE				8U
+#define STSE_NIST_P_256_ID_LENGTH_SIZE 					2U
+#define STSE_NIST_P_256_ID_LENGTH						{0x00,0x08}
+#define STSE_NIST_P_256_ID_VALUE_SIZE					8U
 #define STSE_NIST_P_256_ID_VALUE						{0x2A,0x86,0x48,0xCE,0x3D,0x03,0x01,0x07}
 #define STSE_NIST_P_256_ID_SIZE 						STSE_NIST_P_256_ID_LENGTH_SIZE \
 														+ STSE_NIST_P_256_ID_VALUE_SIZE
@@ -460,7 +472,7 @@ typedef struct {
 	PLAT_UI16 signature_size;
 } stse_ecc_info_t;
 
-extern const stse_ecc_info_t stse_ecc_info_table[STSE_ECC_NUMBER_OF_CURVES];
+extern const stse_ecc_info_t stse_ecc_info_table[];
 
 stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
 		uint8_t curve_id_length,
