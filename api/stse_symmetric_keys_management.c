@@ -38,15 +38,18 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 	{
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
+
 	if(pSession == NULL)
 	{
 		return(STSE_API_SESSION_ERROR);
 	}
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(ecc_key_type == STSE_ECC_KT_ED25519)
 	{
 		return STSE_API_INVALID_PARAMETER;
 	}
+#endif
 
 	/* - Set session type */
 	pSession->type = STSE_VOLATILE_KEK_SESSION;
@@ -178,10 +181,12 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		return(STSE_API_SESSION_ERROR);
 	}
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(ecc_key_type == STSE_ECC_KT_ED25519)
 	{
 		return STSE_API_INVALID_PARAMETER;
 	}
+#endif
 
 	pSession->type = STSE_VOLATILE_KEK_SESSION;
 
@@ -191,11 +196,13 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 	PLAT_UI16 signature_size = stse_ecc_info_table[private_ecc_key_type].signature_size;
 
 	PLAT_UI16 pub_key_size_stsafe_format = pub_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type == STSE_ECC_KT_CURVE25519)
 	{
 		pub_key_size_stsafe_format += STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
 	else
+#endif
 	{
 		pub_key_size_stsafe_format += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
@@ -241,7 +248,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		   stse_ecc_info_table[ecc_key_type].curve_id_total_length
 	);
 	PLAT_UI16 copy_index = stse_ecc_info_table[ecc_key_type].curve_id_total_length;
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
@@ -253,7 +262,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		   host_ecdhe_public_key,
 		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
@@ -263,9 +274,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 			   host_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
 			   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 		copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
-	}
-	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
-	{
+
 		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
 	}
@@ -276,7 +285,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		   stsafe_ecdhe_public_key,
 		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
@@ -721,7 +732,11 @@ stse_ReturnCode_t stse_establish_host_key(
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	if(host_ecdh_key_type == STSE_ECC_KT_ED25519 || host_mac_key == NULL || host_cipher_key == NULL)
+	if (host_mac_key == NULL || host_cipher_key == NULL
+#ifdef STSE_CONF_ECC_EDWARD_25519
+		|| host_ecdh_key_type == STSE_ECC_KT_ED25519
+#endif
+	)
 	{
 		return STSE_API_INVALID_PARAMETER;
 	}
@@ -1137,10 +1152,12 @@ stse_ReturnCode_t stse_establish_symmetric_key(
 	PLAT_UI16 stsafe_ecdhe_public_key_size;
 	PLAT_UI16 shared_secret_size;
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(ecc_key_type == STSE_ECC_KT_ED25519)
 	{
 		return STSE_API_INVALID_PARAMETER;
 	}
+#endif
 
 	host_public_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
 	host_private_key_size = stse_ecc_info_table[ecc_key_type].private_key_size;
@@ -1262,11 +1279,14 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	if((key_infos_list   == NULL)
-	|| (key_list 	   	 == NULL)
-	|| (private_key    	 == NULL)
-	|| (ecc_key_type 	   	 == STSE_ECC_KT_ED25519)
-	|| (private_ecc_key_type == STSE_ECC_KT_CURVE25519))
+	if(key_infos_list   == NULL || key_list == NULL || private_key == NULL
+#ifdef STSE_CONF_ECC_EDWARD_25519
+	|| ecc_key_type 	   	 == STSE_ECC_KT_ED25519
+#endif
+#ifdef STSE_CONF_ECC_CURVE_25519
+	|| private_ecc_key_type == STSE_ECC_KT_CURVE25519
+#endif
+	)
 	{
 		return STSE_API_INVALID_PARAMETER;
 	}
@@ -1282,11 +1302,13 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 	PLAT_UI8 shared_secret[2*stse_ecc_info_table[ecc_key_type].shared_secret_size];
 
 	PLAT_UI16 pub_key_size_stsafe_format = stse_ecc_info_table[ecc_key_type].public_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type == STSE_ECC_KT_CURVE25519)
 	{
 		pub_key_size_stsafe_format += STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
 	else
+#endif
 	{
 		pub_key_size_stsafe_format += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
 	}
@@ -1339,7 +1361,9 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 	PLAT_UI16 copy_index = stse_ecc_info_table[ecc_key_type].curve_id_total_length;
 
 	/* Copy Host ECDHE public key */
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
@@ -1354,7 +1378,9 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
@@ -1367,7 +1393,9 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 	}
 
 	/* Copy STSE ECDHE public key */
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 		copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
@@ -1382,7 +1410,9 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 		   stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 	copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(ecc_key_type != STSE_ECC_KT_CURVE25519)
+#endif
 	{
 		pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
 		pTBS[copy_index+1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);

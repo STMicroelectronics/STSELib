@@ -155,7 +155,7 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPublic_key == NULL)
+	if ((pPublic_key == NULL) || (key_type >= STSE_ECC_KT_INVALID))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -192,6 +192,7 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
@@ -200,6 +201,7 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&RspFrame, &ePoint_representation_id);
 
@@ -236,10 +238,10 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-/*	if (key_type == STSE_ECC_KT_ED25519)
+	if (key_type >= STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
-	}*/
+	}
 
 	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
 	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_GENERATE_ECDHE;
@@ -272,6 +274,7 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			pCurve_id_rsp);
 
+#ifdef STSE_CONF_ECC_CURVE_25519
 	if(key_type == STSE_ECC_KT_CURVE25519)
 	{
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
@@ -280,6 +283,7 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&RspFrame, &ePoint_representation_id);
 
@@ -322,7 +326,13 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
 	PLAT_UI8 tbs_data[payload_length];
 	PLAT_UI32 hash_length = stsafea_hash_info_table[hash_algo].length;
 
-	if(private_key_type != STSE_ECC_KT_ED25519)
+#ifdef STSE_CONF_ECC_EDWARD_25519
+	if(private_key_type == STSE_ECC_KT_ED25519)
+	{
+		memcpy(tbs_data, pPayload, payload_length);
+	}
+	else
+#endif
 	{
 		/* - Hash the payload */
 		ret = stse_platform_hash_compute(
@@ -335,17 +345,17 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
 			return( ret );
 		}
 	}
-	else
-	{
-		memcpy(tbs_data, pPayload, payload_length);
-	}
 
 	/* - Sign the hash of concatenation of pub keys */
 	ret = stse_platform_ecc_sign(
 			private_key_type,
 			pPrivate_key,
 			tbs_data,
-			(private_key_type != STSE_ECC_KT_ED25519) ? hash_length : payload_length,
+#ifdef STSE_CONF_ECC_EDWARD_25519
+			(private_key_type == STSE_ECC_KT_ED25519) ? payload_length : hash_length,
+#else
+			hash_length,
+#endif
 			pSignature);
 
 	return( ret );

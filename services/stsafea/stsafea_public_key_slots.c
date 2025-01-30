@@ -70,9 +70,8 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPresence_flag 		== NULL
-	|| pConfiguration_flags == NULL
-	|| pKey_type 			== NULL)
+	if(pPresence_flag == NULL || pConfiguration_flags == NULL || pKey_type == NULL || *pKey_type >= STSE_ECC_KT_INVALID)
+
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -113,7 +112,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		curve_id_total_length = (*(eCurve_id.pData) << 8);
 		curve_id_total_length += *(eCurve_id.pData+1) + STSE_ECC_CURVE_ID_LENGTH_SIZE;
 		/* Compare slot curve ID against each known curve ID to set the key type */
-		for(curve_id_index=STSE_ECC_KT_NIST_P_256; curve_id_index<STSE_ECC_NUMBER_OF_CURVES; curve_id_index++)
+		for(curve_id_index=0; curve_id_index<STSE_ECC_KT_INVALID; curve_id_index++)
 		{
 			/* First check of the ID length to speed-up the loop */
 			if(curve_id_total_length == stse_ecc_info_table[curve_id_index].curve_id_total_length)
@@ -130,8 +129,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 			}
 		}
 		/* If the comparison loop reach the end and pKey_type is always as initialized return error */
-		if((curve_id_index+1) == STSE_ECC_NUMBER_OF_CURVES
-		&& *pKey_type==STSE_ECC_KT_INVALID)
+		if((curve_id_index+1) >= STSE_ECC_KT_INVALID || *pKey_type >= STSE_ECC_KT_INVALID)
 		{
 			return STSE_UNEXPECTED_ERROR;
 		}
@@ -154,7 +152,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if((key_type >= STSE_ECC_KT_INVALID)||(pPublic_key == NULL))
+	if (key_type >= STSE_ECC_KT_INVALID || pPublic_key == NULL)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -191,6 +189,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 	stse_frame_element_allocate_push(&RspFrame,eConfiguration_flags,sizeof(stsafea_generic_public_key_configuration_flags_t),(PLAT_UI8*)&configuration_flags);
 	stse_frame_element_allocate_push(&RspFrame,eCurve_id,stse_ecc_info_table[key_type].curve_id_total_length,pCurve_id);
 
+#ifdef STSE_CONF_ECC_EDWARD_25519
 	if(key_type == STSE_ECC_KT_ED25519)
 	{
 		stse_frame_push_element(&RspFrame, &ePublic_key_length_first_element);
@@ -199,6 +198,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		stse_frame_push_element(&RspFrame, &ePublic_key_first_element);
 	}
 	else
+#endif
 	{
 		stse_frame_push_element(&RspFrame, &ePoint_representation_id);
 
@@ -269,7 +269,24 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 			stse_ecc_info_table[key_type].curve_id_total_length,
 			(PLAT_UI8*)&stse_ecc_info_table[key_type].curve_id);
 
-	if(key_type <= STSE_ECC_KT_BP_P_512)
+#if defined(STSE_CONF_ECC_CURVE_25519) || defined(STSE_CONF_ECC_EDWARD_25519)
+	uint8_t is_supported_key = 0;
+ #ifdef STSE_CONF_ECC_CURVE_25519
+    is_supported_key |= (key_type == STSE_ECC_KT_CURVE25519);
+ #endif
+ #ifdef STSE_CONF_ECC_EDWARD_25519
+    is_supported_key |= (key_type == STSE_ECC_KT_ED25519);
+ #endif
+
+    if (is_supported_key)
+	{
+		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
+		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
+		ePublic_key_first_element.pData = pPublic_key;
+		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
+	}
+	else
+#endif
 	{
 		stse_frame_push_element(&CmdFrame, &ePoint_representation_id);
 
@@ -282,13 +299,6 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 		ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
 		ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
 		stse_frame_push_element(&CmdFrame, &ePublic_key_second_element);
-	}
-	else
-	{
-		stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
-		ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
-		ePublic_key_first_element.pData = pPublic_key;
-		stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 	}
 
 	stse_frame_allocate(RspFrame);

@@ -183,6 +183,10 @@ stse_ReturnCode_t stse_device_authenticate(
 
 	/* - Get ECC key type from leaf certificate */
 	stse_ecc_key_type_t key_type = stse_certificate_get_key_type(&leaf_certificate);
+	if (key_type >= STSE_ECC_KT_INVALID)
+	{
+		return( STSE_UNEXPECTED_ERROR );
+	}
 
 	PLAT_UI16 signature_size = stse_ecc_info_table[key_type].signature_size;
 	PLAT_UI8 signature[signature_size];

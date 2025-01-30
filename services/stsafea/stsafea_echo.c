@@ -38,14 +38,9 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
 	}
 
-	if((pMessage ==NULL) || (pEchoed_message == NULL))
+	if (pMessage == NULL || pEchoed_message == NULL || message_length == 0)
 	{
 		return STSE_SERVICE_INVALID_PARAMETER;
-	}
-
-	if (message_length == 0)
-	{
-		return STSE_OK;
 	}
 
 	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
