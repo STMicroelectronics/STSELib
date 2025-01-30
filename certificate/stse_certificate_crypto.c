@@ -30,6 +30,10 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 	}
 
 	hash_algo = stse_certificate_get_sig_hash_algo(child);
+	if (hash_algo >= STSE_SHA_INVALID)
+	{
+		return( STSE_CERT_UNSUPPORTED_FEATURE );
+	}
 
 	PLAT_UI32 digestSize = stsafea_hash_info_table[hash_algo].length;
 	PLAT_UI8 digest[digestSize];
@@ -39,7 +43,10 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 	 */
 	if(stsafe_x509_parser_companion_handler != NULL
 	&& stsafe_x509_parser_companion_handler->device_type == STSAFE_A120
-	&& hash_algo >= STSE_SHA_256)
+#ifdef STSE_CONF_HASH_SHA_256
+	&& hash_algo >= STSE_SHA_256
+#endif
+	)
 	{
 		ret = stse_compute_hash(
 				stsafe_x509_parser_companion_handler,
@@ -198,16 +205,26 @@ stse_hash_algorithm_t stse_certificate_get_sig_hash_algo(const stse_certificate_
 {
 	switch (cert->SignatureAlgorithm)
 	{
+#ifdef STSE_CONF_HASH_SHA_1
 		case SIG_ECDSA_SHA1:
 			return STSE_SHA_1;
+#endif
+#ifdef STSE_CONF_HASH_SHA_224
 		case SIG_ECDSA_SHA224:
 			return STSE_SHA_224;
+#endif
+#ifdef STSE_CONF_HASH_SHA_256
 		case SIG_ECDSA_SHA256:
 			return STSE_SHA_256;
+#endif
+#ifdef STSE_CONF_HASH_SHA_384
 		case SIG_ECDSA_SHA384:
 			return STSE_SHA_384;
+#endif
+#ifdef STSE_CONF_HASH_SHA_512
 		case SIG_ECDSA_SHA512:
 			return STSE_SHA_512;
+#endif
 		default:
 			return STSE_SHA_INVALID;
 	}
