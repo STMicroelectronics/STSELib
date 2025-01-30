@@ -114,15 +114,31 @@ typedef enum stse_aes_key_type_t{
  * \brief STSE Hash algorithm type
  */
 typedef enum stse_hash_algorithm_t{
-	STSE_SHA_1 = 0x00,
+#ifdef STSE_CONF_HASH_SHA_1
+	STSE_SHA_1,
+#endif
+#ifdef STSE_CONF_HASH_SHA_224
 	STSE_SHA_224,
+#endif
+#ifdef STSE_CONF_HASH_SHA_256
 	STSE_SHA_256,
+#endif
+#ifdef STSE_CONF_HASH_SHA_384
 	STSE_SHA_384,
+#endif
+#ifdef STSE_CONF_HASH_SHA_512
 	STSE_SHA_512,
+#endif
+#ifdef STSE_CONF_HASH_SHA_3_256
 	STSE_SHA3_256,
+#endif
+#ifdef STSE_CONF_HASH_SHA_3_384
 	STSE_SHA3_384,
+#endif
+#ifdef STSE_CONF_HASH_SHA_3_512
 	STSE_SHA3_512,
-	STSE_SHA_INVALID,
+#endif
+	STSE_SHA_INVALID
 }stse_hash_algorithm_t;
 
 /*!
