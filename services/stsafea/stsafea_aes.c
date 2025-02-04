@@ -225,9 +225,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 	|| (pEncrypted_message 	== NULL && message_length != 0)
 	|| (pEncrypted_message 	!= NULL && message_length == 0)
 	|| (pEncrypted_authentication_tag 	== NULL && authentication_tag_length != 0)
-	|| (pEncrypted_authentication_tag 	!= NULL && authentication_tag_length == 0)
-	|| (pCounter_presence  == NULL)
-	|| (pCounter == NULL))
+	|| (pEncrypted_authentication_tag 	!= NULL && authentication_tag_length == 0))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -328,6 +326,8 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
 	PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_ENCRYPT;
 	PLAT_UI8 rsp_header;
+	PLAT_UI8 alt_counter_presence;
+	PLAT_UI8 alt_counter[STSAFEA_COUNTER_VALUE_SIZE];
 	stse_cmd_access_conditions_t cmd_ac_info;
 	PLAT_UI8 cmd_encryption_flag = 0;
 	PLAT_UI8 rsp_encryption_flag = 0;
@@ -344,9 +344,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 	|| (pPlaintext_message_chunk 	== NULL && message_chunk_length != 0)
 	|| (pPlaintext_message_chunk 	!= NULL && message_chunk_length == 0)
 	|| (pEncrypted_message_chunk 	== NULL && message_chunk_length != 0)
-	|| (pEncrypted_message_chunk 	!= NULL && message_chunk_length == 0)
-	|| (pCounter_presence  == NULL)
-	|| (pCounter == NULL))
+	|| (pEncrypted_message_chunk 	!= NULL && message_chunk_length == 0))
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -375,6 +373,16 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 	stse_frame_element_allocate_push(&RspFrame,eEncrypted_message,message_chunk_length,pEncrypted_message_chunk);
 	stse_frame_element_allocate_push(&RspFrame,eCounter_presence,1,pCounter_presence);
 	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEA_COUNTER_VALUE_SIZE,(PLAT_UI8*)pCounter);
+
+	if(pCounter_presence == NULL)
+	{
+		eCounter_presence.pData = &alt_counter_presence;
+	}
+
+	if(pCounter == NULL)
+	{
+		eCounter.pData = alt_counter;
+	}
 
 	/* - Swap byte order */
 	stse_frame_element_swap_byte_order(&eNonce_length);
