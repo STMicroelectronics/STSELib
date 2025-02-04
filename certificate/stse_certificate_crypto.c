@@ -30,7 +30,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 	}
 
 	hash_algo = stse_certificate_get_sig_hash_algo(child);
-	if (hash_algo >= STSE_SHA_INVALID)
+	if (hash_algo == STSE_SHA_INVALID)
 	{
 		return( STSE_CERT_UNSUPPORTED_FEATURE );
 	}
@@ -93,7 +93,7 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 	}
 
 	key_type = stse_certificate_get_key_type(cert);
-	if (key_type >= STSE_ECC_KT_INVALID)
+	if (key_type == STSE_ECC_KT_INVALID)
 	{
 		return( STSE_CERT_INVALID_CERTIFICATE );
 	}
