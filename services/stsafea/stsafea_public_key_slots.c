@@ -70,8 +70,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pPresence_flag == NULL || pConfiguration_flags == NULL || pKey_type == NULL || *pKey_type >= STSE_ECC_KT_INVALID)
-
+	if(pPresence_flag == NULL || pConfiguration_flags == NULL || pKey_type == NULL)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -152,7 +151,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if (key_type >= STSE_ECC_KT_INVALID || pPublic_key == NULL)
+	if (key_type == STSE_ECC_KT_INVALID || pPublic_key == NULL)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
