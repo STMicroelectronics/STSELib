@@ -227,7 +227,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning (
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(host_keys == NULL)
+	if (key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
@@ -270,7 +270,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped (
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pHost_key_envelope == NULL)
+	if (key_type == STSAFEA_AES_INVALID_HOST_KEY || pHost_key_envelope == NULL)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}

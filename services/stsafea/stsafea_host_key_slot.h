@@ -147,7 +147,7 @@ stse_ReturnCode_t stsafea_query_host_key_v2(
  * \brief 		Provision host key V1
  * \details 	Provision host key using the put attributes command
  * \param[in] 	pSTSE 	Pointer to STSE Handler
- * \param[in] 	host_keys	Host key structure to be provisionned
+ * \param[in] 	host_keys	Host key structure to be provisioned
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_put_attribute_host_key(
@@ -159,7 +159,7 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
  * \details 	Provision host key using the write host key command
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	key_type			Host key type
- * \param[in] 	host_keys			Host key structure to be provisionned
+ * \param[in] 	host_keys			Host key structure to be provisioned
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_host_key_provisioning (
@@ -172,7 +172,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning (
  * \details 	Provision host key using the write host key command
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	key_type			Host key type
- * \param[in] 	pHost_key_envelope	Envelope containing host key to be provisionned
+ * \param[in] 	pHost_key_envelope	Envelope containing host key to be provisioned
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_host_key_provisioning_wrapped (

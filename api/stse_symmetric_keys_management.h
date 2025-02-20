@@ -31,7 +31,7 @@
  *  \ingroup 	stse_api
  *  \brief		STSecureElement symmetric cryptography API
  *  \details  	The Application Programming Interface (API) layer is the entry point for the upper system application layer. \n
- *  			It provides high level functions to the application layer for symmetric symemtric key management on target STMicroelectronics Secure element device .
+ *  			It provides high level functions to the application layer for symmetric symmetric key management on target STMicroelectronics Secure element device .
  *  @{
  */
 

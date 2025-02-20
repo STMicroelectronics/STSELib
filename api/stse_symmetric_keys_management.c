@@ -503,7 +503,12 @@ stse_ReturnCode_t stse_host_key_provisioning (
 
 	if (pSTSE == NULL)
 	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if (host_key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL)
+	{
+		return( STSE_API_INVALID_PARAMETER );
 	}
 
 	if(pSTSE->device_type == STSAFE_A120)
@@ -541,6 +546,11 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if (host_key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL)
+	{
+		return( STSE_API_INVALID_PARAMETER );
 	}
 
 	if(pSTSE->device_type != STSAFE_A120)
@@ -635,6 +645,11 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 	if (pSTSE == NULL)
 	{
 		return( STSE_API_HANDLER_NOT_INITIALISED );
+	}
+
+	if (host_key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL)
+	{
+		return( STSE_API_INVALID_PARAMETER );
 	}
 
 	if(pSTSE->device_type != STSAFE_A120)
@@ -732,7 +747,7 @@ stse_ReturnCode_t stse_establish_host_key(
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	if (host_mac_key == NULL || host_cipher_key == NULL
+	if (host_keys_type == STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
 #ifdef STSE_CONF_ECC_EDWARD_25519
 		|| host_ecdh_key_type == STSE_ECC_KT_ED25519
 #endif
