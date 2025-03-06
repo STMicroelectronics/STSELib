@@ -1,6 +1,11 @@
 # Release Note
 
-## v1.0.3 (Latest)
+## v1.0.4 (Latest)
+- [services] Add authenticated host key establishment
+- [services] Fix CCM encrypt
+- [api/certificates/core/services] Memory optimization by selecting used curves types, used sha algorithms, companion ship usage & static personalization informations
+
+## v1.0.3
 - [core] Fix frame debug log usage
 - [services] Fix echo usage into host session 
 - [services & api] Add host key establishment v2
