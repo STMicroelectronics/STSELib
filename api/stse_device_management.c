@@ -65,12 +65,13 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 		/*- STSE device power-on delay */
 		stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
 
+#ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
 		if (pSTSE->pPerso_info == NULL)
 		{
 			pSTSE->pPerso_info = &dynamic_product_perso;
 			ret = stsafea_perso_info_update(pSTSE);
 		}
-
+#endif
 	}
 
 	return ret;
