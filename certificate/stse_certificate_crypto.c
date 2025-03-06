@@ -41,6 +41,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 	/*
 	 * Only STSAFE-A120 support Hash features
 	 */
+#ifdef STSE_CONF_USE_COMPANION
 	if(stsafe_x509_parser_companion_handler != NULL
 	&& stsafe_x509_parser_companion_handler->device_type == STSAFE_A120
 #ifdef STSE_CONF_HASH_SHA_256
@@ -57,6 +58,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 				(PLAT_UI16*)&digestSize);
 	}
 	else
+#endif
 	{
 		ret = stse_platform_hash_compute(
 				hash_algo,
@@ -102,7 +104,9 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 	PLAT_UI8 pub_key[pub_key_size];
 	PLAT_UI8 signature_size = stse_ecc_info_table[key_type].signature_size;
 	PLAT_UI8 signature[signature_size];
+#ifdef STSE_CONF_USE_COMPANION
 	PLAT_UI8 signature_validity;
+#endif
 
 	/* Extract and format the public key from the certificate */
 	memcpy(pub_key, cert->PubKey.pX, (pub_key_size>>1));
@@ -112,6 +116,7 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 	}
 	else
 	{
+#ifdef STSE_CONF_USE_COMPANION
 		if(stsafe_x509_parser_companion_handler != NULL)
 		{
 			stsafea_ecc_decompress_public_key(
@@ -122,6 +127,7 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 				pub_key + (pub_key_size>>1));
 		}
 		else
+#endif
 		{
 			return STSE_CERT_UNSUPPORTED_FEATURE;
 		}
@@ -131,6 +137,7 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 	memcpy(signature, 						signatureR, 	 (signature_size>>1));
 	memcpy(signature + (signature_size>>1), signatureS, 	 (signature_size>>1));
 
+#ifdef STSE_CONF_USE_COMPANION
 	if(stsafe_x509_parser_companion_handler != NULL)
 	{
 		/* Verify the signature using STSAFE */
@@ -150,6 +157,7 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 		}
 	}
 	else
+#endif
 	{
 		ret = stse_platform_ecc_verify(
 			  key_type,
