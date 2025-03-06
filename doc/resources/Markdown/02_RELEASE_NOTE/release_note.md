@@ -1,6 +1,12 @@
 # Release Note
 
-## v1.0.2 (Latest)
+## v1.0.3 (Latest)
+- [core] Fix frame debug log usage
+- [services] Fix echo usage into host session 
+- [services & api] Add host key establishment v2
+- [api] Fix hash computation
+
+## v1.0.2
 - [doc] Add HTML documentation
 - [api] Add AES-GCM & AES-CCM* by chunks api
 - [api] Add symmetric key slot provisioning api

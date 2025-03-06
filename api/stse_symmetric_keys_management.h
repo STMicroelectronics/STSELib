@@ -97,8 +97,8 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
  * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	host_ecdh_key_type 		ECDHE host key pair type
  * \param[in] 	host_keys_type 			Host keys type
- * \param[in] 	host_mac_key 			Pointer to the host mac key buffer
- * \param[in] 	host_mac_key 			Pointer to the host cipher key buffer
+ * \param[out] 	host_mac_key 			Pointer to the host mac key buffer
+ * \param[out] 	host_mac_key 			Pointer to the host cipher key buffer
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
