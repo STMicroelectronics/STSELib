@@ -45,6 +45,22 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 			}
 			break;
 
+		case STSE_BUS_TYPE_ST1WIRE :
+			ret = stse_platform_st1wire_init(pSTSE->io.busID);
+			if(ret != STSE_OK)
+			{
+				return ret;
+			}
+
+			pSTSE->io.BusSendStart = stse_platform_st1wire_send_start;
+			pSTSE->io.BusSendContinue = stse_platform_st1wire_send_continue;
+			pSTSE->io.BusSendStop = stse_platform_st1wire_send_stop;
+			pSTSE->io.BusRecvStart = stse_platform_st1wire_receive_start;
+			pSTSE->io.BusRecvContinue = stse_platform_st1wire_receive_continue;
+			pSTSE->io.BusRecvStop = stse_platform_st1wire_receive_stop;
+			break;
+
+
 		default :
 			return (STSE_CORE_INVALID_PARAMETER);
 	}

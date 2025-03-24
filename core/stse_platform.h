@@ -423,17 +423,55 @@ stse_ReturnCode_t stse_platform_i2c_receive_stop (
 		PLAT_UI16 element_size);
 
 
+stse_ReturnCode_t stse_platform_st1wire_init (PLAT_UI8 busID);
+
+stse_ReturnCode_t stse_platform_st1wire_wake (PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed);
+
+stse_ReturnCode_t stse_platform_st1wire_send_start (
+		PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed,
+		PLAT_UI16 FrameLength);
+
+stse_ReturnCode_t stse_platform_st1wire_send_continue (
+		PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed,
+		PLAT_UI8* pData,
+		PLAT_UI16 data_size);
+
+stse_ReturnCode_t stse_platform_st1wire_send_stop (
+		PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed,
+		PLAT_UI8* pData,
+		PLAT_UI16 data_size);
+
+stse_ReturnCode_t stse_platform_st1wire_receive_start (
+		PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed,
+		PLAT_UI16 frameLength);
+
+stse_ReturnCode_t stse_platform_st1wire_receive_continue (
+		PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed,
+		PLAT_UI8* pData,
+		PLAT_UI16 data_size);
+
+stse_ReturnCode_t stse_platform_st1wire_receive_stop (
+		PLAT_UI8 busID,
+		PLAT_UI8 devAddr,
+		PLAT_UI16 speed,
+		PLAT_UI8* pData,
+		PLAT_UI16 data_size);
+
+
+
 /** @}*/
 
-
-/**
- *  defgroup stsafe_port How to port the middleware
- *  ingroup 	stse
- *  brief  	The Platform Abstraction Layer gathers all functions intended for adapting the Middleware with the target platform specific Hardware and Software. \n
- *  			The function declared in the Middleware platform abstraction layer must be adapted by the system developer to fit with target application
- *  			HW/SW specificities . Please refer to PAL function description to get more details on expected function behavior and recommended implementation
- *  details
- *  include{doc} stsafe_port.dox
- */
 
 #endif /*STSAFE_PLATFORM_H*/

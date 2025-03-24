@@ -1,4 +1,4 @@
-# Software License
+# Software License (3-Clause BSD)
 
 Copyright 2024 STMicroelectronics.
 All rights reserved.
