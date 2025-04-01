@@ -51,7 +51,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 #ifdef STSE_CONF_HASH_SHA_256
 	&& hash_algo >= STSE_SHA_256
 #endif
-	{
+	{ /* Only STSAFE-A120 support Hash features */
 		ret = stse_compute_hash(
 				stsafe_x509_parser_companion_handler,
 				hash_algo,
@@ -60,8 +60,8 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
 				digestPtr,
 				(PLAT_UI16*)&digestSize);
 	}
-	else
 #endif
+	else
 	{
 		ret = stse_platform_hash_compute(
 				hash_algo,
@@ -128,13 +128,12 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
 #ifdef STSE_CONF_USE_COMPANION
 			if(stsafe_x509_parser_companion_handler != NULL)
 			{
-
-			stsafea_ecc_decompress_public_key(
-				stsafe_x509_parser_companion_handler,
-				key_type,
-				*cert->pPubKey_point_representation_id,
-				pub_key,
-				pub_key + (pub_key_size>>1));
+				stsafea_ecc_decompress_public_key(
+					stsafe_x509_parser_companion_handler,
+					key_type,
+					*cert->pPubKey_point_representation_id,
+					pub_key,
+					pub_key + (pub_key_size>>1));
 			}
 			else
 #endif
@@ -215,7 +214,7 @@ stse_ecc_key_type_t stse_certificate_get_key_type(const stse_certificate_t *cert
 		case EC_bp512r1:
 			return STSE_ECC_KT_BP_P_512;
 #endif
-#ifdef STSE_CONF_ECC_ED25519
+#ifdef STSE_CONF_ECC_EDWARD_25519
 		  case EC_Ed25519:
 			return STSE_ECC_KT_ED25519;
 #endif
