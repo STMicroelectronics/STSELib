@@ -73,7 +73,9 @@ typedef struct stse_perso_info_t {
  */
 typedef enum stse_bus {
 	STSE_BUS_TYPE_I2C,		/*!< I2C bus */
+#ifdef STSE_CONF_USE_ST1WIRE
 	STSE_BUS_TYPE_ST1WIRE	/*!< ST1Wire bus */
+#endif
 }stse_bus_t;
 
 /*

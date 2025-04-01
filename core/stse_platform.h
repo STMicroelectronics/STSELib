@@ -28,18 +28,51 @@
 #ifndef STSE_PLATFORM_H
 #define STSE_PLATFORM_H
 
+#include "stse_platform_generic.h"
 #include "core/stse_device.h"
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
 
 /*--------------------- STSAFE platform HAL functions --------------------------- */
 
-/*!
- * \brief      STSAFE Low level Platform initialization function
- */
-stse_ReturnCode_t stse_services_platform_init (void);
 
-stse_ReturnCode_t stse_crypto_platform_init (void);
+/*!
+ * \brief      Platform delay initialization callback function
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_delay_init(void);
+
+/*!
+ * \brief      Platform power control initialization callback function
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_power_init(void);
+
+/*!
+ * \brief      Platform CRC16 initialization callback function
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_crc16_init(void);
+
+/*!
+ * \brief      Platform crypto library initialization callback function
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_crypto_init(void);
+
+
+/*!
+ * \brief      Platform random number generation initialization callback function
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_generate_random_init(void);
+
+
+/*!
+ * \brief      Platform generate random callback function
+ * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+PLAT_UI32 stse_platform_generate_random(void);
 
 /*!
  * \brief      Compute a 16-bit crc value on specific 8-bit buffer of buffer length
@@ -92,7 +125,7 @@ stse_ReturnCode_t stse_platform_nvm_write (PLAT_UI32 nvmAddr,
  * \brief      Generate a PLAT_UI32 random number
  * \return     32-bit random number
  */
-PLAT_UI32 stse_platform_Random (void);
+PLAT_UI32 stse_platform_generate_random (void);
 
 
 stse_ReturnCode_t stse_platform_aes_keywrap_encrypt(PLAT_UI8 *pPayload, 	PLAT_UI32 payload_length,
