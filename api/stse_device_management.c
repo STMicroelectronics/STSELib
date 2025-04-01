@@ -44,7 +44,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 				return ret;
 			}
 			break;
-
+#ifdef STSE_CONF_USE_ST1WIRE
 		case STSE_BUS_TYPE_ST1WIRE :
 			ret = stse_platform_st1wire_init(pSTSE->io.busID);
 			if(ret != STSE_OK)
@@ -59,7 +59,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 			pSTSE->io.BusRecvContinue = stse_platform_st1wire_receive_continue;
 			pSTSE->io.BusRecvStop = stse_platform_st1wire_receive_stop;
 			break;
-
+#endif
 
 		default :
 			return (STSE_CORE_INVALID_PARAMETER);
@@ -71,12 +71,27 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 	}
 
 	/* - Initialize Host platform */
-	ret = stse_services_platform_init();
+	ret = stse_platform_generate_random_init();
 	if(ret != STSE_OK)
 	{
 		return ret;
 	}
-	ret = stse_crypto_platform_init();
+	ret = stse_platform_delay_init();
+	if(ret != STSE_OK)
+	{
+		return ret;
+	}
+	ret = stse_platform_power_init();
+	if(ret != STSE_OK)
+	{
+		return ret;
+	}
+	ret = stse_platform_crc16_init();
+	if(ret != STSE_OK)
+	{
+		return ret;
+	}
+	ret = stse_platform_crypto_init();
 	if(ret != STSE_OK)
 	{
 		return ret;
@@ -102,6 +117,8 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 										stse_hibernate_wake_up_mode_t wake_up_mode)
 {	
+	stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+
 	/* - Check STSAFE handler initialization */
 	if(pSTSE == NULL)
 	{
@@ -110,16 +127,22 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 
 	switch (pSTSE->device_type)
 	{
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
 		case STSAFE_L010:
-			return stsafel_hibernate(pSTSE);
+			ret = stsafel_hibernate(pSTSE);
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 		case STSAFE_A100:
 		case STSAFE_A110:
 		case STSAFE_A200:
-			return stsafea_hibernate(pSTSE, wake_up_mode);
+			ret = stsafea_hibernate(pSTSE, wake_up_mode);
 		case STSAFE_A120:
+#endif
 		default:
-			return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+			ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
+
+	return ret;
 }
 
 stse_ReturnCode_t stse_device_power_on(stse_Handler_t * pSTSE)
@@ -171,11 +194,21 @@ stse_ReturnCode_t stse_device_echo(stse_Handler_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pSTSE->device_type == STSAFE_L010)
+	switch(pSTSE->device_type)
 	{
-		return stsafel_echo(pSTSE, pIn, pOut, size);
-	} else {
-		return stsafea_echo(pSTSE, pIn, pOut, size);
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+		case STSAFE_L010 :
+			return stsafel_echo(pSTSE, pIn, pOut, size);
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+		case STSAFE_A100 :
+		case STSAFE_A110 :
+		case STSAFE_A120 :
+		case STSAFE_A200 :
+			return stsafea_echo(pSTSE, pIn, pOut, size);
+#endif
+		default :
+			return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 }
 

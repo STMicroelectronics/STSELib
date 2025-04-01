@@ -76,11 +76,23 @@ stse_ReturnCode_t stse_ecc_generate_signature(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	if (pSTSE->device_type == STSAFE_L010)
+	switch(pSTSE->device_type)
 	{
-		ret = stsafel_ecc_generate_signature(pSTSE, key_type, pMessage, message_length, pSignature);
-	} else {
-		ret = stsafea_ecc_generate_signature(pSTSE, slot_number, key_type, pMessage, message_length, pSignature);
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+		case STSAFE_L010 :
+			ret = stsafel_ecc_generate_signature(pSTSE, key_type, pMessage, message_length, pSignature);
+			break;
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+		case STSAFE_A100 :
+		case STSAFE_A110 :
+		case STSAFE_A120 :
+		case STSAFE_A200 :
+			ret = stsafea_ecc_generate_signature(pSTSE, slot_number, key_type, pMessage, message_length, pSignature);
+			break;
+#endif
+		default :
+			return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 
 	return ret;

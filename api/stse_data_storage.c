@@ -89,27 +89,38 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
 		}
 
 		/* - Transfer command/response */
-		if (pSTSE->device_type == STSAFE_L010)
+		switch(pSTSE->device_type)
 		{
-			ret = stsafel_read_data_zone(
-					pSTSE,
-					zone,
-					read_option.stsafel,
-					chunck_offset,
-					pBuffer + (chunck_offset)-offset,
-					chunck_length,
-					protection);
-		} else {
-			ret = stsafea_read_data_zone(
-					pSTSE,
-					zone,
-					read_option.stsafea,
-					chunck_offset,
-					pBuffer + (chunck_offset)-offset,
-					chunck_length,
-					protection);
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+			case STSAFE_L010 :
+				ret = stsafel_read_data_zone(
+						pSTSE,
+						zone,
+						read_option.stsafel,
+						chunck_offset,
+						pBuffer + (chunck_offset)-offset,
+						chunck_length,
+						protection);
+				break;
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+			case STSAFE_A100 :
+			case STSAFE_A110 :
+			case STSAFE_A120 :
+			case STSAFE_A200 :
+				ret = stsafea_read_data_zone(
+						pSTSE,
+						zone,
+						read_option.stsafea,
+						chunck_offset,
+						pBuffer + (chunck_offset)-offset,
+						chunck_length,
+						protection);
+				break;
+#endif
+			default :
+				return STSE_API_INCOMPATIBLE_DEVICE_TYPE ;
 		}
-
 		/* - Check if Transfer successful and format response data */
 		if (ret != STSE_OK)
 		{
@@ -152,26 +163,39 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
 	/* - Set update option with all zero for both members of the union as they act similarly */
 	memset(&update_option, 0, sizeof(update_option));
 
-	/*- Transfer command/response */
-	if (pSTSE->device_type == STSAFE_L010)
+	switch(pSTSE->device_type)
 	{
-		ret = stsafel_update_data_zone(
-				pSTSE,
-				zone,
-				update_option.stsafel,
-				offset,
-				pBuffer,
-				length,
-				protection);
-	} else {
-		ret = stsafea_update_data_zone(
-				pSTSE,
-				zone,
-				update_option.stsafea,
-				offset,
-				pBuffer,
-				length,
-				protection);
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+		case STSAFE_L010 :
+			ret = stsafel_update_data_zone(
+					pSTSE,
+					zone,
+					update_option.stsafel,
+					offset,
+					pBuffer,
+					length,
+					protection
+			);
+			break;
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+		case STSAFE_A100 :
+		case STSAFE_A110 :
+		case STSAFE_A120 :
+		case STSAFE_A200 :
+			ret = stsafea_update_data_zone(
+					pSTSE,
+					zone,
+					update_option.stsafea,
+					offset,
+					pBuffer,
+					length,
+					protection
+			);
+			break;
+#endif
+		default :
+			ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 
 	/* - Return STSE Status code */
@@ -203,33 +227,47 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
 	/* - Set decrement option with all zero for both members of the union as they act similarly */
 	memset(&decrement_option, 0, sizeof(decrement_option));
 
-	/*- Transfer command/response */
-	if (pSTSE->device_type == STSAFE_L010)
+
+	switch(pSTSE->device_type)
 	{
-		ret = stsafel_decrement_counter_zone(
-				pSTSE,
-				zone,
-				decrement_option.stsafel,
-				amount,
-				offset,
-				pBuffer,
-				length,
-				new_counter_value,
-				protection);
-	} else {
-		ret = stsafea_decrement_counter_zone(
-				pSTSE,
-				zone,
-				decrement_option.stsafea,
-				amount,
-				offset,
-				pBuffer,
-				length,
-				new_counter_value,
-				protection);
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+		case STSAFE_L010 :
+			ret = stsafel_decrement_counter_zone(
+					pSTSE,
+					zone,
+					decrement_option.stsafel,
+					amount,
+					offset,
+					pBuffer,
+					length,
+					new_counter_value,
+					protection
+			);
+			break;
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+		case STSAFE_A100 :
+		case STSAFE_A110 :
+		case STSAFE_A120 :
+		case STSAFE_A200 :
+			ret = stsafea_decrement_counter_zone(
+					pSTSE,
+					zone,
+					decrement_option.stsafea,
+					amount,
+					offset,
+					pBuffer,
+					length,
+					new_counter_value,
+					protection
+			);
+			break;
+#endif
+		default :
+			ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 
-		/* - Return STSAFE Status code */
+	/* - Return STSAFE Status code */
 	return(ret);
 }
 
@@ -270,40 +308,46 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
 			chunck_length = remaning_length;
 		}
 
-		/* - Transfer command/response */
-		if (pSTSE->device_type == STSAFE_L010)
+		switch(pSTSE->device_type)
 		{
-			ret = stsafel_read_counter_zone(
-					pSTSE,
-					zone,
-					read_option.stsafel,
-					chunck_offset,
-					pBuffer + (chunck_offset)-offset,
-					chunck_length,
-					pCounter_value,
-					protection);
-		} else {
-			ret = stsafea_read_counter_zone(
-					pSTSE,
-					zone,
-					read_option.stsafea,
-					chunck_offset,
-					pBuffer + (chunck_offset)-offset,
-					chunck_length,
-					pCounter_value,
-					protection);
+	#ifdef STSE_CONF_STSAFE_L_SUPPORT
+			case STSAFE_L010 :
+				ret = stsafel_read_counter_zone(
+						pSTSE,
+						zone,
+						read_option.stsafel,
+						chunck_offset,
+						pBuffer + (chunck_offset)-offset,
+						chunck_length,
+						pCounter_value,
+						protection
+				);
+				break;
+	#endif
+	#ifdef STSE_CONF_STSAFE_A_SUPPORT
+			case STSAFE_A100 :
+			case STSAFE_A110 :
+			case STSAFE_A120 :
+			case STSAFE_A200 :
+				ret = stsafea_read_counter_zone(
+						pSTSE,
+						zone,
+						read_option.stsafea,
+						chunck_offset,
+						pBuffer + (chunck_offset)-offset,
+						chunck_length,
+						pCounter_value,
+						protection
+				);
+				break;
+	#endif
+			default :
+				ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 		}
-
-		/*- Check if Transfer successful and format response data */
-		if (ret != STSE_OK)
-		{
-			return(ret);
-		}
-
 		/* - Decrement Length value */
 		remaning_length = (remaning_length - chunck_length);
 		chunck_offset = (chunck_offset + chunck_length);
-	} while (remaning_length > 0);
+	} while ((remaning_length > 0) && (ret == STSE_OK));
 
 	/* - Return STSAFE Status code */
 	return(ret);

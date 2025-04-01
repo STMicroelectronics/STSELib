@@ -178,7 +178,7 @@ stse_ReturnCode_t stse_device_authenticate(
 			&leaf_certificate);
 	if (ret != STSE_OK)
 	{
-		return( STSE_UNEXPECTED_ERROR );
+		return( ret );
 	}
 
 	/* - Get ECC key type from leaf certificate */
@@ -203,7 +203,7 @@ stse_ReturnCode_t stse_device_authenticate(
 	/* - Generate random challenge */
 	for (int i=0; i<challenge_size; i++)
 	{
-		challenge[i] = (PLAT_UI8)(stse_platform_Random()&0xFF);
+		challenge[i] = (PLAT_UI8)(stse_platform_generate_random()&0xFF);
 	}
 
 	/* - Get target SE challenge signature */
