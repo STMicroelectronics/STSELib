@@ -183,10 +183,10 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped (
 /**
  * \brief 		Establish host key using ECDH & HKDF processes
  * \details 	Provision host key using the establish host key command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in]   public_key_type		ECDHE host public key type
- * \param[in]   pPublic_key 		ECDHE host public key
- * \param[in] 	host_key_type		Host key type
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
+ * \param[in]   host_ecdh_public_key_type	ECDHE host public key type
+ * \param[in]   pPublic_key 				ECDHE host public key
+ * \param[in] 	host_keys_type				Host key type
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_host_key (
