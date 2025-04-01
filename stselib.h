@@ -47,6 +47,7 @@ extern "C" {
 
 /* Includes ------------------------------------------------------------------*/
 #include "stse_conf.h"
+#include "stse_platform_generic.h"
 #include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
