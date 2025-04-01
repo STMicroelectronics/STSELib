@@ -25,7 +25,8 @@
 #define STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH			1U
 
 /* Static functions declaration ----------------------------------------------*/
-
+#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED)
 static stse_ReturnCode_t stse_start_volatile_KEK_session(
 		stse_Handler_t * pSTSE,
 		stse_session_t * pSession,
@@ -158,6 +159,10 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 
 	return ret;
 }
+#endif
+
+#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 		stse_Handler_t * pSTSE,
@@ -385,7 +390,13 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
 	return ret;
 }
+#endif /*STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED*/
 
+
+#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) || \
+	defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 static stse_ReturnCode_t stse_stop_volatile_KEK_session( stse_Handler_t *pSTSE , stse_session_t *pSession)
 {
 	stse_ReturnCode_t ret;
@@ -490,7 +501,7 @@ static stse_ReturnCode_t stse_KEK_wrap(
 
 	return STSE_OK;
 }
-
+#endif
 
 /* Exported functions --------------------------------------------------------*/
 
@@ -533,7 +544,7 @@ stse_ReturnCode_t stse_host_key_provisioning (
 
 	return ret;
 }
-
+#ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED
 stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 		stse_Handler_t * pSTSE ,
 		stsafea_host_key_type_t host_key_type,
@@ -629,7 +640,9 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
 
 	return ret;
 }
+#endif
 
+#ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
 stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 		stse_Handler_t * pSTSE ,
 		stsafea_host_key_type_t host_key_type,
@@ -731,7 +744,9 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
 
 	return ret;
 }
+#endif
 
+#ifdef STSE_CONF_USE_HOST_KEY_ESTABLISHMENT
 stse_ReturnCode_t stse_establish_host_key(
 		stse_Handler_t *pSTSE ,
 		stse_ecc_key_type_t host_ecdh_key_type,
@@ -870,7 +885,7 @@ stse_ReturnCode_t stse_establish_host_key(
 
 	return ret;
 }
-
+#endif
 
 
 /* ------------------------------------------------------------------------------------------
@@ -985,7 +1000,7 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 	/* - Write the plaintext key */
 	return stsafea_write_symmetric_key_plaintext(pSTSE, pKey, pSymmetric_key_info);
 }
-
+#ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 		stse_Handler_t *pSTSE,
 		PLAT_UI8 *pKey,
@@ -1058,7 +1073,9 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 
 	return ret;
 }
+#endif /*STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED*/
 
+#ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated (
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pKey,
@@ -1147,7 +1164,9 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated (
 
 	return ret;
 }
+#endif /*STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED*/
 
+#ifdef STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT
 stse_ReturnCode_t stse_establish_symmetric_key(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t ecc_key_type,
@@ -1275,7 +1294,9 @@ stse_ReturnCode_t stse_establish_symmetric_key(
 
 	return ret;
 }
+#endif /*STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT*/
 
+#ifdef STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t ecc_key_type,
@@ -1515,3 +1536,4 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 
 	return ret;
 }
+#endif /* STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED */
