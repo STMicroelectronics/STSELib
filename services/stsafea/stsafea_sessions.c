@@ -1,4 +1,20 @@
-
+/*!
+ ******************************************************************************
+ * \file	stse_generic_session.c
+ * \brief   STSE Generic typedefs (header)
+ * \author  STMicroelectronics - CS application team
+ *
+ ******************************************************************************
+ * \attention
+ *
+ * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
+ *
+ * This software is licensed under terms that can be found in the LICENSE file in
+ * the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_host_key_slot.h"
@@ -15,6 +31,8 @@
 /* Private variables ---------------------------------------------------------*/
 
 /* Public functions ----------------------------------------------------------*/
+
+#ifdef STSE_CONF_USE_HOST_SESSION
 
 stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE, stse_session_t *pSession , PLAT_UI8 *pHost_MAC_key , PLAT_UI8 *pHost_cypher_key)
 {
@@ -675,4 +693,4 @@ stse_ReturnCode_t stsafea_session_authenticated_transfer ( stse_session_t *pSess
 
 	return ret;
 }
-
+#endif /* STSE_CONF_USE_HOST_SESSION */

@@ -19,6 +19,7 @@
 #ifndef STSAFEL_ECHO_H
 #define STSAFEL_ECHO_H
 
+#include "stse_platform_generic.h"
 #include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"

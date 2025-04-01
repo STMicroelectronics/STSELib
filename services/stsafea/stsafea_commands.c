@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stsafea_data_partition.c
+ * \file	stsafea_commands.c
  * \brief   Data partition services for STSAFE-A
  * \author  STMicroelectronics - CS application team
  *
@@ -16,7 +16,7 @@
  ******************************************************************************
  */
 
-#include <services/stsafea/stsafea_commands.h>
+#include "services/stsafea/stsafea_commands.h"
 
 const PLAT_UI16 stsafea_maximum_command_length[4] = {
 	STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100,

@@ -324,8 +324,21 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 data_length,
 		stse_cmd_protection_t protection)
 {
-	(void)protection;
+
 	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
+	stse_cmd_access_conditions_t cmd_ac_info;
+	PLAT_UI8 cmd_encryption_flag = 0;
+	PLAT_UI8 rsp_encryption_flag = 0;
+
+	/* - Check stsafe handler initialization */
+	if (pSTSE == NULL)
+	{
+		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
+	}
+
+	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, STSAFEA_CMD_UPDATE, &cmd_encryption_flag);
+	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, STSAFEA_CMD_UPDATE, &rsp_encryption_flag);
+	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, STSAFEA_CMD_UPDATE, &cmd_ac_info);
 
 	PLAT_UI8 cmd_header = STSAFEA_CMD_UPDATE;
 	PLAT_UI8 rsp_header;
@@ -360,12 +373,49 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 	/*- Swap Elements byte order before sending*/
 	stse_frame_element_swap_byte_order(&eOffset);
 
-	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
-	);
+#ifdef STSE_CONF_USE_HOST_SESSION
+	if (cmd_encryption_flag || rsp_encryption_flag)
+	{
+		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_encryption_flag,
+				rsp_encryption_flag,
+				cmd_ac_info,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
+		);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
+		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_ac_info,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
+		);
+	}
+	else if (protection != 0)
+	{
+		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				STSE_CMD_AC_HOST,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
+		);
+	}
+	else
+	{
+#endif
+
+		/* - Perform Transfer*/
+		ret = stse_frame_transfer(pSTSE,
+				&CmdFrame,
+				&RspFrame,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
+		);
+#ifdef STSE_CONF_USE_HOST_SESSION
+	}
+#endif
 
 	return( ret );
 }

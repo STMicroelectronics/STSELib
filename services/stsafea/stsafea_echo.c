@@ -57,6 +57,7 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eEchoed_message,message_length,pEchoed_message);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
 	/*- Perform Transfer*/
 	if (cmd_encryption_flag || rsp_encryption_flag)
 	{
@@ -82,6 +83,13 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
 	}
+#else
+	ret = stse_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame,
+			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
+	);
+#endif
 
 	return( ret );
 }

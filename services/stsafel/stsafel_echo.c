@@ -17,7 +17,7 @@
  */
 
 #include <services/stsafel/stsafel_echo.h>
-#include <services/stsafel/stsafel_timings.h>
+
 
 
 stse_ReturnCode_t stsafel_echo( stse_Handler_t * pSTSE ,

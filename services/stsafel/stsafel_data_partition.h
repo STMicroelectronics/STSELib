@@ -19,6 +19,7 @@
 #ifndef STSAFEL_DATA_PARTITION_H
 #define STSAFEL_DATA_PARTITION_H
 
+#include "stse_platform_generic.h"
 #include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"

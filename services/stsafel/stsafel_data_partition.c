@@ -16,8 +16,7 @@
  ******************************************************************************
  */
 
-#include <services/stsafel/stsafel_data_partition.h>
-#include <services/stsafel/stsafel_timings.h>
+#include "services/stsafel/stsafel_data_partition.h"
 
 stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
     PLAT_UI8 zone_index,
