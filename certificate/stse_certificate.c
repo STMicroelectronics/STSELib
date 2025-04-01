@@ -447,7 +447,7 @@ stse_ReturnCode_t stse_certificate_parse_chain(
 		/* Last child certificate is returned as leaf certificate */
 		stse_certificate_copy(leafCert, &parsed_child_cert);
 	}
-	return STSE_OK;
+	return ret;
 }
 
 void stse_certificate_set_stse_companion(stse_Handler_t *pSTSE)
