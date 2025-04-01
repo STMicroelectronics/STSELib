@@ -312,6 +312,10 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
 	return ret;
 }
 
+#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
+
 stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t private_key_type,
@@ -360,3 +364,4 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
 
 	return( ret );
 }
+#endif

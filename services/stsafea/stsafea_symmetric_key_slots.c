@@ -438,6 +438,8 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 	return ret;
 }
 
+#if defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED)
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pMac_confirmation_key,
@@ -527,7 +529,10 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
 
 	return ret;
 }
+#endif
 
+#if defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
+	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pSymmetric_key_envelope,
@@ -565,6 +570,7 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 
 	return ret;
 }
+#endif
 
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,

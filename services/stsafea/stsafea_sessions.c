@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
- * \file	stse_generic_session.c
- * \brief   STSE Generic typedefs (header)
+ * \file	stsafea_sessions.c
+ * \brief   STSAFE-A sessions (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
