@@ -545,10 +545,16 @@ typedef struct {
 
 extern const stse_ecc_info_t stse_ecc_info_table[];
 
+#if defined(STSE_CONF_ECC_NIST_P_256) || defined(STSE_CONF_ECC_NIST_P_384) || defined(STSE_CONF_ECC_NIST_P_521) || \
+    defined(STSE_CONF_ECC_BRAINPOOL_P_256) || defined(STSE_CONF_ECC_BRAINPOOL_P_384) || defined(STSE_CONF_ECC_BRAINPOOL_P_512) || \
+    defined(STSE_CONF_ECC_CURVE_25519) || defined(STSE_CONF_ECC_EDWARD_25519)
+
 stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
-		uint8_t curve_id_length,
-		const uint8_t * pCurve_id_value,
+		PLAT_UI8 curve_id_length,
+		const PLAT_UI8 * pCurve_id_value,
 		stse_ecc_key_type_t * pKey_type);
+
+#endif
 
 /** \}*/
 

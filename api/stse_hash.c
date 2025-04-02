@@ -18,6 +18,10 @@
 #include "api/stse_hash.h"
 #include "services/stsafea/stsafea_hash.h"
 
+#if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) || \
+    defined(STSE_CONF_HASH_SHA_256) || defined(STSE_CONF_HASH_SHA_384) || defined(STSE_CONF_HASH_SHA_512) || \
+    defined(STSE_CONF_HASH_SHA_3_256) || defined (STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
+
 stse_ReturnCode_t stse_start_hash(
 		stse_Handler_t * pSTSE,
 		stse_hash_algorithm_t 	sha_algorithm,
@@ -148,3 +152,5 @@ stse_ReturnCode_t stse_compute_hash(
 
 	return ret;
 }
+
+#endif

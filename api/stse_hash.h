@@ -22,6 +22,10 @@
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_hash.h"
 
+#if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) || \
+    defined(STSE_CONF_HASH_SHA_256) || defined(STSE_CONF_HASH_SHA_384) || defined(STSE_CONF_HASH_SHA_512) || \
+    defined(STSE_CONF_HASH_SHA_3_256) || defined (STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
+
 /** \defgroup 	stse_hash 	STSE Hash
  *  \ingroup 	stse_api
  *  \brief		STSE Hash (SHA2/SHA3) API set
@@ -103,6 +107,8 @@ stse_ReturnCode_t stse_compute_hash(
 		PLAT_UI16* pDigest_size);
 
 /** @}*/
+
+#endif
 
 #endif /*STSE_HASH_H*/
 

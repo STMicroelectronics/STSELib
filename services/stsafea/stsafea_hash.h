@@ -82,6 +82,10 @@ typedef struct stsafea_hash_info_t {
 
 extern const stsafea_hash_info_t stsafea_hash_info_table[];
 
+#if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) || \
+    defined(STSE_CONF_HASH_SHA_256) || defined(STSE_CONF_HASH_SHA_384) || defined(STSE_CONF_HASH_SHA_512) || \
+    defined(STSE_CONF_HASH_SHA_3_256) || defined (STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
+
 /*  ---------------------------------------------------------------------------------------
  *
  *						       Exported SHA cryptographic services
@@ -138,5 +142,7 @@ stse_ReturnCode_t stsafea_finish_hash(
 );
 
 /** \}*/
+
+#endif
 
 #endif /*STSAFEA_HASH_H*/
