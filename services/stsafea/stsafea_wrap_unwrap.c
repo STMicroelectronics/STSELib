@@ -45,6 +45,7 @@ stse_ReturnCode_t stsafea_wrap_payload( stse_Handler_t 	*pSTSE,
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eWrapped,wrapped_payload_size,pWrapped_Payload);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
 	if (cmd_encryption_flag || rsp_encryption_flag)
 	{
 		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
@@ -53,23 +54,25 @@ stse_ReturnCode_t stsafea_wrap_payload( stse_Handler_t 	*pSTSE,
 				cmd_encryption_flag,
 				rsp_encryption_flag,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
-		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
-		);
-	} else {
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]);
+	}
+	else
+#endif
+	{
 
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
-		);
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]);
 
 	}
 
@@ -121,6 +124,7 @@ stse_ReturnCode_t stsafea_unwrap_payload( stse_Handler_t *pSTSE,
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eWrapped,payload_size,pPayload);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
 	if (cmd_encryption_flag || rsp_encryption_flag)
 	{
 		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
@@ -129,23 +133,25 @@ stse_ReturnCode_t stsafea_unwrap_payload( stse_Handler_t *pSTSE,
 				cmd_encryption_flag,
 				rsp_encryption_flag,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UNWRAP_LOCAL_ENVELOPE]
-		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UNWRAP_LOCAL_ENVELOPE]);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UNWRAP_LOCAL_ENVELOPE]
-		);
-	} else {
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UNWRAP_LOCAL_ENVELOPE]);
+	}
+	else
+#endif
+	{
 
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]
-		);
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_WRAP_LOCAL_ENVELOPE]);
 
 	}
 

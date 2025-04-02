@@ -698,6 +698,7 @@ stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
 	if (cmd_encryption_flag || rsp_encryption_flag)
 	{
 		ret = stsafea_session_encrypted_transfer(pSTSE->pActive_host_session,
@@ -706,23 +707,25 @@ stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 				cmd_encryption_flag,
 				rsp_encryption_flag,
 				cmd_ac_info,
-				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]
-		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer(pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
-				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]
-		);
-	} else {
+				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]);
+	}
+	else
+#endif
+	{
 
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
-				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]
-		);
+				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]);
 
 	}
 

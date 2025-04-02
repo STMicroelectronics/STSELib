@@ -501,6 +501,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 	stse_frame_element_allocate_push(&RspFrame,eShared_secret,stse_ecc_info_table[key_type].shared_secret_size,pShared_secret);
 
 	/*- Perform Transfer*/
+#ifdef STSE_CONF_USE_HOST_SESSION
 	if (cmd_encryption_flag || rsp_encryption_flag)
 	{
 		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
@@ -509,22 +510,24 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 				cmd_encryption_flag,
 				rsp_encryption_flag,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+				stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	} else {
+				stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+	}
+	else
+#endif
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
+				stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 	}
 
 	return ret;
