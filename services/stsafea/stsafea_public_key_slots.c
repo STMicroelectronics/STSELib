@@ -111,7 +111,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		curve_id_total_length = (*(eCurve_id.pData) << 8);
 		curve_id_total_length += *(eCurve_id.pData+1) + STSE_ECC_CURVE_ID_LENGTH_SIZE;
 		/* Compare slot curve ID against each known curve ID to set the key type */
-		for(curve_id_index=0; curve_id_index<STSE_ECC_KT_INVALID; curve_id_index++)
+		for(curve_id_index=(stse_ecc_key_type_t)0; (PLAT_I8)curve_id_index < (PLAT_I8)STSE_ECC_KT_INVALID; curve_id_index++)
 		{
 			/* First check of the ID length to speed-up the loop */
 			if(curve_id_total_length == stse_ecc_info_table[curve_id_index].curve_id_total_length)
@@ -128,7 +128,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 			}
 		}
 		/* If the comparison loop reach the end and pKey_type is always as initialized return error */
-		if((curve_id_index+1) >= STSE_ECC_KT_INVALID || *pKey_type >= STSE_ECC_KT_INVALID)
+		if((curve_id_index+1) >= STSE_ECC_KT_INVALID || (PLAT_I8)*pKey_type >= (PLAT_I8)STSE_ECC_KT_INVALID)
 		{
 			return STSE_UNEXPECTED_ERROR;
 		}
@@ -238,7 +238,7 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 	}
 
 	if(pPublic_key 	== NULL
-	|| key_type >= STSE_ECC_KT_INVALID)
+	|| (PLAT_I8)key_type >= (PLAT_I8)STSE_ECC_KT_INVALID)
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
