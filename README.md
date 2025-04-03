@@ -1,14 +1,10 @@
 
-
-![STSELib](doc/Pictures/STSELib.png)
-
 The STSELib middleware provides a complete set of high-level Application Programming Interface functions to the embedded system developer. This Middleware abstract the build and the sequencing of the commands required to ensure peripheral/accessories and consumable brand protection using STMicroelectronics STSAFE-Axxx device family. 
 
 This middleware allows a seamless integration of one or multiple STSAFE-Axxx device in various host MCU/MPU ecosystem.				
 
 The STSELib middleware is composed of three software modules as illustrated in the figure below. Each layer provides a different level of system abstraction to the embedded system developer.
 
-![STSELib](doc/Pictures/STSELib_arch.png)
 
 <b>- Application Programming Interface (API) layer</b>
 This software layer is the entry point for the system application. It provides a set of high level functions  allowing interaction with STMicroelectronics Secure Elements.
