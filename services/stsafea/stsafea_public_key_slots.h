@@ -30,12 +30,8 @@
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
 
-/*!
- *  \defgroup	stsafea_public_key_slots Generic public key slots management
- *  \ingroup 	stsafea_services
- *  \brief		STSAFE Middleware Generic public key slots services
- *  \details  	The Services layer provide set of functions that format all commands supported \n
- *  			by the target secure element and reports response to higher layers API/Application
+/*! \defgroup stsafea_public_key_slots STSAFE-A Generic public key slots management
+ *  \ingroup stsafea_services
  *  @{
  */
 

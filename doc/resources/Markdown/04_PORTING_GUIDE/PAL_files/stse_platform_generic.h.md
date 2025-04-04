@@ -1,13 +1,38 @@
+# stse_platform_generic.h {#stse_platform_generic}
 
-# stse_platform_generic.h{#stse_platform_generic}
+The `stse_platform_generic.h` file provides generic platform definitions and includes for the STSecureElement library, abstracting the platform-specific details of data types and includes.
 
-The stse_platform_generic.h file provides abstraction for both MCU platform/toolchain inclusion and types abstraction. Below is an example for STM32L452RE and GCC platform:
+## Definitions:
+
+### Data Types:
+
+- **PLAT_UI8**: Defines an 8-bit unsigned integer (`uint8_t`).
+- **PLAT_UI16**: Defines a 16-bit unsigned integer (`uint16_t`).
+- **PLAT_UI32**: Defines a 32-bit unsigned integer (`uint32_t`).
+- **PLAT_UI64**: Defines a 64-bit unsigned integer (`uint64_t`).
+- **PLAT_I8**: Defines an 8-bit signed integer (`int8_t`).
+- **PLAT_I16**: Defines a 16-bit signed integer (`int16_t`).
+- **PLAT_I32**: Defines a 32-bit signed integer (`int32_t`).
+
+### Struct Packing:
+
+- **PLAT_PACKED_STRUCT**: Defines a packed structure (`__PACKED`).
+
+## Includes:
+
+- **stm32l4xx.h**: Includes the STM32L4xx header file.
+- **stddef.h**: Includes the standard definitions header file.
+- **string.h**: Includes the string manipulation functions header file.
+- **stdio.h**: Includes the standard input/output functions header file.
+
+## Implementation Example:
+
+Please find below an example of the `stse_platform_generic` header file for the STM32 platform:
 
 ```c
-
- /******************************************************************************
- * \file	stse_platform_generic.h
- * \brief   STSecureElement library generic platform file
+/******************************************************************************
+ * \file    stse_platform_generic.h
+ * \brief   STSecureElement generic platform file
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -44,15 +69,13 @@ extern "C" {
 #define PLAT_I32 int32_t
 #define PLAT_PACKED_STRUCT __PACKED
 
+#ifdef __cplusplus
+}
+#endif
+
 #endif /* STSE_PLATFORM_GENERIC_H */
 
 /************************ (C) COPYRIGHT STMicroelectronics *****END OF FILE****/
-
 ```
 
-Explanation of stse_platform_generic.h structure :
-- Header Guards: Prevents recursive inclusion of the header file.
-- C++ Compatibility: Ensures compatibility with C++ compilers by using extern "C".
-- Platform-Specific Includes: Includes headers specific to the STM32L452RE and GCC platform.
-- Type Definitions: Defines platform-independent types such as PLAT_UI8, PLAT_UI16, PLAT_UI32, PLAT_UI64, PLAT_I8, PLAT_I16, PLAT_I32, and PLAT_PACKED_STRUCT.
-
+This example demonstrates how to define generic data types and includes for the STM32 platform, ensuring compatibility and ease of use within the STSecureElement library.

@@ -27,14 +27,13 @@
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
 
-/*!
- *  \defgroup	stsafea_entity_auth Entity authentication management
- *  \ingroup 	stsafea_services
- *  \brief		STSAFE Middleware Entity authentication services
- *  \details  	The Services layer provide set of functions that format all commands supported \n
- *  			by the targeted secure element and reports response to higher layers API/Application
+
+/*! \defgroup stsafea_entity_auth STSAFE-A Entity authentication
+ *  \ingroup stsafea_services
  *  @{
  */
+
+
 
 /**
  * \brief 			STSAFEA generate challenge service

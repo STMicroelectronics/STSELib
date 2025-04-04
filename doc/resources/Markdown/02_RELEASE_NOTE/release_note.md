@@ -1,5 +1,21 @@
 # Release Note
 
+## v1.1.0 (Latest)
+- [all] Add new stse_conf.h support
+- [api] Add STSAFEL support to STSE ECC APIs
+- [api] Add STSAFEL support to STSE Data storage APIs
+- [api] Add STSAFEL support to STSE Reset/Low Power/Echo APIs
+- [certificate] Add ED25519 parser support
+- [stsafel] Add STSAFE-L010 ECC services
+- [stsafel] Add STSAFE-L010 Device info services
+- [stsafel] Add STSAFE-L010 Data partition services
+- [stsafel] Add STSAFE-L010 Reset/Low Power/Echo services
+- [stsafel] Create STSAFE-L010 device/commands/timings
+- [core] Add STSE_DEVICE_STSAFEx_FAMILY_INDEX defines to get family offset in stse_device_t
+- [core] Rework frame/platform to handle STSAFE-A/L frames formats
+- [doc] Add new Configuration and Porting guidelines sections
+
+
 ## v1.0.4 (Latest)
 - [services] Add authenticated host key establishment
 - [services] Fix CCM encrypt
