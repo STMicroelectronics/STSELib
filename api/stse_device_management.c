@@ -130,12 +130,14 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 		case STSAFE_L010:
 			ret = stsafel_hibernate(pSTSE);
+			break;
 #endif
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 		case STSAFE_A100:
 		case STSAFE_A110:
 		case STSAFE_A200:
 			ret = stsafea_hibernate(pSTSE, wake_up_mode);
+			break;
 		case STSAFE_A120:
 #endif
 		default:
