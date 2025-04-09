@@ -195,8 +195,16 @@ stse_ReturnCode_t stse_device_authenticate(
 	if(pSTSE->device_type == STSAFE_L010)
 	{
 		challenge_size = STSAFEL_ECC_SIGNATURE_CHALLENGE_LENGTH;
-	} else {
+	}
+	else
+	{
 		challenge_size = stse_ecc_info_table[key_type].private_key_size;
+#ifdef STSE_CONF_ECC_NIST_P_521
+		if (key_type == STSE_ECC_KT_NIST_P_521)
+		{
+			challenge_size -= 2;
+		}
+#endif
 	}
 	PLAT_UI8 challenge[challenge_size];
 
