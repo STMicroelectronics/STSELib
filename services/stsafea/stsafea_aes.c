@@ -86,16 +86,18 @@ stse_ReturnCode_t stsafea_aes_ecb_encrypt(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
+#ifdef STSE_CONF_USE_HOST_SESSION
 	if (ret != STSE_OK)
 	{
 		memset(pEncrypted_message, 0, message_length);
@@ -169,16 +171,18 @@ stse_ReturnCode_t stsafea_aes_ecb_decrypt(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
+#ifdef STSE_CONF_USE_HOST_SESSION
 	if (ret != STSE_OK)
 	{
 		memset(pPlaintext_message, 0, message_length);
@@ -289,18 +293,17 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
-
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
 
 	if (*pCounter_presence != 0)
 	{
@@ -411,15 +414,16 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	if (*pCounter_presence != 0)
 	{
 		stse_frame_element_swap_byte_order(&eCounter);
@@ -554,17 +558,18 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -652,15 +657,16 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -789,8 +795,10 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
@@ -798,9 +806,8 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -881,15 +888,16 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -961,15 +969,16 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -1045,15 +1054,15 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
 
 	return ret;
 }
@@ -1147,8 +1156,10 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
@@ -1156,9 +1167,8 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt(
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -1237,15 +1247,15 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
 
 	return ret;
 }
@@ -1317,15 +1327,15 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
 
 	return ret;
 }
@@ -1404,15 +1414,15 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-	} else {
+	}
+	else
 #endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_ext]);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
 
 	return ret;
 }

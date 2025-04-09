@@ -404,8 +404,8 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		);
 	}
 	else
-	{
 #endif
+	{
 
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
@@ -413,9 +413,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
 
 	return( ret );
 }

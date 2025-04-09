@@ -76,24 +76,27 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 
@@ -159,24 +162,27 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-	} else {
+	}
+	else
 #endif
+	{
 		/* - Perform Transfer*/
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 		);
-#ifdef STSE_CONF_USE_HOST_SESSION
 	}
-#endif
+
 	return ret;
 }
 

@@ -69,27 +69,25 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
-	} else if (cmd_ac_info != STSE_CMD_AC_FREE) {
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
 		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
 				&CmdFrame,
 				&RspFrame,
 				cmd_ac_info,
 				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
-	} else {
+	}
+	else
+#endif
+	{
 		ret = stse_frame_transfer(pSTSE,
 				&CmdFrame,
 				&RspFrame,
 				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
 		);
 	}
-#else
-	ret = stse_frame_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_ECHO]
-	);
-#endif
 
 	return( ret );
 }

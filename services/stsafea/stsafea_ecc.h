@@ -84,6 +84,18 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 		PLAT_UI8 eddsa_variant,
 		PLAT_UI8 *pSignature_validity);
 
+/**
+ * \brief 		Generate n ECDSA or an EdDSA signature depending on the curve in the private key slot
+ * \details 	This service formats and send/receive STSAFE-Axxx generate signature command/response
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	slot_number				Slot to identify used private key
+ * \param[in] 	key_type 				Private key type
+ * \param[in] 	pMessage 				Message used in signature
+ * \param[in] 	message_length 			Message length
+ * \param[out] 	pSignature 				Signature buffer
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_ecc_verify_signature.dox
+ */
 stse_ReturnCode_t stsafea_ecc_generate_signature(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
