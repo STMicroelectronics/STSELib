@@ -137,8 +137,8 @@ void stse_frame_push_element( stse_frame_t* pFrame,
 	pElement->next = NULL;
 
 	/* - Increment Frame length and frame element count*/
-    pFrame->element_count += 1;
-    pFrame->length += pElement->length;
+	pFrame->element_count += 1;
+	pFrame->length += pElement->length;
 }
 
 void stse_frame_pop_element( stse_frame_t* pFrame)
@@ -168,60 +168,65 @@ void stse_frame_pop_element( stse_frame_t* pFrame)
 
 void stse_frame_debug_print(stse_frame_t* pFrame)
 {
-    stse_frame_element_t *pCurrent_element;
-    PLAT_UI16 data_index;
+	stse_frame_element_t *pCurrent_element;
+	PLAT_UI16 data_index;
 
-    if(pFrame->element_count == 0 )
-    {
-    	printf("\n\r (EMPTY)");
-    	return;
-    }
-    pCurrent_element = pFrame->first_element;
-    printf(" (%d-byte) :", pFrame->length);
-    do{
-    	printf(" { ");
-    	if(pCurrent_element->length == 0)
-    	{
-    		printf("S ");
-    	} else {
+	if(pFrame->element_count == 0 )
+	{
+		printf("\n\r (EMPTY)");
+		return;
+	}
+	pCurrent_element = pFrame->first_element;
+	printf(" (%d-byte) :", pFrame->length);
+	do{
+		printf(" { ");
+		if(pCurrent_element->length == 0)
+		{
+			printf("S ");
+		}
+		else
+		{
 			for(data_index=0; data_index<pCurrent_element->length; data_index++)
 			{
-				if(pCurrent_element->pData != NULL) {
+				if(pCurrent_element->pData != NULL)
+				{
 					printf("0x%02X ", pCurrent_element->pData[data_index]);
-				} else {
+				}
+				else
+				{
 					printf("0x00 ");
 				}
 			}
-    	}
-        printf("}");
-        pCurrent_element = pCurrent_element->next;
-    }while(pCurrent_element != NULL);
+		}
+		printf("}");
+		pCurrent_element = pCurrent_element->next;
+	}while(pCurrent_element != NULL);
 }
 
 stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFrame)
 {
-    stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
-    PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
-    stse_frame_element_t *pCurrent_element;
-    PLAT_UI16 crc_ret;
-    PLAT_UI8 crc[STSE_FRAME_CRC_SIZE] = {0};
+	stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
+	PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
+	stse_frame_element_t *pCurrent_element;
+	PLAT_UI16 crc_ret;
+	PLAT_UI8 crc[STSE_FRAME_CRC_SIZE] = {0};
 
-    /*- Verify Parameters */
-    if((pSTSE == NULL) || (pFrame == NULL))
-    {
-    	return STSE_CORE_INVALID_PARAMETER;
-    }
-    /*- Verify Frame length */
-    if(pFrame->element_count == 0 )
-    {
-    	return STSE_CORE_INVALID_PARAMETER;
-    }
-    /*- Compute frame crc */
-    crc_ret = stse_frame_crc16_compute(pFrame);
-    crc[0] = (crc_ret >> 8) & 0xFF;
-    crc[1] = crc_ret & 0xFF;
+	/*- Verify Parameters */
+	if((pSTSE == NULL) || (pFrame == NULL))
+	{
+		return STSE_CORE_INVALID_PARAMETER;
+	}
+	/*- Verify Frame length */
+	if(pFrame->element_count == 0 )
+	{
+		return STSE_CORE_INVALID_PARAMETER;
+	}
+	/*- Compute frame crc */
+	crc_ret = stse_frame_crc16_compute(pFrame);
+	crc[0] = (crc_ret >> 8) & 0xFF;
+	crc[1] = crc_ret & 0xFF;
 
-    /* - Append CRC element to the RSP Frame (valid only on Receive Scope) */
+	/* - Append CRC element to the RSP Frame (valid only on Receive Scope) */
 	stse_frame_element_allocate(crc_element,STSE_FRAME_CRC_SIZE,crc);
 	stse_frame_push_element(pFrame, &crc_element);
 
@@ -230,17 +235,17 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 	stse_frame_debug_print(pFrame);
 	printf("\n\r");
 #endif
-    while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
-    {
+	while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR))
+	{
 		/* - Receive frame length from target STSAFE */
-    	ret = pSTSE->io.BusSendStart(
-        		pSTSE->io.busID,
-    			pSTSE->io.Devaddr,
-    			pSTSE->io.BusSpeed,
-    			pFrame->length);
+		ret = pSTSE->io.BusSendStart(
+				pSTSE->io.busID,
+				pSTSE->io.Devaddr,
+				pSTSE->io.BusSpeed,
+				pFrame->length);
 
-    	if(ret == STSE_OK)
-    	{
+		if(ret == STSE_OK)
+		{
 			pCurrent_element = pFrame->first_element;
 			while(pCurrent_element != pFrame->last_element) {
 				ret = pSTSE->io.BusSendContinue(
@@ -264,7 +269,7 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 						pCurrent_element->pData,
 						pCurrent_element->length);
 			}
-    	}
+		}
 
 		retry_count--;
 		stse_platform_Delay_ms(STSE_POLLING_RETRY_INTERVAL);
@@ -277,25 +282,25 @@ stse_ReturnCode_t stse_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFram
 
 stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame)
 {
-    stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
-    stse_frame_element_t *pCurrent_element;
-    PLAT_UI16 received_length;
-    PLAT_UI8 received_crc[STSE_FRAME_CRC_SIZE];
-    PLAT_UI16 computed_crc;
-    PLAT_UI16 filler_size=0;
-    PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
-    PLAT_UI8 length_value[STSE_FRAME_LENGTH_SIZE];
+	stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
+	stse_frame_element_t *pCurrent_element;
+	PLAT_UI16 received_length;
+	PLAT_UI8 received_crc[STSE_FRAME_CRC_SIZE];
+	PLAT_UI16 computed_crc;
+	PLAT_UI16 filler_size=0;
+	PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
+	PLAT_UI8 length_value[STSE_FRAME_LENGTH_SIZE];
 
-    /*- Verify Parameters */
-    if((pSTSE == NULL) || (pFrame == NULL))
-    {
-        return STSE_CORE_INVALID_PARAMETER;
-    }
-    /* - Verify Frame length */
-    if(pFrame->element_count == 0 )
-    {
-        return( STSE_CORE_INVALID_PARAMETER );
-    }
+	/*- Verify Parameters */
+	if((pSTSE == NULL) || (pFrame == NULL))
+	{
+		return STSE_CORE_INVALID_PARAMETER;
+	}
+	/* - Verify Frame length */
+	if(pFrame->element_count == 0 )
+	{
+		return( STSE_CORE_INVALID_PARAMETER );
+	}
 
 #ifdef  STSE_CONF_USE_ST1WIRE
 	if (pSTSE->io.BusType == STSE_BUS_TYPE_I2C)
@@ -319,10 +324,6 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
 		/* - Verify correct reception*/
 		if((ret & STSE_STSAFEL_RSP_STATUS_MASK)!= STSE_OK)
 		{
-#ifdef STSE_FRAME_DEBUG_LOG
-			printf("\n\r STSAFE Frame <  (1-byte) : { 0x%02X }\n\r", ret);
-			printf("\n\r");
-#endif
 			return( ret );
 		}
 
@@ -367,12 +368,12 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
 			filler_size = received_length - pFrame->length;
 		}
 
-	    /* Append filler frame element even if its length equal 0 */
-	    PLAT_UI8 filler[filler_size];
-	    stse_frame_element_allocate_push(pFrame,
-	                    eFiller,
-	                    filler_size,
-	                    filler);
+		/* Append filler frame element even if its length equal 0 */
+		PLAT_UI8 filler[filler_size];
+		stse_frame_element_allocate_push(pFrame,
+						eFiller,
+						filler_size,
+						filler);
 
 		/* ======================================================= */
 		/* ========= Receive the frame in frame elements ========= */
