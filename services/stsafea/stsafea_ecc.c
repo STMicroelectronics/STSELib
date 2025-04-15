@@ -257,6 +257,27 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 {
 	stse_ReturnCode_t ret;
 
+	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_SIGNATURE;
+	PLAT_UI8 subject = 0x00;
+
+	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
+	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].coordinate_or_key_size),
+			UI16_B0(stse_ecc_info_table[key_type].coordinate_or_key_size),
+	};
+
+	/* Signature elements */
+	PLAT_UI8 pSignature_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].signature_size>>1),
+			UI16_B0(stse_ecc_info_table[key_type].signature_size>>1),
+	};
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+	stse_cmd_access_conditions_t cmd_ac_info;
+	PLAT_UI8 cmd_encryption_flag = 0;
+	PLAT_UI8 rsp_encryption_flag = 0;
+#endif
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -270,26 +291,18 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_SIGNATURE;
-	PLAT_UI8 subject = 0x00;
+#ifdef STSE_CONF_USE_HOST_SESSION
+	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
+	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
+	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
+#endif
 
 	/* Public key elements */
-	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
-	PLAT_UI8 pPublic_key_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stse_ecc_info_table[key_type].coordinate_or_key_size),
-			UI16_B0(stse_ecc_info_table[key_type].coordinate_or_key_size),
-	};
 	stse_frame_element_allocate(ePublic_key_length_first_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
 	stse_frame_element_allocate(ePublic_key_length_second_element, STSE_ECC_GENERIC_LENGTH_SIZE, pPublic_key_length_element);
 	stse_frame_element_allocate(ePublic_key_first_element, 0, NULL);
 	stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
-
-	/* Signature elements */
-	PLAT_UI8 pSignature_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stse_ecc_info_table[key_type].signature_size>>1),
-			UI16_B0(stse_ecc_info_table[key_type].signature_size>>1),
-	};
 
 	/* Hash elements*/
 #ifdef STSE_CONF_ECC_EDWARD_25519
@@ -352,6 +365,29 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	stse_frame_element_allocate_push(&RspFrame,eSignature_validity,1,pSignature_validity);
 
 	/*- Perform Transfer*/
+#ifdef STSE_CONF_USE_HOST_SESSION
+	if (cmd_encryption_flag || rsp_encryption_flag)
+	{
+		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_encryption_flag,
+				rsp_encryption_flag,
+				cmd_ac_info,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_VERIFY_SIGNATURE]
+		);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
+		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_ac_info,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_VERIFY_SIGNATURE]
+		);
+	}
+	else
+#endif
 	ret = stse_frame_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
@@ -376,6 +412,21 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 {
 	stse_ReturnCode_t ret;
 
+	PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_SIGNATURE;
+
+	PLAT_UI8 rsp_header;
+	/* Signature elements */
+	PLAT_UI8 pSignature_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
+			UI16_B1(stse_ecc_info_table[key_type].signature_size>>1),
+			UI16_B0(stse_ecc_info_table[key_type].signature_size>>1),
+	};
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+	stse_cmd_access_conditions_t cmd_ac_info;
+	PLAT_UI8 cmd_encryption_flag = 0;
+	PLAT_UI8 rsp_encryption_flag = 0;
+#endif
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -387,14 +438,11 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_SIGNATURE;
-
-	PLAT_UI8 rsp_header;
-	/* Signature elements */
-	PLAT_UI8 pSignature_length_element[STSE_ECC_GENERIC_LENGTH_SIZE] = {
-			UI16_B1(stse_ecc_info_table[key_type].signature_size>>1),
-			UI16_B0(stse_ecc_info_table[key_type].signature_size>>1),
-	};
+#ifdef STSE_CONF_USE_HOST_SESSION
+	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
+	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
+	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
+#endif
 
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
@@ -411,11 +459,37 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 	stse_frame_element_allocate_push(&RspFrame,eSignature_S, (stse_ecc_info_table[key_type].signature_size>>1), pSignature + (stse_ecc_info_table[key_type].signature_size>>1));
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+#ifdef STSE_CONF_USE_HOST_SESSION
+	/*- Perform Transfer*/
+	if (cmd_encryption_flag || rsp_encryption_flag)
+	{
+		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_encryption_flag,
+				rsp_encryption_flag,
+				cmd_ac_info,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_SIGNATURE]
+		);
+	}
+	else if (cmd_ac_info != STSE_CMD_AC_FREE)
+	{
+		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
+				&CmdFrame,
+				&RspFrame,
+				cmd_ac_info,
+				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_SIGNATURE]
+		);
+	}
+	else
+#endif
+	{
+		ret = stse_frame_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
 			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_SIGNATURE]
-	);
+		);
+	}
 
 	return ret;
 }
