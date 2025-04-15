@@ -317,8 +317,11 @@ stse_ReturnCode_t stse_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame
 					pSTSE->io.BusSpeed,
 					STSE_FRAME_LENGTH_SIZE + (pSTSE->device_type == STSAFE_L010 ? 0:STSE_RSP_FRAME_HEADER_SIZE));
 
-			retry_count--;
-			stse_platform_Delay_ms(STSE_POLLING_RETRY_INTERVAL);
+			if (ret != STSE_OK)
+			{
+				retry_count--;
+				stse_platform_Delay_ms(STSE_POLLING_RETRY_INTERVAL);
+			}
 		}
 
 		/* - Verify correct reception*/
