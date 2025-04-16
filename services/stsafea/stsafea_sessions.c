@@ -544,6 +544,11 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer ( stse_session_t *pSession,
 	PLAT_UI16 encrypted_rsp_payload_size = 0;
 	PLAT_UI8 padding = 0;
 
+	if(pSession == NULL)
+	{
+		return STSE_SESSION_ERROR;
+	}
+	
 	if(cmd_encryption_flag == 1)
 	{
 		PLAT_UI16 encrypted_payload_length = (pCmdFrame->length - pCmdFrame->first_element->length)+1;
@@ -620,6 +625,11 @@ stse_ReturnCode_t stsafea_session_authenticated_transfer ( stse_session_t *pSess
 	PLAT_UI8 Cmd_MAC[STSAFEA_MAC_SIZE];
 	PLAT_UI8 Rsp_MAC[STSAFEA_MAC_SIZE];
 
+	if(pSession == NULL)
+	{
+		return STSE_SESSION_ERROR;
+	}
+	
 	if(pSession->type == STSE_HOST_SESSION)
 	{
 		*(pCmdFrame->first_element->pData) |= (1<<5);
