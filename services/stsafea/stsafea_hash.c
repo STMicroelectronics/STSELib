@@ -16,7 +16,9 @@
  ******************************************************************************
  */
 
-#include <services/stsafea/stsafea_hash.h>
+#include "services/stsafea/stsafea_hash.h"
+#include "services/stsafea/stsafea_frame.h"
+
 
 const stsafea_hash_info_t stsafea_hash_info_table[] =
 #if !defined(STSE_CONF_HASH_SHA_1) && !defined(STSE_CONF_HASH_SHA_224) && \
@@ -82,6 +84,7 @@ const stsafea_hash_info_t stsafea_hash_info_table[] =
     defined(STSE_CONF_HASH_SHA_256) || defined(STSE_CONF_HASH_SHA_384) || defined(STSE_CONF_HASH_SHA_512) || \
     defined(STSE_CONF_HASH_SHA_3_256) || defined (STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
 
+
 stse_ReturnCode_t stsafea_start_hash(
 		stse_Handler_t * pSTSE,
 		stse_hash_algorithm_t sha_algorithm,
@@ -89,7 +92,6 @@ stse_ReturnCode_t stsafea_start_hash(
 		PLAT_UI16 message_size
 )
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX,STSAFEA_EXTENDED_CMD_START_HASH};
 	PLAT_UI8 rsp_header;
 	PLAT_UI16 hash_algo_id_length = STSAFEA_HASH_ALGO_ID_SIZE;
@@ -115,14 +117,12 @@ stse_ReturnCode_t stsafea_start_hash(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_START_HASH]
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_process_hash(
 		stse_Handler_t * pSTSE,
@@ -130,8 +130,6 @@ stse_ReturnCode_t stsafea_process_hash(
 		PLAT_UI16 message_size
 )
 {
-
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX,STSAFEA_EXTENDED_CMD_PROCESS_HASH};
 	PLAT_UI8 rsp_header;
 
@@ -155,13 +153,12 @@ stse_ReturnCode_t stsafea_process_hash(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_PROCESS_HASH]
-	);
-	return( ret );
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_finish_hash(
 		stse_Handler_t * pSTSE,
@@ -172,7 +169,6 @@ stse_ReturnCode_t stsafea_finish_hash(
 		PLAT_UI16* pDigest_size
 )
 {
-
 	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX,STSAFEA_EXTENDED_CMD_FINISH_HASH};
 	PLAT_UI8 rsp_header;
@@ -204,12 +200,11 @@ stse_ReturnCode_t stsafea_finish_hash(
 	stse_frame_element_allocate_push(&RspFrame,eDigestSize,STSAFEA_GENERIC_LENGTH_SIZE,digest_size_array);
 	stse_frame_element_allocate_push(&RspFrame,eDigest,expected_digest_size,pDigest);
 
-	/*- Perform Transfer */
-	ret = stse_frame_transfer(pSTSE,
+	/*- Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_FINISH_HASH]
-	);
+			&RspFrame
+			);
 
 	if(ret == STSE_OK)
 	{

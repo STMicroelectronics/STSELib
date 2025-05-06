@@ -19,7 +19,8 @@
 
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
-#include "core/stse_frame.h"
+#include "services/stsafea/stsafea_frame.h"
+
 
 /* Exported functions --------------------------------------------------------*/
 
@@ -28,7 +29,6 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
 		PLAT_UI8 slot_number,
 		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_SYMMETRIC_KEY_SLOT_PROVISIONING_CONTROL;
 	PLAT_UI8 rsp_header;
@@ -54,21 +54,19 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
 	stse_frame_element_allocate_push(&RspFrame,eCtrl_fields,sizeof(stsafea_symmetric_key_slot_provisioning_ctrl_fields_t),(PLAT_UI8*)pCtrl_fields);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
-
-	return ret;
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
+
 
 stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
 		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_SYMMETRIC_KEY_SLOT_PROVISIONING_CONTROL;
 	PLAT_UI8 rsp_header;
@@ -94,18 +92,18 @@ stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
-
-	return ret;
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
+
 
 stse_ReturnCode_t stsafea_query_symmetric_key_slots_count( stse_Handler_t * pSTSE, PLAT_UI8 * pSymmetric_key_slot_count)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -117,7 +115,6 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slots_count( stse_Handler_t * pSTS
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_SYMMETRIC_KEY_TABLE;
 	PLAT_UI8 rsp_header;
 
@@ -130,13 +127,13 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slots_count( stse_Handler_t * pSTS
 	stse_frame_element_allocate_push(&RspFrame,eSymmetric_key_slot_count,1,pSymmetric_key_slot_count);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
-	return ret;
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
+
 
 stse_ReturnCode_t stsafea_query_symmetric_key_table(
 		stse_Handler_t * pSTSE,
@@ -144,6 +141,8 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 		stsafea_symmetric_key_slot_information_t * symmetric_key_table_info)
 {
 	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -158,7 +157,6 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 	PLAT_UI8 slot_count, i;
 	PLAT_UI8 * current_record;
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_SYMMETRIC_KEY_TABLE;
 	PLAT_UI8 rsp_header;
 	PLAT_UI16 rsp_raw_length = symmetric_key_slot_count * sizeof(stsafea_symmetric_key_slot_information_t);
@@ -173,11 +171,11 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_raw,rsp_raw_length,pRsp_raw);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 
 	if (ret != STSE_OK)
 	{
@@ -240,12 +238,14 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 	return ret;
 }
 
+
 stse_ReturnCode_t stsafea_establish_symmetric_key(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t key_type,
 		PLAT_UI8* host_ecdhe_public_key)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -258,8 +258,6 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS;
 	PLAT_UI8 algorithm_id = STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY;
 	PLAT_UI8 rsp_header;
 
@@ -316,14 +314,12 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 		stse_Handler_t * pSTSE,
@@ -334,7 +330,8 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 		stse_ecc_key_type_t signature_key_type,
 		PLAT_UI8* pSignature)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -347,8 +344,6 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS;
 	PLAT_UI8 algorithm_id = STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY;
 	PLAT_UI8 rsp_header;
 
@@ -429,17 +424,17 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }
+
 
 #if defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || \
 	defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED)
+
+
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pMac_confirmation_key,
@@ -447,6 +442,8 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
 		stsafea_generic_key_information_t * pKey_information_list)
 {
 	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_CONFIRM_SYMMETRIC_KEYS;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -461,8 +458,6 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_CONFIRM_SYMMETRIC_KEYS;
 	PLAT_UI8 pConfirmation_mac[STSE_KEY_CONFIRMATION_MAC_SIZE];
 	stse_frame_element_t eKey_information_list[key_count];
 	PLAT_UI8 rsp_header;
@@ -514,11 +509,10 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_CONFIRM_SYMMETRIC_KEYS]
-	);
+			&RspFrame
+			);
 
 	for(PLAT_UI8 i=0; i<key_count; i++)
 	{
@@ -529,16 +523,23 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
 
 	return ret;
 }
+
+
 #endif
+
 
 #if defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
 	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
+
+
 stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pSymmetric_key_envelope,
 		PLAT_UI8 symmetric_key_envelope_length)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_WRAPPED;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -550,8 +551,6 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_WRAPPED;
 	PLAT_UI8 rsp_header;
 
 	stse_frame_allocate(CmdFrame);
@@ -562,22 +561,24 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_WRAPPED]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }
+
+
 #endif
+
 
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pSymmetric_key_value,
 		stsafea_generic_key_information_t * pSymmetric_key_info)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_PLAINTEXT;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -590,8 +591,6 @@ stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_PLAINTEXT;
 	PLAT_UI8 rsp_header;
 
 	PLAT_UI16 key_value_length = 0;
@@ -620,21 +619,20 @@ stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_PLAINTEXT]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_generate_wrap_unwrap_key( stse_Handler_t *pSTSE,
 		PLAT_UI8 		wrap_key_slot,
 		stse_aes_key_type_t key_type
 )
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_KEY;
+
 	PLAT_UI8 attribute_tag = STSAFEA_SUBJECT_TAG_LOCAL_ENVELOPE_KEY_TABLE;
 	PLAT_UI8 key_length = (key_type == STSE_AES_128_KT)? 0x00 : 0x01;
 
@@ -645,7 +643,6 @@ stse_ReturnCode_t stsafea_generate_wrap_unwrap_key( stse_Handler_t *pSTSE,
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_KEY;
 	PLAT_UI8 rsp_header;
 
 	stse_frame_allocate(CmdFrame);
@@ -657,24 +654,20 @@ stse_ReturnCode_t stsafea_generate_wrap_unwrap_key( stse_Handler_t *pSTSE,
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
-	/* - Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	/*- Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_KEY]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 symmetric_key_slot_number)
 {
-	stse_ReturnCode_t ret;
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -682,12 +675,6 @@ stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	stsafea_perso_info_get_ext_cmd_encrypt_flag(pSTSE->pPerso_info, STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT, &cmd_encryption_flag);
-	stsafea_perso_info_get_ext_rsp_encrypt_flag(pSTSE->pPerso_info, STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT, &rsp_encryption_flag);
-	stsafea_perso_info_get_ext_cmd_AC(pSTSE->pPerso_info, STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT, &cmd_ac_info);
-
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT;
 	PLAT_UI8 rsp_header;
 
 	stse_frame_allocate(CmdFrame);
@@ -698,40 +685,9 @@ stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
-#ifdef STSE_CONF_USE_HOST_SESSION
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer(pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer(pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]);
-	}
-	else
-#endif
-	{
-
-		/* - Perform Transfer*/
-		ret = stse_frame_transfer(pSTSE,
-				&CmdFrame,
-				&RspFrame,
-				stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT]);
-
-	}
-
-	return ret;
+	/*- Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame
+			);
 }
-
-
-/* Static functions definition -----------------------------------------------*/
-

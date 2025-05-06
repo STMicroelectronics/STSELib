@@ -16,10 +16,11 @@
  ******************************************************************************
  */
 
+#include "services/stsafea/stsafea_sessions.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_host_key_slot.h"
 #include "services/stsafea/stsafea_aes.h"
-#include "services/stsafea/stsafea_sessions.h"
+#include "services/stsafea/stsafea_frame.h"
 
 #define STSAFEA_AES_SUBJECT_HOST_CMAC 0x00U
 #define STSAFEA_AES_SUBJECT_HOST_RMAC 0x40U
@@ -669,7 +670,7 @@ stse_ReturnCode_t stsafea_session_authenticated_transfer ( stse_session_t *pSess
 	{
 
 	case STSE_HOST_SESSION :
-		ret = stse_frame_transfer(pSession->context.host.pSTSE, pCmdFrame, pRspFrame, processing_time);
+		ret = stsafea_frame_raw_transfer(pSession->context.host.pSTSE, pCmdFrame, pRspFrame, processing_time);
 		if(ret == STSE_OK)
 		{
 				pSession->context.host.MAC_counter ++;

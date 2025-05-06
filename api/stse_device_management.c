@@ -117,7 +117,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 										stse_hibernate_wake_up_mode_t wake_up_mode)
 {	
-	stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+	stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 
 	/* - Check STSAFE handler initialization */
 	if(pSTSE == NULL)
@@ -141,7 +141,6 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
 		case STSAFE_A120:
 #endif
 		default:
-			ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 	}
 
 	return ret;
@@ -305,7 +304,7 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
 
 stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE)
 {
-	stse_ReturnCode_t ret;
+	stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 
 	/* - Check STSAFE handler initialization */
 	if(pSTSE == NULL)
@@ -313,11 +312,22 @@ stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE)
 		return( STSE_API_HANDLER_NOT_INITIALISED );
 	}
 
-	if(pSTSE->device_type == STSAFE_L010)
+	switch (pSTSE->device_type)
 	{
-		ret = stsafel_reset(pSTSE);
-	} else {
-		ret = stsafea_reset(pSTSE);
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+		case STSAFE_L010:
+			ret = stsafel_reset(pSTSE);
+			break;
+#endif
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+		case STSAFE_A100:
+		case STSAFE_A110:
+		case STSAFE_A120:
+		case STSAFE_A200:
+			ret = stsafea_reset(pSTSE);
+			break;
+#endif
+		default:
 	}
 
 	return ret;

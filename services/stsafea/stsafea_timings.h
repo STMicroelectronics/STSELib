@@ -26,9 +26,12 @@ extern "C" {
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
 
-#define STSAFEA_PRODUCT_COUNT 4U
-#define STSAFEA_MAX_CMD_COUNT 30U
-#define STSAFEA_MAX_EXT_CMD_COUNT 29U
+
+#define STSAFEA_EXEC_TIME_DEFAULT				500U	/*!< STSAFE default command processing time (used when specific time == 0) */
+#define STSAFEA_PRODUCT_COUNT					4U
+#define STSAFEA_MAX_CMD_COUNT					29U
+#define STSAFEA_MAX_EXT_CMD_COUNT				29U
+
 
 /*! \defgroup stsafea_timings STSAFEA timings
  *  \ingroup stsafea_services

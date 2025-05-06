@@ -27,6 +27,9 @@ extern "C" {
 #include "core/stse_platform.h"
 #include "services/stsafel/stsafel_commands.h"
 
+
+#define STSAFEL_EXEC_TIME_DEFAULT       500U /*!< STSAFE-L default command processing time (used when specific time == 0) */
+
 /*! \defgroup stsafel_timings STSAFE-L Timings
  *  \ingroup stsafel_services
  *  @{

@@ -25,8 +25,6 @@
 #include "core/stse_platform.h"
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
-#include "services/stsafel/stsafel_commands.h"
-#include "services/stsafel/stsafel_timings.h"
 
 
 /*! \defgroup stsafel_echo STSAFE-L Echo

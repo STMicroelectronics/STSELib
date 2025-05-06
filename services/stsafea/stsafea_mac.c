@@ -16,6 +16,7 @@
  *****************************************************************************/
 
 #include "services/stsafea/stsafea_mac.h"
+#include "services/stsafea/stsafea_frame.h"
 
 stse_ReturnCode_t stsafea_cmac_hmac_compute(
 		stse_Handler_t * pSTSE,
@@ -25,13 +26,9 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
 		PLAT_UI8 * pMac,
 		PLAT_UI8 mac_length)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_MAC;
 	PLAT_UI8 sub_command_distinguisher = 0x03;
 	PLAT_UI8 rsp_header;
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
 
 	/* - Check stsafe handler initialization */
 
@@ -46,12 +43,7 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
-	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
-	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
-
 	/* - Prepare CMD Frame : [HEADER] [CMD DISTINGUISHER] [SLOT] [MAC LENGTH] [MESSAGE] */
-
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eSub_command_distinguisher,1,&sub_command_distinguisher);
@@ -60,44 +52,15 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
 	stse_frame_element_allocate_push(&CmdFrame,eMessage,message_length,pMessage);
 
 	/* - Prepare RSP Frame : [HEADER] [MAC] */
-
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eMac,mac_length,pMac);
 
-#ifdef STSE_CONF_USE_HOST_SESSION
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	}
-	else
-#endif
-	{
-		/* - Perform Transfer*/
-		ret = stse_frame_transfer(pSTSE,
-				&CmdFrame,
-				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	}
-
-	return ret;
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame
+			);
 }
 
 stse_ReturnCode_t stsafea_cmac_hmac_verify(
@@ -109,13 +72,9 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
 		PLAT_UI8 message_length,
 		PLAT_UI8 * pVerification_result)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_MAC;
 	PLAT_UI8 sub_command_distinguisher = 0x02;
 	PLAT_UI8 rsp_header;
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
 
 	/* - Check stsafe handler initialization */
 
@@ -131,12 +90,7 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
-	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
-	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
-
 	/* - Prepare CMD Frame : [HEADER] [CMD DISTINGUISHER] [SLOT] [MAC LENGTH] [MESSAGE] */
-
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eSub_command_distinguisher,1,&sub_command_distinguisher);
@@ -146,44 +100,15 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
 	stse_frame_element_allocate_push(&CmdFrame,eMessage,message_length,pMessage);
 
 	/* - Prepare RSP Frame : [HEADER] [VERIFICATION RESULT] */
-
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eVerification_result,1,pVerification_result);
 
-#ifdef STSE_CONF_USE_HOST_SESSION
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	}
-	else
-#endif
-	{
-		/* - Perform Transfer*/
-		ret = stse_frame_transfer(pSTSE,
-				&CmdFrame,
-				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-		);
-	}
-
-	return ret;
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame
+			);
 }
 
 stse_ReturnCode_t stsafea_aes_gmac_compute(

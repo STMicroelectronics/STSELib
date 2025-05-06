@@ -17,6 +17,9 @@
  */
 
 #include "services/stsafel/stsafel_device_info.h"
+#include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_frame.h"
+
 
 stse_ReturnCode_t stsafel_get_device_UID(
 		stse_Handler_t * pSTSE,
@@ -52,7 +55,6 @@ stse_ReturnCode_t stsafel_get_data(
 		PLAT_UI16 device_info_expected_length,
 		PLAT_UI8 * pDevice_info)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_GET_DATA;
 	PLAT_UI8 rsp_header;
 
@@ -79,13 +81,10 @@ stse_ReturnCode_t stsafel_get_data(
 	stse_frame_element_allocate_push(&RspFrame,eDevice_info,device_info_expected_length,pDevice_info);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_GET_DATA)
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }
 
 stse_ReturnCode_t stsafel_put_data(
@@ -94,7 +93,6 @@ stse_ReturnCode_t stsafel_put_data(
 		PLAT_UI16 device_info_length,
 		PLAT_UI8 * pDevice_info)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_PUT_DATA;
 	PLAT_UI8 rsp_header;
 
@@ -119,11 +117,8 @@ stse_ReturnCode_t stsafel_put_data(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_GET_DATA)
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }

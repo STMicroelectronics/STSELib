@@ -38,7 +38,7 @@
 #include "core/stse_frame.h"
 
 #define STSAFEL_PRODUCT_COUNT 1U
-#define STSAFEL_MAX_CMD_COUNT 13U
+#define STSAFEL_MAX_CMD_COUNT 12U
 
 // #define STSAFEL_EXT_HEADER_SIZE 			    2U
 // #define STSAFEL_HEADER_SIZE 				    1U

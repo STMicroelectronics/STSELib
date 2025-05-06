@@ -17,6 +17,10 @@
  */
 
 #include "services/stsafea/stsafea_commands.h"
+#include "services/stsafea/stsafea_frame.h"
+#include "services/stsafea/stsafea_put_query.h"
+#include "services/stsafea/stsafea_timings.h"
+
 
 const PLAT_UI16 stsafea_maximum_command_length[4] = {
 	STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100,
@@ -24,6 +28,7 @@ const PLAT_UI16 stsafea_maximum_command_length[4] = {
 	STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A120,
 	STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A200,
 };
+
 
 stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE , PLAT_UI8 *pCommand_count)
 {
@@ -49,12 +54,13 @@ stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE , PLAT_UI8 *pC
 	stse_frame_element_allocate_push(&RspFrame,eCommand_count,1,(PLAT_UI8*)pCommand_count);
 
 	/*- Perform Transfer*/
-	return  stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
+
 
 stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 											 PLAT_UI8 total_command_count,
@@ -68,7 +74,6 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 	PLAT_UI8 raw_data[total_command_count * sizeof(stse_cmd_authorization_record_t)];
 	PLAT_UI8 record_index = 0;
 	PLAT_UI8 record_array_pos = 0;
-
 
 	if(pSTSE == NULL)
 	{
@@ -88,11 +93,11 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 	stse_frame_element_allocate_push(&RspFrame,eRecordTable,total_command_count * sizeof(stse_cmd_authorization_record_t),raw_data);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 	if(ret != STSE_OK)
 	{
 		return ret;
@@ -185,30 +190,37 @@ stse_ReturnCode_t stsafea_perso_info_update (stse_Handler_t *pSTSE)
 	return STSE_OK;
 }
 
+
 void stsafea_perso_info_get_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t *pProtection)
 {
 	*pProtection = (stse_cmd_access_conditions_t)((pPerso->cmd_AC_status >> (command_code + command_code)) & 0x03);
 }
+
 
 void stsafea_perso_info_get_ext_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t *pProtection)
 {
 	*pProtection = (stse_cmd_access_conditions_t)((pPerso->ext_cmd_AC_status >> (command_code + command_code)) & 0x03);
 }
 
+
 void stsafea_perso_info_get_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code, PLAT_UI8 *pEnc_flag)
 {
 	*pEnc_flag = ((pPerso->cmd_encryption_status >> command_code) & 0x01);
 }
+
 
 void stsafea_perso_info_get_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code,PLAT_UI8 *pEnc_flag)
 {
 	*pEnc_flag = ((pPerso->rsp_encryption_status >> command_code) & 0x01);
 }
 
+
 void stsafea_perso_info_get_ext_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code, PLAT_UI8 *pEnc_flag)
 {
 	*pEnc_flag = ((pPerso->ext_cmd_encryption_status >> command_code) & 0x01);
 }
+
+
 void stsafea_perso_info_get_ext_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code,PLAT_UI8 *pEnc_flag)
 {
 	*pEnc_flag = ((pPerso->ext_rsp_encryption_status >> command_code) & 0x01);
@@ -222,12 +234,14 @@ void stsafea_perso_info_set_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command
 	pPerso->cmd_AC_status  |= (PLAT_UI64)((PLAT_UI64)protection << offset);
 }
 
+
 void stsafea_perso_info_set_ext_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t protection)
 {
 	PLAT_UI8 offset = command_code + command_code;
 	pPerso->ext_cmd_AC_status  &= (PLAT_UI64)~(0x03<<offset);
 	pPerso->ext_cmd_AC_status  |= (PLAT_UI64)((PLAT_UI64)protection << offset);
 }
+
 
 void stsafea_perso_info_set_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code, PLAT_UI8 enc_flag)
 {
@@ -238,6 +252,7 @@ void stsafea_perso_info_set_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8
 	}
 }
 
+
 void stsafea_perso_info_set_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code,PLAT_UI8 enc_flag)
 {
 	if (enc_flag) {
@@ -247,6 +262,7 @@ void stsafea_perso_info_set_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8
 	}
 }
 
+
 void stsafea_perso_info_set_ext_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code, PLAT_UI8 enc_flag)
 {
 	if (enc_flag) {
@@ -255,6 +271,8 @@ void stsafea_perso_info_set_ext_cmd_encrypt_flag (stse_perso_info_t* pPerso,PLAT
 		pPerso->ext_cmd_encryption_status  &= (PLAT_UI32) ~(enc_flag << command_code);
 	}
 }
+
+
 void stsafea_perso_info_set_ext_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT_UI8 command_code,PLAT_UI8 enc_flag)
 {
 	if (enc_flag) {
@@ -263,5 +281,3 @@ void stsafea_perso_info_set_ext_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT
 		pPerso->ext_rsp_encryption_status  &= (PLAT_UI32) ~(enc_flag << command_code);
 	}
 }
-
-

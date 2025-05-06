@@ -17,7 +17,8 @@
  */
 
 
-#include <services/stsafea/stsafea_random.h>
+#include "services/stsafea/stsafea_random.h"
+#include "services/stsafea/stsafea_frame.h"
 
 
 stse_ReturnCode_t stsafea_generate_random(
@@ -53,10 +54,9 @@ stse_ReturnCode_t stsafea_generate_random(
 	stse_frame_element_allocate_push(&RspFrame,eRandom,random_size,pRandom);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_RANDOM]
+			&RspFrame
 	);
 
 	return( ret );

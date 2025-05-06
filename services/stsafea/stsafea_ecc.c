@@ -1,12 +1,15 @@
 
 #include "services/stsafea/stsafea_ecc.h"
+#include "services/stsafea/stsafea_frame.h"
+
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t key_type,
 		PLAT_UI8* host_ecdhe_public_key)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -19,8 +22,6 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION;
 	PLAT_UI8 algorithm_id = STSAFEA_ALGORITHM_ID_KEK_UNWRAPPING;
 	PLAT_UI8 rsp_header;
 
@@ -71,14 +72,13 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
-	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION]
-	);
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 		stse_Handler_t * pSTSE,
@@ -89,7 +89,8 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 		stse_ecc_key_type_t signature_key_type,
 		PLAT_UI8* pSignature)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_extended_header = STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -102,9 +103,6 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 cmd_extended_header = STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION;
 
 	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
@@ -197,19 +195,19 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
-	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION]
-	);
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
 		stse_Handler_t * pSTSE)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_extended_header = STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -217,8 +215,6 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 cmd_extended_header = STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION;
 	PLAT_UI8 rsp_header;
 
 	stse_frame_allocate(CmdFrame);
@@ -228,23 +224,14 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
 	stse_frame_allocate(RspFrame);
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
-	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }
 
 
-
-/*!
- ******************************************************************************
- * NEW FUNCTIONS
- *
- *****************************************************************************/
 stse_ReturnCode_t stsafea_ecc_verify_signature(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t key_type,
@@ -256,8 +243,8 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 		PLAT_UI8 *pSignature_validity)
 {
 	stse_ReturnCode_t ret;
-
 	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_SIGNATURE;
+
 	PLAT_UI8 subject = 0x00;
 
 	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
@@ -272,12 +259,6 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 			UI16_B0(stse_ecc_info_table[key_type].signature_size>>1),
 	};
 
-#ifdef STSE_CONF_USE_HOST_SESSION
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
-#endif
-
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -290,12 +271,6 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-#ifdef STSE_CONF_USE_HOST_SESSION
-	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
-	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
-	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
-#endif
 
 	/* Public key elements */
 	stse_frame_element_allocate(ePoint_representation_id, 1, &point_representation_id);
@@ -364,35 +339,11 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eSignature_validity,1,pSignature_validity);
 
-	/*- Perform Transfer*/
-#ifdef STSE_CONF_USE_HOST_SESSION
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_VERIFY_SIGNATURE]
-		);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_VERIFY_SIGNATURE]
-		);
-	}
-	else
-#endif
-	ret = stse_frame_transfer(pSTSE,
+	/* - Perform Transfer*/
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_VERIFY_SIGNATURE]
-	);
+			&RspFrame
+			);
 
 	if(ret != STSE_OK)
 	{
@@ -402,6 +353,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 	return ret;
 }
 
+
 stse_ReturnCode_t stsafea_ecc_generate_signature(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -410,8 +362,6 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 		PLAT_UI16 message_length,
 		PLAT_UI8 *pSignature)
 {
-	stse_ReturnCode_t ret;
-
 	PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_SIGNATURE;
 
 	PLAT_UI8 rsp_header;
@@ -420,12 +370,6 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 			UI16_B1(stse_ecc_info_table[key_type].signature_size>>1),
 			UI16_B0(stse_ecc_info_table[key_type].signature_size>>1),
 	};
-
-#ifdef STSE_CONF_USE_HOST_SESSION
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
-#endif
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -437,12 +381,6 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-#ifdef STSE_CONF_USE_HOST_SESSION
-	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
-	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
-	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
-#endif
 
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
@@ -458,41 +396,13 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 	stse_frame_element_allocate_push(&RspFrame,eSignature_S_length, STSE_ECC_GENERIC_LENGTH_SIZE, pSignature_length_element);
 	stse_frame_element_allocate_push(&RspFrame,eSignature_S, (stse_ecc_info_table[key_type].signature_size>>1), pSignature + (stse_ecc_info_table[key_type].signature_size>>1));
 
-	/*- Perform Transfer*/
-#ifdef STSE_CONF_USE_HOST_SESSION
-	/*- Perform Transfer*/
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_SIGNATURE]
-		);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_SIGNATURE]
-		);
-	}
-	else
-#endif
-	{
-		ret = stse_frame_transfer(pSTSE,
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_GENERATE_SIGNATURE]
-		);
-	}
-
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 		stse_Handler_t * pSTSE,
@@ -501,10 +411,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 		PLAT_UI8 *pPublic_key,
 		PLAT_UI8 *pShared_secret)
 {
-	stse_ReturnCode_t ret;
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_ESTABLISH_KEY;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -516,8 +423,6 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-	PLAT_UI8 cmd_header = STSAFEA_CMD_ESTABLISH_KEY;
 
 	/* Public key elements */
 	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
@@ -536,10 +441,6 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 			UI16_B1(stse_ecc_info_table[key_type].shared_secret_size),
 			UI16_B0(stse_ecc_info_table[key_type].shared_secret_size),
 	};
-
-	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
-	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
-	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
 
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEA_HEADER_SIZE,&cmd_header);
@@ -574,38 +475,13 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 	stse_frame_element_allocate_push(&RspFrame,eShared_secret_length,STSE_ECC_GENERIC_LENGTH_SIZE,pShared_secret_length);
 	stse_frame_element_allocate_push(&RspFrame,eShared_secret,stse_ecc_info_table[key_type].shared_secret_size,pShared_secret);
 
-	/*- Perform Transfer*/
-#ifdef STSE_CONF_USE_HOST_SESSION
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
-	}
-	else
-#endif
-	{
-		/* - Perform Transfer*/
-		ret = stse_frame_transfer(pSTSE,
-				&CmdFrame,
-				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
-	}
-
-	return ret;
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 		stse_Handler_t * pSTSE,
@@ -614,7 +490,8 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 		PLAT_UI8 *pPublic_key_X,
 		PLAT_UI8 *pPublic_key_Y)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_ext_header = STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -626,9 +503,6 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 cmd_ext_header = STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY;
 
 	PLAT_UI8 rsp_header;
 
@@ -644,12 +518,9 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,ePublic_key_Y_coordinate,stse_ecc_info_table[key_type].coordinate_or_key_size,pPublic_key_Y);
 
-	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	/* - Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY]
-	);
-
-	return ret;
+			&RspFrame
+			);
 }

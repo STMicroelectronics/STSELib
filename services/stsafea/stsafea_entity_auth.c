@@ -17,6 +17,7 @@
  */
 
 #include "services/stsafea/stsafea_entity_auth.h"
+#include "services/stsafea/stsafea_frame.h"
 
 
 stse_ReturnCode_t stsafea_generate_challenge(
@@ -24,7 +25,6 @@ stse_ReturnCode_t stsafea_generate_challenge(
 		PLAT_UI8 challenge_size,
 		PLAT_UI8 *pChallenge)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
 	PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE;
 	PLAT_UI8 rsp_header;
@@ -50,12 +50,10 @@ stse_ReturnCode_t stsafea_generate_challenge(
 	stse_frame_element_allocate_push(&RspFrame,eChallenge,STSE_EDDSA_CHALLENGE_SIZE,pChallenge);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE]);
-
-	return( ret );
+			&RspFrame
+			);
 }
 
 stse_ReturnCode_t stsafea_verify_entity_signature(
@@ -66,6 +64,8 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
 		PLAT_UI8 *pSignature_validity)
 {
 	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -77,9 +77,6 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE;
 
 	PLAT_UI8 filler = 0x00;
 	stse_frame_element_allocate(eFiller, 1, &filler);
@@ -107,11 +104,10 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
 	stse_frame_element_allocate_push(&RspFrame,eSignature_validity,1,pSignature_validity);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE]
-	);
+			&RspFrame
+			);
 
 	if(ret != STSE_OK)
 	{

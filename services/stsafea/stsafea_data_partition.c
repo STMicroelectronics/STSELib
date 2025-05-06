@@ -16,7 +16,9 @@
  ******************************************************************************
  */
 
-#include <services/stsafea/stsafea_data_partition.h>
+#include "services/stsafea/stsafea_data_partition.h"
+#include "services/stsafea/stsafea_frame.h"
+
 
 #define STSAFEA_ZONE_INDEX_SIZE				1U
 #define STSAFEA_ZONE_OFFSET_SIZE			2U
@@ -29,7 +31,6 @@ stse_ReturnCode_t stsafea_get_total_partition_count( stse_Handler_t* pSTSE,
 		PLAT_UI8* pTotal_partition_count
 )
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_DATA_PARTITION_CONFIGURATION;
 	PLAT_UI8 rsp_header;
@@ -50,13 +51,13 @@ stse_ReturnCode_t stsafea_get_total_partition_count( stse_Handler_t* pSTSE,
 	stse_frame_element_allocate_push(&RspFrame,eTotal_partition_count,1,pTotal_partition_count);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
-	return( ret );
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
+
 
 stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pSTSE,
 	PLAT_UI8 total_partitions_count,
@@ -64,7 +65,6 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 	PLAT_UI16 record_table_length
 )
 {
-
 	stse_ReturnCode_t ret;
 	volatile PLAT_UI8 partition_idx;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
@@ -88,11 +88,11 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 	stse_frame_element_allocate_push(&RspFrame,eRaw,record_table_length,raw_data);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]
-	);
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 
 	/* - Verify transfer result and build Partition record table */
 	if (ret == STSE_OK)
@@ -124,6 +124,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration( stse_Handler_t* pST
 	return( ret );
 }
 
+
 stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI8 zone_index,
 		stsafea_decrement_option_t option,
@@ -150,7 +151,6 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
 
-
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
 	stse_frame_element_allocate_push(&CmdFrame,eCmdHeader,STSAFEA_HEADER_SIZE,&cmd_header);
@@ -175,11 +175,10 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 	stse_frame_element_swap_byte_order(&eAmount);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_DECREMENT]
-	);
+			&RspFrame
+			);
 
 	/*- unSwap Elements bytes from Command frame*/
 	stse_frame_element_swap_byte_order(&eOffset);
@@ -190,6 +189,7 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t * pSTSE,
 
 	return( ret );
 }
+
 
 stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
@@ -240,11 +240,10 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 	stse_frame_element_swap_byte_order(&eLength);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_READ]
-	);
+			&RspFrame
+			);
 
 	/*- Swap Counter value*/
 	stse_frame_element_swap_byte_order(&eCounterVal);
@@ -255,6 +254,7 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t * pSTSE,
 
 	return( ret );
 }
+
 
 stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
@@ -303,11 +303,10 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 	stse_frame_element_swap_byte_order(&eLength);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_READ]
-	);
+			&RspFrame
+			);
 
 	/*- UnSwap Elements bytes from Command frame*/
 	stse_frame_element_swap_byte_order(&eOffset);
@@ -315,6 +314,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t * pSTSE,
 
 	return( ret );
 }
+
 
 stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 zone_index,
@@ -324,24 +324,14 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 		PLAT_UI32 data_length,
 		stse_cmd_protection_t protection)
 {
-
-	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
-	stse_cmd_access_conditions_t cmd_ac_info;
-	PLAT_UI8 cmd_encryption_flag = 0;
-	PLAT_UI8 rsp_encryption_flag = 0;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_UPDATE;
+	PLAT_UI8 rsp_header;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
-
-	stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, STSAFEA_CMD_UPDATE, &cmd_encryption_flag);
-	stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, STSAFEA_CMD_UPDATE, &rsp_encryption_flag);
-	stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, STSAFEA_CMD_UPDATE, &cmd_ac_info);
-
-	PLAT_UI8 cmd_header = STSAFEA_CMD_UPDATE;
-	PLAT_UI8 rsp_header;
 
 	if(pSTSE == NULL)
 	{
@@ -373,47 +363,9 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 	/*- Swap Elements byte order before sending*/
 	stse_frame_element_swap_byte_order(&eOffset);
 
-#ifdef STSE_CONF_USE_HOST_SESSION
-	if (cmd_encryption_flag || rsp_encryption_flag)
-	{
-		ret = stsafea_session_encrypted_transfer (pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_encryption_flag,
-				rsp_encryption_flag,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
-		);
-	}
-	else if (cmd_ac_info != STSE_CMD_AC_FREE)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				cmd_ac_info,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
-		);
-	}
-	else if (protection != 0)
-	{
-		ret = stsafea_session_authenticated_transfer( pSTSE->pActive_host_session,
-				&CmdFrame,
-				&RspFrame,
-				STSE_CMD_AC_HOST,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
-		);
-	}
-	else
-#endif
-	{
-
-		/* - Perform Transfer*/
-		ret = stse_frame_transfer(pSTSE,
-				&CmdFrame,
-				&RspFrame,
-				stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_UPDATE]
-		);
-	}
-
-	return( ret );
+	/*- Perform Transfer*/
+	return stsafea_frame_transfer(pSTSE,
+			&CmdFrame,
+			&RspFrame
+			);
 }

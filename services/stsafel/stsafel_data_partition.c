@@ -17,6 +17,9 @@
  */
 
 #include "services/stsafel/stsafel_data_partition.h"
+#include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_frame.h"
+
 
 stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
     PLAT_UI8 zone_index,
@@ -26,7 +29,6 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
     PLAT_UI16 data_length,
 	stse_cmd_protection_t protection)
 {
-    stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
 	PLAT_UI8 rsp_header;
 
@@ -57,14 +59,12 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
     stse_frame_element_swap_byte_order(&eData_length);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_READ)
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
     PLAT_UI8 zone_index,
@@ -74,7 +74,6 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
     PLAT_UI16 data_length,
 	stse_cmd_protection_t protection)
 {
-    stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_UPDATE;
 	PLAT_UI8 rsp_header;
 
@@ -103,14 +102,13 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
 	stse_frame_element_swap_byte_order(&eOffset);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	/*- Perform Transfer*/
+	return stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_UPDATE)
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
     PLAT_UI8 zone_index,
@@ -154,11 +152,10 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
     stse_frame_element_swap_byte_order(&eData_length);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_READ)
-	);
+			&RspFrame
+			);
 
 	if(ret == STSE_OK)
 	{
@@ -216,11 +213,10 @@ stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
 	stse_frame_element_swap_byte_order(&eOffset);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_DECREMENT)
-	);
+			&RspFrame
+			);
 
 	if(ret == STSE_OK)
 	{

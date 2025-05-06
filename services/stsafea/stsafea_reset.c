@@ -17,10 +17,11 @@
  */
 
 #include "services/stsafea/stsafea_reset.h"
+#include "services/stsafea/stsafea_frame.h"
+
 
 stse_ReturnCode_t stsafea_reset( stse_Handler_t * pSTSE )
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_RESET;
 	PLAT_UI8 rsp_header;
 
@@ -38,11 +39,9 @@ stse_ReturnCode_t stsafea_reset( stse_Handler_t * pSTSE )
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_RESET]
-	);
-
-	return( ret );
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }

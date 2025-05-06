@@ -16,12 +16,13 @@
  ******************************************************************************
  */
 
-#include <services/stsafel/stsafel_reset.h>
-#include <services/stsafel/stsafel_timings.h>
+#include "services/stsafel/stsafel_reset.h"
+#include "services/stsafel/stsafel_frame.h"
+#include "services/stsafel/stsafel_commands.h"
+
 
 stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_RESET;
 	PLAT_UI8 rsp_header;
 
@@ -39,11 +40,8 @@ stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE)
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_RESET)
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }

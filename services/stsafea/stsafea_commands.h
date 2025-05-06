@@ -36,7 +36,6 @@
 #include "core/stse_platform.h"
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
-#include "services/stsafea/stsafea_put_query.h"
 
 #define STSAFEA_TRUE 						0b1
 #define STSAFEA_FALSE						0b0
@@ -65,7 +64,7 @@
  * \brief STSAFE-A command type
  */
 typedef enum stsafea_cmd_code_t {
-	STSAFEA_CMD_ECHO =0,                    /*!< STSAFEA Echo command code */
+	STSAFEA_CMD_ECHO = 0,                   /*!< STSAFEA Echo command code */
 	STSAFEA_CMD_RESET,                      /*!< STSAFEA Reset command code*/
 	STSAFEA_CMD_GENERATE_RANDOM,            /*!< STSAFEA Generate Random command code*/
 	STSAFEA_CMD_START_SESSION,				/*!< STSAFEA Start Session command code*/

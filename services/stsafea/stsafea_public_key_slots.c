@@ -16,13 +16,15 @@
  *****************************************************************************/
 
 #include "services/stsafea/stsafea_public_key_slots.h"
+#include "services/stsafea/stsafea_frame.h"
 
 
 stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pGeneric_public_key_slot_count)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -34,7 +36,6 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_TABLE;
 	PLAT_UI8 rsp_header;
 
@@ -47,12 +48,11 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
 	stse_frame_element_allocate_push(&RspFrame,eSymmetric_key_slot_count,1,pGeneric_public_key_slot_count);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]);
-
-	return ret;
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
 
 
@@ -64,6 +64,8 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		stse_ecc_key_type_t * pKey_type)
 {
 	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -75,7 +77,6 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_SLOT;
 	stsafea_ecc_curve_id_t curve_id;
 	PLAT_UI8 rsp_header;
@@ -92,10 +93,11 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
 	stse_frame_element_allocate_push(&RspFrame,eCurve_id,sizeof(stsafea_ecc_curve_id_t),(PLAT_UI8*)&curve_id);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	ret = stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]);
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 
 	if (ret != STSE_OK)
 	{
@@ -144,7 +146,8 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 		stse_ecc_key_type_t key_type,
 		PLAT_UI8 * pPublic_key)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
+
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
 	{
@@ -157,7 +160,6 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 	}
 
 	/* Allocate elements and buffers*/
-	PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 	PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_SLOT;
 	PLAT_UI8 rsp_header;
 	PLAT_UI8 presence_flag;
@@ -215,12 +217,11 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
 	}
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_QUERY]);
-
-	return ret;
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }
 
 
@@ -230,7 +231,8 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 		stse_ecc_key_type_t key_type,
 		PLAT_UI8 *pPublic_key)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
+	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY;
 
 	if(pSTSE == NULL)
 	{
@@ -242,9 +244,6 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 	{
 		return( STSE_SERVICE_INVALID_PARAMETER );
 	}
-
-	PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-	PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY;
 
 	/* Public key elements */
 	PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
@@ -304,20 +303,19 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_extended_cmd_timings[pSTSE->device_type][STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY]);
-
-	return ret;
+			&RspFrame
+			);
 }
+
 
 stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
 		stsafea_generic_public_key_configuration_flags_t configuration_flags)
 {
-	stse_ReturnCode_t ret;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
 
 	/* - Check stsafe handler initialization */
 	if (pSTSE == NULL)
@@ -325,7 +323,6 @@ stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
 		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
 	}
 
-	PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
 	PLAT_UI8 attribute_tag = STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_CONFIGURATION_FLAGS;
 
 	stse_frame_allocate(CmdFrame);
@@ -339,10 +336,9 @@ stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEA_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_PUT_ATTRIBUTE]);
-
-	return ret;
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }

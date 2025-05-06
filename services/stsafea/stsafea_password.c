@@ -17,7 +17,9 @@
  */
 
 
-#include <services/stsafea/stsafea_password.h>
+#include "services/stsafea/stsafea_password.h"
+#include "services/stsafea/stsafea_frame.h"
+
 
 stse_ReturnCode_t stsafea_verify_password(
 		stse_Handler_t * pSTSE,
@@ -26,7 +28,6 @@ stse_ReturnCode_t stsafea_verify_password(
 		PLAT_UI8 * pVerification_status,
 		PLAT_UI8 * pRemaining_tries)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_PASSWORD;
 	PLAT_UI8 rsp_header;
 
@@ -52,20 +53,15 @@ stse_ReturnCode_t stsafea_verify_password(
 	stse_frame_element_allocate_push(&RspFrame,eRemTri,1,pRemaining_tries);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_VERIFY_PASSWORD]
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }
-
 
 
 stse_ReturnCode_t stsafea_delete_password(stse_Handler_t * pSTSE)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEA_CMD_DELETE;
 	PLAT_UI8 tag = STSAFEA_DELETE_TAG_PASSWORD;
 	PLAT_UI8 rsp_header;
@@ -85,11 +81,9 @@ stse_ReturnCode_t stsafea_delete_password(stse_Handler_t * pSTSE)
 	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafea_frame_raw_transfer(pSTSE,
 			&CmdFrame,
 			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][STSAFEA_CMD_DELETE]
-	);
-
-	return( ret );
+			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
+			);
 }

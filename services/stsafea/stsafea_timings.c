@@ -17,7 +17,6 @@
 
 #include "services/stsafea/stsafea_timings.h"
 
-#define STSAFEA_EXEC_TIME_DEFAULT				500U	/*!< STSAFE default command processing time (used when specific time == 0) */
 #define STSAFEA_BOOT_TIME_DEFAULT 				10U
 #define STSAFEA_WAKEUP_TIME_DEFAULT 			10U
 
@@ -88,35 +87,35 @@ const PLAT_UI16 stsafea_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_CMD_COUNT
 	},
 	/* STSAFE_A120 */
 	{
-			50,	/* Echo */
-			22,  /* Reset */
-			26,  /* Generate Random */
-			22,	/* Start Session */
-			23,	/* Decrement zone counter */
-			23,	/* Read zone */
-			22,	/* Update zone */
-			26,	/* Increment zone counter */
+			50,							/* Echo */
+			22,							/* Reset */
+			26,							/* Generate Random */
+			22,							/* Start Session */
+			23,							/* Decrement zone counter */
+			23,							/* Read zone */
+			22,							/* Update zone */
+			26,							/* Increment zone counter */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Derive LORA key (Not applicable) */
-			23,	/* Generate MAC */
-			23,	/* Verify MAC */
+			23,							/* Generate MAC */
+			23,							/* Verify MAC */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Unwrap issuer envelope (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Delete MAC (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Hibernate, (Not applicable)*/
-			25,	/* Wrap Local Envelope */
-			24,	/* Unwrap Local Envelope */
+			25,							/* Wrap Local Envelope */
+			24,							/* Unwrap Local Envelope */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Put attribute(Not applicable)  */
-			80,	/* Generate key */
+			80,							/* Generate key */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Put key (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Configure */
-			10,	/* Query */
+			10,							/* Query */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Get Signature */
-			96,	/* Generate Signature */
-			156,	/* Verify Signature */
-			34,	/* Establish Key */ 
+			96,							/* Generate Signature */
+			156,						/* Verify Signature */
+			34,							/* Establish Key */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Standby (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify Password (Not applicable)*/
-			25,	/* Encrypt */
-			26	/* Decrypt */
+			25,							/* Encrypt */
+			26							/* Decrypt */
 	},
 	/* STSAFE_A200 */
 	{
@@ -219,35 +218,35 @@ const PLAT_UI16 stsafea_extended_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_
 	},
 	/* STSAFE_A120 */
 	{
-			50,	/* Echo */
-			22,  /* Reset */
-			26,  /* Generate Random */
-			22,	/* Start Session */
-			23,	/* Decrement zone counter */
-			23,	/* Read zone */
-			22,	/* Update zone */
-			26,	/* Increment zone counter */
+			50,							/* Echo */
+			22, 						/* Reset */
+			26,							/* Generate Random */
+			22,							/* Start Session */
+			23,							/* Decrement zone counter */
+			23,							/* Read zone */
+			22,							/* Update zone */
+			26,							/* Increment zone counter */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Derive LORA key (Not applicable) */
-			23,	/* Generate MAC */
-			23,	/* Verify MAC */
+			23,							/* Generate MAC */
+			23,							/* Verify MAC */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Unwrap issuer envelope (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Delete MAC (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Hibernate, (Not applicable)*/
-			25,	/* Wrap Local Envelope */
-			24,	/* Unwrap Local Envelope */
+			25,							/* Wrap Local Envelope */
+			24,							/* Unwrap Local Envelope */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Put attribute(Not applicable)  */
-			80,	/* Generate key */
+			80,							/* Generate key */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Put key (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Configure */
-			10,	/* Query */
+			10,							/* Query */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Get Signature (Not applicable)*/
-			96,	/* Generate Signature */
-			156,	/* Verify Signature */
-			34,	/* Establish Key */
+			96,							/* Generate Signature */
+			156,						/* Verify Signature */
+			34,							/* Establish Key */
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Standby (Not applicable)*/
 			STSAFEA_EXEC_TIME_DEFAULT,	/* Verify Password (Not applicable)*/
-			25,	/* Encrypt */
-			26	/* Decrypt */
+			25,							/* Encrypt */
+			26							/* Decrypt */
 	},
 	/* STSAFE_A200 */
 	{
@@ -284,17 +283,17 @@ const PLAT_UI16 stsafea_extended_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_
 };
 
 const PLAT_UI16 stsafea_boot_time[STSAFEA_PRODUCT_COUNT] = {
-		STSAFEA_BOOT_TIME_DEFAULT, /* STSAFE_A100 */
-		STSAFEA_BOOT_TIME_DEFAULT, /* STSAFE_A110 */
-		STSAFEA_BOOT_TIME_DEFAULT, /* STSAFE_A120 */
-		STSAFEA_BOOT_TIME_DEFAULT /* STSAFE_A200 */
+		STSAFEA_BOOT_TIME_DEFAULT,	/* STSAFE_A100 */
+		STSAFEA_BOOT_TIME_DEFAULT,	/* STSAFE_A110 */
+		STSAFEA_BOOT_TIME_DEFAULT,	/* STSAFE_A120 */
+		STSAFEA_BOOT_TIME_DEFAULT	/* STSAFE_A200 */
 };
 
 const PLAT_UI16 stsafea_wakeup_time[STSAFEA_PRODUCT_COUNT] = {
-		STSAFEA_WAKEUP_TIME_DEFAULT, /* STSAFE_A100 */
-		STSAFEA_WAKEUP_TIME_DEFAULT, /* STSAFE_A110 */
-		STSAFEA_WAKEUP_TIME_DEFAULT, /* STSAFE_A120 */
-		STSAFEA_WAKEUP_TIME_DEFAULT /* STSAFE_A200 */
+		STSAFEA_WAKEUP_TIME_DEFAULT,	/* STSAFE_A100 */
+		STSAFEA_WAKEUP_TIME_DEFAULT,	/* STSAFE_A110 */
+		STSAFEA_WAKEUP_TIME_DEFAULT,	/* STSAFE_A120 */
+		STSAFEA_WAKEUP_TIME_DEFAULT		/* STSAFE_A200 */
 };
 
 

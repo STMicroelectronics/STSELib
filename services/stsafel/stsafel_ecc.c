@@ -17,7 +17,8 @@
  */
 
 #include "services/stsafel/stsafel_ecc.h"
-#include "services/stsafel/stsafel_timings.h"
+#include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_frame.h"
 
 
 stse_ReturnCode_t stsafel_ecc_generate_signature(
@@ -27,7 +28,6 @@ stse_ReturnCode_t stsafel_ecc_generate_signature(
 		PLAT_UI16 challenge_length,
 		PLAT_UI8 *pSignature)
 {
-	stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_GENERATE_SIGNATURE;
 	PLAT_UI8 rsp_header;
 	PLAT_UI8 internal_data_subject = STSAFEL_ECC_SIGNATURE_SUBJECT_NONE;
@@ -57,11 +57,8 @@ stse_ReturnCode_t stsafel_ecc_generate_signature(
 	stse_frame_element_allocate_push(&RspFrame,eSignature,stse_ecc_info_table[key_type].signature_size,pSignature);
 
 	/*- Perform Transfer*/
-	ret = stse_frame_transfer(pSTSE,
+	return stsafel_frame_transfer(pSTSE,
 			&CmdFrame,
-			&RspFrame,
-			stsafel_cmd_exec_duration(pSTSE, STSAFEL_CMD_GENERATE_SIGNATURE)
-	);
-
-	return( ret );
+			&RspFrame
+			);
 }
