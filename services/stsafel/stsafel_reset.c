@@ -17,7 +17,7 @@
  */
 
 #include "services/stsafel/stsafel_reset.h"
-#include "services/stsafel/stsafel_frame.h"
+#include "services/stsafel/stsafel_frame_transfer.h"
 #include "services/stsafel/stsafel_commands.h"
 
 

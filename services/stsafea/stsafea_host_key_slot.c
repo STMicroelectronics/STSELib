@@ -18,7 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "services/stsafea/stsafea_host_key_slot.h"
-#include "services/stsafea/stsafea_frame.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_hash.h"
 
 

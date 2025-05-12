@@ -19,7 +19,7 @@
 
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
-#include "services/stsafea/stsafea_frame.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT

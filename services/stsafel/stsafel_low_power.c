@@ -18,7 +18,7 @@
 
 #include "services/stsafel/stsafel_low_power.h"
 #include "services/stsafel/stsafel_commands.h"
-#include "services/stsafel/stsafel_frame.h"
+#include "services/stsafel/stsafel_frame_transfer.h"
 #include "services/stsafel/stsafel_echo.h"
 
 

@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
- * \file	stsafea_frame.c
- * \brief   STSAFE-A Frame layer (sources)
+ * \file	stsafea_frame_transfer.c
+ * \brief   STSAFE-A Frame transfer service (sources)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,7 +16,7 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_frame.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_sessions.h"
 #include "services/stsafea/stsafea_timings.h"

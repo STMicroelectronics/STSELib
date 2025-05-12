@@ -20,7 +20,7 @@
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_host_key_slot.h"
 #include "services/stsafea/stsafea_aes.h"
-#include "services/stsafea/stsafea_frame.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT

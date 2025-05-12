@@ -17,7 +17,7 @@
  */
 
 #include "services/stsafea/stsafea_entity_auth.h"
-#include "services/stsafea/stsafea_frame.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
