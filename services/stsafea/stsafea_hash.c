@@ -20,6 +20,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 const stsafea_hash_info_t stsafea_hash_info_table[] =
 #if !defined(STSE_CONF_HASH_SHA_1) && !defined(STSE_CONF_HASH_SHA_224) && \
     !defined(STSE_CONF_HASH_SHA_256) && !defined(STSE_CONF_HASH_SHA_384) && !defined(STSE_CONF_HASH_SHA_512) && \
@@ -220,3 +223,5 @@ stse_ReturnCode_t stsafea_finish_hash(
 }
 
 #endif
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

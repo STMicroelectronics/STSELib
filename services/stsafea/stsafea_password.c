@@ -16,9 +16,11 @@
  ******************************************************************************
  */
 
-
 #include "services/stsafea/stsafea_password.h"
 #include "services/stsafea/stsafea_frame.h"
+
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 
 stse_ReturnCode_t stsafea_verify_password(
@@ -87,3 +89,5 @@ stse_ReturnCode_t stsafea_delete_password(stse_Handler_t * pSTSE)
 			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

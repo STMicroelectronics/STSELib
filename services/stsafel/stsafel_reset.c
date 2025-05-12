@@ -21,6 +21,9 @@
 #include "services/stsafel/stsafel_commands.h"
 
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+
 stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE)
 {
 	PLAT_UI8 cmd_header = STSAFEL_CMD_RESET;
@@ -33,11 +36,11 @@ stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE)
 
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
 
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
 
 	/*- Perform Transfer*/
 	return stsafel_frame_transfer(pSTSE,
@@ -45,3 +48,5 @@ stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE)
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */

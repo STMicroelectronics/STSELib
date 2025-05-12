@@ -17,8 +17,13 @@
 
 #include "services/stsafea/stsafea_timings.h"
 
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 #define STSAFEA_BOOT_TIME_DEFAULT 				10U
 #define STSAFEA_WAKEUP_TIME_DEFAULT 			10U
+
 
 const PLAT_UI16 stsafea_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_CMD_COUNT] = {
 	/* STSAFE_A100 */
@@ -296,4 +301,4 @@ const PLAT_UI16 stsafea_wakeup_time[STSAFEA_PRODUCT_COUNT] = {
 		STSAFEA_WAKEUP_TIME_DEFAULT		/* STSAFE_A200 */
 };
 
-
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

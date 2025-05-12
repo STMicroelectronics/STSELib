@@ -18,6 +18,9 @@
 #include "services/stsafel/stsafel_timings.h"
 
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+
 #define STSAFEL_BOOT_TIME_DEFAULT       10U
 #define STSAFEL_WAKEUP_TIME_DEFAULT     10U
 
@@ -71,3 +74,5 @@ inline PLAT_UI16 stsafel_cmd_exec_duration(
 
 	return stsafel_cmd_timings[pSTSE->device_type - STSE_DEVICE_STSAFEL_FAMILY_INDEX][CommandCode];
 }
+
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */

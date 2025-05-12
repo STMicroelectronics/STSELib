@@ -20,6 +20,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_generate_challenge(
 		stse_Handler_t * pSTSE ,
 		PLAT_UI8 challenge_size,
@@ -116,3 +119,5 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
 
 	return( ret );
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

@@ -20,6 +20,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 		PLAT_UI8 * pMessage ,
 		PLAT_UI8 * pEchoed_message,
@@ -55,3 +58,4 @@ stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
 			);
 }
 
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

@@ -37,27 +37,31 @@
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
 
-#define STSAFEA_TRUE 						0b1
-#define STSAFEA_FALSE						0b0
+#define STSAFEA_TRUE 							0b1
+#define STSAFEA_FALSE							0b0
 
-#define STSAFEA_EXT_HEADER_SIZE 			2U
-#define STSAFEA_HEADER_SIZE 				1U
-#define STSAFEA_CMD_EXTENSION_SIZE 			1U
-#define STSAFEA_CMD_RSP_LEN_SIZE 			2U
-#define STSAFEA_SLOT_NUMBER_ID_SIZE			1U
-#define STSAFEA_AES_KEY_SIZE 				16U
-#define STSAFEA_COUNTER_VALUE_SIZE			4U
-#define STSAFEA_GENERIC_LENGTH_SIZE			2U
-#define STSAFEA_UID_SIZE 					8U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100	507U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A110	507U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A120	752U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A200	507U
+#define STSAFEA_EXT_HEADER_SIZE 				2U
+#define STSAFEA_HEADER_SIZE 					1U
+#define STSAFEA_CMD_EXTENSION_SIZE 				1U
+#define STSAFEA_CMD_RSP_LEN_SIZE 				2U
+#define STSAFEA_SLOT_NUMBER_ID_SIZE				1U
+#define STSAFEA_AES_KEY_SIZE 					16U
+#define STSAFEA_COUNTER_VALUE_SIZE				4U
+#define STSAFEA_GENERIC_LENGTH_SIZE				2U
+#define STSAFEA_UID_SIZE 						8U
+#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100		507U
+#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A110		507U
+#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A120		752U
+#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A200		507U
 
-#define STSAFEA_PROT_Pos					5  	   /*!< STSAFE  Protected rsp mask */
-#define STSAFEA_PROT_Msk					0xC0U  /*!< STSAFE  Protected mask */
-#define STSAFEA_PROT_CMD_Msk				0x80U  /*!< STSAFE  Protected command mask */
-#define STSAFEA_PROT_RSP_Msk				0x40U  /*!< STSAFE  Protected rsp mask */
+#define STSAFEA_PROT_Pos						5  	   /*!< STSAFE  Protected rsp mask */
+#define STSAFEA_PROT_Msk						0xC0U  /*!< STSAFE  Protected mask */
+#define STSAFEA_PROT_CMD_Msk					0x80U  /*!< STSAFE  Protected command mask */
+#define STSAFEA_PROT_RSP_Msk					0x40U  /*!< STSAFE  Protected rsp mask */
+
+#define STSAFEA_PRODUCT_COUNT					4U
+#define STSAFEA_MAX_CMD_COUNT					29U
+#define STSAFEA_MAX_EXT_CMD_COUNT				29U
 
 /*!
  * \enum stsafea_cmd_code_t

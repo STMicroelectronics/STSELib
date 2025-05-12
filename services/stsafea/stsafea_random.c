@@ -21,6 +21,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_generate_random(
 		stse_Handler_t * pSTSE ,
 		PLAT_UI8 * pRandom,
@@ -61,3 +64,5 @@ stse_ReturnCode_t stsafea_generate_random(
 
 	return( ret );
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

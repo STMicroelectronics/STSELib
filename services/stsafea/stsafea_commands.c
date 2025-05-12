@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_commands.c
- * \brief   Data partition services for STSAFE-A
+ * \brief   Commands services for STSAFE-A
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -20,6 +20,9 @@
 #include "services/stsafea/stsafea_frame.h"
 #include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafea/stsafea_timings.h"
+
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 
 const PLAT_UI16 stsafea_maximum_command_length[4] = {
@@ -281,3 +284,5 @@ void stsafea_perso_info_set_ext_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT
 		pPerso->ext_rsp_encryption_status  &= (PLAT_UI32) ~(enc_flag << command_code);
 	}
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

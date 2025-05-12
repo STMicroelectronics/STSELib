@@ -21,6 +21,9 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_put_life_cyle_state(
 		stse_Handler_t * pSTSE,
 		stsafea_life_cycle_state_t life_cycle_state)
@@ -83,3 +86,5 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

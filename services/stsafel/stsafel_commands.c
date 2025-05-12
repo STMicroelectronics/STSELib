@@ -17,6 +17,12 @@
 
 #include "services/stsafel/stsafel_commands.h"
 
+
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+
 const PLAT_UI16 stsafel_maximum_command_length[STSAFEL_PRODUCT_COUNT] = {
     STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010, /*!< STSAFE-L Maximum command length (bytes) */
 };
+
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */

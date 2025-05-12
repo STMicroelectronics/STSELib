@@ -97,7 +97,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 		return ret;
 	}
 
-	/*- STSE device power-on delay */
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 	if(pSTSE->device_type != STSAFE_L010)
 	{
 		stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
@@ -108,8 +108,9 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
 			pSTSE->pPerso_info = &dynamic_product_perso;
 			ret = stsafea_perso_info_update(pSTSE);
 		}
-#endif
+#endif /* STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS */
 	}
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
 	return ret;
 }

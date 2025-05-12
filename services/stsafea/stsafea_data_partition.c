@@ -20,6 +20,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 #define STSAFEA_ZONE_INDEX_SIZE				1U
 #define STSAFEA_ZONE_OFFSET_SIZE			2U
 #define STSAFEA_ZONE_ACCESS_OPTION_SIZE		1U
@@ -369,3 +372,5 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t * pSTSE,
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

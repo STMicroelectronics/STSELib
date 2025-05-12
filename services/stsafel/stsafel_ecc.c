@@ -21,6 +21,9 @@
 #include "services/stsafel/stsafel_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+
 stse_ReturnCode_t stsafel_ecc_generate_signature(
 		stse_Handler_t * pSTSE,
 		stse_ecc_key_type_t key_type,
@@ -47,13 +50,13 @@ stse_ReturnCode_t stsafel_ecc_generate_signature(
 #endif
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eChallenge,challenge_length,pChallenge);
 	stse_frame_element_allocate_push(&CmdFrame,eInternal_data_subject,1,&internal_data_subject);
 
 	/*- Create Rsp frame and populate elements*/
 	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eSignature,stse_ecc_info_table[key_type].signature_size,pSignature);
 
 	/*- Perform Transfer*/
@@ -62,3 +65,5 @@ stse_ReturnCode_t stsafel_ecc_generate_signature(
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */

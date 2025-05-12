@@ -19,6 +19,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pGeneric_public_key_slot_count)
@@ -342,3 +345,5 @@ stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
 			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

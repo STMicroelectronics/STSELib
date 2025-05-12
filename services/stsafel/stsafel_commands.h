@@ -26,7 +26,7 @@
  */
 
 
-/*! \defgroup stsafe_core_cmd_set STSAFE-L Command Codes
+/*! \defgroup stsafel_cmd_set  STSAFE-L Command Codes
 *  \ingroup stsafel_services
  *  @{
  */
@@ -37,16 +37,16 @@
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
 
-#define STSAFEL_PRODUCT_COUNT 1U
-#define STSAFEL_MAX_CMD_COUNT 12U
+#define STSAFEL_PRODUCT_COUNT					1U
+#define STSAFEL_MAX_CMD_COUNT					12U
 
 // #define STSAFEL_EXT_HEADER_SIZE 			    2U
-// #define STSAFEL_HEADER_SIZE 				    1U
+ #define STSAFEL_HEADER_SIZE 				    1U
 // #define STSAFEL_CMD_RSP_LEN_SIZE 			2U
-// #define STSAFEL_COUNTER_VALUE_SIZE			4U
-#define STSAFEL_GENERIC_LENGTH_SIZE			2U
-#define STSAFEL_UID_SIZE 					8U
-#define STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010	750U
+#define STSAFEL_COUNTER_VALUE_SIZE				3U
+//#define STSAFEL_GENERIC_LENGTH_SIZE			2U
+//#define STSAFEL_UID_SIZE 						8U
+#define STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010		750U
 
 /*!
  * \enum stsafel_cmd_code_t

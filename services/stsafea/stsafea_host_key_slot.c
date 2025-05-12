@@ -22,6 +22,9 @@
 #include "services/stsafea/stsafea_hash.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 /* Exported functions --------------------------------------------------------*/
 
 stse_ReturnCode_t stsafea_query_host_key_provisioning_ctrl_fields(
@@ -482,3 +485,5 @@ stse_ReturnCode_t stsafea_establish_host_key_authenticated (
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

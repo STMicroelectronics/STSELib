@@ -22,6 +22,9 @@
 #include "services/stsafea/stsafea_timings.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFrame)
 {
 	stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
@@ -442,3 +445,5 @@ stse_ReturnCode_t stsafea_frame_transfer (stse_Handler_t *pSTSE,
 
 	return( ret );
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT **/

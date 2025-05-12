@@ -18,6 +18,10 @@
 
 #include <services/stsafea/stsafea_patch.h>
 
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafe_get_patch_update_command_counter(
 		stse_Handler_t * pSTSAFE,
 		PLAT_UI8 pPatch_update_command_counter)
@@ -47,3 +51,5 @@ stse_ReturnCode_t stsafe_patch_finalize(
 	(void)pSTSAFE;
 	return STSE_SERVICE_INVALID_PARAMETER; /* TODO */
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

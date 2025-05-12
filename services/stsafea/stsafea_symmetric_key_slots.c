@@ -22,6 +22,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 /* Exported functions --------------------------------------------------------*/
 
 stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
@@ -691,3 +694,5 @@ stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

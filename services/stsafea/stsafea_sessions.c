@@ -22,6 +22,10 @@
 #include "services/stsafea/stsafea_aes.h"
 #include "services/stsafea/stsafea_frame.h"
 
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 #define STSAFEA_AES_SUBJECT_HOST_CMAC 0x00U
 #define STSAFEA_AES_SUBJECT_HOST_RMAC 0x40U
 #define STSAFEA_AES_SUBJECT_HOST_DECRYPT 0xC0U
@@ -694,4 +698,7 @@ stse_ReturnCode_t stsafea_session_authenticated_transfer ( stse_session_t *pSess
 
 	return ret;
 }
+
 #endif /* STSE_CONF_USE_HOST_SESSION */
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

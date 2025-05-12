@@ -20,6 +20,9 @@
 #include "services/stsafel/stsafel_timings.h"
 
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+
 stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pFrame)
 {
 	stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
@@ -99,6 +102,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t* pSTSE, stse_frame_t* pF
 	stse_frame_pop_element(pFrame);
 	return( STSE_OK );
 }
+
 
 stse_ReturnCode_t stsafel_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFrame)
 {
@@ -307,8 +311,9 @@ stse_ReturnCode_t stsafel_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFr
 		ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
 
 #ifdef  STSE_CONF_USE_ST1WIRE
-	} else {
-
+	}
+	else
+	{
 		/* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
 		stse_frame_element_allocate_push(pFrame,eCRC,STSE_FRAME_CRC_SIZE,received_crc);
 
@@ -418,6 +423,7 @@ stse_ReturnCode_t stsafel_frame_receive(stse_Handler_t* pSTSE, stse_frame_t* pFr
 	return( ret );
 }
 
+
 stse_ReturnCode_t stsafel_frame_raw_transfer (stse_Handler_t* pSTSE,
 		stse_frame_t* pCmdFrame,
 		stse_frame_t* pRspFrame,
@@ -446,6 +452,7 @@ stse_ReturnCode_t stsafel_frame_raw_transfer (stse_Handler_t* pSTSE,
 
 	return( ret );
 }
+
 
 stse_ReturnCode_t stsafel_frame_transfer (stse_Handler_t* pSTSE,
 		stse_frame_t* pCmdFrame,
@@ -480,3 +487,5 @@ stse_ReturnCode_t stsafel_frame_transfer (stse_Handler_t* pSTSE,
 
 	return( ret );
 }
+
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */

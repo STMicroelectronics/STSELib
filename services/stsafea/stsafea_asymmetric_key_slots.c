@@ -21,6 +21,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_query_private_key_slots_count(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 * pPrivate_key_slot_count)
@@ -360,3 +363,5 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
 	return( ret );
 }
 #endif
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

@@ -1,6 +1,26 @@
+/*!
+ ******************************************************************************
+ * \file	stsafea_ecc.c
+ * \brief   ECC services for STSAFE-A
+ * \author  STMicroelectronics - CS application team
+ *
+ ******************************************************************************
+ * \attention
+ *
+ * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
+ *
+ * This software is licensed under terms that can be found in the LICENSE file in
+ * the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
 
 #include "services/stsafea/stsafea_ecc.h"
 #include "services/stsafea/stsafea_frame.h"
+
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session(
@@ -524,3 +544,5 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

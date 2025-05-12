@@ -16,9 +16,12 @@
  ******************************************************************************
  */
 
-
 #include "services/stsafea/stsafea_low_power.h"
 #include "services/stsafea/stsafea_frame.h"
+
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
 
 stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSE,
 									 stse_hibernate_wake_up_mode_t wake_up_mode)
@@ -48,3 +51,5 @@ stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSE,
 			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

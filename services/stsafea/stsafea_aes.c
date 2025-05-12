@@ -19,6 +19,9 @@
 #include "services/stsafea/stsafea_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_aes_ecb_encrypt(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -985,3 +988,5 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
 			&RspFrame
 			);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

@@ -21,6 +21,9 @@
 #include "services/stsafel/stsafel_frame.h"
 
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+
 stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
     PLAT_UI8 zone_index,
     stsafel_read_option_t option,
@@ -44,7 +47,7 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
 
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eRead_option,sizeof(stsafel_read_option_t),(PLAT_UI8 *)&option);
 	stse_frame_element_allocate_push(&CmdFrame,eZone_index,1,&zone_index);
 	stse_frame_element_allocate_push(&CmdFrame,eOffset,2,(PLAT_UI8 *)&offset);
@@ -52,7 +55,7 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t * pSTSE,
 
 	/*- Create Rsp frame and populate elements */
 	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
 	stse_frame_element_allocate_push(&RspFrame,eData,data_length,pData);
 
 	stse_frame_element_swap_byte_order(&eOffset);
@@ -89,7 +92,7 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
 
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eUpdate_option,sizeof(stsafel_update_option_t),(PLAT_UI8 *)&option);
 	stse_frame_element_allocate_push(&CmdFrame,eZone_index,1,&zone_index);
 	stse_frame_element_allocate_push(&CmdFrame,eOffset,2,(PLAT_UI8 *)&offset);
@@ -97,7 +100,7 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t * pSTSE,
 
 	/*- Create Rsp frame and populate elements */
 	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSE_RSP_FRAME_HEADER_SIZE,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
 
 	stse_frame_element_swap_byte_order(&eOffset);
 
@@ -122,7 +125,7 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
     stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
 	PLAT_UI8 rsp_header;
-	PLAT_UI8 temp_counter[STSAFEL_DATA_ZONE_COUNTER_LENGTH];
+	PLAT_UI8 temp_counter[STSAFEL_COUNTER_VALUE_SIZE];
 
 	if(pSTSE == NULL)
 	{
@@ -136,7 +139,7 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
 
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eRead_option,sizeof(stsafel_read_option_t),(PLAT_UI8 *)&option);
 	stse_frame_element_allocate_push(&CmdFrame,eZone_index,1,&zone_index);
 	stse_frame_element_allocate_push(&CmdFrame,eOffset,2,(PLAT_UI8 *)&offset);
@@ -144,8 +147,8 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t * pSTSE,
 
 	/*- Create Rsp frame and populate elements */
 	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
-	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEL_DATA_ZONE_COUNTER_LENGTH,temp_counter);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEL_COUNTER_VALUE_SIZE,temp_counter);
 	stse_frame_element_allocate_push(&RspFrame,eData,data_length,pData);
 
 	stse_frame_element_swap_byte_order(&eOffset);
@@ -180,11 +183,11 @@ stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
     stse_ReturnCode_t ret;
 	PLAT_UI8 cmd_header = STSAFEL_CMD_DECREMENT;
 	PLAT_UI8 rsp_header;
-    PLAT_UI8 decrement_amount[STSAFEL_DATA_ZONE_COUNTER_LENGTH] = {
+    PLAT_UI8 decrement_amount[STSAFEL_COUNTER_VALUE_SIZE] = {
 		((amount & 0xFF0000) >> 16),
 		((amount & 0xFF00) >> 8),
 		(amount & 0xFF)};
-	PLAT_UI8 temp_counter[STSAFEL_DATA_ZONE_COUNTER_LENGTH];
+	PLAT_UI8 temp_counter[STSAFEL_COUNTER_VALUE_SIZE];
 
 	if(pSTSE == NULL)
 	{
@@ -198,17 +201,17 @@ stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
 
 	/*- Create CMD frame and populate elements */
 	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
+	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
 	stse_frame_element_allocate_push(&CmdFrame,eDecrement_option,sizeof(stsafel_decrement_option_t),(PLAT_UI8 *)&option);
 	stse_frame_element_allocate_push(&CmdFrame,eZone_index,1,&zone_index);
 	stse_frame_element_allocate_push(&CmdFrame,eOffset,2,(PLAT_UI8 *)&offset);
-	stse_frame_element_allocate_push(&CmdFrame,eAmount,STSAFEL_DATA_ZONE_COUNTER_LENGTH,decrement_amount);
+	stse_frame_element_allocate_push(&CmdFrame,eAmount,STSAFEL_COUNTER_VALUE_SIZE,decrement_amount);
 	stse_frame_element_allocate_push(&CmdFrame,eData,data_length,pData);
 
 	/*- Create Rsp frame and populate elements */
 	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSE_RSP_FRAME_HEADER_SIZE,&rsp_header);
-	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEL_DATA_ZONE_COUNTER_LENGTH,temp_counter);
+	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
+	stse_frame_element_allocate_push(&RspFrame,eCounter,STSAFEL_COUNTER_VALUE_SIZE,temp_counter);
 
 	stse_frame_element_swap_byte_order(&eOffset);
 
@@ -227,3 +230,5 @@ stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t * pSTSE,
 
 	return( ret );
 }
+
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */

@@ -18,6 +18,10 @@
 #include "services/stsafea/stsafea_mac.h"
 #include "services/stsafea/stsafea_frame.h"
 
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+
+
 stse_ReturnCode_t stsafea_cmac_hmac_compute(
 		stse_Handler_t * pSTSE,
 		PLAT_UI8 slot_number,
@@ -169,3 +173,5 @@ stse_ReturnCode_t stsafea_aes_gmac_verify(
 		pVerification_result,
 		NULL));
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

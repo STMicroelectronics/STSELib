@@ -26,12 +26,12 @@
 #include "core/stse_util.h"
 #include "core/stse_frame.h"
 
+
 /*! \defgroup stsafel_data_partition STSAFE-L Data partition
  *  \ingroup stsafel_services
  *  @{
  */
 
-#define STSAFEL_DATA_ZONE_COUNTER_LENGTH 3U
 
 /*!
  * \brief STSAFEL read service option structure
