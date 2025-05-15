@@ -21,7 +21,13 @@
 
 /* Exported variables --------------------------------------------------------*/
 
-stse_perso_info_t dynamic_product_perso = {0} ;
+stse_perso_info_t dynamic_product_perso = {
+		.cmd_encryption_status = 0,
+		.rsp_encryption_status = 0,
+		.ext_cmd_encryption_status = 0,
+		.ext_rsp_encryption_status = 0,
+		.cmd_AC_status = 0x5555555555555555,
+		.ext_cmd_AC_status = 0x5555555555555555};
 
 /* Exported functions --------------------------------------------------------*/
 

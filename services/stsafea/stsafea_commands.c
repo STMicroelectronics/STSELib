@@ -124,16 +124,6 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
 }
 
 
-const stse_perso_info_t SPL03_PERSO = {
-		.cmd_AC_status = (0x00000000F03D0000),
-		.rsp_encryption_status = (0x11008000),
-		.cmd_encryption_status = (0x11008000),
-		.ext_cmd_AC_status = (0x0000000000000000),
-		.ext_cmd_encryption_status = (0x00000000),
-		.ext_rsp_encryption_status = (0x00000000)
-};
-
-
 stse_ReturnCode_t stsafea_perso_info_update (stse_Handler_t *pSTSE)
 {
 	stse_ReturnCode_t ret ;
