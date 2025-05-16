@@ -32,7 +32,7 @@ Following platform files architecture are recommended to simplify the porting of
 
 - @subpage stse_platform_generic
 - @subpage stse_platform_delay
-- @subpage stse_platfrom_crypto_init
+- @subpage stse_platform_crypto_init
 - @subpage stse_platform_aes
 - @subpage stse_platform_crc
 - @subpage stse_platform_ecc

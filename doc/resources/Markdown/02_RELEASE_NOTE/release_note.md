@@ -1,11 +1,11 @@
 # Release Note
 
 ## v1.1.0 (Latest)
-- [all] Add new stse_conf.h support
+- [all] Library performance and footprint optimization based on stse_conf.h  
+- [certificate parser] Add ED25519 support
 - [api] Add STSAFEL support to STSE ECC APIs
 - [api] Add STSAFEL support to STSE Data storage APIs
 - [api] Add STSAFEL support to STSE Reset/Low Power/Echo APIs
-- [certificate] Add ED25519 parser support
 - [stsafel] Add STSAFE-L010 ECC services
 - [stsafel] Add STSAFE-L010 Device info services
 - [stsafel] Add STSAFE-L010 Data partition services
@@ -14,12 +14,8 @@
 - [core] Add STSE_DEVICE_STSAFEx_FAMILY_INDEX defines to get family offset in stse_device_t
 - [core] Rework frame/platform to handle STSAFE-A/L frames formats
 - [doc] Add new Configuration and Porting guidelines sections
-
-
-## v1.0.4 (Latest)
 - [services] Add authenticated host key establishment
-- [services] Fix CCM encrypt
-- [api/certificates/core/services] Memory optimization by selecting used curves types, used sha algorithms, companion ship usage & static personalization informations
+- [services] Fix CCM encrypt error
 
 ## v1.0.3
 - [core] Fix frame debug log usage
