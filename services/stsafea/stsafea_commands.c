@@ -141,10 +141,10 @@ stse_ReturnCode_t stsafea_perso_info_update (stse_Handler_t *pSTSE)
 		return STSE_SERVICE_INVALID_PARAMETER;
 	}
 
-	pSTSE->pPerso_info->cmd_AC_status = 0;
-	pSTSE->pPerso_info->cmd_encryption_status = 0;
+	pSTSE->pPerso_info->cmd_AC_status = 0x5555555555555555;
+	pSTSE->pPerso_info->cmd_encryption_status = 0,
 	pSTSE->pPerso_info->rsp_encryption_status = 0;
-	pSTSE->pPerso_info->ext_cmd_AC_status = 0;
+	pSTSE->pPerso_info->ext_cmd_AC_status = 0x5555555555555555;
 	pSTSE->pPerso_info->ext_cmd_encryption_status = 0;
 	pSTSE->pPerso_info->ext_rsp_encryption_status = 0;
 
