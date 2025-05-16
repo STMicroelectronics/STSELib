@@ -222,17 +222,17 @@ void stsafea_perso_info_get_ext_rsp_encrypt_flag (stse_perso_info_t* pPerso,PLAT
 
 void stsafea_perso_info_set_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t protection)
 {
-	PLAT_UI8 offset = command_code + command_code;
-	pPerso->cmd_AC_status  &= (PLAT_UI64)~(0x03<<offset);
-	pPerso->cmd_AC_status  |= (PLAT_UI64)((PLAT_UI64)protection << offset);
+PLAT_UI8 offset = command_code + command_code;
+pPerso->cmd_AC_status &= (PLAT_UI64)~(((PLAT_UI64)0x03)<<offset);
+pPerso->cmd_AC_status |= (PLAT_UI64)((PLAT_UI64)protection << offset);
 }
 
 
 void stsafea_perso_info_set_ext_cmd_AC (stse_perso_info_t* pPerso , PLAT_UI8 command_code , stse_cmd_access_conditions_t protection)
 {
-	PLAT_UI8 offset = command_code + command_code;
-	pPerso->ext_cmd_AC_status  &= (PLAT_UI64)~(0x03<<offset);
-	pPerso->ext_cmd_AC_status  |= (PLAT_UI64)((PLAT_UI64)protection << offset);
+PLAT_UI8 offset = command_code + command_code;
+pPerso->ext_cmd_AC_status &= (PLAT_UI64)~(((PLAT_UI64)0x03)<<offset);
+pPerso->ext_cmd_AC_status |= (PLAT_UI64)((PLAT_UI64)protection << offset);
 }
 
 
