@@ -1,6 +1,6 @@
 # stse_platform_ecc.c {#stse_platform_ecc}
 
-The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement library, abstracting the platform-specific details of elyptic curve cryptography process. 
+The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement library, abstracting the platform-specific details of elyptic curve cryptography process.
 
 ## stse_platform_ecc_verify:
 
