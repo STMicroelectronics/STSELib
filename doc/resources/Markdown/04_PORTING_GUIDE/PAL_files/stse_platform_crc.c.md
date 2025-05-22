@@ -1,7 +1,7 @@
 
 # stse_platform_crc.c{#stse_platform_crc}
 
-The stse_platform_crc.c file provides CRC16 functions for the STSecureElement library, abstracting the platform-specific details of CRC16 calculations. By using these functions, developers can ensure consistent and reliable CRC16 operations across different hardware platforms. 
+The stse_platform_crc.c file provides CRC16 functions for the STSecureElement library, abstracting the platform-specific details of CRC16 calculations. By using these functions, developers can ensure consistent and reliable CRC16 operations across different hardware platforms.
 
 
 ## stse_platform_crc16_init:
@@ -86,5 +86,3 @@ PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length)
     return crc16_Accumulate(pbuffer, length);
 }
 ```
-
-

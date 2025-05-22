@@ -16,7 +16,7 @@ This Platform Abstraction Layer decouples the STSELibrary Middleware from the un
 
 ![PAL_integration](../Pictures/PAL_integration.png)
 
-# Identifying the platform abstraction functions to be implemented 
+# Identifying the platform abstraction functions to be implemented
 
 To assist developers in identifying the callback functions to be developed and simplify the porting process of the library, it is recommended to use an stse_config.h file that activates only the configuration parameters required by the end application (see Library Configuration documentation section). By doing this, advanced IDEs such as STM32Cube IDE will highlight which platform functions need to be ported. Below is an extract of the platform configuration:
 
@@ -41,4 +41,3 @@ Following platform files architecture are recommended to simplify the porting of
 - @subpage stse_platform_power
 - @subpage stse_platform_i2c
 - @subpage stse_platform_st1wire
- 
