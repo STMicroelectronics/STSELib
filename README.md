@@ -41,5 +41,10 @@ Two headers files are mantatories, [`stse_conf.h`](doc/resources/Markdown/03_LIB
 ### 3. Optional files
 
 For platform-specific integrations and STSafe use-cases, you may implement additional headers. Detailed specifications are available in the HTML documentation included in the release ZIP.
+Reference implementation for most common STSE applicative use case can be found in section "Reference applicative examples" of this ReadMe file 
 
-Sample is available on Grom-'s github : [STSAFE-A_Accessory_authentication](https://github.com/Grom-/STSAFE-A_Accessory_authentication). The platform files are located in the `Platforms/NUCLEO-L452RE/STSELib` directory.
+## Reference applicative examples
+
+Following applicative project can be used as reference for STSELib integration and usage.
+
+- [STSAFE-A_device_authentication](https://github.com/STMicroelectronics/STSAFE-A_device_authentication)
