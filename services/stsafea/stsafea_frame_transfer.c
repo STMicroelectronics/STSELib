@@ -328,19 +328,18 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
     return (ret);
 }
 
-stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE,
-                                         stse_frame_t *pCmdFrame,
+stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pCmdFrame,
                                          stse_frame_t *pRspFrame) {
     stse_ReturnCode_t ret = STSE_CORE_INVALID_PARAMETER;
     PLAT_UI8 cmd_header;
     PLAT_UI8 cmd_header_extended = 0;
+    PLAT_UI16 inter_frame_delay = STSAFEA_EXEC_TIME_DEFAULT;
+
 #ifdef STSE_CONF_USE_HOST_SESSION
     stse_cmd_access_conditions_t cmd_ac_info;
     PLAT_UI8 cmd_encryption_flag = 0;
     PLAT_UI8 rsp_encryption_flag = 0;
 #endif
-
-    PLAT_UI16 inter_frame_delay = STSAFEA_EXEC_TIME_DEFAULT;
 
     if (pCmdFrame->first_element != NULL && pCmdFrame->first_element->pData != NULL) {
         if (pCmdFrame->first_element->length == STSAFEA_HEADER_SIZE) {
@@ -349,16 +348,20 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE,
                 if (pCmdFrame->first_element->next->length == STSAFEA_HEADER_SIZE && pCmdFrame->first_element->next->pData != NULL) {
                     cmd_header_extended = pCmdFrame->first_element->next->pData[0];
                     inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_extended];
+#ifdef STSE_CONF_USE_HOST_SESSION
                     stsafea_perso_info_get_ext_cmd_AC(pSTSE->pPerso_info, cmd_header_extended, &cmd_ac_info);
                     stsafea_perso_info_get_ext_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header_extended, &cmd_encryption_flag);
                     stsafea_perso_info_get_ext_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header_extended, &rsp_encryption_flag);
+#endif
                 }
             } else {
                 cmd_header = pCmdFrame->first_element->pData[0];
                 inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header];
+#ifdef STSE_CONF_USE_HOST_SESSION
                 stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
                 stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
                 stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
+#endif
             }
             ret = STSE_OK;
         }
