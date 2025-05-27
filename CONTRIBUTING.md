@@ -38,3 +38,17 @@ Please note that:
 ## 3. Support requests and questions
 
 For support requests or any other question related to the product, the tools, the environment, you can submit a post to the **ST Community** on the appropriate topic [page](https://community.st.com/s/topiccatalog).
+
+---
+
+### 4. Commit message guidelines
+
+To help maintain a clear history, please format your commit messages using the following convention:
+
+```
+[scope] short summary
+```
+
+- **Scope**: one of the directories or areas affected (e.g. `api/certificate`, `doc`, `git`, `Admin`).
+- **Short summary**: present tense, no trailing period, under 72 characters, starting with a lowercase verb; if related to an opened issue, append `#<number>`
+- **Body**: if necessary, or when the summary exceeds 72 characters, provide additional details explaining the motivation and how this change differs from previous behavior.
