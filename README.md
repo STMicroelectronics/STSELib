@@ -48,3 +48,4 @@ Reference implementation for most common STSE applicative use case can be found 
 Following applicative project can be used as reference for STSELib integration and usage.
 
 - [STSAFE-A_device_authentication](https://github.com/STMicroelectronics/STSAFE-A_device_authentication)
+- [STSAFE-A_secure_data_storage](https://github.com/STMicroelectronics/STSAFE-A_secure_data_storage)
