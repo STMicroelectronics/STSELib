@@ -46,37 +46,29 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
         ret = STSE_OK;
         }
 #ifdef STSE_CONF_USE_COMPANION
-	else if(stsafe_x509_parser_companion_handler != NULL
-	&& stsafe_x509_parser_companion_handler->device_type == STSAFE_A120
+	else if (stsafe_x509_parser_companion_handler != NULL &&
+		 stsafe_x509_parser_companion_handler->device_type == STSAFE_A120
 #ifdef STSE_CONF_HASH_SHA_256
-	&& hash_algo >= STSE_SHA_256
+		 && hash_algo >= STSE_SHA_256
 #endif
-	{ /* Only STSAFE-A120 support Hash features */
-        ret = stse_compute_hash(
-            stsafe_x509_parser_companion_handler,
-            hash_algo,
-            (PLAT_UI8 *)child->tbs,
-            child->tbsSize,
-            digestPtr,
-            (PLAT_UI16 *)&digestSize);
+    ){ /* Only STSAFE-A120 support Hash features */
+		ret = stse_compute_hash(stsafe_x509_parser_companion_handler, hash_algo,
+					(PLAT_UI8 *)child->tbs, child->tbsSize, digestPtr,
+					(PLAT_UI16 *)&digestSize);
 	}
 #endif
-	else
-	{
-        ret = stse_platform_hash_compute(
-            hash_algo,
-            (PLAT_UI8 *)child->tbs,
-            child->tbsSize,
-            digestPtr,
-            &digestSize);
+	else {
+		ret = stse_platform_hash_compute(hash_algo, (PLAT_UI8 *)child->tbs, child->tbsSize,
+						 digestPtr, &digestSize);
 	}
 
-	if(ret != STSE_OK)
-	{
-        return (ret);
+	if (ret != STSE_OK) {
+		return (ret);
 	}
 
-	return(stse_certificate_verify_signature(parent, digestPtr, digestSize, child->Sign.pR, child->Sign.rSize, child->Sign.pS, child->Sign.sSize));
+	return (stse_certificate_verify_signature(parent, digestPtr, digestSize, child->Sign.pR,
+						  child->Sign.rSize, child->Sign.pS,
+						  child->Sign.sSize));
 }
 
 stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *cert,
