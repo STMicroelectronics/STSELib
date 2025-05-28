@@ -19,46 +19,44 @@
 #ifndef STSAFEA_ECC_H
 #define STSAFEA_ECC_H
 
-#include "stse_platform_generic.h"
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
-#include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_hash.h"
 #include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafea/stsafea_sessions.h"
-
+#include "services/stsafea/stsafea_timings.h"
+#include "stse_platform_generic.h"
 
 /*! \defgroup stsafea_ecc STSAFE-A Elliptic Curve Cryptography (ECC)
  *  \ingroup stsafea_services
  *  @{
  */
 
-typedef enum
-{
-	STSAFEA_ALGORITHM_ID_KEK_UNWRAPPING 		= 0x01,
-	STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY
-}stsafea_host_kdf_algo_id_t;
+typedef enum {
+    STSAFEA_ALGORITHM_ID_KEK_UNWRAPPING = 0x01,
+    STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY
+} stsafea_host_kdf_algo_id_t;
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8* host_ecdhe_public_key);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *host_ecdhe_public_key);
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t ecdhe_key_type,
-		PLAT_UI8* host_ecdhe_public_key,
-		stse_hash_algorithm_t hash_algo,
-		PLAT_UI8 signature_public_key_slot_number,
-		stse_ecc_key_type_t signature_key_type,
-		PLAT_UI8* pSignature);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t ecdhe_key_type,
+    PLAT_UI8 *host_ecdhe_public_key,
+    stse_hash_algorithm_t hash_algo,
+    PLAT_UI8 signature_public_key_slot_number,
+    stse_ecc_key_type_t signature_key_type,
+    PLAT_UI8 *pSignature);
 
 stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
-		stse_Handler_t * pSTSE);
+    stse_Handler_t *pSTSE);
 
 /**
  * \brief 		Verify the signature in arguments
@@ -75,14 +73,14 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
  * \details 	\include{doc} stse_ecc_verify_signature.dox
  */
 stse_ReturnCode_t stsafea_ecc_verify_signature(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPublic_key,
-		PLAT_UI8 *pSignature,
-		PLAT_UI8 *pMessage,
-		PLAT_UI16 message_length,
-		PLAT_UI8 eddsa_variant,
-		PLAT_UI8 *pSignature_validity);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pPublic_key,
+    PLAT_UI8 *pSignature,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_length,
+    PLAT_UI8 eddsa_variant,
+    PLAT_UI8 *pSignature_validity);
 
 /**
  * \brief 		Generate n ECDSA or an EdDSA signature depending on the curve in the private key slot
@@ -97,26 +95,26 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
  * \details 	\include{doc} stse_ecc_verify_signature.dox
  */
 stse_ReturnCode_t stsafea_ecc_generate_signature(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pMessage,
-		PLAT_UI16 message_length,
-		PLAT_UI8 *pSignature);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pSignature);
 
 stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 private_key_slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPublic_key,
-		PLAT_UI8 *pShared_secret);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 private_key_slot_number,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pPublic_key,
+    PLAT_UI8 *pShared_secret);
 
 stse_ReturnCode_t stsafea_ecc_decompress_public_key(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 point_representation_id,
-		PLAT_UI8 *pPublic_key_X,
-		PLAT_UI8 *pPublic_key_Y);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 point_representation_id,
+    PLAT_UI8 *pPublic_key_X,
+    PLAT_UI8 *pPublic_key_Y);
 
 /** \}*/
 

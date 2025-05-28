@@ -19,13 +19,12 @@
 #ifndef STSAFEL_ECHO_H
 #define STSAFEL_ECHO_H
 
-#include "stse_platform_generic.h"
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
-
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
+#include "stse_platform_generic.h"
 
 /*! \defgroup stsafel_echo STSAFE-L Echo
  *  \ingroup stsafel_services
@@ -42,10 +41,10 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_echo(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * message,
-		PLAT_UI8 * echoed_message,
-		PLAT_UI16 message_size);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *message,
+    PLAT_UI8 *echoed_message,
+    PLAT_UI16 message_size);
 
 /** \}*/
 

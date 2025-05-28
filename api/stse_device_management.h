@@ -21,15 +21,15 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
+#include "core/stse_return_codes.h"
 
-#include "services/stsafea/stsafea_echo.h"
-#include "services/stsafea/stsafea_put_query.h"
-#include "services/stsafea/stsafea_password.h"
-#include "services/stsafea/stsafea_low_power.h"
-#include "services/stsafea/stsafea_reset.h"
 #include "services/stsafea/stsafea_commands.h"
+#include "services/stsafea/stsafea_echo.h"
+#include "services/stsafea/stsafea_low_power.h"
+#include "services/stsafea/stsafea_password.h"
+#include "services/stsafea/stsafea_put_query.h"
+#include "services/stsafea/stsafea_reset.h"
 
 #include "services/stsafel/stsafel_echo.h"
 #include "services/stsafel/stsafel_low_power.h"
@@ -133,8 +133,7 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	Please refer to stse_device_get_command_AC()
  */
-stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 * record_count);
-
+stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *record_count);
 
 /**
  * \brief 		Return the command access conditions and change right
@@ -148,9 +147,9 @@ stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 
  * \details 	\include{doc} stse_device_get_command_AC.dox
  */
 stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
-										 PLAT_UI8 record_count,
-										 stse_cmd_authorization_CR_t *pChange_rights,
-										 stse_cmd_authorization_record_t *pRecord_table);
+                                                     PLAT_UI8 record_count,
+                                                     stse_cmd_authorization_CR_t *pChange_rights,
+                                                     stse_cmd_authorization_record_t *pRecord_table);
 
 /**
  * \brief 		Return the command access conditions and change right
@@ -160,10 +159,8 @@ stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
-		stsafea_life_cycle_state_t *pLife_cycle_state);
+                                                   stsafea_life_cycle_state_t *pLife_cycle_state);
 
 /** \}*/
 
-
 #endif /* STSE_SE_MANAGEMENT_H */
-

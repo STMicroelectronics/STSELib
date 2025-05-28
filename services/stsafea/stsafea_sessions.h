@@ -19,11 +19,11 @@
 #ifndef STSE_SESSION_MANAGER_H
 #define STSE_SESSION_MANAGER_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_frame.h"
-#include "core/stse_platform.h"
 #include "core/stse_generic_typedef.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
 
 /*!
  * \brief 		This Core function Create a session context and associate it to STSAFE handler
@@ -33,11 +33,10 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stsafe_erase_context.dox
  */
-stse_ReturnCode_t stsafea_open_host_session( stse_Handler_t *pSTSE,
-		stse_session_t *pSession,
-		PLAT_UI8 *pHost_MAC_key,
-		PLAT_UI8 *pHost_cypher_key
-);
+stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE,
+                                            stse_session_t *pSession,
+                                            PLAT_UI8 *pHost_MAC_key,
+                                            PLAT_UI8 *pHost_cypher_key);
 
 /*!
  * \brief 		This Core function Close an existing host session context
@@ -52,25 +51,20 @@ void stsafea_close_host_session(stse_session_t *pSession);
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stsafe_erase_context.dox
  */
-void stsafea_session_clear_context (stse_session_t *pSession);
+void stsafea_session_clear_context(stse_session_t *pSession);
 
+stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
+                                                     stse_frame_t *pCmdFrame,
+                                                     stse_frame_t *pRspFrame,
+                                                     PLAT_UI8 cmd_encryption_flag,
+                                                     PLAT_UI8 rsp_encryption_flag,
+                                                     stse_cmd_access_conditions_t cmd_ac_info,
+                                                     PLAT_UI16 processing_time);
 
-stse_ReturnCode_t stsafea_session_encrypted_transfer ( stse_session_t *pSession,
-		stse_frame_t *pCmdFrame,
-		stse_frame_t *pRspFrame,
-		PLAT_UI8 cmd_encryption_flag,
-		PLAT_UI8 rsp_encryption_flag,
-		stse_cmd_access_conditions_t cmd_ac_info,
-		PLAT_UI16 processing_time
-);
-
-
-stse_ReturnCode_t stsafea_session_authenticated_transfer ( stse_session_t *pSession,
-		stse_frame_t *pCmdFrame,
-		stse_frame_t *pRspFrame,
-		stse_cmd_access_conditions_t cmd_ac_info,
-		PLAT_UI16 processing_time
-);
-
+stse_ReturnCode_t stsafea_session_authenticated_transfer(stse_session_t *pSession,
+                                                         stse_frame_t *pCmdFrame,
+                                                         stse_frame_t *pRspFrame,
+                                                         stse_cmd_access_conditions_t cmd_ac_info,
+                                                         PLAT_UI16 processing_time);
 
 #endif /* STSE_SESSION_MANAGER_H */

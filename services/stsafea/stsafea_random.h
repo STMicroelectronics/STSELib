@@ -19,14 +19,13 @@
 #ifndef STSAFEA_RANDOM_H
 #define STSAFEA_RANDOM_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
-
 
 /*! \defgroup stsafea_random STSAFE-A Random
  *  \ingroup stsafea_services
@@ -44,10 +43,9 @@
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_random(
-		stse_Handler_t *pSTSE,
-		PLAT_UI8 *pRandom,
-		PLAT_UI8 random_size
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pRandom,
+    PLAT_UI8 random_size);
 
 /** \}*/
 

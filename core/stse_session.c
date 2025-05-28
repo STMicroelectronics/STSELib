@@ -1,5 +1,5 @@
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
+#include "core/stse_return_codes.h"
 #include <core/stse_platform.h>
 
 /* Private variables ---------------------------------------------------------*/
@@ -9,35 +9,26 @@
 
 /* Public functions ----------------------------------------------------------*/
 
-void stse_session_erase_context(stse_session_t *pSession)
-{
-	/* - Check stsafe handler initialization */
-	if (pSession==NULL)
-	{
-		return;
-	}
+void stse_session_erase_context(stse_session_t *pSession) {
+    /* - Check stsafe handler initialization */
+    if (pSession == NULL) {
+        return;
+    }
 
-	/*Todo validate correct erase */
-	memset(pSession, 0x00, sizeof(stse_session_t));
+    /*Todo validate correct erase */
+    memset(pSession, 0x00, sizeof(stse_session_t));
 }
 
+stse_ReturnCode_t stse_set_active_session(stse_Handler_t *pSTSE, stse_session_t *pSession) {
+    if (pSTSE == NULL) {
+        return STSE_CORE_HANDLER_NOT_INITIALISED;
+    }
 
-stse_ReturnCode_t stse_set_active_session( stse_Handler_t *pSTSE, stse_session_t *pSession )
-{
-	if(pSTSE == NULL)
-	{
-		return STSE_CORE_HANDLER_NOT_INITIALISED;
-	}
+    if (pSession == NULL) {
+        return STSE_CORE_SESSION_ERROR;
+    }
 
-	if(pSession == NULL)
-	{
-		return STSE_CORE_SESSION_ERROR;
-	}
+    pSTSE->pActive_host_session = pSession;
 
-	pSTSE->pActive_host_session = pSession;
-
-	return( STSE_OK );
+    return (STSE_OK);
 }
-
-
-

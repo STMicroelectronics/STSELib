@@ -20,12 +20,12 @@
 #define STSE_SYMMETRIC_KEY_MANAGMENT_H
 
 /* Includes ------------------------------------------------------------------*/
-#include "services/stsafea/stsafea_host_key_slot.h"
-#include "services/stsafea/stsafea_symmetric_key_slots.h"
-#include "services/stsafea/stsafea_asymmetric_key_slots.h"
 #include "services/stsafea/stsafea_aes.h"
+#include "services/stsafea/stsafea_asymmetric_key_slots.h"
 #include "services/stsafea/stsafea_ecc.h"
+#include "services/stsafea/stsafea_host_key_slot.h"
 #include "services/stsafea/stsafea_sessions.h"
+#include "services/stsafea/stsafea_symmetric_key_slots.h"
 
 /** \defgroup 	stse_api_symmetric_key_mngt 	STSE Symmetric key management
  *  \ingroup 	stse_api
@@ -46,10 +46,10 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
-stse_ReturnCode_t stse_host_key_provisioning (
-		stse_Handler_t * pSTSE ,
-		stsafea_host_key_type_t host_ecc_key_type,
-		stsafea_host_keys_t* host_keys);
+stse_ReturnCode_t stse_host_key_provisioning(
+    stse_Handler_t *pSTSE,
+    stsafea_host_key_type_t host_ecc_key_type,
+    stsafea_host_keys_t *host_keys);
 
 /**
  * \brief 		Host key provisioning wrapped
@@ -61,11 +61,11 @@ stse_ReturnCode_t stse_host_key_provisioning (
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped.dox
  */
-stse_ReturnCode_t stse_host_key_provisioning_wrapped (
-		stse_Handler_t * pSTSE ,
-		stsafea_host_key_type_t host_key_type,
-		stsafea_host_keys_t* host_keys,
-		stse_ecc_key_type_t ecdhe_key_type);
+stse_ReturnCode_t stse_host_key_provisioning_wrapped(
+    stse_Handler_t *pSTSE,
+    stsafea_host_key_type_t host_key_type,
+    stsafea_host_keys_t *host_keys,
+    stse_ecc_key_type_t ecdhe_key_type);
 
 /**
  * \brief 		Host key provisioning wrapped and authenticated
@@ -81,15 +81,15 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped (
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped_authenticated.dox
  */
-stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
-		stse_Handler_t * pSTSE ,
-		stsafea_host_key_type_t host_key_type,
-		stsafea_host_keys_t* host_keys,
-		stse_ecc_key_type_t ecdhe_key_type,
-		PLAT_UI8 signature_public_key_slot_number,
-		stse_hash_algorithm_t signature_hash_algo,
-		stse_ecc_key_type_t signature_private_key_type,
-		PLAT_UI8 * signature_private_key);
+stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
+    stse_Handler_t *pSTSE,
+    stsafea_host_key_type_t host_key_type,
+    stsafea_host_keys_t *host_keys,
+    stse_ecc_key_type_t ecdhe_key_type,
+    PLAT_UI8 signature_public_key_slot_number,
+    stse_hash_algorithm_t signature_hash_algo,
+    stse_ecc_key_type_t signature_private_key_type,
+    PLAT_UI8 *signature_private_key);
 
 /**
  * \brief 		Host key establishment
@@ -102,12 +102,12 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
- stse_ReturnCode_t stse_establish_host_key(
-			stse_Handler_t *pSTSE ,
-			stse_ecc_key_type_t host_ecdh_key_type,
-			stsafea_host_key_type_t host_keys_type,
-			PLAT_UI8 *host_mac_key,
-			PLAT_UI8 *host_cipher_key);
+stse_ReturnCode_t stse_establish_host_key(
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t host_ecdh_key_type,
+    stsafea_host_key_type_t host_keys_type,
+    PLAT_UI8 *host_mac_key,
+    PLAT_UI8 *host_cipher_key);
 
 /**
  * \brief 		Get symmetric key slot count
@@ -117,8 +117,8 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated (
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slots_count(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 *pSymmetric_key_slot_count);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pSymmetric_key_slot_count);
 
 /**
  * \brief 		Get one symmetric key slot info
@@ -129,9 +129,9 @@ stse_ReturnCode_t stse_get_symmetric_key_slots_count(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slot_info(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stsafea_symmetric_key_slot_information_t * pSymmetric_key_slot_info);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    stsafea_symmetric_key_slot_information_t *pSymmetric_key_slot_info);
 
 /**
  * \brief 		Get symmetric key slot info
@@ -142,9 +142,9 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_table_info(
-		stse_Handler_t * pSTSE,
-		PLAT_UI16	total_slot_count,
-		stsafea_symmetric_key_slot_information_t * symmetric_key_table_info);
+    stse_Handler_t *pSTSE,
+    PLAT_UI16 total_slot_count,
+    stsafea_symmetric_key_slot_information_t *symmetric_key_table_info);
 
 /**
  * \brief 		Get symmetric key slot provisioning control fields
@@ -155,9 +155,9 @@ stse_ReturnCode_t stse_get_symmetric_key_table_info(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
 
 /**
  * \brief 		Set symmetric key slot provisioning control fields
@@ -168,9 +168,9 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stsafea_symmetric_key_slot_provisioning_ctrl_fields_t * pCtrl_fields);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
 
 /**
  * \brief 		Write symmetric key plaintext in stsafe symmetric key table
@@ -182,9 +182,9 @@ stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
  * \details 	\include{doc} stse_write_symmetric_key_plaintext.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * pKey,
-		stsafea_generic_key_information_t *pSymmetric_key_info);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pKey,
+    stsafea_generic_key_information_t *pSymmetric_key_info);
 
 /**
  * \brief 		Write symmetric key wrapped in stsafe symmetric key table
@@ -197,10 +197,10 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
  * \details 	\include{doc} stse_write_symmetric_key_wrapped.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * pKey,
-		stsafea_generic_key_information_t * key_info,
-		stse_ecc_key_type_t kek_session_ecc_type);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pKey,
+    stsafea_generic_key_information_t *key_info,
+    stse_ecc_key_type_t kek_session_ecc_type);
 
 /**
  * \brief 		Authenticated write symmetric key in stsafe symmetric key table
@@ -217,14 +217,14 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
  * \details 	\include{doc} stse_write_symmetric_key_wrapped_authenticated.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * pKey,
-		stsafea_generic_key_information_t * key_info,
-		stse_ecc_key_type_t kek_session_ecc_type,
-		PLAT_UI8 signature_public_key_slot_number,
-		stse_hash_algorithm_t signature_hash_algo,
-		stse_ecc_key_type_t signature_private_key_type,
-		PLAT_UI8 * signature_private_key);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pKey,
+    stsafea_generic_key_information_t *key_info,
+    stse_ecc_key_type_t kek_session_ecc_type,
+    PLAT_UI8 signature_public_key_slot_number,
+    stse_hash_algorithm_t signature_hash_algo,
+    stse_ecc_key_type_t signature_private_key_type,
+    PLAT_UI8 *signature_private_key);
 
 /**
  * \brief 		Establish symmetric key in stsafe symmetric key table
@@ -238,11 +238,11 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
  * \details 	\include{doc} stse_establish_symmetric_key.dox
  */
 stse_ReturnCode_t stse_establish_symmetric_key(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t ecc_key_type,
-		PLAT_UI8 key_infos_count,
-		stsafea_generic_key_information_t * key_infos_list,
-		PLAT_UI8 * key_list);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t ecc_key_type,
+    PLAT_UI8 key_infos_count,
+    stsafea_generic_key_information_t *key_infos_list,
+    PLAT_UI8 *key_list);
 
 /**
  * \brief 		Authenticated establish symmetric key in stsafe symmetric key table
@@ -260,17 +260,16 @@ stse_ReturnCode_t stse_establish_symmetric_key(
  * \details 	\include{doc} stse_establish_symmetric_key.dox
  */
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 key_infos_count,
-		stsafea_generic_key_information_t * key_infos_list,
-		PLAT_UI8 * key_list,
-		PLAT_UI8 signature_public_key_slot_number,
-		stse_hash_algorithm_t hash_algo,
-		stse_ecc_key_type_t private_key_type,
-		PLAT_UI8* private_key);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 key_infos_count,
+    stsafea_generic_key_information_t *key_infos_list,
+    PLAT_UI8 *key_list,
+    PLAT_UI8 signature_public_key_slot_number,
+    stse_hash_algorithm_t hash_algo,
+    stse_ecc_key_type_t private_key_type,
+    PLAT_UI8 *private_key);
 
 /** \}*/
 
 #endif /*STSAFE_SYMMETRIC_KEY_CRYPTO_H*/
-

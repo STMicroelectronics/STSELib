@@ -22,9 +22,9 @@
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_hash.h"
 
-#if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) || \
+#if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) ||                                      \
     defined(STSE_CONF_HASH_SHA_256) || defined(STSE_CONF_HASH_SHA_384) || defined(STSE_CONF_HASH_SHA_512) || \
-    defined(STSE_CONF_HASH_SHA_3_256) || defined (STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
+    defined(STSE_CONF_HASH_SHA_3_256) || defined(STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
 
 /** \defgroup 	stse_hash 	STSE Hash
  *  \ingroup 	stse_api
@@ -50,10 +50,10 @@
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stse_start_hash(
-		stse_Handler_t * pSTSE,
-		stse_hash_algorithm_t 	sha_algorithm,
-		PLAT_UI8				*pMessage,
-		PLAT_UI16 				message_size);
+    stse_Handler_t *pSTSE,
+    stse_hash_algorithm_t sha_algorithm,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_size);
 
 /**
  * \brief 			STSE process hash API
@@ -64,9 +64,9 @@ stse_ReturnCode_t stse_start_hash(
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stse_process_hash(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8* pMessage,
-		PLAT_UI16 message_size);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_size);
 
 /**
  * \brief 			STSE start hash API
@@ -80,12 +80,12 @@ stse_ReturnCode_t stse_process_hash(
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stse_finish_hash(
-		stse_Handler_t * pSTSE,
-		stse_hash_algorithm_t sha_algorithm,
-		PLAT_UI8* pMessage,
-		PLAT_UI16 message_size,
-		PLAT_UI8* pDigest,
-		PLAT_UI16* pDigest_size);
+    stse_Handler_t *pSTSE,
+    stse_hash_algorithm_t sha_algorithm,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_size,
+    PLAT_UI8 *pDigest,
+    PLAT_UI16 *pDigest_size);
 
 /**
  * \brief 			STSE compute hash API
@@ -99,16 +99,15 @@ stse_ReturnCode_t stse_finish_hash(
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stse_compute_hash(
-		stse_Handler_t * pSTSE,
-		stse_hash_algorithm_t sha_algorithm,
-		PLAT_UI8* pMessage,
-		PLAT_UI16 message_size,
-		PLAT_UI8* pDigest,
-		PLAT_UI16* pDigest_size);
+    stse_Handler_t *pSTSE,
+    stse_hash_algorithm_t sha_algorithm,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_size,
+    PLAT_UI8 *pDigest,
+    PLAT_UI16 *pDigest_size);
 
 /** @}*/
 
 #endif
 
 #endif /*STSE_HASH_H*/
-

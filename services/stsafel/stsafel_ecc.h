@@ -19,11 +19,11 @@
 #ifndef STSAFEL_ECC_H
 #define STSAFEL_ECC_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 
 /*! \defgroup stsafel_ecc STSAFE-L Elliptic Curves Cryptography (ECC) services
  *  \ingroup stsafel_services
@@ -45,11 +45,11 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_ecc_generate_signature(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pChallenge,
-		PLAT_UI16 challenge_length,
-		PLAT_UI8 *pSignature);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pChallenge,
+    PLAT_UI16 challenge_length,
+    PLAT_UI8 *pSignature);
 
 /** \}*/
 

@@ -19,43 +19,37 @@
 #include "services/stsafea/stsafea_echo.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
 
-
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
+stse_ReturnCode_t stsafea_echo(stse_Handler_t *pSTSE,
+                               PLAT_UI8 *pMessage,
+                               PLAT_UI8 *pEchoed_message,
+                               PLAT_UI16 message_length) {
+    PLAT_UI8 cmd_header = STSAFEA_CMD_ECHO;
+    PLAT_UI8 rsp_header;
 
-stse_ReturnCode_t stsafea_echo( stse_Handler_t * pSTSE ,
-		PLAT_UI8 * pMessage ,
-		PLAT_UI8 * pEchoed_message,
-		PLAT_UI16  message_length)
-{
-	PLAT_UI8 cmd_header = STSAFEA_CMD_ECHO;
-	PLAT_UI8 rsp_header;
+    if (pSTSE == NULL) {
+        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+    }
 
-	if(pSTSE == NULL)
-	{
-		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
-	}
+    if (pMessage == NULL || pEchoed_message == NULL || message_length == 0) {
+        return STSE_SERVICE_INVALID_PARAMETER;
+    }
 
-	if (pMessage == NULL || pEchoed_message == NULL || message_length == 0)
-	{
-		return STSE_SERVICE_INVALID_PARAMETER;
-	}
+    /*- Create CMD frame and populate elements */
+    stse_frame_allocate(CmdFrame);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&CmdFrame, eMessage, message_length, pMessage);
 
-	/*- Create CMD frame and populate elements */
-	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
-	stse_frame_element_allocate_push(&CmdFrame,eMessage,message_length,pMessage);
+    /*- Create Rsp frame and populate elements*/
+    stse_frame_allocate(RspFrame);
+    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
+    stse_frame_element_allocate_push(&RspFrame, eEchoed_message, message_length, pEchoed_message);
 
-	/*- Create Rsp frame and populate elements*/
-	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
-	stse_frame_element_allocate_push(&RspFrame,eEchoed_message,message_length,pEchoed_message);
-
-	/*- Perform Transfer*/
-	return stsafea_frame_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame
-			);
+    /*- Perform Transfer*/
+    return stsafea_frame_transfer(pSTSE,
+                                  &CmdFrame,
+                                  &RspFrame);
 }
 
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */

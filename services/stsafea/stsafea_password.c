@@ -19,75 +19,65 @@
 #include "services/stsafea/stsafea_password.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
 
-
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-
 stse_ReturnCode_t stsafea_verify_password(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * pPassword_buffer,
-		PLAT_UI8 password_length,
-		PLAT_UI8 * pVerification_status,
-		PLAT_UI8 * pRemaining_tries)
-{
-	PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_PASSWORD;
-	PLAT_UI8 rsp_header;
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pPassword_buffer,
+    PLAT_UI8 password_length,
+    PLAT_UI8 *pVerification_status,
+    PLAT_UI8 *pRemaining_tries) {
+    PLAT_UI8 cmd_header = STSAFEA_CMD_VERIFY_PASSWORD;
+    PLAT_UI8 rsp_header;
 
-	if (pSTSE == NULL)
-	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
-	}
+    if (pSTSE == NULL) {
+        return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
+    }
 
-	if((password_length != STSAFEA_PASSWORD_LENGTH))
-	{
-		return STSE_SERVICE_INVALID_PARAMETER;
-	}
+    if ((password_length != STSAFEA_PASSWORD_LENGTH)) {
+        return STSE_SERVICE_INVALID_PARAMETER;
+    }
 
-	/*- Create CMD frame and populate elements */
-	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
-	stse_frame_element_allocate_push(&CmdFrame,ePassword,password_length,pPassword_buffer);
+    /*- Create CMD frame and populate elements */
+    stse_frame_allocate(CmdFrame);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&CmdFrame, ePassword, password_length, pPassword_buffer);
 
-	/*- Create Rsp frame and populate elements*/
-	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
-	stse_frame_element_allocate_push(&RspFrame,eVerStat,1,pVerification_status);
-	stse_frame_element_allocate_push(&RspFrame,eRemTri,1,pRemaining_tries);
+    /*- Create Rsp frame and populate elements*/
+    stse_frame_allocate(RspFrame);
+    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
+    stse_frame_element_allocate_push(&RspFrame, eVerStat, 1, pVerification_status);
+    stse_frame_element_allocate_push(&RspFrame, eRemTri, 1, pRemaining_tries);
 
-	/*- Perform Transfer*/
-	return stsafea_frame_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame
-			);
+    /*- Perform Transfer*/
+    return stsafea_frame_transfer(pSTSE,
+                                  &CmdFrame,
+                                  &RspFrame);
 }
 
+stse_ReturnCode_t stsafea_delete_password(stse_Handler_t *pSTSE) {
+    PLAT_UI8 cmd_header = STSAFEA_CMD_DELETE;
+    PLAT_UI8 tag = STSAFEA_DELETE_TAG_PASSWORD;
+    PLAT_UI8 rsp_header;
 
-stse_ReturnCode_t stsafea_delete_password(stse_Handler_t * pSTSE)
-{
-	PLAT_UI8 cmd_header = STSAFEA_CMD_DELETE;
-	PLAT_UI8 tag = STSAFEA_DELETE_TAG_PASSWORD;
-	PLAT_UI8 rsp_header;
+    if (pSTSE == NULL) {
+        return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
+    }
 
-	if (pSTSE == NULL)
-	{
-		return( STSE_SERVICE_HANDLER_NOT_INITIALISED );
-	}
+    /*- Create CMD frame and populate elements */
+    stse_frame_allocate(CmdFrame);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&CmdFrame, eTag, 1, &tag);
 
-	/*- Create CMD frame and populate elements */
-	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,1,&cmd_header);
-	stse_frame_element_allocate_push(&CmdFrame,eTag,1,&tag);
+    /*- Create Rsp frame and populate elements*/
+    stse_frame_allocate(RspFrame);
+    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
 
-	/*- Create Rsp frame and populate elements*/
-	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,1,&rsp_header);
-
-	/*- Perform Transfer*/
-	return stsafea_frame_raw_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame,
-			stsafea_cmd_timings[pSTSE->device_type][cmd_header]
-			);
+    /*- Perform Transfer*/
+    return stsafea_frame_raw_transfer(pSTSE,
+                                      &CmdFrame,
+                                      &RspFrame,
+                                      stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 }
 
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */

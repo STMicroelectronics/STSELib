@@ -1,4 +1,4 @@
- /******************************************************************************
+/******************************************************************************
  * \file	stsafea_timings.h
  * \brief   STSAFE-A timings definitions
  * \author  STMicroelectronics - CS application team
@@ -22,14 +22,12 @@
 extern "C" {
 #endif
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
 #include "services/stsafea/stsafea_commands.h"
 
-
-#define STSAFEA_EXEC_TIME_DEFAULT				500U	/*!< STSAFE default command processing time (used when specific time == 0) */
-
+#define STSAFEA_EXEC_TIME_DEFAULT 500U /*!< STSAFE default command processing time (used when specific time == 0) */
 
 /*! \defgroup stsafea_timings STSAFEA timings
  *  \ingroup stsafea_services

@@ -19,20 +19,18 @@
 #ifndef STSAFE_PATCH_H
 #define STSAFE_PATCH_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
-
 
 /*! \defgroup stsafea_patch STSAFE-A patch management
  *  \ingroup stsafea_services
  *  @{
  */
-
 
 /**
  * \brief 		STSAFEA Get patch update command counter service
@@ -42,9 +40,8 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_get_patch_update_command_counter(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 pCounter
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 pCounter);
 
 /**
  * \brief 		STSAFEA Start patch service
@@ -53,8 +50,7 @@ stse_ReturnCode_t stsafea_get_patch_update_command_counter(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_start(
-		stse_Handler_t * pSTSE
-);
+    stse_Handler_t *pSTSE);
 
 /**
  * \brief 		STSAFEA Update Patch service
@@ -63,8 +59,7 @@ stse_ReturnCode_t stsafea_patch_start(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_update(
-		stse_Handler_t * pSTSE
-);
+    stse_Handler_t *pSTSE);
 
 /**
  * \brief 		STSAFEA Finalize Patch service
@@ -73,10 +68,8 @@ stse_ReturnCode_t stsafea_patch_update(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_finalize(
-		stse_Handler_t * pSTSE
-);
+    stse_Handler_t *pSTSE);
 
 /** \}*/
-
 
 #endif /* STSAFE_PATCH_H */

@@ -38,13 +38,13 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_certificate_verify_signature(
-		const stse_certificate_t *cert,
-		const PLAT_UI8 *digest,
-		PLAT_I32 digestSize,
-		const PLAT_UI8 *signatureR,
-		PLAT_I32 signatureRsize,
-		const PLAT_UI8 *signatureS,
-		PLAT_I32 signatureSsize);
+    const stse_certificate_t *cert,
+    const PLAT_UI8 *digest,
+    PLAT_I32 digestSize,
+    const PLAT_UI8 *signatureR,
+    PLAT_I32 signatureRsize,
+    const PLAT_UI8 *signatureS,
+    PLAT_I32 signatureSsize);
 
 /**
  * \brief  Check whether "parent" signed "child"
@@ -53,8 +53,8 @@ stse_ReturnCode_t stse_certificate_verify_signature(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_certificate_verify_cert_signature(
-		const stse_certificate_t *parent,
-		const stse_certificate_t *child);
+    const stse_certificate_t *parent,
+    const stse_certificate_t *child);
 
 /**
  * \brief  Get the certificate public key type
@@ -62,7 +62,7 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(
  * \return \ref stse_ecc_key_type_t : certificate public key type ; 0xFF if key type is invalid
  */
 stse_ecc_key_type_t stse_certificate_get_key_type(
-		const stse_certificate_t *cert);
+    const stse_certificate_t *cert);
 
 /**
  * \brief  Get the certificate signature hash algorithm
@@ -70,7 +70,7 @@ stse_ecc_key_type_t stse_certificate_get_key_type(
  * \return \ref stse_hash_algorithm_t : certificate signature hash algorithm ; 0xFF if hash algo is invalid
  */
 stse_hash_algorithm_t stse_certificate_get_sig_hash_algo(
-		const stse_certificate_t *cert);
+    const stse_certificate_t *cert);
 
 /** @}*/
 

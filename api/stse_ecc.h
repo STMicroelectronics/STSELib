@@ -21,8 +21,8 @@
 
 /* Defines -------------------------------------------------------------------*/
 #define STSE_PUB_KEY_COMPRESSED_EVEN 0x02
-#define STSE_PUB_KEY_COMPRESSED_ODD  0x03
-#define STSE_PUB_KEY_UNCOMPRESSED    0x04
+#define STSE_PUB_KEY_COMPRESSED_ODD 0x03
+#define STSE_PUB_KEY_UNCOMPRESSED 0x04
 
 #define IS_PUB_KEY_COMPRESSED(point_representation_id) ((point_representation_id == PUB_KEY_COMPRESSED_EVEN) || (point_representation_id == PUB_KEY_COMPRESSED_ODD))
 #define IS_PUB_KEY_UNCOMPRESSED(point_representation_id) (point_representation_id == PUB_KEY_UNCOMPRESSED)
@@ -54,14 +54,14 @@
  * \details 	\include{doc} stse_ecc_verify_signature.dox
  */
 stse_ReturnCode_t stse_ecc_verify_signature(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPublic_key,
-		PLAT_UI8 *pSignature,
-		PLAT_UI8 *pMessage,
-		PLAT_UI16 message_length,
-		PLAT_UI8 eddsa_variant,
-		PLAT_UI8 *pSignature_validity);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pPublic_key,
+    PLAT_UI8 *pSignature,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_length,
+    PLAT_UI8 eddsa_variant,
+    PLAT_UI8 *pSignature_validity);
 
 /**
  * \brief 		Generate signature over message in arguments
@@ -76,12 +76,12 @@ stse_ReturnCode_t stse_ecc_verify_signature(
  * \details 	\include{doc} stse_ecc_generate_signature.dox
  */
 stse_ReturnCode_t stse_ecc_generate_signature(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pMessage,
-		PLAT_UI16 message_length,
-		PLAT_UI8 *pSignature);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pMessage,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pSignature);
 
 /**
  * \brief 		Establish a shared secret
@@ -95,11 +95,11 @@ stse_ReturnCode_t stse_ecc_generate_signature(
  * \details 	\include{doc} stse_ecc_establish_shared_secret.dox
  */
 stse_ReturnCode_t stse_ecc_establish_shared_secret(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 private_key_slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPublic_key,
-		PLAT_UI8 *pShared_secret);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 private_key_slot_number,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pPublic_key,
+    PLAT_UI8 *pShared_secret);
 
 /**
  * \brief 		Decompress a compressed public key (NIST or Brainpool)
@@ -112,13 +112,12 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_ecc_decompress_public_key(
-		stse_Handler_t * pSTSE,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 point_representation_id,
-		PLAT_UI8 *pPublic_key_X,
-		PLAT_UI8 *pPublic_key_Y);
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 point_representation_id,
+    PLAT_UI8 *pPublic_key_X,
+    PLAT_UI8 *pPublic_key_Y);
 
 /** @}*/
 
 #endif /*STSE_ECC_H*/
-

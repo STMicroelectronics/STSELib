@@ -42,12 +42,12 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_cmac_hmac_compute(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 * pMessage,
-		PLAT_UI8 message_length,
-		PLAT_UI8 * pMac,
-		PLAT_UI8 mac_length);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 *pMessage,
+    PLAT_UI8 message_length,
+    PLAT_UI8 *pMac,
+    PLAT_UI8 mac_length);
 
 /**
  * \brief 		Verify a CMAC
@@ -62,13 +62,13 @@ stse_ReturnCode_t stse_cmac_hmac_compute(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_cmac_hmac_verify(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 * pMac,
-		PLAT_UI8 mac_length,
-		PLAT_UI8 * pMessage,
-		PLAT_UI8 message_length,
-		PLAT_UI8 * verification_result);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 *pMac,
+    PLAT_UI8 mac_length,
+    PLAT_UI8 *pMessage,
+    PLAT_UI8 message_length,
+    PLAT_UI8 *verification_result);
 
 /**
  * \brief 		Generate a GMAC
@@ -84,14 +84,14 @@ stse_ReturnCode_t stse_cmac_hmac_verify(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_aes_gmac_compute(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 IV_length,
-		PLAT_UI8* pIV,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI8 * pAuthentication_tag);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI8 *pAuthentication_tag);
 
 /**
  * \brief 		Verify a GMAC
@@ -108,17 +108,16 @@ stse_ReturnCode_t stse_aes_gmac_compute(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_aes_gmac_verify(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 IV_length,
-		PLAT_UI8* pIV,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI8 * pAuthentication_tag,
-		PLAT_UI8 * pVerification_result);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI8 *pAuthentication_tag,
+    PLAT_UI8 *pVerification_result);
 
 /** @}*/
 
 #endif /*STSE_MAC_H*/
-

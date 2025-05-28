@@ -17,36 +17,31 @@
  */
 
 #include "services/stsafel/stsafel_reset.h"
-#include "services/stsafel/stsafel_frame_transfer.h"
 #include "services/stsafel/stsafel_commands.h"
-
+#include "services/stsafel/stsafel_frame_transfer.h"
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
+stse_ReturnCode_t stsafel_reset(stse_Handler_t *pSTSE) {
+    PLAT_UI8 cmd_header = STSAFEL_CMD_RESET;
+    PLAT_UI8 rsp_header;
 
-stse_ReturnCode_t stsafel_reset(stse_Handler_t * pSTSE)
-{
-	PLAT_UI8 cmd_header = STSAFEL_CMD_RESET;
-	PLAT_UI8 rsp_header;
+    if (pSTSE == NULL) {
+        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+    }
 
-	if(pSTSE == NULL)
-	{
-		return STSE_SERVICE_HANDLER_NOT_INITIALISED;
-	}
+    /*- Create CMD frame and populate elements */
+    stse_frame_allocate(CmdFrame);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
 
-	/*- Create CMD frame and populate elements */
-	stse_frame_allocate(CmdFrame);
-	stse_frame_element_allocate_push(&CmdFrame,eCmd_header,STSAFEL_HEADER_SIZE,&cmd_header);
+    /*- Create Rsp frame and populate elements*/
+    stse_frame_allocate(RspFrame);
+    stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
 
-	/*- Create Rsp frame and populate elements*/
-	stse_frame_allocate(RspFrame);
-	stse_frame_element_allocate_push(&RspFrame,eRsp_header,STSAFEL_HEADER_SIZE,&rsp_header);
-
-	/*- Perform Transfer*/
-	return stsafel_frame_transfer(pSTSE,
-			&CmdFrame,
-			&RspFrame
-			);
+    /*- Perform Transfer*/
+    return stsafel_frame_transfer(pSTSE,
+                                  &CmdFrame,
+                                  &RspFrame);
 }
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */

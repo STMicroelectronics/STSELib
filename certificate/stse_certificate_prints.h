@@ -44,8 +44,6 @@ void stse_certificate_print_signature_algorithm(PLAT_I32 type);
  */
 void stse_certificate_print_tag(PLAT_I32 tag);
 
-
-
 /**
  * \brief  		Print the Elliptic Curve Name
  * \param[in]  	type internal type of EllipticCurve

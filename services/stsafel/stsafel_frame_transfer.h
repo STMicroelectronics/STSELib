@@ -24,11 +24,10 @@
 #ifndef STSAFEL_FRAME_H
 #define STSAFEL_FRAME_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
 #include "core/stse_util.h"
-
 
 /**
  * \brief 			Transmit frame from target STSAFE-Lxxx
@@ -37,8 +36,8 @@
  * \param[in,out] 	pFrame 				Pointer to the frame to be transmitted
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t* pSTSE,
-		stse_frame_t* pFrame);
+stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE,
+                                         stse_frame_t *pFrame);
 
 /**
  * \brief 			Receive frame from target STSAFE-Lxxx
@@ -47,8 +46,8 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t* pSTSE,
  * \param[in,out] 	pFrame 				Pointer to the frame to be received
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafel_frame_receive(stse_Handler_t* pSTSE,
-		stse_frame_t* pFrame);
+stse_ReturnCode_t stsafel_frame_receive(stse_Handler_t *pSTSE,
+                                        stse_frame_t *pFrame);
 
 /**
  * \brief 			Transfer Raw Frames to/from target STSAFE-Lxx
@@ -59,10 +58,10 @@ stse_ReturnCode_t stsafel_frame_receive(stse_Handler_t* pSTSE,
  * \param[in] 		inter_frame_delay 	Delay between command and response frame (in ms)
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafel_frame_raw_transfer (stse_Handler_t* pSTSE,
-		stse_frame_t* pCmdFrame,
-		stse_frame_t* pRspFrame,
-		PLAT_UI16 inter_frame_delay);
+stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
+                                             stse_frame_t *pCmdFrame,
+                                             stse_frame_t *pRspFrame,
+                                             PLAT_UI16 inter_frame_delay);
 
 /**
  * \brief 			Transfer Frames to/from target STSAFE-Lxx
@@ -73,9 +72,9 @@ stse_ReturnCode_t stsafel_frame_raw_transfer (stse_Handler_t* pSTSE,
  * \param[in] 		inter_frame_delay 	Delay between command and response frame (in ms)
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafel_frame_transfer (stse_Handler_t* pSTSE,
-		stse_frame_t* pCmdFrame,
-		stse_frame_t* pRspFrame);
+stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
+                                         stse_frame_t *pCmdFrame,
+                                         stse_frame_t *pRspFrame);
 
 /*! @}*/
 #endif /* STSAFEL_FRAME_H */

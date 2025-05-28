@@ -1,4 +1,4 @@
- /******************************************************************************
+/******************************************************************************
  * \file	stsafel_timings.h
  * \brief   STSAFE-L Timings definitions
  * \author  STMicroelectronics - CS application team
@@ -22,13 +22,12 @@
 extern "C" {
 #endif
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
 #include "services/stsafel/stsafel_commands.h"
 
-
-#define STSAFEL_EXEC_TIME_DEFAULT       500U /*!< STSAFE-L default command processing time (used when specific time == 0) */
+#define STSAFEL_EXEC_TIME_DEFAULT 500U /*!< STSAFE-L default command processing time (used when specific time == 0) */
 
 /*! \defgroup stsafel_timings STSAFE-L Timings
  *  \ingroup stsafel_services
@@ -47,7 +46,7 @@ extern const PLAT_UI16 stsafel_wakeup_time[STSAFEL_PRODUCT_COUNT];
  * \return PLAT_UI16 : specific command execution time
  */
 PLAT_UI16 stsafel_cmd_exec_duration(
-    stse_Handler_t * pSTSE,
+    stse_Handler_t *pSTSE,
     stsafel_cmd_code_t command_code);
 
 /** @}*/

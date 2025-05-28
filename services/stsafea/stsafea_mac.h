@@ -19,17 +19,17 @@
 #ifndef STSAFEA_MAC_H
 #define STSAFEA_MAC_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
-#include "services/stsafea/stsafea_commands.h"
-#include "services/stsafea/stsafea_timings.h"
-#include "services/stsafea/stsafea_put_query.h"
-#include "services/stsafea/stsafea_symmetric_key_slots.h"
-#include "services/stsafea/stsafea_sessions.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_aes.h"
+#include "services/stsafea/stsafea_commands.h"
+#include "services/stsafea/stsafea_put_query.h"
+#include "services/stsafea/stsafea_sessions.h"
+#include "services/stsafea/stsafea_symmetric_key_slots.h"
+#include "services/stsafea/stsafea_timings.h"
 
 /*! \defgroup stsafea_mac STSAFE-A Message Authentication Code (MAC)
  *  \ingroup stsafea_services
@@ -48,12 +48,12 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_cmac_hmac_compute(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 * pMessage,
-		PLAT_UI8 message_length,
-		PLAT_UI8 * pMac,
-		PLAT_UI8 mac_length);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 *pMessage,
+    PLAT_UI8 message_length,
+    PLAT_UI8 *pMac,
+    PLAT_UI8 mac_length);
 
 /**
  * \brief 		Verify a CMAC
@@ -68,13 +68,13 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_cmac_hmac_verify(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 * pMac,
-		PLAT_UI8 mac_length,
-		PLAT_UI8 * pMessage,
-		PLAT_UI8 message_length,
-		PLAT_UI8 * verification_result);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 *pMac,
+    PLAT_UI8 mac_length,
+    PLAT_UI8 *pMessage,
+    PLAT_UI8 message_length,
+    PLAT_UI8 *verification_result);
 
 /**
  * \brief 		Generate a GMAC
@@ -90,14 +90,14 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gmac_compute(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 IV_length,
-		PLAT_UI8 * pIV,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI8 * pAuthentication_tag);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI8 *pAuthentication_tag);
 
 /**
  * \brief 		Verify a GMAC
@@ -114,15 +114,15 @@ stse_ReturnCode_t stsafea_aes_gmac_compute(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gmac_verify(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 IV_length,
-		PLAT_UI8 * pIV,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI8 * pAuthentication_tag,
-		PLAT_UI8 * pVerification_result);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI8 *pAuthentication_tag,
+    PLAT_UI8 *pVerification_result);
 
 /** \}*/
 

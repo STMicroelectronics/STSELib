@@ -19,21 +19,18 @@
 #ifndef STSAFE_ENTITY_AUTH_H
 #define STSAFE_ENTITY_AUTH_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
-
 
 /*! \defgroup stsafea_entity_auth STSAFE-A Entity authentication
  *  \ingroup stsafea_services
  *  @{
  */
-
-
 
 /**
  * \brief 			STSAFEA generate challenge service
@@ -44,9 +41,9 @@
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_challenge(
-		stse_Handler_t *pSTSE,
-		PLAT_UI8 challenge_size,
-		PLAT_UI8 *pChallenge);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 challenge_size,
+    PLAT_UI8 *pChallenge);
 
 /**
  * \brief 			STSAFEA verify entity's signature service
@@ -59,14 +56,12 @@ stse_ReturnCode_t stsafea_generate_challenge(
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_verify_entity_signature(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pSignature,
-		PLAT_UI8 *pSignature_validity);
-
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    stse_ecc_key_type_t key_type,
+    PLAT_UI8 *pSignature,
+    PLAT_UI8 *pSignature_validity);
 
 /** \}*/
-
 
 #endif /* STSAFE_ENTITY_AUTH_H */

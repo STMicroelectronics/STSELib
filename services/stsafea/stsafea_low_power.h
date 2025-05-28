@@ -19,14 +19,13 @@
 #ifndef STSAFEA_LOW_POWER_H
 #define STSAFEA_LOW_POWER_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
-
 
 /*! \defgroup stsafea_low_power STSAFE-A low power management
  *  \ingroup stsafea_services
@@ -42,7 +41,7 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSAFE,
-									 stse_hibernate_wake_up_mode_t wake_up_mode);
+                                    stse_hibernate_wake_up_mode_t wake_up_mode);
 
 /** \}*/
 

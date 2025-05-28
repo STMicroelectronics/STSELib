@@ -19,11 +19,11 @@
 #ifndef STSAFEL_DEVICE_INFO_H
 #define STSAFEL_DEVICE_INFO_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 
 /*! \defgroup stsafel_device_info STSAFE-L Device info
  *  \ingroup stsafel_services
@@ -38,29 +38,29 @@
 #define STSAFEL_TRACEABILITY_RESERVED_LENGTH 8U
 #define STSAFEL_DATA_CONFIGURATION_IDENTIFIER_LENGTH 8U
 
-typedef enum stsafel_device_info_tag_t{
-	STSAFEL_INFO_TRACEABILITY_DATA = 0x00,
-	STSAFEL_INFO_UNIQUE_IDENTIFIER,
-	STSAFEL_INFO_LIFE_CYCLE_STATE,
-	STSAFEL_INFO_KILL_COMMAND_CONFIGURATION,
-	STSAFEL_INFO_SWITCH_PROTOCOL_FLAG,
-	STSAFEL_INFO_ZONE_META_DATA_V1,
-	STSAFEL_INFO_ZONE_META_DATA_V2,
-	STSAFEL_INFO_STAGE_1_DATA_CONFIGURATION_IDENTIFIER = 0x0C,
-	STSAFEL_INFO_STAGE_2_DATA_CONFIGURATION_IDENTIFIER,
-	STSAFEL_INFO_STAGE_3_DATA_CONFIGURATION_IDENTIFIER
+typedef enum stsafel_device_info_tag_t {
+    STSAFEL_INFO_TRACEABILITY_DATA = 0x00,
+    STSAFEL_INFO_UNIQUE_IDENTIFIER,
+    STSAFEL_INFO_LIFE_CYCLE_STATE,
+    STSAFEL_INFO_KILL_COMMAND_CONFIGURATION,
+    STSAFEL_INFO_SWITCH_PROTOCOL_FLAG,
+    STSAFEL_INFO_ZONE_META_DATA_V1,
+    STSAFEL_INFO_ZONE_META_DATA_V2,
+    STSAFEL_INFO_STAGE_1_DATA_CONFIGURATION_IDENTIFIER = 0x0C,
+    STSAFEL_INFO_STAGE_2_DATA_CONFIGURATION_IDENTIFIER,
+    STSAFEL_INFO_STAGE_3_DATA_CONFIGURATION_IDENTIFIER
 } stsafel_device_info_tag_t;
 
 typedef struct /*!< Device traceability info */
 {
-	struct {
-		PLAT_UI8 hardware_id[STSAFEL_HARDWARE_ID_LENGTH];
-		PLAT_UI8 boot_rom_id[STSAFEL_BOOT_ROM_ID_LENGTH];
-		PLAT_UI8 soc_id[STSAFEL_SOC_ID_LENGTH];
-		PLAT_UI8 data_config_id;
-	} product_type;
-	PLAT_UI8 cpsn[STSAFEL_CPSN_LENGTH]; /*!< Chip Serial Number */
-	PLAT_UI8 reserved[STSAFEL_TRACEABILITY_RESERVED_LENGTH];
+    struct {
+        PLAT_UI8 hardware_id[STSAFEL_HARDWARE_ID_LENGTH];
+        PLAT_UI8 boot_rom_id[STSAFEL_BOOT_ROM_ID_LENGTH];
+        PLAT_UI8 soc_id[STSAFEL_SOC_ID_LENGTH];
+        PLAT_UI8 data_config_id;
+    } product_type;
+    PLAT_UI8 cpsn[STSAFEL_CPSN_LENGTH]; /*!< Chip Serial Number */
+    PLAT_UI8 reserved[STSAFEL_TRACEABILITY_RESERVED_LENGTH];
 } stsafel_device_traceability_t;
 
 /**
@@ -71,8 +71,8 @@ typedef struct /*!< Device traceability info */
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_device_UID(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * pDevice_UID);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pDevice_UID);
 
 /**
  * \brief 		Get target device traceability info
@@ -82,8 +82,8 @@ stse_ReturnCode_t stsafel_get_device_UID(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_device_traceability(
-		stse_Handler_t * pSTSE,
-		stsafel_device_traceability_t * pDevice_traceability);
+    stse_Handler_t *pSTSE,
+    stsafel_device_traceability_t *pDevice_traceability);
 
 /**
  * \brief 		Get target device info
@@ -97,12 +97,12 @@ stse_ReturnCode_t stsafel_get_device_traceability(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_data(
-		stse_Handler_t * pSTSE,
-		stsafel_device_info_tag_t tag,
-		PLAT_UI16 additional_data_length,
-		PLAT_UI8 * pAdditional_data,
-		PLAT_UI16 device_info_expected_length,
-		PLAT_UI8 * pDevice_info);
+    stse_Handler_t *pSTSE,
+    stsafel_device_info_tag_t tag,
+    PLAT_UI16 additional_data_length,
+    PLAT_UI8 *pAdditional_data,
+    PLAT_UI16 device_info_expected_length,
+    PLAT_UI8 *pDevice_info);
 
 /**
  * \brief 		Put target device info
@@ -114,10 +114,10 @@ stse_ReturnCode_t stsafel_get_data(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_put_data(
-		stse_Handler_t * pSTSE,
-		stsafel_device_info_tag_t tag,
-		PLAT_UI16 device_info_length,
-		PLAT_UI8 * pDevice_info);
+    stse_Handler_t *pSTSE,
+    stsafel_device_info_tag_t tag,
+    PLAT_UI16 device_info_length,
+    PLAT_UI8 *pDevice_info);
 
 /** \}*/
 

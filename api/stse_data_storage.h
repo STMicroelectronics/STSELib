@@ -19,12 +19,10 @@
 #ifndef STSE_DATA_STORAGE_H
 #define STSE_DATA_STORAGE_H
 
-
 /* Includes ------------------------------------------------------------------*/
-#include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafea/stsafea_data_partition.h"
+#include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafel/stsafel_data_partition.h"
-
 
 /** \defgroup 	stse_data_storage 	STSE Data storage
  *  \ingroup 	stse_api
@@ -42,9 +40,8 @@
  * \details 	\include{doc} stse_data_storage_get_total_partition_count.dox
  */
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
-		stse_Handler_t* pSTSE,
-		PLAT_UI8* pTotal_partition_count
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *pTotal_partition_count);
 
 /**
  * \brief Get the partition table from the target STSE device
@@ -57,11 +54,10 @@ stse_ReturnCode_t stse_data_storage_get_total_partition_count(
  * \details 	\include{doc} stse_data_storage_get_partitioning_table.dox
  */
 stse_ReturnCode_t stse_data_storage_get_partitioning_table(
-		stse_Handler_t* pSTSE,
-		PLAT_UI8 total_partition_count,
-		stsafea_data_partition_record_t*  pPartitioning_table,
-		PLAT_UI16 Partitioning_table_length
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 total_partition_count,
+    stsafea_data_partition_record_t *pPartitioning_table,
+    PLAT_UI16 Partitioning_table_length);
 
 /*!
  * \brief 		Read one memory zone of the STSE device
@@ -78,14 +74,13 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
  * \details 	\include{doc} stse_data_storage_read_zone.dox
  */
 stse_ReturnCode_t stse_data_storage_read_data_zone(
-		stse_Handler_t *pSTSE,
-		PLAT_UI32 zone,
-		PLAT_UI16 offset,
-		PLAT_UI8 *pBuffer,
-		PLAT_UI16 length,
-		PLAT_UI16 chunk_size,
-		stse_cmd_protection_t protection
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI32 zone,
+    PLAT_UI16 offset,
+    PLAT_UI8 *pBuffer,
+    PLAT_UI16 length,
+    PLAT_UI16 chunk_size,
+    stse_cmd_protection_t protection);
 
 /*!
  * \brief 		Update one memory zone of the STSE device
@@ -102,14 +97,13 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
  * \details 	\include{doc} stse_data_storage_update_zone.dox
  */
 stse_ReturnCode_t stse_data_storage_update_data_zone(
-		stse_Handler_t *pSTSE,
-		PLAT_UI32 zone,
-		PLAT_UI16 offset,
-		PLAT_UI8 *pBuffer,
-		PLAT_UI16 length,
-		stse_zone_update_atomicity_t atomicity,
-		stse_cmd_protection_t protection
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI32 zone,
+    PLAT_UI16 offset,
+    PLAT_UI8 *pBuffer,
+    PLAT_UI16 length,
+    stse_zone_update_atomicity_t atomicity,
+    stse_cmd_protection_t protection);
 
 /*!
  * \brief 		Decrement one counter zone of the STSE device
@@ -127,15 +121,14 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
  * \details 	\include{doc} stse_data_storage_decrement_counter.dox
  */
 stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
-		stse_Handler_t *pSTSE,
-		PLAT_UI32 zone,
-		PLAT_UI32 amount,
-		PLAT_UI16 offset,
-		PLAT_UI8 *pBuffer,
-		PLAT_UI16 length,
-		PLAT_UI32 *new_counter_value,
-		stse_cmd_protection_t protection
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI32 zone,
+    PLAT_UI32 amount,
+    PLAT_UI16 offset,
+    PLAT_UI8 *pBuffer,
+    PLAT_UI16 length,
+    PLAT_UI32 *new_counter_value,
+    stse_cmd_protection_t protection);
 
 /*!
  * \brief 		read one counter zone of the STSE device
@@ -153,15 +146,14 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
  * \details 	\include{doc} stse_data_storage_read_counter.dox
  */
 stse_ReturnCode_t stse_data_storage_read_counter_zone(
-		stse_Handler_t *pSTSE,
-		PLAT_UI32 zone,
-		PLAT_UI16 offset,
-		PLAT_UI8 *pBuffer,
-		PLAT_UI16 length,
-		PLAT_UI16 chunk_size,
-		PLAT_UI32 *counter_value,
-		stse_cmd_protection_t protection
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI32 zone,
+    PLAT_UI16 offset,
+    PLAT_UI8 *pBuffer,
+    PLAT_UI16 length,
+    PLAT_UI16 chunk_size,
+    PLAT_UI32 *counter_value,
+    stse_cmd_protection_t protection);
 
 /*!
  * \brief 		Change the Read access condition of one target STSE device zone
@@ -176,12 +168,11 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
  * \details 	\include{doc} stse_data_storage_change_read_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_read_access_condition(
-		stse_Handler_t *pSTSE,
-		PLAT_UI32 zone,
-		stse_zone_ac_t ac,
-		stse_ac_change_right_t ac_change_right,
-		stse_cmd_protection_t protection
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI32 zone,
+    stse_zone_ac_t ac,
+    stse_ac_change_right_t ac_change_right,
+    stse_cmd_protection_t protection);
 
 /*!
  * \brief 		Change the Read access condition of one target STSE device zone
@@ -199,16 +190,15 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_change_update_access_condition.dox
  */
-stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t * pSTSE,
-		PLAT_UI32 zone,
-		stse_zone_ac_t ac,
-		stse_ac_change_right_t ac_change_right,
-		PLAT_UI16 offset,
-		PLAT_UI8 *pBuffer,
-		PLAT_UI16 length,
-		stse_zone_update_atomicity_t atomicity,
-		stse_cmd_protection_t protection
-);
+stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
+                                                                   PLAT_UI32 zone,
+                                                                   stse_zone_ac_t ac,
+                                                                   stse_ac_change_right_t ac_change_right,
+                                                                   PLAT_UI16 offset,
+                                                                   PLAT_UI8 *pBuffer,
+                                                                   PLAT_UI16 length,
+                                                                   stse_zone_update_atomicity_t atomicity,
+                                                                   stse_cmd_protection_t protection);
 
 /*!
  * \brief 		Change the Decrement access condition of one target STSE device counter zone
@@ -228,17 +218,16 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
  * \details 	\include{doc} stse_data_storage_change_decrement_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(
-		stse_Handler_t *pSTSE,
-		PLAT_UI32 zone,
-		stse_zone_ac_t ac,
-		stse_ac_change_right_t ac_change_right,
-		PLAT_UI32 amount,
-		PLAT_UI16 offset,
-		PLAT_UI8 *pBuffer,
-		PLAT_UI16 length,
-		PLAT_UI32 *new_counter_value,
-		stse_cmd_protection_t protection
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI32 zone,
+    stse_zone_ac_t ac,
+    stse_ac_change_right_t ac_change_right,
+    PLAT_UI32 amount,
+    PLAT_UI16 offset,
+    PLAT_UI8 *pBuffer,
+    PLAT_UI16 length,
+    PLAT_UI32 *new_counter_value,
+    stse_cmd_protection_t protection);
 
 /** \}*/
 

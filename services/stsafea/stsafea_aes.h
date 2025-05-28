@@ -19,24 +19,24 @@
 #ifndef STSAFEA_AES_H
 #define STSAFEA_AES_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
-#include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_put_query.h"
-#include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_sessions.h"
+#include "services/stsafea/stsafea_symmetric_key_slots.h"
+#include "services/stsafea/stsafea_timings.h"
 
 /*! \defgroup stsafea_aes STSAFE AES services
  *  \ingroup stsafea_services
  *  @{
  */
 
-#define STSAFEA_MAC_SIZE 										4U
-#define STSAFEA_NONCE_SIZE 										13U
+#define STSAFEA_MAC_SIZE 4U
+#define STSAFEA_NONCE_SIZE 13U
 
 /**
  * \brief 		Encrypt payload in AES ECB mode
@@ -49,11 +49,11 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ecb_encrypt(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 message_length,
-		PLAT_UI8 * pPlaintext_message,
-		PLAT_UI8 * pEncrypted_message);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pPlaintext_message,
+    PLAT_UI8 *pEncrypted_message);
 
 /**
  * \brief 		Decrypt payload in AES ECB mode
@@ -66,11 +66,11 @@ stse_ReturnCode_t stsafea_aes_ecb_encrypt(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ecb_decrypt(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 message_length,
-		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pPlaintext_message);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pEncrypted_message,
+    PLAT_UI8 *pPlaintext_message);
 
 /**
  * \brief 		Encrypt payload in AES CCM* mode
@@ -90,18 +90,18 @@ stse_ReturnCode_t stsafea_aes_ecb_decrypt(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_encrypt(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI8 * pNonce,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI16 message_length,
-		PLAT_UI8 * pPlaintext_message,
-		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pEncrypted_authentication_tag,
-		PLAT_UI8 * pCounter_presence,
-		PLAT_UI32 * pCounter);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI8 *pNonce,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pPlaintext_message,
+    PLAT_UI8 *pEncrypted_message,
+    PLAT_UI8 *pEncrypted_authentication_tag,
+    PLAT_UI8 *pCounter_presence,
+    PLAT_UI32 *pCounter);
 
 /**
  * \brief 		Start chunk encryption in AES CCM* mode
@@ -122,19 +122,19 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 Nonce_length,
-		PLAT_UI8* pNonce,
-		PLAT_UI16 total_associated_data_length,
-		PLAT_UI32 total_message_length,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pPlaintext_message_chunk,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pCounter_presence,
-		PLAT_UI32 * pCounter);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 Nonce_length,
+    PLAT_UI8 *pNonce,
+    PLAT_UI16 total_associated_data_length,
+    PLAT_UI32 total_message_length,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pPlaintext_message_chunk,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pCounter_presence,
+    PLAT_UI32 *pCounter);
 
 /**
  * \brief 		Process chunk encryption in AES CCM* mode
@@ -148,12 +148,12 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_encrypt_process(
-		stse_Handler_t * pSTSE,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pPlaintext_message_chunk,
-		PLAT_UI8 * pEncrypted_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pPlaintext_message_chunk,
+    PLAT_UI8 *pEncrypted_message_chunk);
 
 /**
  * \brief 		Finish chunk encryption in AES CCM* mode
@@ -169,14 +169,14 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_process(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_encrypt_finish(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pPlaintext_message_chunk,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pEncrypted_authentication_tag);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pPlaintext_message_chunk,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pEncrypted_authentication_tag);
 
 /**
  * \brief 		Decrypt payload in AES CCM* mode
@@ -195,17 +195,17 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_finish(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_decrypt(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI8 * pNonce,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI16 message_length,
-		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag,
-		PLAT_UI8 * pVerification_result,
-		PLAT_UI8 * pPlaintext_message);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI8 *pNonce,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pEncrypted_message,
+    PLAT_UI8 *pAuthentication_tag,
+    PLAT_UI8 *pVerification_result,
+    PLAT_UI8 *pPlaintext_message);
 
 /**
  * \brief 		Start chunk decryption in AES CCM* mode
@@ -224,17 +224,17 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 Nonce_length,
-		PLAT_UI8* pNonce,
-		PLAT_UI16 total_associated_data_length,
-		PLAT_UI16 total_ciphertext_length,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pPlaintext_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 Nonce_length,
+    PLAT_UI8 *pNonce,
+    PLAT_UI16 total_associated_data_length,
+    PLAT_UI16 total_ciphertext_length,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pPlaintext_message_chunk);
 
 /**
  * \brief 		Process chunk decryption in AES CCM* mode
@@ -248,12 +248,12 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_decrypt_process(
-		stse_Handler_t * pSTSE,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pPlaintext_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pPlaintext_message_chunk);
 
 /**
  * \brief 		Finish chunk decryption in AES CCM* mode
@@ -270,15 +270,15 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_process(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_ccm_decrypt_finish(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pAuthentication_tag,
-		PLAT_UI8 * pVerification_result,
-		PLAT_UI8 * pPlaintext_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pAuthentication_tag,
+    PLAT_UI8 *pVerification_result,
+    PLAT_UI8 *pPlaintext_message_chunk);
 
 /**
  * \brief 		Encrypt payload in AES GCM mode
@@ -297,17 +297,17 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_finish(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_encrypt(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI16 IV_length,
-		PLAT_UI8* pIV,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI16 message_length,
-		PLAT_UI8 * pPlaintext_message,
-		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pPlaintext_message,
+    PLAT_UI8 *pEncrypted_message,
+    PLAT_UI8 *pAuthentication_tag);
 
 /**
  * \brief 		Start chunk encryption in AES GCM mode
@@ -324,15 +324,15 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 IV_length,
-		PLAT_UI8* pIV,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pPlaintext_message_chunk,
-		PLAT_UI8 * pEncrypted_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pPlaintext_message_chunk,
+    PLAT_UI8 *pEncrypted_message_chunk);
 
 /**
  * \brief 		Process chunk encryption in AES GCM mode
@@ -346,12 +346,12 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
-		stse_Handler_t * pSTSE,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pPlaintext_message_chunk,
-		PLAT_UI8 * pEncrypted_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pPlaintext_message_chunk,
+    PLAT_UI8 *pEncrypted_message_chunk);
 
 /**
  * \brief 		Finish chunk encryption in AES GCM mode
@@ -367,14 +367,14 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pPlaintext_message_chunk,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pAuthentication_tag);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pPlaintext_message_chunk,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pAuthentication_tag);
 
 /**
  * \brief 		Decrypt payload in AES GCM mode
@@ -394,18 +394,18 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_decrypt(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI16 IV_length,
-		PLAT_UI8* pIV,
-		PLAT_UI16 associated_data_length,
-		PLAT_UI8 * pAssociated_data,
-		PLAT_UI16 message_length,
-		PLAT_UI8 * pEncrypted_message,
-		PLAT_UI8 * pAuthentication_tag,
-		PLAT_UI8 * pVerification_result,
-		PLAT_UI8 * pPlaintext_message);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_length,
+    PLAT_UI8 *pAssociated_data,
+    PLAT_UI16 message_length,
+    PLAT_UI8 *pEncrypted_message,
+    PLAT_UI8 *pAuthentication_tag,
+    PLAT_UI8 *pVerification_result,
+    PLAT_UI8 *pPlaintext_message);
 
 /**
  * \brief 		Start chunk decryption in AES GCM mode
@@ -422,15 +422,15 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 slot_number,
-		PLAT_UI16 IV_length,
-		PLAT_UI8* pIV,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pPlaintext_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 slot_number,
+    PLAT_UI16 IV_length,
+    PLAT_UI8 *pIV,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pPlaintext_message_chunk);
 
 /**
  * \brief 		Process chunk decryption in AES GCM mode
@@ -444,12 +444,12 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
-		stse_Handler_t * pSTSE,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pPlaintext_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pPlaintext_message_chunk);
 
 /**
  * \brief 		Finish chunk decryption in AES GCM mode
@@ -466,15 +466,15 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 authentication_tag_length,
-		PLAT_UI16 associated_data_chunk_length,
-		PLAT_UI8 * pAssociated_data_chunk,
-		PLAT_UI16 message_chunk_length,
-		PLAT_UI8 * pEncrypted_message_chunk,
-		PLAT_UI8 * pAuthentication_tag,
-		PLAT_UI8 * pVerification_result,
-		PLAT_UI8 * pPlaintext_message_chunk);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 authentication_tag_length,
+    PLAT_UI16 associated_data_chunk_length,
+    PLAT_UI8 *pAssociated_data_chunk,
+    PLAT_UI16 message_chunk_length,
+    PLAT_UI8 *pEncrypted_message_chunk,
+    PLAT_UI8 *pAuthentication_tag,
+    PLAT_UI8 *pVerification_result,
+    PLAT_UI8 *pPlaintext_message_chunk);
 
 /** \}*/
 

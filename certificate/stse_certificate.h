@@ -18,11 +18,11 @@
 #ifndef STSE_CERTIFICATE_H
 #define STSE_CERTIFICATE_H
 
-#include <stdint.h>
-#include "certificate/stse_certificate_types.h"
 #include "certificate/stse_certificate_crypto.h"
 #include "certificate/stse_certificate_prints.h"
 #include "certificate/stse_certificate_subparsing.h"
+#include "certificate/stse_certificate_types.h"
+#include <stdint.h>
 
 /** \defgroup 	stse_certificate_core STSE Certificate parser
  *  \ingroup 	stse_certificate
@@ -95,10 +95,10 @@ void stse_certificate_copy(stse_certificate_t *copiedCert, const stse_certificat
  * \return PLAT_I32 : 0 on success ; error code otherwise
  */
 stse_ReturnCode_t stse_certificate_parse_chain(
-		PLAT_UI8 *rootCA,
-		PLAT_UI8 *certChain,
-		PLAT_UI16 certChainSize,
-		stse_certificate_t *leafCert);
+    PLAT_UI8 *rootCA,
+    PLAT_UI8 *certChain,
+    PLAT_UI16 certChainSize,
+    stse_certificate_t *leafCert);
 
 /**
  * \brief Assign the certificate parser STSAFE-A companion

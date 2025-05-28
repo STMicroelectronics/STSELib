@@ -19,14 +19,13 @@
 #ifndef STSAFEA_ECHO_H
 #define STSAFEA_ECHO_H
 
-#include "core/stse_return_codes.h"
 #include "core/stse_device.h"
-#include "core/stse_platform.h"
-#include "core/stse_util.h"
 #include "core/stse_frame.h"
+#include "core/stse_platform.h"
+#include "core/stse_return_codes.h"
+#include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
-
 
 /*! \defgroup stsafea_echo STSAFE-A Echo
  *  \ingroup stsafea_services
@@ -43,11 +42,10 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_echo(
-		stse_Handler_t * pSTSE,
-		PLAT_UI8 * message,
-		PLAT_UI8 * echoed_message,
-		PLAT_UI16 message_size
-);
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 *message,
+    PLAT_UI8 *echoed_message,
+    PLAT_UI16 message_size);
 
 /** \}*/
 
