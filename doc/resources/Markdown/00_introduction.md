@@ -12,13 +12,13 @@ Thanks to its modular architecture, this middleware enables seamless integration
 
 Each layer provides a distinct level of system abstraction for the embedded system developer:
 
-- **Application Programming Interface (API) Layer**:
+- **Application Programming Interface (API) Layer**: 
   This software layer serves as the entry point for the system application. It offers a set of high-level functions that facilitate interaction with STMicroelectronics Secure Elements.
 
-- **Service Layer**:
+- **Service Layer**: 
   This layer provides a set of product services that format all commands supported by the targeted secure element and report responses to the higher layers (API/Application). Advanced users can directly utilize this layer from the application.
 
-- **Core Layer**:
+- **Core Layer**: 
   This layer contains generic definitions for ST Secure Elements and functions for communicating with the target secure element.
 
 For more details on each layer, please refer to the "Modules Documentation" section of the documentation.
@@ -31,3 +31,8 @@ For more details on each layer, please refer to the "Modules Documentation" sect
 \subpage stse_services
 
 \subpage stse_core
+
+
+
+
+

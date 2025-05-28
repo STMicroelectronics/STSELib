@@ -1,7 +1,7 @@
 # Release Note
 
 ## v1.1.0 (Latest)
-- [all] Library performance and footprint optimization based on stse_conf.h
+- [all] Library performance and footprint optimization based on stse_conf.h  
 - [certificate parser] Add ED25519 support
 - [api] Add STSAFEL support to STSE ECC APIs
 - [api] Add STSAFEL support to STSE Data storage APIs
@@ -19,7 +19,7 @@
 
 ## v1.0.3
 - [core] Fix frame debug log usage
-- [services] Fix echo usage into host session
+- [services] Fix echo usage into host session 
 - [services & api] Add host key establishment v2
 - [api] Fix hash computation
 
@@ -29,7 +29,7 @@
 - [api] Add symmetric key slot provisioning api
 - [stsafea] Add AES-GCM & AES-CCM* by chunck
 - [stsafea] Add public key slot management
-- [stsafea] Add entity authentication
+- [stsafea] Add entity authentication  
 - [stsafea] Update A120 timings
 - [core] Simplify I2C platform
 - [core] Add SE return status when debug log activated

@@ -1,6 +1,6 @@
 # stse_platform_hash.c{#stse_platform_hash}
 
-The `stse_platform_hash.c` file provides hash and HMAC functions for the STSecureElement library, abstracting the platform-specific details of hash and HMAC operations.
+The `stse_platform_hash.c` file provides hash and HMAC functions for the STSecureElement library, abstracting the platform-specific details of hash and HMAC operations. 
 
 ## stse_platform_hash_compute:
 
