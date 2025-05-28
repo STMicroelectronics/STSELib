@@ -4,18 +4,17 @@ repos:
     hooks:
       - id: clang-format
         types_or: [c++, c]
+        args: [-i,'-style={IndentWidth: 4, ColumnLimit: 0, BreakStringLiterals: false, ReflowComments: false}']
+        exclude: "Platform/Core/CMSIS/"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.4.0
     hooks:
       - id: trailing-whitespace
+        exclude: "Platform/Core/CMSIS/"
       - id: end-of-file-fixer
+        exclude: "Platform/Core/CMSIS/"
       - id: mixed-line-ending
-        args: [--fix=no]
-      - id: check-yaml
-        args: [--allow-multiple-documents]
+        args: [--fix=crlf]
+        exclude: "Platform/Core/CMSIS/"
       - id: check-added-large-files
-      - id: check-json
-      - id: pretty-format-json
-        args: [--autofix, --indent=4, --no-ensure-ascii, --no-sort-keys]
-      - id: detect-private-key
