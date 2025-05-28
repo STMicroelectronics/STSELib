@@ -117,7 +117,7 @@ skinparam File {
   FontSize        12
   FontColor       $ST_DARK_BLUE
   FontStyle       normal
-  BorderThickness 1 
+  BorderThickness 1
   Stereotype {
     FontName $ST_FONT
     FontSize 12
@@ -134,7 +134,7 @@ skinparam Frame {
   FontSize        14
   FontColor       $ST_DARK_BLUE
   FontStyle       bold
-  BorderThickness 1 
+  BorderThickness 1
   Stereotype {
     FontName $ST_FONT
     FontSize 10
@@ -196,21 +196,21 @@ skinparam	Sequence {
     }
 
     Group {
-      
+
       BackgroundColor   $ST_DARK_BLUE
       BorderColor 		  $ST_DARK_BLUE
       FontColor 		    $ST_DARK_BLUE
       FontName          $ST_FONT
       FontStyle         normal
       FontSize          12
-      
+
       Header {
         FontColor        $ST_WHITE
         FontSize 		 12
         FontStyle 	     normal
         BackgroundColor  $ST_DARK_BLUE
       }
-      
+
       Body {
         BackgroundColor    $ST_WHITE
       }
@@ -221,9 +221,9 @@ skinparam	Sequence {
       BorderColor 		$ST_DARK_BLUE
       BorderThickness 	1
       FontColor 		$ST_WHITE
-    }   
+    }
 
-    
+
 
 
     Stereotype {
@@ -231,7 +231,7 @@ skinparam	Sequence {
       FontSize  12
       FontColor $ST_WHITE
       FontStyle normal
-    }  
+    }
 
 }
 
@@ -297,7 +297,7 @@ skinparam Actor {
 
 skinparam entity {
 	BorderColor 				$ST_DARK_BLUE
-	BackgroundColor 			$ST_WHITE 
+	BackgroundColor 			$ST_WHITE
 	FontColor 					$ST_DARK_BLUE
     FontSize                    12
 	FontName					$ST_FONT
@@ -328,7 +328,7 @@ skinparam interface {
 skinparam usecase {
 	FontColor 					$ST_DARK_BLUE
 	BorderColor 				$ST_DARK_BLUE
-	BackgroundColor 			$ST_WHITE 
+	BackgroundColor 			$ST_WHITE
 	BorderThickness 			1
 	StereotypeFontColor 		$ST_DARK_BLUE
     StereotypeFontSize 			10
@@ -351,7 +351,7 @@ timingDiagram {
     }
     concise {
 	  FontColor       $ST_WHITE
-      BackgroundColor $ST_DARK_BLUE_75 
+      BackgroundColor $ST_DARK_BLUE_75
       LineColor       $ST_DARK_BLUE
     }
     robust {
@@ -364,7 +364,7 @@ timingDiagram {
     }
     binary {
       LineThickness   2
-      LineColor       $ST_DARK_BLUE 
+      LineColor       $ST_DARK_BLUE
     }
 }
 </style>
@@ -374,12 +374,12 @@ timingDiagram {
 '--------------------------------------------------------------------'
 
 skinparam SequenceGroupBodyBackgroundColor transparent
-	
+
     hide footbox
 
     !$STSE_API = $ST_GREEN_50
     !$STSE_SERVICE = $ST_YELLOW_50
-    !$STSE_CORE = $ST_PINK_25 
+    !$STSE_CORE = $ST_PINK_25
     !$STSE_ACTIVITY = $ST_DARK_BLUE_25
 
 
@@ -392,7 +392,7 @@ skinparam SequenceGroupBodyBackgroundColor transparent
 
 
     !procedure $add_legend()
-    legend right 
+    legend right
         <#White,#White>| | |<font color=$STSE_API><&media-stop></font> | <b>API routine</b> |
         | | |<font color=$STSE_SERVICE><&media-stop></font> | <b>service routine</b> |
         | | |<font color=$STSE_CORE><&media-stop></font> | <b>core/platform routine</b> |
@@ -410,13 +410,13 @@ skinparam SequenceGroupBodyBackgroundColor transparent
 
         'Define participant (define order = display order left to right)
 
-        participant HOST 
+        participant HOST
         participant SE as "STSAFE-Axxx"
-    
+
     group $service_name
         activate STSE $STSE_ACTIVITY
         $command_exchange(HOST,$cmd,$param,SE,$return)
-    end 
+    end
     !endprocedure
 
 

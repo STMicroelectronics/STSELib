@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,30 +6,30 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stse_data_storage_get_partitioning_table
-        
-        HOST -> STSE : Query "DATA PARTITION CONFIGURATION"  
+
+        HOST -> STSE : Query "DATA PARTITION CONFIGURATION"
         activate STSE $STSE_ACTIVITY
         return Data partition configuration
         rnote over HOST
             Populate applicative partitioning table
         end note
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
 \code{.c}
 
 	/*- Get Total Partition Count */
-	
+
     uint8_t total_zone_count;
-	
+
     stse_ret = stse_data_storage_get_total_partition_count(
 			&stse_handler,
 			&total_zone_count
@@ -37,12 +37,12 @@ Following diagram illustrates the interactions performed between the Host and th
 	if( stse_ret != STSE_OK )
 	{
 		/* Handle Error */
-	} 
+	}
 
     /*- Get data partition record table */
-    
+
     stse_data_partition_record_t  data_partition_record_table[total_zone_count];
-    
+
     stse_ret = stse_data_storage_get_partitioning_table(
             &stse_handler,
             total_zone_count,
@@ -51,7 +51,7 @@ Following diagram illustrates the interactions performed between the Host and th
     if(stse_ret != STSE_OK )
     {
         /* Handle Error */
-    } 
+    }
 
 \endcode
 

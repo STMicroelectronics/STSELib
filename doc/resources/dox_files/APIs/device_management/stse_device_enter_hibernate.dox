@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -7,7 +7,7 @@ HOST -> STSE : Send hibernate command
 HOST <- STSE : Execution status
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -26,7 +26,7 @@ int main (void)
 	stsafe_handler.io.Devaddr = 0x20;
     stsafe_ret = stsafe_init(&stsafe_handler);
 
-    stsafe_se_hibernate(&stsafe_handler, 
+    stsafe_se_hibernate(&stsafe_handler,
                         STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET);
 
 	stsafe_platform_Delay_ms(1000);

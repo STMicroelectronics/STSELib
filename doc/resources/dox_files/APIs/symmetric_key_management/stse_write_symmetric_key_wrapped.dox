@@ -1,10 +1,10 @@
-\b Description 
+\b Description
 \n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 @startuml
 
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 

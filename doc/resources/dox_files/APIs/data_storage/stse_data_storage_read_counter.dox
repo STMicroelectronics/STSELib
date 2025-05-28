@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,35 +6,35 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stse_data_storage_read_counter
 
-        loop until associated data read length = 0 
-        
+        loop until associated data read length = 0
+
             rnote over HOST
                 prepare read counter chunk size and offset
             end note
-            
-            HOST -> STSE : read zone ( zone, chunk offset, chunk length)  
+
+            HOST -> STSE : read zone ( zone, chunk offset, chunk length)
             Activate STSE
-            return counter value + zone data chunk 
+            return counter value + zone data chunk
 
             rnote over HOST
-                store Counter value in 
+                store Counter value in
                 Applicative counter buffer
             end note
 
             rnote over HOST
                 store chunk in Applicative read buffer
             end note
-        end 
+        end
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -54,7 +54,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	if(stse_ret != STSE_OK )
 	{
 		/* Handle Error */
-	} 
+	}
 
 \endcode
 

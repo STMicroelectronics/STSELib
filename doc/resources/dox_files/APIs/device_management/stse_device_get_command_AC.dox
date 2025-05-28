@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 \n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 
 @startuml
@@ -7,7 +7,7 @@
     participant "STSE" as STSE
 
     activate HOST $STSE_ACTIVITY
-    
+
 group stse_get_command_AC
 	HOST -> STSE : Get attribute(Command AC)
 	activate STSE $STSE_ACTIVITY
@@ -19,7 +19,7 @@ end group
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 

@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -11,11 +11,11 @@ Following diagram illustrates the interactions performed between the Host and th
         HOST -> STSE : read_data_zone(zone 0, CERTIFICATE_SIZE_OFFSET_BYTES,CERTIFICATE_SIZE_LENGTH,NO_CHUNK,NO_PROT )
         activate STSE $STSE_ACTIVITY
         return certificate size
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -37,7 +37,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	if (stse_ret != STSE_OK)
 	{
 		/* Handle Error */
-	} 
+	}
 
 \endcode
 

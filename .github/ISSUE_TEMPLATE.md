@@ -23,7 +23,7 @@ A clear and concise description of what the bug is.
 **How to reproduce the bug (skip if none)**
 
 1. Indicate the global behavior of your application project
-2. List the SW modules that you suspect to be the cause of the problem 
+2. List the SW modules that you suspect to be the cause of the problem
 3. Describe the use case that generates the problem
 4. How we can reproduce the problem
 

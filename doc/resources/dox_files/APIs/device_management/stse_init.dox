@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,10 +6,10 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stse_init
-        
+
         rnote over HOST
             Initialise SE communication protocol
         end note
@@ -23,19 +23,19 @@ Following diagram illustrates the interactions performed between the Host and th
         end note
 
         group Cache SE Personalization information (if pPerso_info == NULL )
-            HOST -> STSE : Query "Command Authorization Config" 
+            HOST -> STSE : Query "Command Authorization Config"
             activate STSE $STSE_ACTIVITY
             return Command Authorization Config
             rnote over HOST
-                Store Command Authorization Config in Handler.Perso_info 
+                Store Command Authorization Config in Handler.Perso_info
         end note
         end
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -51,7 +51,7 @@ Following diagram illustrates the interactions performed between the Host and th
         /* Handle Error */
     }
     stse_handler.device_type = STSAFE_A120;
-    stse_handler.io.Busaddr = 1; 
+    stse_handler.io.Busaddr = 1;
     stse_ret = stse_init(&stse_handler);
     if (stse_ret != STSE_OK)
     {

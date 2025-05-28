@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,19 +6,19 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stse_generate_ECDHE_key_pair
-        
+
         HOST -> STSE : generate ECDHE key pair(key_type)
         activate STSE $STSE_ACTIVITY
         return public key
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -29,7 +29,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	PLAT_UI8 pPublic_key[stse_ecc_info_table[key_type].public_key_size];
 
 	ret = stse_generate_ECDHE_key_pair(
-			pSTSE, 
+			pSTSE,
 			key_type, pPublic_key);
 
 	if(ret != STSE_OK )

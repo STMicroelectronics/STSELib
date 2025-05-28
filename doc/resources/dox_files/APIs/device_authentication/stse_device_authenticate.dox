@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,37 +6,37 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stse_device_authenticate
 
         rnote over HOST
             Verify certificate chain
-        end note 
+        end note
 
         rnote over HOST
             Get device ECC key type
             from leaf certificate
-        end note 
+        end note
 
         rnote over HOST
             Prepare Random Challenge
-        end note 
+        end note
 
-        HOST -> STSE : Generate_signature(private key slot , challenge )  
+        HOST -> STSE : Generate_signature(private key slot , challenge )
         activate STSE $STSE_ACTIVITY
-        return signature 
+        return signature
 
         rnote over HOST
-            verify signature using 
+            verify signature using
             leaf certificate public key
         end note
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 

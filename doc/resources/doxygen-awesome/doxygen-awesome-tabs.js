@@ -32,7 +32,7 @@ class DoxygenAwesomeTabs {
     static init() {
         window.addEventListener("load", () => {
             document.querySelectorAll(".tabbed:not(:empty)").forEach((tabbed, tabbedIndex) => {
-                let tabLinkList = []           
+                let tabLinkList = []
                 tabbed.querySelectorAll(":scope > ul > li").forEach((tab, tabIndex) => {
                     tab.id = "tab_" + tabbedIndex + "_" + tabIndex
                     let header = tab.querySelector(".tab-title")
@@ -81,10 +81,10 @@ class DoxygenAwesomeTabs {
                 new ResizeObserver(resize).observe(tabbed)
             })
         })
-        
+
     }
 
     static resize(tabbed) {
-        
+
     }
 }

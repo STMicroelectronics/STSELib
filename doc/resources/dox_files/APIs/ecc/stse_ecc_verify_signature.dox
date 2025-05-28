@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,19 +6,19 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stsafea_ecc_verify_signature
-        
-        HOST -> STSE : verify signature (public_key, signature, message, message_is_hashed)  
+
+        HOST -> STSE : verify signature (public_key, signature, message, message_is_hashed)
         activate STSE $STSE_ACTIVITY
         return signature validity
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -27,7 +27,7 @@ Following diagram illustrates the interactions performed between the Host and th
     stse_ReturnCode_t ret;
 	PLAT_UI8 signature_validity = 0;
     stse_ecc_key_type_t key_type = STSE_ECC_KT_NIST_P_256;
-    
+
 	PLAT_UI8 pPrivate_key[stse_ecc_info_table[key_type].private_key_size];
 	PLAT_UI8 pPublic_key[stse_ecc_info_table[key_type].public_key_size];
 	PLAT_UI8 pSignature[stse_ecc_info_table[key_type].signature_size];
@@ -49,7 +49,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	if(ret != STSE_OK )
 	{
 		/* Handle Error */
-	} 
+	}
 
 	ret = stse_platform_ecc_sign(
 			key_type,
@@ -61,7 +61,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	if(ret != STSE_OK )
 	{
 		/* Handle Error */
-	} 
+	}
 
 	ret = stse_ecc_verify_signature(
 			pSTSE,
@@ -77,11 +77,11 @@ Following diagram illustrates the interactions performed between the Host and th
 	{
 		/* Handle Error */
 	}
-	
+
 	if(signature_validity != 1 )
 	{
 		/* Handle Invalid Signature */
-	} 
+	}
 
 \endcode
 

@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,7 +6,7 @@ Following diagram illustrates the interactions performed between the Host and th
 rnote over HOST, STSE: Manage power supply
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -32,7 +32,7 @@ int main (void)
         /* Handle Error */
     }
     stse_handler.device_type = STSAFE_A120;
-    stse_handler.io.Busaddr = 1; 
+    stse_handler.io.Busaddr = 1;
 	stsafe_handler.io.PowerLineOn  = power_on;
 	stsafe_handler.io.PowerLineOff = power_off;
     stse_ret = stse_init(&stse_handler);

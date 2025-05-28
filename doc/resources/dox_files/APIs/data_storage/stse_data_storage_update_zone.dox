@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -6,33 +6,33 @@ Following diagram illustrates the interactions performed between the Host and th
     'Define participant (define order = display order left to right)
     participant "HOST" as HOST
     participant "STSE" as STSE
-    
+
     activate HOST $STSE_ACTIVITY
     group stse_data_storage_update_zone
-        
+
         rnote over HOST
             set update atomicity
         end note
-        
-        HOST -> STSE : update zone (zone, atomicity , offset, length , data)  
+
+        HOST -> STSE : update zone (zone, atomicity , offset, length , data)
         activate STSE $STSE_ACTIVITY
         return update status
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
 \code{.c}
 
     /* - Update Data in Zone 1 (Random Number storage)*/
-	
+
     uint8_t random[100];
     stse_ret = stse_companion_generate_random(&stse_handler, random, 100);
-	
+
     stse_ret = stse_data_storage_update_zone (
 			&stse_handler,	/* SE handler 			*/
 			01,					/* Zone index 			*/
@@ -45,7 +45,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	if(stse_ret != STSE_OK )
 	{
 		/* Handle Error */
-	} 
+	}
 
 \endcode
 

@@ -1,4 +1,4 @@
-\b Description 
+\b Description
 Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 \n\n
 
@@ -8,21 +8,21 @@ Following diagram illustrates the interactions performed between the Host and th
     participant "STSE" as STSE
 
     activate HOST $STSE_ACTIVITY
-    
-    group stse_init      
+
+    group stse_init
         HOST -> STSE : Verify password (password)
         activate STSE $STSE_ACTIVITY
         return Verification status
-        
+
         HOST -> STSE : Put attributes Life Cycle State (Operationnal)
         activate STSE $STSE_ACTIVITY
         return Life Cycle State update status
 
-    end 
+    end
     deactivate HOST
 @enduml
 
-\n\n \b Use-case \b example 
+\n\n \b Use-case \b example
 \n The following applicative code snippet illustrates how to use this API function in main application.
 \n\n
 
@@ -31,7 +31,7 @@ int main (void)
 {
     stsafe_ReturnCode_t stsafe_ret;
     PLAT_UI8 password[STSAFEA_PASSWORD_LENGTH] = { /* password value set during device personalization*/ };
-    
+
     stsafe_ret = stsafe_se_unlock(&stsafe_handler,
 								  password,
 								  STSAFEA_PASSWORD_LENGTH
