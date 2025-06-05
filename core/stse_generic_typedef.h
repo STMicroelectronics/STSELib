@@ -249,10 +249,10 @@ typedef enum stse_ac_change_right_t {
 
 #define STSE_NIST_P_256_ID_LENGTH_SIZE 2U
 #define STSE_NIST_P_256_ID_LENGTH \
-    { 0x00, 0x08 }
+    {0x00, 0x08}
 #define STSE_NIST_P_256_ID_VALUE_SIZE 8U
 #define STSE_NIST_P_256_ID_VALUE \
-    { 0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07 }
+    {0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07}
 #define STSE_NIST_P_256_ID_SIZE    \
     STSE_NIST_P_256_ID_LENGTH_SIZE \
     +STSE_NIST_P_256_ID_VALUE_SIZE
@@ -284,10 +284,10 @@ typedef enum stse_ac_change_right_t {
 */
 #define STSE_NIST_P_384_ID_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_ID_LENGTH \
-    { 0x00, 0x05 }
+    {0x00, 0x05}
 #define STSE_NIST_P_384_ID_VALUE_SIZE 5U
 #define STSE_NIST_P_384_ID_VALUE \
-    { 0x2B, 0x81, 0x04, 0x00, 0x22 }
+    {0x2B, 0x81, 0x04, 0x00, 0x22}
 #define STSE_NIST_P_384_ID_SIZE    \
     STSE_NIST_P_384_ID_LENGTH_SIZE \
     +STSE_NIST_P_384_ID_VALUE_SIZE
@@ -322,10 +322,10 @@ typedef enum stse_ac_change_right_t {
 */
 #define STSE_NIST_P_521_ID_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_ID_LENGTH \
-    { 0x00, 0x05 }
+    {0x00, 0x05}
 #define STSE_NIST_P_521_ID_VALUE_SIZE 5U
 #define STSE_NIST_P_521_ID_VALUE \
-    { 0x2B, 0x81, 0x04, 0x00, 0x23 }
+    {0x2B, 0x81, 0x04, 0x00, 0x23}
 #define STSE_NIST_P_521_ID_SIZE    \
     STSE_NIST_P_521_ID_LENGTH_SIZE \
     +STSE_NIST_P_521_ID_VALUE_SIZE
@@ -359,10 +359,10 @@ typedef enum stse_ac_change_right_t {
 
 #define STSE_BRAINPOOL_P_256_ID_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_256_ID_LENGTH \
-    { 0x00, 0x09 }
+    {0x00, 0x09}
 #define STSE_BRAINPOOL_P_256_ID_VALUE_SIZE 9U
 #define STSE_BRAINPOOL_P_256_ID_VALUE \
-    { 0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x07 }
+    {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x07}
 #define STSE_BRAINPOOL_P_256_ID_SIZE    \
     STSE_BRAINPOOL_P_256_ID_LENGTH_SIZE \
     +STSE_BRAINPOOL_P_256_ID_VALUE_SIZE
@@ -397,10 +397,10 @@ typedef enum stse_ac_change_right_t {
 
 #define STSE_BRAINPOOL_P_384_ID_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_ID_LENGTH \
-    { 0x00, 0x09 }
+    {0x00, 0x09}
 #define STSE_BRAINPOOL_P_384_ID_VALUE_SIZE 9U
 #define STSE_BRAINPOOL_P_384_ID_VALUE \
-    { 0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0B }
+    {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0B}
 #define STSE_BRAINPOOL_P_384_ID_SIZE    \
     STSE_BRAINPOOL_P_384_ID_LENGTH_SIZE \
     +STSE_BRAINPOOL_P_384_ID_VALUE_SIZE
@@ -437,10 +437,10 @@ typedef enum stse_ac_change_right_t {
 
 #define STSE_BRAINPOOL_P_512_ID_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_ID_LENGTH \
-    { 0x00, 0x09 }
+    {0x00, 0x09}
 #define STSE_BRAINPOOL_P_512_ID_VALUE_SIZE 9U
 #define STSE_BRAINPOOL_P_512_ID_VALUE \
-    { 0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0D }
+    {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0D}
 #define STSE_BRAINPOOL_P_512_ID_SIZE    \
     STSE_BRAINPOOL_P_512_ID_LENGTH_SIZE \
     +STSE_BRAINPOOL_P_512_ID_VALUE_SIZE
@@ -474,10 +474,10 @@ typedef enum stse_ac_change_right_t {
 
 #define STSE_X25519_ID_LENGTH_SIZE 2U
 #define STSE_X25519_ID_LENGTH \
-    { 0x00, 0x03 }
+    {0x00, 0x03}
 #define STSE_X25519_ID_VALUE_SIZE 3U
 #define STSE_X25519_ID_VALUE \
-    { 0x2B, 0x65, 0x6E }
+    {0x2B, 0x65, 0x6E}
 #define STSE_X25519_ID_SIZE    \
     STSE_X25519_ID_LENGTH_SIZE \
     +STSE_X25519_ID_VALUE_SIZE
@@ -513,10 +513,10 @@ typedef enum stse_ac_change_right_t {
 #define STSE_ED25519_ID_SIZE 5U
 #define STSE_ED25519_ID_LENGTH_SIZE 2U
 #define STSE_ED25519_ID_LENGTH \
-    { 0x00, 0x03 }
+    {0x00, 0x03}
 #define STSE_ED25519_ID_VALUE_SIZE 3U
 #define STSE_ED25519_ID_VALUE \
-    { 0x2B, 0x65, 0x70 }
+    {0x2B, 0x65, 0x70}
 #define STSE_ED25519_PUBLIC_KEY_LENGTH_SIZE 2U
 #define STSE_ED25519_PUBLIC_KEY_VALUE_SIZE 32U
 #define STSE_ED25519_PUBLIC_KEY_SIZE    \
