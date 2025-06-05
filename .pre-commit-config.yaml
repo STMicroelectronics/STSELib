@@ -1,20 +1,16 @@
 repos:
   - repo: https://github.com/pre-commit/mirrors-clang-format
-    rev: v15.0.7
+    rev: v20.1.5
     hooks:
       - id: clang-format
         types_or: [c++, c]
         args: [-i,'-style={IndentWidth: 4, ColumnLimit: 0, BreakStringLiterals: false, ReflowComments: false}']
-        exclude: "Platform/Core/CMSIS/"
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v5.0.0
     hooks:
       - id: trailing-whitespace
-        exclude: "Platform/Core/CMSIS/"
       - id: end-of-file-fixer
-        exclude: "Platform/Core/CMSIS/"
       - id: mixed-line-ending
-        args: [--fix=crlf]
-        exclude: "Platform/Core/CMSIS/"
+        args: [--fix=lf]
       - id: check-added-large-files
