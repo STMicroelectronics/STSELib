@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stse_ecc.c
+ * \file    stse_ecc.c
  * \brief   STSE ECC API set (sources)
  * \author  STMicroelectronics - CS application team
  *
@@ -33,10 +33,12 @@ stse_ReturnCode_t stse_ecc_verify_signature(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     /* - Check device type */
     if (pSTSE->device_type == STSAFE_L010) {
         return (STSE_API_INCOMPATIBLE_DEVICE_TYPE);
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     if (pPublic_key == NULL || pSignature == NULL || pMessage == NULL || pSignature_validity == NULL) {
         return (STSE_SERVICE_INVALID_PARAMETER);
@@ -70,7 +72,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
     case STSAFE_L010:
         ret = stsafel_ecc_generate_signature(pSTSE, key_type, pMessage, message_length, pSignature);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:
@@ -78,7 +80,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
     case STSAFE_A200:
         ret = stsafea_ecc_generate_signature(pSTSE, slot_number, key_type, pMessage, message_length, pSignature);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
@@ -99,15 +101,17 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     /* - Check device type */
     if (pSTSE->device_type == STSAFE_L010) {
         return (STSE_API_INCOMPATIBLE_DEVICE_TYPE);
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     if (pPublic_key == NULL || pShared_secret == NULL
 #ifdef STSE_CONF_ECC_CURVE_25519
         || key_type == STSE_ECC_KT_CURVE25519
-#endif
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     ) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
@@ -130,18 +134,20 @@ stse_ReturnCode_t stse_ecc_decompress_public_key(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     /* - Check device type */
     if (pSTSE->device_type == STSAFE_L010) {
         return (STSE_API_INCOMPATIBLE_DEVICE_TYPE);
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     if (pPublic_key_X == NULL || pPublic_key_Y == NULL
 #ifdef STSE_CONF_ECC_CURVE_25519
         || key_type == STSE_ECC_KT_CURVE25519
-#endif
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || key_type == STSE_ECC_KT_ED25519
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
     ) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }

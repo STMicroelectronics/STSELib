@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stsafea_commands.c
+ * \file    stsafea_commands.c
  * \brief   Commands services for STSAFE-A
  * \author  STMicroelectronics - CS application team
  *
@@ -132,7 +132,7 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE) {
 
     ret = stsafea_get_command_count(pSTSE, &total_command_count);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     stse_cmd_authorization_record_t record_table[total_command_count];
@@ -142,11 +142,10 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE) {
                                        &change_rights,
                                        record_table);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     for (PLAT_UI8 i = 0; i < total_command_count; i++) {
-
         if (record_table[i].extended_header == 0) {
             stsafea_perso_info_set_cmd_AC(pSTSE->pPerso_info, record_table[i].header, record_table[i].command_AC);
             stsafea_perso_info_set_cmd_encrypt_flag(pSTSE->pPerso_info, record_table[i].header, record_table[i].host_encryption_flags.cmd);

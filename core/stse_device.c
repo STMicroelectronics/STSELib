@@ -18,6 +18,7 @@
 
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
+#include <string.h>
 
 stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler) {
     if (pStseHandler == NULL) {
@@ -42,7 +43,9 @@ stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler) {
     pStseHandler->io.busID = 0;
     pStseHandler->io.Devaddr = 0x20;
     pStseHandler->io.BusSpeed = 100;
+#if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
+    (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
     pStseHandler->io.BusType = STSE_BUS_TYPE_I2C;
-
+#endif /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && defined(STSE_CONF_USE_I2C) */
     return STSE_OK;
 }

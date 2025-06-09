@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stse_device_authentication.c
+ * \file    stse_device_authentication.c
  * \brief   STSE uthentication API (sources)
  * \author  STMicroelectronics - CS application team
  *
@@ -77,7 +77,7 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t *pSTSE, PLAT_U
         STSE_NO_PROT);                      /* No protection */
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     *pCertificate_size = (((uint16_t)certificate_size_ui8[0]) << 8) + ((uint16_t)certificate_size_ui8[1]) + 4U;
@@ -107,7 +107,7 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t *pSTSE, PLAT_UI8 ce
         STSE_NO_PROT);                 /* No protection */
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     return (STSE_OK);
@@ -160,7 +160,7 @@ stse_ReturnCode_t stse_device_authenticate(
         certificate_size,
         &leaf_certificate);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Get ECC key type from leaf certificate */
@@ -173,16 +173,20 @@ stse_ReturnCode_t stse_device_authenticate(
     PLAT_UI8 signature[signature_size];
 
     PLAT_UI16 challenge_size;
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type == STSAFE_L010) {
         challenge_size = STSAFEL_ECC_SIGNATURE_CHALLENGE_LENGTH;
     } else {
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
         challenge_size = stse_ecc_info_table[key_type].private_key_size;
 #ifdef STSE_CONF_ECC_NIST_P_521
         if (key_type == STSE_ECC_KT_NIST_P_521) {
             challenge_size -= 2;
         }
-#endif
+#endif /* STSE_CONF_ECC_NIST_P_521 */
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
     PLAT_UI8 challenge[challenge_size];
 
     /* - Generate random challenge */
@@ -194,12 +198,12 @@ stse_ReturnCode_t stse_device_authenticate(
     ret = stse_ecc_generate_signature(
         pSTSE,                /* STSE handler */
         priv_key_slot_number, /* Slot number */
-        key_type,
-        challenge,      /* Random number to sign */
-        challenge_size, /* random number size in bytes */
-        signature);     /* returned signature */
+        key_type,             /* Key type */
+        challenge,            /* Random number to sign */
+        challenge_size,       /* random number size in bytes */
+        signature);           /* returned signature */
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Verify SE Challenge over leaf certificate public key*/

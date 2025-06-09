@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stsafel_low_power.c
+ * \file    stsafel_low_power.c
  * \brief   Low power services for STSAFE-L
  * \author  STMicroelectronics - CS application team
  *
@@ -59,17 +59,19 @@ stse_ReturnCode_t stsafel_wakeup(stse_Handler_t *pSTSE) {
             pSTSE->io.Devaddr,
             pSTSE->io.BusSpeed);
     }
+#ifdef STSE_CONF_USE_I2C
     /* When wakeup callback isn't available but bus type is I²C, send a small echo command */
     else if (pSTSE->io.BusType == STSE_BUS_TYPE_I2C) {
         PLAT_UI8 echo_message[1] = {0x00};
         ret = stsafel_echo(pSTSE, echo_message, echo_message, 1);
     }
+#endif /* STSE_CONF_USE_I2C */
     /* If wakeup callback isn't available and bus type isn't I²C, return an error */
     else {
         ret = STSE_SERVICE_INVALID_PARAMETER;
     }
 
-    return (ret);
+    return ret;
 }
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */

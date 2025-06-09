@@ -23,10 +23,12 @@
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *total_partition_count) {
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     /* - Check device type */
     if (pSTSE->device_type == STSAFE_L010) {
         return (STSE_API_INCOMPATIBLE_DEVICE_TYPE);
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     return stsafea_get_total_partition_count(pSTSE, total_partition_count);
 }
@@ -36,10 +38,12 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
     PLAT_UI8 total_partition_count,
     stsafea_data_partition_record_t *pPartitioning_table,
     PLAT_UI16 Partitioning_table_length) {
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     /* - Check device type */
     if (pSTSE->device_type == STSAFE_L010) {
         return (STSE_API_INCOMPATIBLE_DEVICE_TYPE);
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     return stsafea_get_data_partitions_configuration(
         pSTSE,
@@ -94,7 +98,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
                 chunck_length,
                 protection);
             break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
         case STSAFE_A100:
         case STSAFE_A110:
@@ -109,14 +113,14 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
                 chunck_length,
                 protection);
             break;
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
         default:
             return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
         }
         /* - Check if Transfer successful and format response data */
         if (ret != STSE_OK) {
             /* - (ERROR) Return communication error code */
-            return (ret);
+            return ret;
         }
 
         /* - Decrement Length value */
@@ -126,7 +130,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
     } while (remaning_length > 0);
 
     /* - Return STSE Status code */
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stse_data_storage_update_data_zone(
@@ -164,7 +168,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
             length,
             protection);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:
@@ -179,13 +183,13 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
             length,
             protection);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
         ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
 
     /* - Return STSE Status code */
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
@@ -225,7 +229,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
             new_counter_value,
             protection);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:
@@ -242,13 +246,13 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
             new_counter_value,
             protection);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
         ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
 
     /* - Return STSAFE Status code */
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stse_data_storage_read_counter_zone(
@@ -298,7 +302,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
                 pCounter_value,
                 protection);
             break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
         case STSAFE_A100:
         case STSAFE_A110:
@@ -314,7 +318,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
                 pCounter_value,
                 protection);
             break;
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
         default:
             ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
         }
@@ -324,7 +328,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
     } while ((remaning_length > 0) && (ret == STSE_OK));
 
     /* - Return STSAFE Status code */
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stse_data_storage_change_read_access_condition(
@@ -353,7 +357,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
         protection);
 
     /* - Return STSE Status code */
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
@@ -386,7 +390,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
         protection);
 
     /* - Return STSE Status code */
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handler_t *pSTSE,

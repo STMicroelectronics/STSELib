@@ -1,6 +1,6 @@
 /*!
  * ******************************************************************************
- * \file	stsafea_frame_transfer.c
+ * \file    stsafea_frame_transfer.c
  * \brief   STSAFE-A Frame transfer service (sources)
  * \author  STMicroelectronics - CS application team
  *
@@ -51,7 +51,7 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
     printf("\n\r STSAFE Frame > ");
     stse_frame_debug_print(pFrame);
     printf("\n\r");
-#endif
+#endif /* STSE_FRAME_DEBUG_LOG */
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR)) {
         /* - Receive frame length from target STSAFE */
         ret = pSTSE->io.BusSendStart(
@@ -132,7 +132,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /* - Verify correct reception*/
     if ((ret & STSE_STSAFEL_RSP_STATUS_MASK) != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* Discard response header */
@@ -151,7 +151,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         length_value,
         STSE_FRAME_LENGTH_SIZE);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Store response Length */
@@ -193,7 +193,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /* - Verify correct reception*/
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
@@ -209,11 +209,11 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEA_RSP_STATUS_MASK);
     if (ret != STSE_OK) {
-#ifdef STSAFE_FRAME_DEBUG_LOG
+#ifdef STSE_FRAME_DEBUG_LOG
         printf("\n\r STSAFE Frame <  (1-byte) : { 0x%02X }\n\r", pFrame->first_element->pData[0]);
         printf("\n\r");
-#endif
-        return (ret);
+#endif /* STSE_FRAME_DEBUG_LOG */
+        return ret;
     }
 
     /* Substract response header already read in STSAFE-A */
@@ -227,7 +227,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         NULL,
         STSE_FRAME_LENGTH_SIZE);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* If first element is longer than just the header */
@@ -240,7 +240,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
             pFrame->first_element->pData + STSE_RSP_FRAME_HEADER_SIZE,
             pFrame->first_element->length - STSE_RSP_FRAME_HEADER_SIZE);
         if (ret != STSE_OK) {
-            return (ret);
+            return ret;
         }
     }
 
@@ -257,7 +257,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
             pCurrent_element->pData,
             pCurrent_element->length);
         if (ret != STSE_OK) {
-            return (ret);
+            return ret;
         }
 
         received_length -= pCurrent_element->length;
@@ -270,14 +270,14 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         pCurrent_element->pData,
         pCurrent_element->length);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
 #ifdef STSE_FRAME_DEBUG_LOG
     printf("\n\r STSAFE Frame < ");
     stse_frame_debug_print(pFrame);
     printf("\n\r");
-#endif
+#endif /* STSE_FRAME_DEBUG_LOG */
 
     /* - Swap CRC */
     stse_frame_element_swap_byte_order(&eCRC);
@@ -298,7 +298,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEA_RSP_STATUS_MASK);
 
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
@@ -309,7 +309,7 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
 
 #ifdef STSE_USE_RSP_POLLING
     (void)inter_frame_delay;
-#endif
+#endif /* STSE_USE_RSP_POLLING */
 
     /* - Send Non-protected Frame */
     ret = stsafea_frame_transmit(pSTSE, pCmdFrame);
@@ -320,12 +320,12 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
 #else
         /* - Wait for command to be executed by target STSAFE  */
         stse_platform_Delay_ms(inter_frame_delay);
-#endif
+#endif /* STSE_USE_RSP_POLLING */
         /* - Receive non protected Frame */
         ret = stsafea_frame_receive(pSTSE, pRspFrame);
     }
 
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pCmdFrame,
@@ -339,7 +339,7 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
     stse_cmd_access_conditions_t cmd_ac_info;
     PLAT_UI8 cmd_encryption_flag = 0;
     PLAT_UI8 rsp_encryption_flag = 0;
-#endif
+#endif /* STSE_CONF_USE_HOST_SESSION */
 
     if (pCmdFrame->first_element != NULL && pCmdFrame->first_element->pData != NULL) {
         if (pCmdFrame->first_element->length == STSAFEA_HEADER_SIZE) {
@@ -352,7 +352,7 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
                     stsafea_perso_info_get_ext_cmd_AC(pSTSE->pPerso_info, cmd_header_extended, &cmd_ac_info);
                     stsafea_perso_info_get_ext_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header_extended, &cmd_encryption_flag);
                     stsafea_perso_info_get_ext_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header_extended, &rsp_encryption_flag);
-#endif
+#endif /* STSE_CONF_USE_HOST_SESSION */
                 }
             } else {
                 cmd_header = pCmdFrame->first_element->pData[0];
@@ -361,7 +361,7 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
                 stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
                 stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
                 stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
-#endif
+#endif /* STSE_CONF_USE_HOST_SESSION */
             }
             ret = STSE_OK;
         }
@@ -388,7 +388,7 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
                                                      cmd_ac_info,
                                                      inter_frame_delay);
     } else
-#endif
+#endif /* STSE_CONF_USE_HOST_SESSION */
     {
         ret = stsafea_frame_raw_transfer(pSTSE,
                                          pCmdFrame,
@@ -396,7 +396,7 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
                                          inter_frame_delay);
     }
 
-    return (ret);
+    return ret;
 }
 
 #endif /* STSE_CONF_STSAFE_A_SUPPORT **/

@@ -64,13 +64,13 @@ enum stse_ReturnCode_t {
 
     /* - Host Platform response code (MSB Mask 0x01xx)*/
     STSE_PLATFORM_SERVICES_INIT_ERROR = 0x0101, /*!< STSE Host platform service initialization error */
-    STSE_PLATFORM_CRYPTO_INIT_ERROR,            /*!< STSE Host criptographic service initialization error */
+    STSE_PLATFORM_CRYPTO_INIT_ERROR,            /*!< STSE Host cryptographic service initialization error */
     STSE_PLATFORM_INVALID_PARAMETER,            /*!< Error detected on the STSE HW Bus */
     STSE_PLATFORM_BUS_ERR,
     STSE_PLATFORM_BUFFER_ERR,           /*!< STSE Host platform Communication bus buffer overflow */
     STSE_PLATFORM_BUS_ARBITRATION_LOST, /*!< STSE Host platform Communication bus Arbitration Lost */
     STSE_PLATFORM_BUS_RECEIVE_TIMEOUT,  /*!< STSE Host platform Communication bus Receive Timeout */
-    STSE_PLATFORM_BUS_ACK_ERROR,        /*!< STSE Host platform Communication bus Ack Timout */
+    STSE_PLATFORM_BUS_ACK_ERROR,        /*!< STSE Host platform Communication bus Ack Timeout */
     STSE_PLATFORM_FLASH_WRITE_ERROR,    /*!< STSE Host platform Flash write issue */
     STSE_PLATFORM_POWER_ERROR,          /*!< STSE Host platform power init/on/off issue */
     STSE_PLATFORM_ECC_GENERATE_KEY_PAIR_ERROR,

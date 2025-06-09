@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stse_symmetric_keys_management.c
+ * \file    stse_symmetric_keys_management.c
  * \brief   STSE Symmetric keys management API (sources)
  * \author  STMicroelectronics - SMD application team
  *
@@ -27,6 +27,7 @@
 /* Static functions declaration ----------------------------------------------*/
 #if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED)
+
 static stse_ReturnCode_t stse_start_volatile_KEK_session(
     stse_Handler_t *pSTSE,
     stse_session_t *pSession,
@@ -46,7 +47,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
     if (ecc_key_type == STSE_ECC_KT_ED25519) {
         return STSE_API_INVALID_PARAMETER;
     }
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
 
     /* - Set session type */
     pSession->type = STSE_VOLATILE_KEK_SESSION;
@@ -87,7 +88,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
         memset(stsafe_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_private_key, 0, priv_key_size);
-        return (ret);
+        return ret;
     }
 
     /* - Start volatile KEK session with target SE*/
@@ -96,12 +97,12 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
         ecc_key_type,
         host_ecdhe_public_key);
     if (ret != STSE_OK) {
-        /* Clear key pairs info on KEK session open error  */
+        /* Clear key pairs info on KEK session open error */
         memset(stsafe_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_private_key, 0, priv_key_size);
         stsafea_session_clear_context(pSession);
-        return (ret);
+        return ret;
     }
 
     /* - Process Diffie-Hellman on host side */
@@ -150,7 +151,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
 
     return ret;
 }
-#endif
+#endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED || STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED */
 
 #if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
@@ -178,7 +179,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
     if (ecc_key_type == STSE_ECC_KT_ED25519) {
         return STSE_API_INVALID_PARAMETER;
     }
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
 
     pSession->type = STSE_VOLATILE_KEK_SESSION;
 
@@ -191,11 +192,12 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 #ifdef STSE_CONF_ECC_CURVE_25519
     if (ecc_key_type == STSE_ECC_KT_CURVE25519) {
         pub_key_size_stsafe_format += STSE_ECC_GENERIC_LENGTH_SIZE;
-    } else
-#endif
-    {
+    } else {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pub_key_size_stsafe_format += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     PLAT_UI16 tbs_length = stse_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
 
     PLAT_UI8 pHkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
@@ -227,7 +229,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
         memset(stsafe_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_private_key, 0, ecdhe_priv_key_size);
-        return (ret);
+        return ret;
     }
 
     /* - Prepare TBS buffer (concatenation of the two parties ECDHE Ephemeral public key)*/
@@ -236,12 +238,13 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
            stse_ecc_info_table[ecc_key_type].curve_id_total_length);
     PLAT_UI16 copy_index = stse_ecc_info_table[ecc_key_type].curve_id_total_length;
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
         copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
@@ -250,9 +253,8 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
            stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
@@ -264,7 +266,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
         pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
         copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
@@ -273,9 +277,8 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
            stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
@@ -284,8 +287,9 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
                stsafe_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
                stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
-
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     ret = stsafea_sign_for_generic_public_key_slot(
         pSTSE,
         private_ecc_key_type, /* Private key used to sign */
@@ -300,7 +304,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
         memset(host_ecdhe_private_key, 0, ecdhe_priv_key_size);
         memset(pTBS, 0, tbs_length);
         stsafea_session_clear_context(pSession);
-        return (ret);
+        return ret;
     }
 
     /* - Start volatile KEK session */
@@ -312,13 +316,12 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
         signature_public_key_slot_number,
         private_ecc_key_type,
         signature);
-
     if (ret != STSE_OK) {
         memset(stsafe_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_public_key, 0, pub_key_size);
         memset(host_ecdhe_private_key, 0, ecdhe_priv_key_size);
         stsafea_session_clear_context(pSession);
-        return (ret);
+        return ret;
     }
 
     /* - Process Diffie-Hellman on host side */
@@ -367,7 +370,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 
     return ret;
 }
-#endif /*STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED*/
+#endif /*STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED || STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
 #if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) ||               \
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
@@ -451,7 +454,7 @@ static stse_ReturnCode_t stse_KEK_wrap(
 
     if (ret != STSE_OK) {
         memset(working_kek, 0, STSAFEA_KEK_KEY_SIZE);
-        return (ret);
+        return ret;
     }
 
     ret = stse_platform_nist_kw_encrypt(
@@ -467,7 +470,8 @@ static stse_ReturnCode_t stse_KEK_wrap(
 
     return STSE_OK;
 }
-#endif
+#endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED || STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED ||
+          STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED || STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
 /* Exported functions --------------------------------------------------------*/
 
@@ -485,6 +489,7 @@ stse_ReturnCode_t stse_host_key_provisioning(
         return (STSE_API_INVALID_PARAMETER);
     }
 
+#if defined(STSE_CONF_STSAFE_A_SUPPORT)
     if (pSTSE->device_type == STSAFE_A120) {
         /* - Write host key plaintext to the STSAFE */
         ret = stsafea_host_key_provisioning(
@@ -492,6 +497,7 @@ stse_ReturnCode_t stse_host_key_provisioning(
             host_key_type,
             host_keys);
     } else {
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
         if (host_key_type != STSAFEA_AES_128_HOST_KEY) {
             return STSE_API_INVALID_PARAMETER;
         }
@@ -499,11 +505,15 @@ stse_ReturnCode_t stse_host_key_provisioning(
         ret = stsafea_put_attribute_host_key(
             pSTSE,
             (stsafea_aes_128_host_keys_t *)host_keys);
+#if defined(STSE_CONF_STSAFE_A_SUPPORT)
     }
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
     return ret;
 }
+
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED
+
 stse_ReturnCode_t stse_host_key_provisioning_wrapped(
     stse_Handler_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
@@ -538,9 +548,8 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
         pSTSE,
         &volatile_KEK_session,
         ecdhe_ecc_key_type);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Format host key to be wrapped */
@@ -566,7 +575,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
         host_keys_envelope_length);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Write host key wrapped to the STSAFE */
@@ -576,7 +585,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
         host_key_envelope);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Stop volatile KEK */
@@ -584,9 +593,10 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
 
     return ret;
 }
-#endif
+#endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED */
 
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
+
 stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
     stse_Handler_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
@@ -629,9 +639,8 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
         signature_hash_algo,
         signature_private_ecc_key_type,
         signature_private_key);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Format host key to be wrapped */
@@ -653,9 +662,8 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
         (host_keys_envelope_length - STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH),
         host_key_envelope,
         host_keys_envelope_length);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Write host key wrapped to the STSAFE */
@@ -663,9 +671,8 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
         pSTSE,
         host_key_type,
         host_key_envelope);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Stop volatile KEK */
@@ -673,7 +680,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
 
     return ret;
 }
-#endif
+#endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
 #ifdef STSE_CONF_USE_HOST_KEY_ESTABLISHMENT
 stse_ReturnCode_t stse_establish_host_key(
@@ -692,7 +699,7 @@ stse_ReturnCode_t stse_establish_host_key(
     if (host_keys_type == STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || host_ecdh_key_type == STSE_ECC_KT_ED25519
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
     ) {
         return STSE_API_INVALID_PARAMETER;
     }
@@ -739,7 +746,7 @@ stse_ReturnCode_t stse_establish_host_key(
         memset(stsafe_ecdhe_public_key, 0, sizeof(stsafe_ecdhe_public_key));
         memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
         memset(host_ecdhe_private_key, 0, sizeof(host_ecdhe_private_key));
-        return (ret);
+        return ret;
     }
 
     /* - Process Diffie-Hellman on host side */
@@ -793,7 +800,7 @@ stse_ReturnCode_t stse_establish_host_key(
     memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
     if (ret != STSE_OK) {
         memset(okm_buffer, 0, sizeof(okm_buffer));
-        return (ret);
+        return ret;
     }
 
     memcpy(host_mac_key,
@@ -806,11 +813,11 @@ stse_ReturnCode_t stse_establish_host_key(
 
     return ret;
 }
-#endif
+#endif /* STSE_CONF_USE_HOST_KEY_ESTABLISHMENT */
 
 /* ------------------------------------------------------------------------------------------
 
-							STSE Symmetric keys provisioning
+                            STSE Symmetric keys provisioning
 
    ------------------------------------------------------------------------------------------ */
 
@@ -838,7 +845,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
     ret = stsafea_query_symmetric_key_slots_count(pSTSE, &slot_count);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     if (slot_number >= slot_count) {
@@ -850,7 +857,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
     ret = stsafea_query_symmetric_key_table(pSTSE, slot_count, pSymmetric_key_table_info);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     memcpy(pSymmetric_key_slot_info,
@@ -905,7 +912,9 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
     /* - Write the plaintext key */
     return stsafea_write_symmetric_key_plaintext(pSTSE, pKey, pSymmetric_key_info);
 }
+
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED
+
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pKey,
@@ -924,7 +933,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
     /* - Start Volatile KEK session */
     ret = stse_start_volatile_KEK_session(pSTSE, &volatile_KEK_session, kek_session_ecc_type);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Format envelope to wrap */
@@ -955,7 +964,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
         envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Write the envelope */
@@ -965,7 +974,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
         envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Close Volatile KEK session */
@@ -973,9 +982,10 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 
     return ret;
 }
-#endif /*STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED*/
+#endif /* STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED */
 
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
+
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pKey,
@@ -1009,7 +1019,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
         signature_private_ecc_key_type,
         signature_private_key);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Format envelope to wrap */
@@ -1038,9 +1048,8 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
         envelope_length,
         envelope,
         envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Write the envelope */
@@ -1048,9 +1057,8 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
         pSTSE,
         envelope,
         envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Close Volatile KEK session */
@@ -1058,9 +1066,10 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
 
     return ret;
 }
-#endif /*STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED*/
+#endif /* STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT
+
 stse_ReturnCode_t stse_establish_symmetric_key(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t ecc_key_type,
@@ -1083,7 +1092,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
     if (ecc_key_type == STSE_ECC_KT_ED25519) {
         return STSE_API_INVALID_PARAMETER;
     }
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
 
     host_public_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
     host_private_key_size = stse_ecc_info_table[ecc_key_type].private_key_size;
@@ -1112,7 +1121,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         host_public_key);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Generate stsafea ECDHE key pair */
@@ -1120,9 +1129,8 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         pSTSE,
         ecc_key_type,
         stsafe_public_key);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Establish the symmetric key shared secret in STSAFE RAM */
@@ -1130,9 +1138,8 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         pSTSE,
         ecc_key_type,
         host_public_key);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Compute the shared secret on host side */
@@ -1141,9 +1148,8 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         stsafe_public_key,
         host_private_key,
         shared_secret);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Derive base KEK from shared secret */
@@ -1156,9 +1162,8 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         STSAFEA_KT_LENGTH + STSAFEA_KT_LENGTH,
         okm_buffer,
         okm_length);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Send confirmation MAC + Key information list */
@@ -1169,7 +1174,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         key_infos_list);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Format OKM for return value */
@@ -1179,9 +1184,10 @@ stse_ReturnCode_t stse_establish_symmetric_key(
 
     return ret;
 }
-#endif /*STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT*/
+#endif /* STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT */
 
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED
+
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t ecc_key_type,
@@ -1201,10 +1207,10 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     if (key_infos_list == NULL || key_list == NULL || private_key == NULL
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || ecc_key_type == STSE_ECC_KT_ED25519
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
 #ifdef STSE_CONF_ECC_CURVE_25519
         || private_ecc_key_type == STSE_ECC_KT_CURVE25519
-#endif
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     ) {
         return STSE_API_INVALID_PARAMETER;
     }
@@ -1223,11 +1229,12 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 #ifdef STSE_CONF_ECC_CURVE_25519
     if (ecc_key_type == STSE_ECC_KT_CURVE25519) {
         pub_key_size_stsafe_format += STSE_ECC_GENERIC_LENGTH_SIZE;
-    } else
-#endif
-    {
+    } else {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pub_key_size_stsafe_format += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
     PLAT_UI16 tbs_length = stse_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
     PLAT_UI8 pTBS[tbs_length];
 
@@ -1251,7 +1258,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         host_ecdhe_public_key);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Generate stsafe ECDHE key pair */
@@ -1261,7 +1268,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         stsafe_ecdhe_public_key);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Sign concatenation of both public key to authenticate to the STSAFE */
@@ -1275,12 +1282,13 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 
     /* Copy Host ECDHE public key */
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
         copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 
     pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
@@ -1292,9 +1300,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
@@ -1303,16 +1310,19 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
                host_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
                stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 
     /* Copy STSE ECDHE public key */
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
         copy_index += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 
     pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
     pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
@@ -1324,9 +1334,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
 
 #ifdef STSE_CONF_ECC_CURVE_25519
-    if (ecc_key_type != STSE_ECC_KT_CURVE25519)
-#endif
-    {
+    if (ecc_key_type != STSE_ECC_KT_CURVE25519) {
+#endif /* STSE_CONF_ECC_CURVE_25519 */
         pTBS[copy_index] = UI16_B1(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         pTBS[copy_index + 1] = UI16_B0(stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += STSE_ECC_GENERIC_LENGTH_SIZE;
@@ -1335,7 +1344,9 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
                stsafe_ecdhe_public_key + stse_ecc_info_table[ecc_key_type].coordinate_or_key_size,
                stse_ecc_info_table[ecc_key_type].coordinate_or_key_size);
         copy_index += stse_ecc_info_table[ecc_key_type].coordinate_or_key_size;
+#ifdef STSE_CONF_ECC_CURVE_25519
     }
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 
     ret = stsafea_sign_for_generic_public_key_slot(
         pSTSE,
@@ -1345,9 +1356,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         tbs_length,           /* Length of the payload to sign*/
         pTBS,                 /* Payload to sign */
         signature);           /* Signature output */
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Establish the symmetric key shared secret in STSAFE RAM */
@@ -1359,9 +1369,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         signature_public_key_slot_number,
         private_ecc_key_type,
         signature);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Compute the shared secret on host side */
@@ -1370,9 +1379,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         stsafe_ecdhe_public_key,
         host_ecdhe_private_key,
         shared_secret);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Derive base KEK from shared secret */
@@ -1387,7 +1395,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         okm_length);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Send confirmation MAC + Key information list */
@@ -1396,9 +1404,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         okm_buffer,
         key_infos_count,
         key_infos_list);
-
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Format OKM for return value */

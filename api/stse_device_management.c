@@ -1,6 +1,6 @@
 /*!
  ******************************************************************************
- * \file	stse_device_management.c
+ * \file    stse_device_management.c
  * \brief   STSE device management API set (sources)
  * \author  STMicroelectronics - CS application team
  *
@@ -16,7 +16,6 @@
  *****************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
-
 #include "api/stse_device_management.h"
 
 /* Exported variables --------------------------------------------------------*/
@@ -40,12 +39,15 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
     }
 
     switch (pSTSE->io.BusType) {
+#if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
+    (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
     case STSE_BUS_TYPE_I2C:
         ret = stse_platform_i2c_init(pSTSE->io.busID);
         if (ret != STSE_OK) {
             return ret;
         }
         break;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && defined(STSE_CONF_USE_I2C) */
 #ifdef STSE_CONF_USE_ST1WIRE
     case STSE_BUS_TYPE_ST1WIRE:
         ret = stse_platform_st1wire_init(pSTSE->io.busID);
@@ -60,7 +62,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
         pSTSE->io.BusRecvContinue = stse_platform_st1wire_receive_continue;
         pSTSE->io.BusRecvStop = stse_platform_st1wire_receive_stop;
         break;
-#endif
+#endif /* STSE_CONF_USE_ST1WIRE */
 
     default:
         return (STSE_CORE_INVALID_PARAMETER);
@@ -93,7 +95,9 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
     }
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type != STSAFE_L010) {
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
         stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
 
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
@@ -102,7 +106,9 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
             ret = stsafea_perso_info_update(pSTSE);
         }
 #endif /* STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS */
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
     return ret;
@@ -122,7 +128,7 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
     case STSAFE_L010:
         ret = stsafel_hibernate(pSTSE);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:
@@ -130,7 +136,7 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
         ret = stsafea_hibernate(pSTSE, wake_up_mode);
         break;
     case STSAFE_A120:
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
     }
 
@@ -182,14 +188,14 @@ stse_ReturnCode_t stse_device_echo(stse_Handler_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     case STSAFE_L010:
         return stsafel_echo(pSTSE, pIn, pOut, size);
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:
     case STSAFE_A120:
     case STSAFE_A200:
         return stsafea_echo(pSTSE, pIn, pOut, size);
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
@@ -204,9 +210,11 @@ stse_ReturnCode_t stse_device_lock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword, P
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type == STSAFE_L010) {
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     if (pPassword == NULL || password_length != STSAFEA_PASSWORD_LENGTH) {
         return STSE_API_INVALID_PARAMETER;
@@ -243,9 +251,11 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type == STSAFE_L010) {
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     if (pPassword == NULL || password_length != STSAFEA_PASSWORD_LENGTH) {
         return STSE_API_INVALID_PARAMETER;
@@ -285,7 +295,7 @@ stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE) {
     case STSAFE_L010:
         ret = stsafel_reset(pSTSE);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:
@@ -293,7 +303,7 @@ stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE) {
     case STSAFE_A200:
         ret = stsafea_reset(pSTSE);
         break;
-#endif
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
     }
 
@@ -306,9 +316,11 @@ stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type == STSAFE_L010) {
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     return stsafea_get_command_count(pSTSE, pRecord_count);
 }
@@ -322,9 +334,11 @@ stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type == STSAFE_L010) {
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     return stsafea_get_command_AC_table(pSTSE, record_count, pChange_rights, pRecord_table);
 }
@@ -336,9 +350,11 @@ stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type == STSAFE_L010) {
         return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     return stsafea_query_life_cycle_state(pSTSE, pLife_cycle_state);
 }

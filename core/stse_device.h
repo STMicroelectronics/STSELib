@@ -1,6 +1,6 @@
 /*!
  * ******************************************************************************
- * \file	stse_device.h
+ * \file    stse_device.h
  * \brief   STSE device (header)
  * \author  STMicroelectronics - CS application team
  *
@@ -48,11 +48,15 @@ typedef enum {
  * \details STMicroelectronics Secure Element device type
  */
 typedef enum stse_device_t {
-    STSAFE_A100 = 0, /*!< STSAFE-A100 target device */
-    STSAFE_A110,     /*!< STSAFE-A110 target device */
-    STSAFE_A120,     /*!< STSAFE-A120 target device */
-    STSAFE_A200,     /*!< STSAFE-A200 target device */
-    STSAFE_L010      /*!< STSAFE-L010 target device */
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+    STSAFE_A100, /*!< STSAFE-A100 target device */
+    STSAFE_A110, /*!< STSAFE-A110 target device */
+    STSAFE_A120, /*!< STSAFE-A120 target device */
+    STSAFE_A200, /*!< STSAFE-A200 target device */
+#endif           /* STSE_CONF_STSAFE_A_SUPPORT */
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+    STSAFE_L010 /*!< STSAFE-L010 target device */
+#endif          /* STSE_CONF_STSAFE_L_SUPPORT */
 } stse_device_t;
 
 #define STSE_DEVICE_STSAFEA_FAMILY_INDEX STSAFE_A100
@@ -71,8 +75,13 @@ typedef struct stse_perso_info_t {
  * \details STSE Bus type
  */
 typedef enum stse_bus {
-    STSE_BUS_TYPE_I2C,    /*!< I2C bus */
+#if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
+    (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
+    STSE_BUS_TYPE_I2C, /*!< I2C bus */
+#endif                 /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && STSE_CONF_USE_I2C) */
+#ifdef STSE_CONF_USE_ST1WIRE
     STSE_BUS_TYPE_ST1WIRE /*!< ST1Wire bus */
+#endif                    /* STSE_CONF_USE_ST1WIRE */
 } stse_bus_t;
 
 /*
@@ -145,8 +154,8 @@ typedef struct
 typedef struct stse_session_t stse_session_t;
 
 /*
-	 * \brief STSE Session type
-	 */
+     * \brief STSE Session type
+     */
 struct stse_session_t {
     stse_session_type_t type;
     union {
@@ -168,18 +177,16 @@ struct stse_session_t {
 /*!
  * \typedef stse_Handler_t
  * \brief STSE Handler
- * 		  This handler stores all the context and working data related to a specific STSE target. \n
- * 		  Pointer to a specific stsafe_Handler is the main parameters of all STSE middleware API functions. \n
- * 		  A specific STSE target Handler must be initialized using the "stsafe_init" API function
+ *        This handler stores all the context and working data related to a specific STSE target. \n
+ *        Pointer to a specific stsafe_Handler is the main parameters of all STSE middleware API functions. \n
+ *        A specific STSE target Handler must be initialized using the "stsafe_init" API function
  */
 struct stse_Handler_t {
-
     stse_device_t device_type;
     stse_perso_info_t *pPerso_info;
     stse_session_t *pActive_host_session;
     stse_session_t *pActive_other_session;
     stse_io_t io;
-
 } PLAT_PACKED_STRUCT;
 
 /* Exported variables --------------------------------------------------------*/
@@ -187,9 +194,9 @@ struct stse_Handler_t {
 extern stse_perso_info_t dynamic_product_perso;
 
 /**
- * \brief 		Initialise the STSE handler to default value
- * \details 		This core function initialise the handler to default value
- * \param[in] 		pStseHandler 	Pointer to STSE handler
+ * \brief       Initialise the STSE handler to default value
+ * \details     This core function initialise the handler to default value
+ * \param[in]   pStseHandler : Pointer to STSE handler
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler);
