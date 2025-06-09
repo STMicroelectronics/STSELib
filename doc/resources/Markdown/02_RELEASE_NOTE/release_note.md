@@ -1,6 +1,10 @@
 # Release Note
 
-## v1.1.0 (Latest)
+## v1.1.1 (Latest)
+- [all] Format code using Pre-commit and clang formater  
+- [stsafea] fix compilation issue when STSE_CONF_USE_HOST_SESSION is disabled
+  
+## v1.1.0
 - [all] Library performance and footprint optimization based on stse_conf.h
 - [certificate parser] Add ED25519 support
 - [api] Add STSAFEL support to STSE ECC APIs
