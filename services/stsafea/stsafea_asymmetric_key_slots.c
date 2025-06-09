@@ -278,10 +278,6 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
                                   &RspFrame);
 }
 
-#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) ||   \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
-
 stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t private_key_type,
@@ -291,6 +287,10 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
     PLAT_UI8 *pPayload,
     PLAT_UI8 *pSignature) {
     (void)pSTSE;
+#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) ||   \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
+
     stse_ReturnCode_t ret;
     PLAT_UI8 tbs_data[payload_length];
     PLAT_UI32 hash_length = stsafea_hash_info_table[hash_algo].length;
@@ -326,9 +326,11 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
         pSignature);
 
     return (ret);
-}
+#else
+    return STSE_SERVICE_INVALID_CONFIGURATION;
 #endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED ||
           STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED ||
           STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
+}
 
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */

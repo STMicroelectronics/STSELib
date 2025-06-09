@@ -349,18 +349,18 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
                     cmd_header_extended = pCmdFrame->first_element->next->pData[0];
                     inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_extended];
 #ifdef STSE_CONF_USE_HOST_SESSION
-                    stsafea_perso_info_get_ext_cmd_AC(pSTSE->pPerso_info, cmd_header_extended, &cmd_ac_info);
-                    stsafea_perso_info_get_ext_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header_extended, &cmd_encryption_flag);
-                    stsafea_perso_info_get_ext_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header_extended, &rsp_encryption_flag);
+                    stsafea_perso_info_get_ext_cmd_AC(&pSTSE->perso_info, cmd_header_extended, &cmd_ac_info);
+                    stsafea_perso_info_get_ext_cmd_encrypt_flag(&pSTSE->perso_info, cmd_header_extended, &cmd_encryption_flag);
+                    stsafea_perso_info_get_ext_rsp_encrypt_flag(&pSTSE->perso_info, cmd_header_extended, &rsp_encryption_flag);
 #endif /* STSE_CONF_USE_HOST_SESSION */
                 }
             } else {
                 cmd_header = pCmdFrame->first_element->pData[0];
                 inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header];
 #ifdef STSE_CONF_USE_HOST_SESSION
-                stsafea_perso_info_get_cmd_AC(pSTSE->pPerso_info, cmd_header, &cmd_ac_info);
-                stsafea_perso_info_get_cmd_encrypt_flag(pSTSE->pPerso_info, cmd_header, &cmd_encryption_flag);
-                stsafea_perso_info_get_rsp_encrypt_flag(pSTSE->pPerso_info, cmd_header, &rsp_encryption_flag);
+                stsafea_perso_info_get_cmd_AC(&pSTSE->perso_info, cmd_header, &cmd_ac_info);
+                stsafea_perso_info_get_cmd_encrypt_flag(&pSTSE->perso_info, cmd_header, &cmd_encryption_flag);
+                stsafea_perso_info_get_rsp_encrypt_flag(&pSTSE->perso_info, cmd_header, &rsp_encryption_flag);
 #endif /* STSE_CONF_USE_HOST_SESSION */
             }
             ret = STSE_OK;

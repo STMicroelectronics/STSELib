@@ -183,15 +183,13 @@ struct stse_session_t {
  */
 struct stse_Handler_t {
     stse_device_t device_type;
-    stse_perso_info_t *pPerso_info;
+    stse_perso_info_t perso_info;
     stse_session_t *pActive_host_session;
     stse_session_t *pActive_other_session;
     stse_io_t io;
 } PLAT_PACKED_STRUCT;
 
 /* Exported variables --------------------------------------------------------*/
-
-extern stse_perso_info_t dynamic_product_perso;
 
 /**
  * \brief       Initialise the STSE handler to default value

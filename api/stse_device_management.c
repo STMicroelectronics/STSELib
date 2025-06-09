@@ -20,16 +20,7 @@
 
 /* Exported variables --------------------------------------------------------*/
 
-stse_perso_info_t dynamic_product_perso = {
-    .cmd_encryption_status = 0,
-    .rsp_encryption_status = 0,
-    .ext_cmd_encryption_status = 0,
-    .ext_rsp_encryption_status = 0,
-    .cmd_AC_status = 0x5555555555555555,
-    .ext_cmd_AC_status = 0x5555555555555555};
-
 /* Exported functions --------------------------------------------------------*/
-
 stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
     stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
 
@@ -101,10 +92,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
         stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
 
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
-        if (pSTSE->pPerso_info == NULL) {
-            pSTSE->pPerso_info = &dynamic_product_perso;
-            ret = stsafea_perso_info_update(pSTSE);
-        }
+        ret = stsafea_perso_info_update(pSTSE);
 #endif /* STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS */
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     }

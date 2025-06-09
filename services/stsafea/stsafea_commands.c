@@ -119,16 +119,12 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }
 
-    if (pSTSE->pPerso_info != &dynamic_product_perso) {
-        return STSE_SERVICE_INVALID_PARAMETER;
-    }
-
-    pSTSE->pPerso_info->cmd_AC_status = 0x5555555555555555;
-    pSTSE->pPerso_info->cmd_encryption_status = 0,
-    pSTSE->pPerso_info->rsp_encryption_status = 0;
-    pSTSE->pPerso_info->ext_cmd_AC_status = 0x5555555555555555;
-    pSTSE->pPerso_info->ext_cmd_encryption_status = 0;
-    pSTSE->pPerso_info->ext_rsp_encryption_status = 0;
+    pSTSE->perso_info.cmd_encryption_status = 0,
+    pSTSE->perso_info.rsp_encryption_status = 0;
+    pSTSE->perso_info.ext_cmd_encryption_status = 0;
+    pSTSE->perso_info.ext_rsp_encryption_status = 0;
+    pSTSE->perso_info.cmd_AC_status = 0x5555555555555555;
+    pSTSE->perso_info.ext_cmd_AC_status = 0x5555555555555555;
 
     ret = stsafea_get_command_count(pSTSE, &total_command_count);
     if (ret != STSE_OK) {
@@ -147,13 +143,13 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE) {
 
     for (PLAT_UI8 i = 0; i < total_command_count; i++) {
         if (record_table[i].extended_header == 0) {
-            stsafea_perso_info_set_cmd_AC(pSTSE->pPerso_info, record_table[i].header, record_table[i].command_AC);
-            stsafea_perso_info_set_cmd_encrypt_flag(pSTSE->pPerso_info, record_table[i].header, record_table[i].host_encryption_flags.cmd);
-            stsafea_perso_info_set_rsp_encrypt_flag(pSTSE->pPerso_info, record_table[i].header, record_table[i].host_encryption_flags.rsp);
+            stsafea_perso_info_set_cmd_AC(&pSTSE->perso_info, record_table[i].header, record_table[i].command_AC);
+            stsafea_perso_info_set_cmd_encrypt_flag(&pSTSE->perso_info, record_table[i].header, record_table[i].host_encryption_flags.cmd);
+            stsafea_perso_info_set_rsp_encrypt_flag(&pSTSE->perso_info, record_table[i].header, record_table[i].host_encryption_flags.rsp);
         } else {
-            stsafea_perso_info_set_ext_cmd_AC(pSTSE->pPerso_info, record_table[i].extended_header, record_table[i].command_AC);
-            stsafea_perso_info_set_ext_cmd_encrypt_flag(pSTSE->pPerso_info, record_table[i].extended_header, record_table[i].host_encryption_flags.cmd);
-            stsafea_perso_info_set_ext_rsp_encrypt_flag(pSTSE->pPerso_info, record_table[i].extended_header, record_table[i].host_encryption_flags.rsp);
+            stsafea_perso_info_set_ext_cmd_AC(&pSTSE->perso_info, record_table[i].extended_header, record_table[i].command_AC);
+            stsafea_perso_info_set_ext_cmd_encrypt_flag(&pSTSE->perso_info, record_table[i].extended_header, record_table[i].host_encryption_flags.cmd);
+            stsafea_perso_info_set_ext_rsp_encrypt_flag(&pSTSE->perso_info, record_table[i].extended_header, record_table[i].host_encryption_flags.rsp);
         }
     }
 

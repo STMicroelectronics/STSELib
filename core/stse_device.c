@@ -26,7 +26,7 @@ stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler) {
     }
 
     pStseHandler->device_type = (stse_device_t)0;
-    pStseHandler->pPerso_info = NULL;
+    memset(&pStseHandler->perso_info, 0, sizeof(pStseHandler->perso_info));
     pStseHandler->pActive_host_session = NULL;
     pStseHandler->pActive_other_session = NULL;
     pStseHandler->io.BusRecvStart = stse_platform_i2c_receive_start;
