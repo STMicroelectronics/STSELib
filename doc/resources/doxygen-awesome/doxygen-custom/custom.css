@@ -29,11 +29,21 @@
     background: var(--primary-dark-color);
 }
 
+html.dark-mode .darkmode_inverted_image img, /* < doxygen 1.9.3 */
+html.dark-mode .darkmode_inverted_image object[type="image/svg+xml"] /* doxygen 1.9.3 */ {
+    filter: brightness(89%) hue-rotate(180deg) invert();
+}
+
 .bordered_image {
     border-radius: var(--border-radius-small);
     border: 1px solid var(--separator-color);
     display: inline-block;
     overflow: hidden;
+}
+
+html.dark-mode .bordered_image img, /* < doxygen 1.9.3 */
+html.dark-mode .bordered_image object[type="image/svg+xml"] /* doxygen 1.9.3 */ {
+    border-radius: var(--border-radius-small);
 }
 
 .title_screenshot {
