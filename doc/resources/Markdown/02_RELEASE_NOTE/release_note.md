@@ -1,9 +1,12 @@
 # Release Note
 
 ## v1.1.1 (Latest)
-- [all] Format code using Pre-commit and clang formater  
+- [all] Format code using Pre-commit and clang formater
 - [stsafea] fix compilation issue when STSE_CONF_USE_HOST_SESSION is disabled
-  
+- [api] [core] [services] Allocate personalization informations to device handler
+- [api] [core] [services] Add device (STSAFE-A/L) & protocol (I2C/ST1WIRE) preprocessor check
+- [doc] Update doxyfile for doxygen 1.14.0 & fix html display issues
+
 ## v1.1.0
 - [all] Library performance and footprint optimization based on stse_conf.h
 - [certificate parser] Add ED25519 support
