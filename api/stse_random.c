@@ -21,7 +21,7 @@ stse_ReturnCode_t stse_generate_random(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pRandom,
     PLAT_UI16 random_size) {
-    stse_ReturnCode_t ret = STSE_API_HANDLER_NOT_INITIALISED;
+    stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
@@ -31,18 +31,26 @@ stse_ReturnCode_t stse_generate_random(
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    for (PLAT_UI16 index = 0; index < random_size;) {
-        ret = stsafea_generate_random(
-            pSTSE,
-            &pRandom[index],
-            ((random_size - index) < STSAFEA_MAXIMUM_RNG_SIZE) ? (random_size - index) : STSAFEA_MAXIMUM_RNG_SIZE);
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+    if (pSTSE->device_type != STSAFE_L010) {
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
+        for (PLAT_UI16 index = 0; index < random_size;) {
+            ret = stsafea_generate_random(
+                pSTSE,
+                &pRandom[index],
+                ((random_size - index) < STSAFEA_MAXIMUM_RNG_SIZE) ? (random_size - index) : STSAFEA_MAXIMUM_RNG_SIZE);
 
-        if (ret != STSE_OK) {
-            break;
+            if (ret != STSE_OK) {
+                break;
+            }
+
+            index += STSAFEA_MAXIMUM_RNG_SIZE;
         }
-
-        index += STSAFEA_MAXIMUM_RNG_SIZE;
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
     }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
     return ret;
 }
