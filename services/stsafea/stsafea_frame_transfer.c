@@ -98,6 +98,7 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     stse_frame_element_t *pCurrent_element;
+    PLAT_UI8 received_header;
     PLAT_UI16 received_length;
     PLAT_UI8 received_crc[STSE_FRAME_CRC_SIZE];
     PLAT_UI16 computed_crc;
@@ -140,7 +141,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         pSTSE->io.busID,
         pSTSE->io.Devaddr,
         pSTSE->io.BusSpeed,
-        NULL,
+        &received_header,
         STSE_RSP_FRAME_HEADER_SIZE);
 
     /* - Get STSAFE Response Length */
@@ -157,6 +158,12 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     /* - Store response Length */
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE + STSE_RSP_FRAME_HEADER_SIZE;
 
+    if ((received_header & STSE_STSAFEA_RSP_STATUS_MASK) != STSE_OK) {
+        while (pFrame->element_count > 1) {
+            stse_frame_pop_element(pFrame);
+        }
+    }
+
     /* ======================================================= */
     /* ====== Format the frame to handle CRC and filler ====== */
 
@@ -168,10 +175,12 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /* Append filler frame element even if its length equal 0 */
     PLAT_UI8 filler[filler_size];
-    stse_frame_element_allocate_push(pFrame,
-                                     eFiller,
-                                     filler_size,
-                                     filler);
+    if (filler_size > 0) {
+        stse_frame_element_allocate_push(pFrame,
+                                         eFiller,
+                                         filler_size,
+                                         filler);
+    }
 
     /* ======================================================= */
     /* ========= Receive the frame in frame elements ========= */
@@ -207,12 +216,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         pFrame->first_element->pData,
         STSE_RSP_FRAME_HEADER_SIZE);
 
-    ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEA_RSP_STATUS_MASK);
     if (ret != STSE_OK) {
-#ifdef STSE_FRAME_DEBUG_LOG
-        printf("\n\r STSAFE Frame <  (1-byte) : { 0x%02X }\n\r", pFrame->first_element->pData[0]);
-        printf("\n\r");
-#endif /* STSE_FRAME_DEBUG_LOG */
         return ret;
     }
 
@@ -289,7 +293,9 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     computed_crc = stse_frame_crc16_compute(pFrame);
 
     /* - Pop Filler element from Frame*/
-    stse_frame_pop_element(pFrame);
+    if (filler_size > 0) {
+        stse_frame_pop_element(pFrame);
+    }
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {
