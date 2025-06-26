@@ -208,8 +208,7 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY};
 
     if (pSTSE == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
@@ -234,8 +233,7 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
     PLAT_UI8 rsp_header;
 
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_extended, STSAFEA_HEADER_SIZE, &cmd_header_extended);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, STSAFEA_SLOT_NUMBER_ID_SIZE, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eCurve_id,
                                      stse_ecc_info_table[key_type].curve_id_total_length,

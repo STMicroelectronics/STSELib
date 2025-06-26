@@ -25,8 +25,7 @@ stse_ReturnCode_t stsafea_generate_challenge(
     stse_Handler_t *pSTSE,
     PLAT_UI8 challenge_size,
     PLAT_UI8 *pChallenge) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE};
     PLAT_UI8 rsp_header;
 
     if (pSTSE == NULL) {
@@ -39,8 +38,7 @@ stse_ReturnCode_t stsafea_generate_challenge(
 
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eExt_cmd_header, STSAFEA_HEADER_SIZE, &ext_cmd_header);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
 
     /*- Create Rsp frame and populate elements*/
     stse_frame_allocate(RspFrame);
@@ -60,8 +58,7 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
     PLAT_UI8 *pSignature,
     PLAT_UI8 *pSignature_validity) {
     stse_ReturnCode_t ret;
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE};
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
@@ -76,8 +73,7 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
     stse_frame_element_allocate(eFiller, 1, &filler);
 
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_extended, STSAFEA_HEADER_SIZE, &cmd_header_extended);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_push_element(&CmdFrame, &eFiller);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, STSAFEA_SLOT_NUMBER_ID_SIZE, &slot_number);
 

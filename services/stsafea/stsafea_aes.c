@@ -200,8 +200,8 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
     PLAT_UI8 *pCounter_presence,
     PLAT_UI32 *pCounter) {
     stse_ReturnCode_t ret;
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_ENCRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_ENCRYPT};
+
     PLAT_UI8 rsp_header;
     PLAT_UI8 alt_counter_presence;
     PLAT_UI8 alt_counter[STSAFEA_COUNTER_VALUE_SIZE];
@@ -217,8 +217,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, 1, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eNonce_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&Nonce_length);
     stse_frame_element_allocate_push(&CmdFrame, eNonce, Nonce_length, pNonce);
@@ -362,8 +361,7 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_DECRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_DECRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -377,8 +375,7 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, 1, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eNonce_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&Nonce_length);
     stse_frame_element_allocate_push(&CmdFrame, eIV, Nonce_length, pNonce);
@@ -506,8 +503,7 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_ENCRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_ENCRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -521,8 +517,7 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, 1, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eIV_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&IV_length);
     stse_frame_element_allocate_push(&CmdFrame, eIV, IV_length, pIV);
@@ -553,8 +548,7 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_PROCESS_ENCRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_PROCESS_ENCRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -568,8 +562,7 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&associated_data_chunk_length);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data, associated_data_chunk_length, pAssociated_data_chunk);
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_chunk_length);
@@ -597,8 +590,7 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pAuthentication_tag) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_FINISH_ENCRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_FINISH_ENCRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -612,8 +604,7 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&associated_data_chunk_length);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data, associated_data_chunk_length, pAssociated_data_chunk);
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_chunk_length);
@@ -700,8 +691,7 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_START_DECRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_DECRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -715,8 +705,7 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, 1, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eIV_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&IV_length);
     stse_frame_element_allocate_push(&CmdFrame, eIV, IV_length, pIV);
@@ -746,8 +735,7 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_PROCESS_DECRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_PROCESS_DECRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -761,8 +749,7 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&associated_data_chunk_length);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data, associated_data_chunk_length, pAssociated_data_chunk);
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_chunk_length);
@@ -791,8 +778,7 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
     PLAT_UI8 *pAuthentication_tag,
     PLAT_UI8 *pVerification_result,
     PLAT_UI8 *pPlaintext_message_chunk) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_ext = STSAFEA_EXTENDED_CMD_FINISH_DECRYPT;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_FINISH_DECRYPT};
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -806,8 +792,7 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_finish(
 
     /* - Prepare CMD Frame */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_ext, STSAFEA_HEADER_SIZE, &cmd_header_ext);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&associated_data_chunk_length);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data, associated_data_chunk_length, pAssociated_data_chunk);
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_chunk_length);

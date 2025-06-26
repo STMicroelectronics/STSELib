@@ -217,8 +217,7 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_header_extended = STSAFEA_EXTENDED_CMD_GENERATE_ECDHE;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_GENERATE_ECDHE};
 
     PLAT_UI8 rsp_header;
     PLAT_UI8 pCurve_id_rsp[stse_ecc_info_table[key_type].curve_id_total_length];
@@ -236,8 +235,7 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
     stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
 
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header_extended, STSAFEA_HEADER_SIZE, &cmd_header_extended);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eCurve_id_cmd,
                                      stse_ecc_info_table[key_type].curve_id_total_length,
                                      (PLAT_UI8 *)&stse_ecc_info_table[key_type].curve_id);

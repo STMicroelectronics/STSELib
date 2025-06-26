@@ -132,7 +132,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     }
 
     /* - Verify correct reception*/
-    if ((ret & STSE_STSAFEL_RSP_STATUS_MASK) != STSE_OK) {
+    if (ret != STSE_OK) {
         return ret;
     }
 
@@ -205,9 +205,6 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         return ret;
     }
 
-    /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
-    stse_frame_element_allocate_push(pFrame, eCRC, STSE_FRAME_CRC_SIZE, received_crc);
-
     /* Receive response header */
     ret = pSTSE->io.BusRecvContinue(
         pSTSE->io.busID,
@@ -233,6 +230,9 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     if (ret != STSE_OK) {
         return ret;
     }
+
+    /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
+    stse_frame_element_allocate_push(pFrame, eCRC, STSE_FRAME_CRC_SIZE, received_crc);
 
     /* If first element is longer than just the header */
     if (pFrame->first_element->length > STSE_RSP_FRAME_HEADER_SIZE) {
@@ -337,8 +337,6 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
 stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pCmdFrame,
                                          stse_frame_t *pRspFrame) {
     stse_ReturnCode_t ret = STSE_CORE_INVALID_PARAMETER;
-    PLAT_UI8 cmd_header;
-    PLAT_UI8 cmd_header_extended = 0;
     PLAT_UI16 inter_frame_delay = STSAFEA_EXEC_TIME_DEFAULT;
 
 #ifdef STSE_CONF_USE_HOST_SESSION
@@ -348,27 +346,21 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
 #endif /* STSE_CONF_USE_HOST_SESSION */
 
     if (pCmdFrame->first_element != NULL && pCmdFrame->first_element->pData != NULL) {
-        if (pCmdFrame->first_element->length == STSAFEA_HEADER_SIZE) {
-            if (pCmdFrame->first_element->pData[0] == STSAFEA_EXTENDED_COMMAND_PREFIX) {
-                cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-                if (pCmdFrame->first_element->next->length == STSAFEA_HEADER_SIZE && pCmdFrame->first_element->next->pData != NULL) {
-                    cmd_header_extended = pCmdFrame->first_element->next->pData[0];
-                    inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header_extended];
+        if (pCmdFrame->first_element->length == STSAFEA_EXT_HEADER_SIZE && pCmdFrame->first_element->pData[0] == STSAFEA_EXTENDED_COMMAND_PREFIX) {
+            inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][pCmdFrame->first_element->pData[1]];
 #ifdef STSE_CONF_USE_HOST_SESSION
-                    stsafea_perso_info_get_ext_cmd_AC(&pSTSE->perso_info, cmd_header_extended, &cmd_ac_info);
-                    stsafea_perso_info_get_ext_cmd_encrypt_flag(&pSTSE->perso_info, cmd_header_extended, &cmd_encryption_flag);
-                    stsafea_perso_info_get_ext_rsp_encrypt_flag(&pSTSE->perso_info, cmd_header_extended, &rsp_encryption_flag);
+            stsafea_perso_info_get_ext_cmd_AC(&pSTSE->perso_info, pCmdFrame->first_element->pData[1], &cmd_ac_info);
+            stsafea_perso_info_get_ext_cmd_encrypt_flag(&pSTSE->perso_info, pCmdFrame->first_element->pData[1], &cmd_encryption_flag);
+            stsafea_perso_info_get_ext_rsp_encrypt_flag(&pSTSE->perso_info, pCmdFrame->first_element->pData[1], &rsp_encryption_flag);
 #endif /* STSE_CONF_USE_HOST_SESSION */
-                }
-            } else {
-                cmd_header = pCmdFrame->first_element->pData[0];
-                inter_frame_delay = stsafea_extended_cmd_timings[pSTSE->device_type][cmd_header];
+            ret = STSE_OK;
+        } else if (pCmdFrame->first_element->length == STSAFEA_HEADER_SIZE && pCmdFrame->first_element->pData[0] != STSAFEA_EXTENDED_COMMAND_PREFIX) {
+            inter_frame_delay = stsafea_cmd_timings[pSTSE->device_type][pCmdFrame->first_element->pData[0]];
 #ifdef STSE_CONF_USE_HOST_SESSION
-                stsafea_perso_info_get_cmd_AC(&pSTSE->perso_info, cmd_header, &cmd_ac_info);
-                stsafea_perso_info_get_cmd_encrypt_flag(&pSTSE->perso_info, cmd_header, &cmd_encryption_flag);
-                stsafea_perso_info_get_rsp_encrypt_flag(&pSTSE->perso_info, cmd_header, &rsp_encryption_flag);
+            stsafea_perso_info_get_cmd_AC(&pSTSE->perso_info, pCmdFrame->first_element->pData[0], &cmd_ac_info);
+            stsafea_perso_info_get_cmd_encrypt_flag(&pSTSE->perso_info, pCmdFrame->first_element->pData[0], &cmd_encryption_flag);
+            stsafea_perso_info_get_rsp_encrypt_flag(&pSTSE->perso_info, pCmdFrame->first_element->pData[0], &rsp_encryption_flag);
 #endif /* STSE_CONF_USE_HOST_SESSION */
-            }
             ret = STSE_OK;
         }
     }

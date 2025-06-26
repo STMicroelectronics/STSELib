@@ -25,8 +25,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 ext_cmd_header = STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION};
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
@@ -53,8 +52,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
     stse_frame_element_allocate(ePublic_key_second_element, 0, NULL);
 
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eExt_cmd_header, STSAFEA_HEADER_SIZE, &ext_cmd_header);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
 
     stse_frame_element_allocate_push(&CmdFrame, eCurve_id,
                                      stse_ecc_info_table[key_type].curve_id_total_length,
@@ -99,8 +97,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
     PLAT_UI8 signature_public_key_slot_number,
     stse_ecc_key_type_t signature_key_type,
     PLAT_UI8 *pSignature) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_extended_header = STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION};
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
@@ -144,8 +141,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
     stse_frame_allocate(CmdFrame);
 
     /* FRAME : [HEADER] [EXT HEADER] */
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_extended_header, 1, &cmd_extended_header);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
 
     /* FRAME : [HEADER] [EXT HEADER] [CURVE ID] */
     stse_frame_element_allocate_push(&CmdFrame, eCurve_id,
@@ -209,8 +205,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 
 stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
     stse_Handler_t *pSTSE) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_extended_header = STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION};
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
@@ -220,8 +215,7 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
     PLAT_UI8 rsp_header;
 
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eSubject_tag, 1, &cmd_extended_header);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
 
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
@@ -468,8 +462,7 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
     PLAT_UI8 point_representation_id,
     PLAT_UI8 *pPublic_key_X,
     PLAT_UI8 *pPublic_key_Y) {
-    PLAT_UI8 cmd_header = STSAFEA_EXTENDED_COMMAND_PREFIX;
-    PLAT_UI8 cmd_ext_header = STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY;
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY};
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
@@ -483,8 +476,7 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
     PLAT_UI8 rsp_header;
 
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_ext_header, STSAFEA_HEADER_SIZE, &cmd_ext_header);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eCurve_ID,
                                      stse_ecc_info_table[key_type].curve_id_total_length, (PLAT_UI8 *)&stse_ecc_info_table[key_type].curve_id);
     stse_frame_element_allocate_push(&CmdFrame, ePoint_representation_id, 1, &point_representation_id);
