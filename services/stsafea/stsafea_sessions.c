@@ -495,8 +495,10 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
     PLAT_UI16 encrypted_rsp_payload_size = 0;
     PLAT_UI8 padding = 0;
 
-    if (pSession == NULL) {
-        return STSE_SESSION_ERROR;
+    if (pSession == NULL || pCmdFrame == NULL || pRspFrame == NULL ||
+        pCmdFrame->first_element == NULL || pCmdFrame->first_element->pData == NULL ||
+        pRspFrame->first_element == NULL || pRspFrame->first_element->pData == NULL) {
+        return STSE_SERVICE_SESSION_ERROR;
     }
 
     if (cmd_encryption_flag == 1) {
@@ -561,8 +563,10 @@ stse_ReturnCode_t stsafea_session_authenticated_transfer(stse_session_t *pSessio
     PLAT_UI8 Cmd_MAC[STSAFEA_MAC_SIZE];
     PLAT_UI8 Rsp_MAC[STSAFEA_MAC_SIZE];
 
-    if (pSession == NULL) {
-        return STSE_SESSION_ERROR;
+    if (pSession == NULL || pCmdFrame == NULL || pRspFrame == NULL ||
+        pCmdFrame->first_element == NULL || pCmdFrame->first_element->pData == NULL ||
+        pRspFrame->first_element == NULL || pRspFrame->first_element->pData == NULL) {
+        return STSE_SERVICE_SESSION_ERROR;
     }
 
     if (pSession->type == STSE_HOST_SESSION) {
@@ -584,7 +588,7 @@ stse_ReturnCode_t stsafea_session_authenticated_transfer(stse_session_t *pSessio
 
     case STSE_HOST_SESSION:
         ret = stsafea_frame_raw_transfer(pSession->context.host.pSTSE, pCmdFrame, pRspFrame, processing_time);
-        if (ret == STSE_OK) {
+        if (ret <= 0xFF && ret != STSE_INVALID_C_MAC) {
             pSession->context.host.MAC_counter++;
         }
         break;
