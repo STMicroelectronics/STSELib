@@ -49,7 +49,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
     printf("\n\r STSAFE Frame > ");
     stse_frame_debug_print(pFrame);
     printf("\n\r");
-#endif
+#endif /* STSE_FRAME_DEBUG_LOG */
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR)) {
         /* - Receive frame length from target STSAFE */
         ret = pSTSE->io.BusSendStart(
@@ -97,6 +97,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     stse_frame_element_t *pCurrent_element;
+    PLAT_UI8 received_header;
     PLAT_UI16 received_length;
     PLAT_UI8 received_crc[STSE_FRAME_CRC_SIZE];
     PLAT_UI16 computed_crc;
@@ -131,7 +132,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     /* - Verify correct reception*/
     if ((ret & STSE_STSAFEL_RSP_STATUS_MASK) != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Get STSAFE Response Length */
@@ -142,7 +143,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
         length_value,
         STSE_FRAME_LENGTH_SIZE);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     /* - Store response Length */
@@ -159,10 +160,12 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     /* Append filler frame element even if its length equal 0 */
     PLAT_UI8 filler[filler_size];
-    stse_frame_element_allocate_push(pFrame,
-                                     eFiller,
-                                     filler_size,
-                                     filler);
+    if (filler_size > 0) {
+        stse_frame_element_allocate_push(pFrame,
+                                         eFiller,
+                                         filler_size,
+                                         filler);
+    }
 
     /* ======================================================= */
     /* ========= Receive the frame in frame elements ========= */
@@ -184,11 +187,8 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     /* - Verify correct reception*/
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
-
-    /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
-    stse_frame_element_allocate_push(pFrame, eCRC, STSE_FRAME_CRC_SIZE, received_crc);
 
     /* Receive response header */
     ret = pSTSE->io.BusRecvContinue(
@@ -198,15 +198,19 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
         pFrame->first_element->pData,
         STSE_RSP_FRAME_HEADER_SIZE);
 
-    ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
-
     if (ret != STSE_OK) {
-#ifdef STSAFE_FRAME_DEBUG_LOG
-        printf("\n\r STSAFE Frame <  (1-byte) : { 0x%02X }\n\r", pFrame->first_element->pData[0]);
-        printf("\n\r");
-#endif
-        return (ret);
+        return ret;
     }
+
+    received_header = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
+    if (received_header != STSE_OK) {
+        while (pFrame->element_count > 1) {
+            stse_frame_pop_element(pFrame);
+        }
+    }
+
+    /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
+    stse_frame_element_allocate_push(pFrame, eCRC, STSE_FRAME_CRC_SIZE, received_crc);
 
     /* If first element is longer than just the header */
     if (pFrame->first_element->length > STSE_RSP_FRAME_HEADER_SIZE) {
@@ -218,7 +222,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
             pFrame->first_element->pData + STSE_RSP_FRAME_HEADER_SIZE,
             pFrame->first_element->length - STSE_RSP_FRAME_HEADER_SIZE);
         if (ret != STSE_OK) {
-            return (ret);
+            return ret;
         }
     }
 
@@ -235,7 +239,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
             pCurrent_element->pData,
             pCurrent_element->length);
         if (ret != STSE_OK) {
-            return (ret);
+            return ret;
         }
 
         received_length -= pCurrent_element->length;
@@ -248,14 +252,14 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
         pCurrent_element->pData,
         pCurrent_element->length);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
 #ifdef STSE_FRAME_DEBUG_LOG
     printf("\n\r STSAFE Frame < ");
     stse_frame_debug_print(pFrame);
     printf("\n\r");
-#endif
+#endif /* STSE_FRAME_DEBUG_LOG */
 
     /* - Swap CRC */
     stse_frame_element_swap_byte_order(&eCRC);
@@ -267,7 +271,9 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
     computed_crc = stse_frame_crc16_compute(pFrame);
 
     /* - Pop Filler element from Frame*/
-    stse_frame_pop_element(pFrame);
+    if (filler_size > 0) {
+        stse_frame_pop_element(pFrame);
+    }
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {
@@ -276,7 +282,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
 
-    return (ret);
+    return ret;
 }
 #endif /* STSE_CONF_USE_I2C */
 
@@ -328,7 +334,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
 
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     ret = pSTSE->io.BusRecvContinue(
@@ -338,7 +344,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
         pFrame->first_element->pData + STSE_RSP_FRAME_HEADER_SIZE,
         pFrame->first_element->length - STSE_RSP_FRAME_HEADER_SIZE);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
     received_length--;
@@ -356,7 +362,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
             pCurrent_element->pData,
             pCurrent_element->length);
         if (ret != STSE_OK) {
-            return (ret);
+            return ret;
         }
 
         received_length -= pCurrent_element->length;
@@ -369,7 +375,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
         pCurrent_element->pData,
         pCurrent_element->length);
     if (ret != STSE_OK) {
-        return (ret);
+        return ret;
     }
 
 #ifdef STSE_FRAME_DEBUG_LOG
@@ -394,7 +400,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
 
-    return (ret);
+    return ret;
 }
 #endif /* STSE_CONF_USE_ST1WIRE */
 
@@ -435,7 +441,7 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
         }
     }
 
-    return (ret);
+    return ret;
 }
 
 stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
@@ -465,7 +471,7 @@ stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
                                      pRspFrame,
                                      inter_frame_delay);
 
-    return (ret);
+    return ret;
 }
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
