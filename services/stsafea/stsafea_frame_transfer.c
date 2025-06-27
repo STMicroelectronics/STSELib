@@ -92,7 +92,7 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 
     /* - Pop CRC element from Frame*/
     stse_frame_pop_element(pFrame);
-    return (STSE_OK);
+    return ret;
 }
 
 stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
