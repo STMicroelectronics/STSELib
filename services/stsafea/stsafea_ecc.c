@@ -423,8 +423,8 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
     stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, ePrivate_key_slot_number, STSAFEA_SLOT_NUMBER_ID_SIZE, &private_key_slot_number);
 
-#ifdef STSE_CONF_ECC_EDWARD_25519
-    if (key_type == STSE_ECC_KT_ED25519) {
+#ifdef STSE_CONF_ECC_CURVE_25519
+    if (key_type == STSE_ECC_KT_CURVE25519) {
         stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
         ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
         ePublic_key_first_element.pData = pPublic_key;
