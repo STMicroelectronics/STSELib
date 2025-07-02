@@ -50,3 +50,5 @@ Following applicative project can be used as reference for STSELib integration a
 - [STSAFE-A_device_authentication](https://github.com/STMicroelectronics/STSAFE-A_device_authentication)
 - [STSAFE-A_secure_data_storage](https://github.com/STMicroelectronics/STSAFE-A_secure_data_storage)
 - [STSAFE-A_asymmetric_cryptography](https://github.com/STMicroelectronics/STSAFE-A_asymmetric_cryptography)
+- [STSAFE-L_device_authentication](https://github.com/STMicroelectronics/STSAFE-L_device_authentication)
+- [STSAFE-L_secure_data_storage](https://github.com/STMicroelectronics/STSAFE-L_secure_data_storage)
