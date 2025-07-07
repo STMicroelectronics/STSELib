@@ -172,11 +172,9 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
         /* Calculate needed filler to match both length */
         filler_size = received_length - pFrame->length;
     }
-    if (received_length < pFrame->length )
-    {
-    	pFrame->length = received_length;
+    if (received_length < pFrame->length) {
+        pFrame->length = received_length;
     }
-
 
     /* Append filler frame element even if its length equal 0 */
     PLAT_UI8 filler[filler_size];
@@ -255,7 +253,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /* - Perform frame element reception and populate local RSP Frame */
     pCurrent_element = pFrame->first_element->next;
-    while (pCurrent_element != pFrame->last_element){
+    while (pCurrent_element != pFrame->last_element) {
         if (received_length < pCurrent_element->length) {
             pCurrent_element->length = received_length;
         }

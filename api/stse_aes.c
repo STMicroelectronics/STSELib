@@ -62,8 +62,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
     PLAT_UI16 message_length, PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pEncrypted_authentication_tag,
-    PLAT_UI8 counter_presence, PLAT_UI32 *pCounter)
-{
+    PLAT_UI8 counter_presence, PLAT_UI32 *pCounter) {
 
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
@@ -79,8 +78,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
         pPlaintext_message,
         pEncrypted_message,
         pEncrypted_authentication_tag,
-		counter_presence, pCounter
-	);
+        counter_presence, pCounter);
 }
 
 stse_ReturnCode_t stse_aes_ccm_encrypt_start(

@@ -200,11 +200,10 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
     PLAT_UI8 decrypt_buffer[pFrame->length - pFrame->first_element->length];
     pElement = pFrame->first_element->next;
     while (pElement != NULL) {
-    	if(pElement->length != 0)
-    	{
-    		memcpy(decrypt_buffer + i, pElement->pData, pElement->length);
-    		i += pElement->length;
-    	}
+        if (pElement->length != 0) {
+            memcpy(decrypt_buffer + i, pElement->pData, pElement->length);
+            i += pElement->length;
+        }
         pElement = pElement->next;
     }
 
@@ -383,7 +382,7 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify(stse_session_t *pSes
 
     if (*(pCmd_frame->first_element->pData) & STSAFEA_PROT_RSP_Msk) {
 
-    	/*- Pop R-MAC from frame*/
+        /*- Pop R-MAC from frame*/
         stse_frame_pop_element(pRsp_frame);
 
         PLAT_UI16 rsp_payload_length = (pRsp_frame->length - (pRsp_frame->first_element->length));
@@ -441,13 +440,11 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify(stse_session_t *pSes
             (PLAT_UI8 *)&cmd_payload_length);
         stse_frame_element_swap_byte_order(&eCMD_Length);
 
-        if (pCmd_frame->first_element->next->length == 0)
-        {
-        	eCMD_Length.next = pCmd_frame->first_element->next->next;
+        if (pCmd_frame->first_element->next->length == 0) {
+            eCMD_Length.next = pCmd_frame->first_element->next->next;
         } else {
-        	eCMD_Length.next = pCmd_frame->first_element->next;
+            eCMD_Length.next = pCmd_frame->first_element->next;
         }
-
 
         stse_frame_update(&r_mac_frame);
 
@@ -520,7 +517,6 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
         }
         encrypted_cmd_payload_size = pCmdFrame->length + padding;
     }
-
 
     PLAT_UI8 encrypted_cmd_payload[encrypted_cmd_payload_size];
     stse_frame_element_allocate(eEncrypted_cmd_payload, encrypted_cmd_payload_size, encrypted_cmd_payload);

@@ -149,9 +149,8 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
-    if ((counter_presence == 1) && (pCounter == NULL))
-    {
-    	return (STSE_SERVICE_INVALID_PARAMETER);
+    if ((counter_presence == 1) && (pCounter == NULL)) {
+        return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
     /* - Prepare CMD Frame : [HEADER] [CMD DISTINGUISHER] [SLOT] [ASSOCIATED DATA LENGHT] ...
@@ -163,15 +162,13 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
     stse_frame_element_allocate_push(&CmdFrame, eNonce, STSAFEA_NONCE_SIZE, pNonce);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&associated_data_length);
     stse_frame_element_allocate(eAssociated_data, associated_data_length, pAssociated_data);
-    if(associated_data_length != 0)
-    {
-    	stse_frame_push_element(&CmdFrame, &eAssociated_data);
+    if (associated_data_length != 0) {
+        stse_frame_push_element(&CmdFrame, &eAssociated_data);
     }
-    stse_frame_element_allocate_push(&CmdFrame,eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
+    stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
     stse_frame_element_allocate(ePlaintext_message, message_length, pPlaintext_message);
-    if(associated_data_length != 0)
-    {
-    	stse_frame_push_element(&CmdFrame, &ePlaintext_message);
+    if (associated_data_length != 0) {
+        stse_frame_push_element(&CmdFrame, &ePlaintext_message);
     }
 
     /* - Prepare RSP Frame : [HEADER] [ENCRYPTED MESSAGE] [TAG LENGTH] [COUNTER PRES.] [COUNTER VAL] */
@@ -182,7 +179,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
     stse_frame_element_allocate_push(&RspFrame, eCounter_presence, 1, &received_counter_presence);
     stse_frame_element_allocate(eCounter, STSAFEA_COUNTER_VALUE_SIZE, (PLAT_UI8 *)pCounter);
     if (counter_presence != 0) {
-    	stse_frame_push_element(&RspFrame, &eCounter);
+        stse_frame_push_element(&RspFrame, &eCounter);
     }
 
     stse_frame_element_swap_byte_order(&eAssociated_data_length);
