@@ -374,8 +374,8 @@ stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pC
         return ret;
     }
 
-#ifdef STSE_CONF_USE_HOST_SESSION
     /*- Perform Transfer*/
+#ifdef STSE_CONF_USE_HOST_SESSION
     if (cmd_encryption_flag || rsp_encryption_flag) {
         ret = stsafea_session_encrypted_transfer(pSTSE->pActive_host_session,
                                                  pCmdFrame,
