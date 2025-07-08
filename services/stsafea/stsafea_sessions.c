@@ -196,9 +196,12 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
     stse_frame_element_t *pElement;
     PLAT_UI16 i = 0;
 
+    pElement = pFrame->first_element->next;
+    if (pElement == NULL) {
+        return STSE_OK;
+    }
     /*Fill encrypt buffer with encrypted payload content*/
     PLAT_UI8 decrypt_buffer[pFrame->length - pFrame->first_element->length];
-    pElement = pFrame->first_element->next;
     while (pElement != NULL) {
         if (pElement->length != 0) {
             memcpy(decrypt_buffer + i, pElement->pData, pElement->length);
@@ -501,7 +504,7 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
     stse_ReturnCode_t ret;
     PLAT_UI16 encrypted_cmd_payload_size = 0;
     PLAT_UI16 encrypted_rsp_payload_size = 0;
-    PLAT_UI8 padding = 0;
+    PLAT_UI8 padding = 16;
 
     if (pSession == NULL || pCmdFrame == NULL || pRspFrame == NULL ||
         pCmdFrame->first_element == NULL || pCmdFrame->first_element->pData == NULL ||
@@ -510,12 +513,17 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
     }
 
     if (cmd_encryption_flag == 1) {
-        PLAT_UI16 encrypted_payload_length = (pCmdFrame->length - pCmdFrame->first_element->length) + 1;
+#ifdef STSE_FRAME_DEBUG_LOG
+        printf("\n\r STSAFE Plaintext Frame > ");
+        stse_frame_debug_print(pCmdFrame);
+        printf("\n\r");
+#endif /* STSE_FRAME_DEBUG_LOG */
 
-        if ((encrypted_payload_length % 16) != 0) {
-            padding = 16 - (encrypted_payload_length % 16);
+        PLAT_UI16 plaintext_payload_size = pCmdFrame->length - pCmdFrame->first_element->length;
+        if ((plaintext_payload_size % 16) != 0) {
+            padding = 16 - (plaintext_payload_size % 16);
         }
-        encrypted_cmd_payload_size = pCmdFrame->length + padding;
+        encrypted_cmd_payload_size = plaintext_payload_size + padding;
     }
 
     PLAT_UI8 encrypted_cmd_payload[encrypted_cmd_payload_size];
@@ -532,18 +540,19 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
     }
 
     if (rsp_encryption_flag == 1) {
-
-        if ((pRspFrame->length % 16) != 0) {
-            padding = 16 - (pRspFrame->length % 16);
+        padding = 16;
+        PLAT_UI16 plaintext_payload_size = pRspFrame->length - pRspFrame->first_element->length;
+        if ((plaintext_payload_size % 16) != 0) {
+            padding = 16 - (plaintext_payload_size % 16);
         }
-        encrypted_rsp_payload_size = pRspFrame->length + padding;
+        encrypted_rsp_payload_size = plaintext_payload_size + padding;
     }
 
     PLAT_UI8 encrypted_rsp_payload[encrypted_rsp_payload_size];
     stse_frame_element_allocate(eEncrypted_rsp_payload, encrypted_rsp_payload_size, encrypted_rsp_payload);
     stse_frame_strap_allocate(S2);
 
-    if (rsp_encryption_flag == 1) {
+    if (rsp_encryption_flag == 1 && pRspFrame->first_element->next != NULL) {
         stse_frame_insert_strap(&S2, pRspFrame->first_element, &eEncrypted_rsp_payload);
         stse_frame_update(pRspFrame);
     }
@@ -556,6 +565,12 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
 
     if ((ret == STSE_OK) && (rsp_encryption_flag == 1)) {
         ret = stsafea_session_frame_decrypt(pSession, pRspFrame);
+
+#ifdef STSE_FRAME_DEBUG_LOG
+        printf("\n\r STSAFE Plaintext Frame < ");
+        stse_frame_debug_print(pRspFrame);
+        printf("\n\r");
+#endif /* STSE_FRAME_DEBUG_LOG */
     }
 
     return ret;
