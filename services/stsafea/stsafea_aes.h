@@ -100,7 +100,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
     PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pEncrypted_authentication_tag,
-    PLAT_UI8 *pCounter_presence,
+    PLAT_UI8 counter_presence,
     PLAT_UI32 *pCounter);
 
 /**

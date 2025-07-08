@@ -58,14 +58,13 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
     PLAT_UI8 slot_number,
     PLAT_UI8 authentication_tag_length,
     PLAT_UI8 *pNonce,
-    PLAT_UI16 associated_data_length,
-    PLAT_UI8 *pAssociated_data,
-    PLAT_UI16 message_length,
-    PLAT_UI8 *pPlaintext_message,
+    PLAT_UI16 associated_data_length, PLAT_UI8 *pAssociated_data,
+    PLAT_UI16 message_length, PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pEncrypted_authentication_tag,
-    PLAT_UI8 *pCounter_presence,
-    PLAT_UI32 *pCounter) {
+    PLAT_UI8 counter_presence, PLAT_UI32 *pCounter)
+{
+
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -75,14 +74,13 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
         slot_number,
         authentication_tag_length,
         pNonce,
-        associated_data_length,
-        pAssociated_data,
+        associated_data_length, pAssociated_data,
         message_length,
         pPlaintext_message,
         pEncrypted_message,
         pEncrypted_authentication_tag,
-        pCounter_presence,
-        pCounter);
+		counter_presence, pCounter
+	);
 }
 
 stse_ReturnCode_t stse_aes_ccm_encrypt_start(

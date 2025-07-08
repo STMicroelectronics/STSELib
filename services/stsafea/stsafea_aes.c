@@ -124,22 +124,34 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
     PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pEncrypted_authentication_tag,
-    PLAT_UI8 *pCounter_presence,
+    PLAT_UI8 counter_presence,
     PLAT_UI32 *pCounter) {
     stse_ReturnCode_t ret;
     PLAT_UI8 cmd_header = STSAFEA_CMD_ENCRYPT;
     PLAT_UI8 sub_command_distinguisher = 0x02;
     PLAT_UI8 rsp_header;
-    PLAT_UI8 alt_counter_presence;
-    PLAT_UI8 alt_counter[STSAFEA_COUNTER_VALUE_SIZE];
+    PLAT_UI8 received_counter_presence = 0;
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pNonce == NULL) || (pAssociated_data == NULL && associated_data_length != 0) || (pAssociated_data != NULL && associated_data_length == 0) || (pPlaintext_message == NULL && message_length != 0) || (pPlaintext_message != NULL && message_length == 0) || (pEncrypted_message == NULL && message_length != 0) || (pEncrypted_message != NULL && message_length == 0) || (pEncrypted_authentication_tag == NULL && authentication_tag_length != 0) || (pEncrypted_authentication_tag != NULL && authentication_tag_length == 0)) {
+    if ((pNonce == NULL) ||
+        (pAssociated_data == NULL && associated_data_length != 0) ||
+        (pAssociated_data != NULL && associated_data_length == 0) ||
+        (pPlaintext_message == NULL && message_length != 0) ||
+        (pPlaintext_message != NULL && message_length == 0) ||
+        (pEncrypted_message == NULL && message_length != 0) ||
+        (pEncrypted_message != NULL && message_length == 0) ||
+        (pEncrypted_authentication_tag == NULL && authentication_tag_length != 0) ||
+        (pEncrypted_authentication_tag != NULL && authentication_tag_length == 0)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
+    }
+
+    if ((counter_presence == 1) && (pCounter == NULL))
+    {
+    	return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
     /* - Prepare CMD Frame : [HEADER] [CMD DISTINGUISHER] [SLOT] [ASSOCIATED DATA LENGHT] ...
@@ -150,24 +162,27 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, 1, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eNonce, STSAFEA_NONCE_SIZE, pNonce);
     stse_frame_element_allocate_push(&CmdFrame, eAssociated_data_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&associated_data_length);
-    stse_frame_element_allocate_push(&CmdFrame, eAssociated_data, associated_data_length, pAssociated_data);
-    stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
-    stse_frame_element_allocate_push(&CmdFrame, ePlaintext_message, message_length, pPlaintext_message);
+    stse_frame_element_allocate(eAssociated_data, associated_data_length, pAssociated_data);
+    if(associated_data_length != 0)
+    {
+    	stse_frame_push_element(&CmdFrame, &eAssociated_data);
+    }
+    stse_frame_element_allocate_push(&CmdFrame,eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
+    stse_frame_element_allocate(ePlaintext_message, message_length, pPlaintext_message);
+    if(associated_data_length != 0)
+    {
+    	stse_frame_push_element(&CmdFrame, &ePlaintext_message);
+    }
 
     /* - Prepare RSP Frame : [HEADER] [ENCRYPTED MESSAGE] [TAG LENGTH] [COUNTER PRES.] [COUNTER VAL] */
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
     stse_frame_element_allocate_push(&RspFrame, eEncrypted_message, message_length, pEncrypted_message);
     stse_frame_element_allocate_push(&RspFrame, eAuthentication_tag, authentication_tag_length, pEncrypted_authentication_tag);
-    stse_frame_element_allocate_push(&RspFrame, eCounter_presence, 1, pCounter_presence);
-    stse_frame_element_allocate_push(&RspFrame, eCounter, STSAFEA_COUNTER_VALUE_SIZE, (PLAT_UI8 *)pCounter);
-
-    if (pCounter_presence == NULL) {
-        eCounter_presence.pData = &alt_counter_presence;
-    }
-
-    if (pCounter == NULL) {
-        eCounter.pData = alt_counter;
+    stse_frame_element_allocate_push(&RspFrame, eCounter_presence, 1, &received_counter_presence);
+    stse_frame_element_allocate(eCounter, STSAFEA_COUNTER_VALUE_SIZE, (PLAT_UI8 *)pCounter);
+    if (counter_presence != 0) {
+    	stse_frame_push_element(&RspFrame, &eCounter);
     }
 
     stse_frame_element_swap_byte_order(&eAssociated_data_length);
@@ -178,7 +193,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
                                  &CmdFrame,
                                  &RspFrame);
 
-    if (*pCounter_presence != 0) {
+    if (counter_presence != 0) {
         stse_frame_element_swap_byte_order(&eCounter);
     }
 

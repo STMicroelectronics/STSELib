@@ -96,7 +96,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
     PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pEncrypted_authentication_tag,
-    PLAT_UI8 *pCounter_presence,
+    PLAT_UI8 counter_presence,
     PLAT_UI32 *pCounter);
 
 /**
@@ -386,7 +386,7 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_finish(
  * \param[in]	message_length				Length of the message to encrypt
  * \param[in]	pEncrypted_message			Buffer containing the message to decrypt
  * \param[in]	pAuthentication_tag			Buffer containing the authentication tag
- * \param[out]	pVerification_result		Verification result flag
+ * \param[out]	pVerification_result		Verification result flag (0 : fail ; 1: pass)
  * \param[out]	pPlaintext_message			Buffer to store the decrypted message
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
