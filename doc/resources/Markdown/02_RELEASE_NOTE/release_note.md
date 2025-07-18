@@ -1,6 +1,21 @@
 # Release Note
 
-## v1.1.1 (Latest)
+## v1.1.2 (Latest)
+[api] fix issue when compiling with only STSE_CONF_STSAFE_L_SUPPORT directive
+[api][services/stsafea] Fix AES CCM encrypt counter management leading to R-MAC error
+[services/stsafea] fix frame encrypt/decrypt and MAC issues
+[services/stsafea] Update generate ecc key pair & establish shared secret
+[services/stsafea] Fix frame length if received frame is lower than expected
+[services/stsafea] fix CURVE25519 support in stsafea_ecc_establish_shared_secret service
+[services/stsafea] Update MAC counter increment
+[services/stsafea] Update frame transmit return code
+[services/stsafea] Fix extended header management to be into first frame element
+[services/stsafel] Update frame management to avoid issue in case of response header != 0
+[services/stsafel] Fix frame transfer when STSE_FRAME_DEBUG_LOG directive is activated
+[doc] Add reference to STSAFE-L_echo in README.md
+[doc] Add reference to STSAFE-A_echo example in ReadMe.md
+
+## v1.1.1 
 - [all] Format code using Pre-commit and clang formater
 - [stsafea] fix compilation issue when STSE_CONF_USE_HOST_SESSION is disabled
 - [api] [core] [services] Allocate personalization informations to device handler
