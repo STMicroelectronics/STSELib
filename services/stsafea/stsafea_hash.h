@@ -39,11 +39,15 @@
  *  ---------------------------------------------------------------------------------------
  */
 
-#define STSAFEA_SHA_1_HASH_SIZE 20U   /*!< Size in bytes of a SHA1 digest */
-#define STSAFEA_SHA_224_HASH_SIZE 28U /*!< Size in bytes of a SHA224 digest */
-#define STSAFEA_SHA_256_HASH_SIZE 32U /*!< Size in bytes of a SHA256 digest */
-#define STSAFEA_SHA_384_HASH_SIZE 48U /*!< Size in bytes of a SHA384 digest */
-#define STSAFEA_SHA_512_HASH_SIZE 64U /*!< Size in bytes of a SHA512 digest */
+#define STSAFEA_SHA_1_HASH_SIZE    20U /*!< Size in bytes of a SHA1 digest */
+#define STSAFEA_SHA_224_HASH_SIZE  28U /*!< Size in bytes of a SHA224 digest */
+#define STSAFEA_SHA_256_HASH_SIZE  32U /*!< Size in bytes of a SHA256 digest */
+#define STSAFEA_SHA_384_HASH_SIZE  48U /*!< Size in bytes of a SHA384 digest */
+#define STSAFEA_SHA_512_HASH_SIZE  64U /*!< Size in bytes of a SHA512 digest */
+
+#define STSAFEA_SHA3_256_HASH_SIZE 32U /*!< Size in bytes of a SHA3-256 digest */
+#define STSAFEA_SHA3_384_HASH_SIZE 48U /*!< Size in bytes of a SHA3-384 digest */
+#define STSAFEA_SHA3_512_HASH_SIZE 64U /*!< Size in bytes of a SHA3-512 digest */
 
 #define STSAFEA_HASH_ALGO_ID_VALUE_SIZE 9U  /*!< Max size in bytes of a hash algo ID */
 #define STSAFEA_HASH_ALGO_ID_LENGTH_SIZE 2U /*!<Size in bytes of a hash algo ID length field */

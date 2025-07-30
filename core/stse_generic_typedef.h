@@ -115,10 +115,10 @@ typedef enum stse_aes_key_type_t {
  */
 typedef enum stse_hash_algorithm_t {
 #ifdef STSE_CONF_HASH_SHA_1
-    STSE_SHA_1,
+    STSE_SHA_1, /**< SHA-1 algorithm (not supported as service on STSAFE-A120) */
 #endif
 #ifdef STSE_CONF_HASH_SHA_224
-    STSE_SHA_224,
+    STSE_SHA_224, /**< SHA-224 algorithm (not supported as service on STSAFE-A120) */
 #endif
 #ifdef STSE_CONF_HASH_SHA_256
     STSE_SHA_256,
