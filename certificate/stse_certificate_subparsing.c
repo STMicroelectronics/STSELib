@@ -511,16 +511,14 @@ void stse_certificate_parse_extension(const PLAT_UI8 *ext, PLAT_UI32 *extFlags, 
                 tag = stse_certificate_identify_ASN1_TLV(next, &parsed, &seqSize, &next);
                 /* It should start with a sequence */
                 if (tag == TAG_BITSTRING) {
-#define MAX(a, b) (((a) > (b)) ? (a) : (b))
                     /* This reads the 8 bits (or less) and put it in the right place */
-                    for (i = 0; i < MAX((PLAT_I32)next[0], 8); i++) {
+                    for (i = 0; i < (((PLAT_I32)next[0] > 8) ? (PLAT_I32)next[0] : 8); i++) {
                         /* Not very readable */
                         *extFlags |= (((PLAT_UI32)next[1] >> (PLAT_UI8)(7U - (PLAT_UI8)i)) & 1U) << (PLAT_UI8)(16U + (PLAT_UI8)i);
                     }
                     if (next[0] == 9U && seqSize == 2) {
                         *extFlags |= (((PLAT_UI32)next[2] >> 7) & 1U) << (15);
                     }
-#undef MAX
                 }
             }
             break;
