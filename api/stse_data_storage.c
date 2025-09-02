@@ -70,8 +70,8 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
     stse_cmd_protection_t protection) {
     stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
     PLAT_UI16 remaning_length = length;
-    PLAT_UI16 chunck_length = 0;
-    PLAT_UI16 chunck_offset = offset;
+    PLAT_UI16 chunk_length = 0;
+    PLAT_UI16 chunk_offset = offset;
     union {
         stsafea_read_option_t stsafea;
         stsafel_read_option_t stsafel;
@@ -88,9 +88,9 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
     /* - Perform read by chunk */
     do {
         if ((chunk_size != 0) && (remaning_length > chunk_size)) {
-            chunck_length = chunk_size;
+            chunk_length = chunk_size;
         } else {
-            chunck_length = remaning_length;
+            chunk_length = remaning_length;
         }
 
         /* - Transfer command/response */
@@ -101,9 +101,9 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
                 pSTSE,
                 zone,
                 read_option.stsafel,
-                chunck_offset,
-                pBuffer + (chunck_offset)-offset,
-                chunck_length,
+                chunk_offset,
+                pBuffer + (chunk_offset)-offset,
+                chunk_length,
                 protection);
             break;
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
@@ -116,9 +116,9 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
                 pSTSE,
                 zone,
                 read_option.stsafea,
-                chunck_offset,
-                pBuffer + (chunck_offset)-offset,
-                chunck_length,
+                chunk_offset,
+                pBuffer + (chunk_offset)-offset,
+                chunk_length,
                 protection);
             break;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
@@ -132,8 +132,8 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
         }
 
         /* - Decrement Length value */
-        remaning_length = (remaning_length - chunck_length);
-        chunck_offset = (chunck_offset + chunck_length);
+        remaning_length = (remaning_length - chunk_length);
+        chunk_offset = (chunk_offset + chunk_length);
 
     } while (remaning_length > 0);
 
@@ -274,8 +274,8 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
     stse_cmd_protection_t protection) {
     stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
     PLAT_UI16 remaning_length = length;
-    PLAT_UI16 chunck_length = 0;
-    PLAT_UI16 chunck_offset = offset;
+    PLAT_UI16 chunk_length = 0;
+    PLAT_UI16 chunk_offset = offset;
     union {
         stsafea_read_option_t stsafea;
         stsafel_read_option_t stsafel;
@@ -292,9 +292,9 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
     /*- Perform read by chunk */
     do {
         if ((chunk_size != 0) && (remaning_length > chunk_size)) {
-            chunck_length = chunk_size;
+            chunk_length = chunk_size;
         } else {
-            chunck_length = remaning_length;
+            chunk_length = remaning_length;
         }
 
         switch (pSTSE->device_type) {
@@ -304,9 +304,9 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
                 pSTSE,
                 zone,
                 read_option.stsafel,
-                chunck_offset,
-                pBuffer + (chunck_offset)-offset,
-                chunck_length,
+                chunk_offset,
+                pBuffer + (chunk_offset)-offset,
+                chunk_length,
                 pCounter_value,
                 protection);
             break;
@@ -320,9 +320,9 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
                 pSTSE,
                 zone,
                 read_option.stsafea,
-                chunck_offset,
-                pBuffer + (chunck_offset)-offset,
-                chunck_length,
+                chunk_offset,
+                pBuffer + (chunk_offset)-offset,
+                chunk_length,
                 pCounter_value,
                 protection);
             break;
@@ -331,8 +331,8 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
             ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
         }
         /* - Decrement Length value */
-        remaning_length = (remaning_length - chunck_length);
-        chunck_offset = (chunck_offset + chunck_length);
+        remaning_length = (remaning_length - chunk_length);
+        chunk_offset = (chunk_offset + chunk_length);
     } while ((remaning_length > 0) && (ret == STSE_OK));
 
     /* - Return STSAFE Status code */
