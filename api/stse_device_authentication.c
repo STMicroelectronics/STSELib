@@ -103,7 +103,7 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t *pSTSE, PLAT_UI8 ce
         STSE_CERTIFICATE_OFFSET_BYTES, /* 0 bytes offset */
         pCertificate,                  /* Returned certificate size */
         certificate_size,              /* Certificate size length */
-        255,                           /* No maximum chunck size (No chunck at all) */
+        253,                           /* Above, it throw a STSE_CORE_FRAME_CRC_ERROR */
         STSE_NO_PROT);                 /* No protection */
 
     if (ret != STSE_OK) {
