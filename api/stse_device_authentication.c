@@ -48,7 +48,7 @@ stse_ReturnCode_t stse_get_device_id(stse_Handler_t *pSTSE, PLAT_UI8 certificate
         STSE_CERTIFICATE_DEVICE_ID_OFFSET, /* X bytes offset */
         pDevice_id,                        /* Returned certificate size */
         STSE_CERTIFICATE_DEVICE_ID_SIZE,   /* Certificate size length */
-        0,                                 /* No maximum chunck size (No chunck at all) */
+        0,                                 /* No maximum chunk size (No chunk at all) */
         STSE_NO_PROT);                     /* No protection */
 
     return ret;
@@ -73,7 +73,7 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t *pSTSE, PLAT_U
         STSE_CERTIFICATE_SIZE_OFFSET_BYTES, /* 2 bytes offset */
         certificate_size_ui8,               /* Returned certificate size */
         STSE_CERTIFICATE_SIZE_LENGTH,       /* Certificate size length 2 bytes */
-        0,                                  /* No maximum chunck size (No chunck at all) */
+        0,                                  /* No maximum chunk size (No chunk at all) */
         STSE_NO_PROT);                      /* No protection */
 
     if (ret != STSE_OK) {
@@ -137,7 +137,7 @@ stse_ReturnCode_t stse_device_authenticate(
         STSE_CERTIFICATE_SIZE_OFFSET_BYTES, /* 2 bytes offset */
         certificate_size_ui8,               /* Returned certificate size */
         STSE_CERTIFICATE_SIZE_LENGTH,       /* Certificate size length 2 bytes */
-        0,                                  /* No maximum chunck size (No chunck at all) */
+        0,                                  /* No maximum chunk size (No chunk at all) */
         STSE_NO_PROT);                      /* No protection */
 
     if (ret != STSE_OK) {
