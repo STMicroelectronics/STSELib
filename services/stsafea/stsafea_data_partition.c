@@ -297,10 +297,6 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
-        return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
-    }
-
-    if (pSTSE == NULL) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }
 
