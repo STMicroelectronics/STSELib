@@ -88,7 +88,7 @@ typedef struct stsafea_decrement_option_t {
  */
 typedef struct {
     PLAT_UI8 index;
-    PLAT_UI8 zone_type;
+    PLAT_UI8 zone_type; /* 0x00 = simple region, 0x01 = counter region (write requires Decrement, locked once counter reaches 0) */
     uint16_t data_segment_length;
     stse_ac_change_right_t read_ac_cr;
     stse_zone_ac_t read_ac;
