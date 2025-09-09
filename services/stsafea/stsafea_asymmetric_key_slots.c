@@ -298,19 +298,22 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
     stse_ReturnCode_t ret;
-    PLAT_UI8 tbs_data[payload_length];
     PLAT_UI32 hash_length = stsafea_hash_info_table[hash_algo].length;
+    PLAT_UI8 hash_data[hash_length];
+
+    if (pPrivate_key == NULL || pPayload == NULL || pSignature == NULL ||
+        private_key_type == STSE_ECC_KT_INVALID || hash_algo == STSE_SHA_INVALID) {
+        return STSE_SERVICE_INVALID_PARAMETER;
+    }
 
 #ifdef STSE_CONF_ECC_EDWARD_25519
-    if (private_key_type == STSE_ECC_KT_ED25519) {
-        memcpy(tbs_data, pPayload, payload_length);
-    } else {
+    if (private_key_type != STSE_ECC_KT_ED25519) {
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
         /* - Hash the payload */
         ret = stse_platform_hash_compute(
             hash_algo,
             pPayload, payload_length,
-            tbs_data, &hash_length);
+            hash_data, &hash_length);
 
         if (ret != STSE_OK) {
             return (ret);
@@ -320,16 +323,21 @@ stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
 
     /* - Sign the hash of concatenation of pub keys */
+#ifdef STSE_CONF_ECC_EDWARD_25519
     ret = stse_platform_ecc_sign(
         private_key_type,
         pPrivate_key,
-        tbs_data,
-#ifdef STSE_CONF_ECC_EDWARD_25519
+        (private_key_type == STSE_ECC_KT_ED25519) ? pPayload : hash_data,
         (private_key_type == STSE_ECC_KT_ED25519) ? payload_length : hash_length,
-#else
-        hash_length,
-#endif
         pSignature);
+#else
+    ret = stse_platform_ecc_sign(
+        private_key_type,
+        pPrivate_key,
+        hash_data,
+        hash_length,
+        pSignature);
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
 
     return (ret);
 #else
