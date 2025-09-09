@@ -16,7 +16,7 @@
  ******************************************************************************
  */
 
-#include <services/stsafea/stsafea_patch.h>
+#include "services/stsafea/stsafea_patch.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

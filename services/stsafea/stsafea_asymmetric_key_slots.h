@@ -108,15 +108,6 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
 
-stse_ReturnCode_t stsafea_sign_for_generic_public_key_slot(
-    stse_Handler_t *pSTSE,
-    stse_ecc_key_type_t private_key_type,
-    PLAT_UI8 *pPrivate_key,
-    stse_hash_algorithm_t hash_algo,
-    PLAT_UI16 payload_length,
-    PLAT_UI8 *pPayload,
-    PLAT_UI8 *pSignature);
-
 /** \}*/
 
 #endif /*STSAFEA_ASYMMETRIC_KEY_SLOTS_H*/

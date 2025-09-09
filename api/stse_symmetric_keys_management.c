@@ -18,6 +18,7 @@
 /* Includes ------------------------------------------------------------------*/
 
 #include "api/stse_symmetric_keys_management.h"
+#include "api/stse_asymmetric_keys_management.h"
 #include "services/stsafea/stsafea_public_key_slots.h"
 
 #define STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH STSE_KEK_ENVELOPE_MAC_SIZE
@@ -291,7 +292,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
 #ifdef STSE_CONF_ECC_CURVE_25519
     }
 #endif /* STSE_CONF_ECC_CURVE_25519 */
-    ret = stsafea_sign_for_generic_public_key_slot(
+    ret = stse_sign_for_generic_public_key_slot(
         pSTSE,
         private_ecc_key_type, /* Private key used to sign */
         private_key,          /* Private key length */
@@ -1026,13 +1027,13 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
     memset(stsafe_ecdhe_public_key, 0, sizeof(stsafe_ecdhe_public_key));
 
     /* Generate signature */
-    ret = stsafea_sign_for_generic_public_key_slot(pSTSE,
-                                                   tbs_key_type,
-                                                   tbs_private_key,
-                                                   tbs_hash_algo,
-                                                   tbs_length,
-                                                   pTBS,
-                                                   signature);
+    ret = stse_sign_for_generic_public_key_slot(pSTSE,
+                                                tbs_key_type,
+                                                tbs_private_key,
+                                                tbs_hash_algo,
+                                                tbs_length,
+                                                pTBS,
+                                                signature);
     if (ret != STSE_OK) {
         memset(okm_buffer, 0, sizeof(okm_buffer));
         return ret;
@@ -1598,7 +1599,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     }
 #endif /* STSE_CONF_ECC_CURVE_25519 */
 
-    ret = stsafea_sign_for_generic_public_key_slot(
+    ret = stse_sign_for_generic_public_key_slot(
         pSTSE,
         private_ecc_key_type, /* Private key used to sign */
         private_key,          /* Private key length */

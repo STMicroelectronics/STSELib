@@ -17,8 +17,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 
-#include <api/stse_device_authentication.h>
-#include <api/stse_ecc.h>
+#include "api/stse_device_authentication.h"
+#include "api/stse_ecc.h"
 
 #include "certificate/stse_certificate.h"
 #include "certificate/stse_certificate_crypto.h"

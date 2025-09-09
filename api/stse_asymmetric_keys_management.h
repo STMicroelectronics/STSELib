@@ -129,6 +129,28 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
 
+/**
+ * \brief 		Generate signature for authenticating an off-chip entity
+ * \details 	This API generated signature for authenticating an off-chip entity with its public key in a generic public key slot
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	private_key_type 	Private key type used for the signature
+ * \param[in] 	pPrivate_key 		Private key buffer used for the signature
+ * \param[in] 	hash_algo			Hashing algorithm used for the signature
+ * \param[in] 	payload_length 		Payload length to be signed
+ * \param[in] 	pPayload	 		Payload buffer to be signed
+ * \param[out] 	pSignature			Pointer to buffer containing signature
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_write_generic_ecc_public_key.dox
+ */
+stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
+    stse_Handler_t *pSTSE,
+    stse_ecc_key_type_t private_key_type,
+    PLAT_UI8 *pPrivate_key,
+    stse_hash_algorithm_t hash_algo,
+    PLAT_UI16 payload_length,
+    PLAT_UI8 *pPayload,
+    PLAT_UI8 *pSignature);
+
 /** \}*/
 
 #endif /*STSE_ASYMMETRIC_KEY_CRYPTO_H*/

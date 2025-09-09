@@ -1,6 +1,6 @@
 #include "core/stse_device.h"
+#include "core/stse_platform.h"
 #include "core/stse_return_codes.h"
-#include <core/stse_platform.h>
 
 /* Private variables ---------------------------------------------------------*/
 
