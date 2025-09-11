@@ -155,7 +155,11 @@ typedef enum {
  * \brief STSE Command Protection enumeration
  */
 typedef enum stse_cmd_protection_t {
-    STSE_NO_PROT = 0, /*!< No command / response payload protection */
+    STSE_NO_PROT = 0, 			/*!< No command / response payload protection */
+	STSE_HOST_C_MAC_R_MAC,		/*!< Authenticated command and response using HOST MAC Key */
+	STSE_HOST_C_WRAP,			/*!< Encrypted and authenticated command using HOST MAC and cipher Keys*/
+	STSE_HOST_R_WRAP,			/*!< Encrypted and authenticated response using HOST MAC and cipher Keys*/
+	STSE_HOST_C_WRAP_R_WRAP		/*!< Encrypted and authenticated command and response using HOST MAC and cipher Keys*/
 } stse_cmd_protection_t;
 
 /*!

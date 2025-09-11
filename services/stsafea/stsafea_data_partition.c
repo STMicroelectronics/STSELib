@@ -27,6 +27,26 @@
 #define STSAFEA_INC_DEC_AMOUT_SIZE 4U
 #define STSAFEA_ZONE_ACCESS_LENGTH_SIZE 2U
 
+stse_ReturnCode_t stsafea_switch_data_partition_access_protection (stse_Handler_t *pSTSE, PLAT_UI8 command_code, stse_cmd_protection_t protection)
+{
+	switch (protection)
+	{
+
+	case STSE_HOST_C_MAC_R_MAC :
+		stsafea_perso_info_set_cmd_AC(&pSTSE->perso_info, command_code, STSE_CMD_AC_HOST);
+	case STSE_NO_PROT:
+		break;
+
+	case STSE_HOST_C_WRAP:
+	case STSE_HOST_R_WRAP:
+	case STSE_HOST_C_WRAP_R_WRAP:
+	default :
+		return STSE_SERVICE_INVALID_PARAMETER;
+		break;
+	}
+	return STSE_OK;
+}
+
 stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
                                                     PLAT_UI8 *pTotal_partition_count) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
@@ -121,9 +141,8 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
                                                  PLAT_UI8 data_length,
                                                  PLAT_UI32 *pNew_counter_value,
                                                  stse_cmd_protection_t protection) {
-    (void)protection;
-    volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
 
+	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
     PLAT_UI8 cmd_header = STSAFEA_CMD_DECREMENT;
     PLAT_UI8 rsp_header;
 
@@ -134,6 +153,15 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
     if ((pData == NULL) || (pNew_counter_value == NULL) || (amount == 0)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+    stse_perso_info_t perso_info_backup = pSTSE->perso_info;
+    ret = stsafea_switch_data_partition_access_protection(pSTSE,cmd_header,protection);
+    if (ret != STSE_OK)
+    {
+    	return ret;
+    }
+#endif
 
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
@@ -169,6 +197,10 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
     /*- Swap New Counter value byte order before sending*/
     stse_frame_element_swap_byte_order(&eNewCounterVal);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
+    pSTSE->perso_info =  perso_info_backup;
+#endif
+
     return (ret);
 }
 
@@ -180,9 +212,8 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
                                             PLAT_UI16 Associated_data_length,
                                             PLAT_UI32 *pCounter_value,
                                             stse_cmd_protection_t protection) {
-    (void)protection;
-    volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
 
+    volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
     PLAT_UI8 cmd_header = STSAFEA_CMD_READ;
     PLAT_UI8 rsp_header;
 
@@ -193,6 +224,15 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
     if ((pCounter_value == NULL)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+    stse_perso_info_t perso_info_backup = pSTSE->perso_info;
+    ret = stsafea_switch_data_partition_access_protection(pSTSE,cmd_header,protection);
+    if (ret != STSE_OK)
+    {
+    	return ret;
+    }
+#endif
 
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
@@ -228,6 +268,10 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
     stse_frame_element_swap_byte_order(&eOffset);
     stse_frame_element_swap_byte_order(&eLength);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
+    pSTSE->perso_info =  perso_info_backup;
+#endif
+
     return (ret);
 }
 
@@ -238,9 +282,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
                                          PLAT_UI8 *pReadBuffer,
                                          PLAT_UI16 read_length,
                                          stse_cmd_protection_t protection) {
-    (void)protection;
     volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
-
     PLAT_UI8 cmd_header = STSAFEA_CMD_READ;
     PLAT_UI8 rsp_header;
 
@@ -251,6 +293,15 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
     if ((pReadBuffer == NULL) || (read_length == 0)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+    stse_perso_info_t perso_info_backup = pSTSE->perso_info;
+    ret = stsafea_switch_data_partition_access_protection(pSTSE,cmd_header,protection);
+    if (ret != STSE_OK)
+    {
+    	return ret;
+    }
+#endif
 
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
@@ -282,6 +333,10 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
     stse_frame_element_swap_byte_order(&eOffset);
     stse_frame_element_swap_byte_order(&eLength);
 
+#ifdef STSE_CONF_USE_HOST_SESSION
+    pSTSE->perso_info =  perso_info_backup;
+#endif
+
     return (ret);
 }
 
@@ -292,7 +347,9 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
                                            PLAT_UI8 *pData,
                                            PLAT_UI32 data_length,
                                            stse_cmd_protection_t protection) {
-    PLAT_UI8 cmd_header = STSAFEA_CMD_UPDATE;
+
+	volatile stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
+	PLAT_UI8 cmd_header = STSAFEA_CMD_UPDATE;
     PLAT_UI8 rsp_header;
 
     /* - Check stsafe handler initialization */
@@ -303,6 +360,15 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
     if ((pData == NULL) || (data_length == 0)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+    stse_perso_info_t perso_info_backup = pSTSE->perso_info;
+    ret = stsafea_switch_data_partition_access_protection(pSTSE,cmd_header,protection);
+    if (ret != STSE_OK)
+    {
+    	return ret;
+    }
+#endif
 
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
@@ -324,9 +390,16 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
     stse_frame_element_swap_byte_order(&eOffset);
 
     /*- Perform Transfer*/
-    return stsafea_frame_transfer(pSTSE,
+    ret =  stsafea_frame_transfer(pSTSE,
                                   &CmdFrame,
                                   &RspFrame);
+
+#ifdef STSE_CONF_USE_HOST_SESSION
+    pSTSE->perso_info =  perso_info_backup;
+#endif
+
+    return ret ;
+
 }
 
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
