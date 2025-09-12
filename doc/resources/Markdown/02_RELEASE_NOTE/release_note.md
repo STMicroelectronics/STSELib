@@ -1,6 +1,35 @@
 # Release Note
 
-## v1.1.2 (Latest)
+## v1.1.3 (Latest)
+- [all] Pre-commit code cleanup for v1.1.3
+- [certificate] fix warning caused by single-use macro
+- [api] Add stse_establish_host_key_authenticated
+- [api] fix stse_get_device_certificate
+- [api] fix typo error
+- [api][services/stsafea] Move signature generation for authenticating an off-chip entity
+- [services/stsafea] Fix stsafea_sign_for_generic_public_key_slot
+- [services/stsafea] Fix frame encrypt
+- [services/stsafea] delete duplicated verification
+- [services/stsafea] add documentation to stsafea_data_partition_record_t
+- [services/stsafea][core] Update data partition accesses protection parametter
+- [core] fix macro name: STSAFE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE to STSE_...
+
+## v1.1.2
+- [api] fix issue when compiling with only STSE_CONF_STSAFE_L_SUPPORT directive
+- [api][services/stsafea] Fix AES CCM encrypt counter management leading to R-MAC error
+- [services/stsafea] fix frame encrypt/decrypt and MAC issues
+- [services/stsafea] Update generate ecc key pair & establish shared secret
+- [services/stsafea] Fix frame length if received frame is lower than expected
+- [services/stsafea] fix CURVE25519 support in stsafea_ecc_establish_shared_secret service
+- [services/stsafea] Update MAC counter increment
+- [services/stsafea] Update frame transmit return code
+- [services/stsafea] Fix extended header management to be into first frame element
+- [services/stsafel] Update frame management to avoid issue in case of response header != 0
+- [services/stsafel] Fix frame transfer when STSE_FRAME_DEBUG_LOG directive is activated
+- [doc] Add reference to STSAFE-L_echo in README.md
+- [doc] Add reference to STSAFE-A_echo example in ReadMe.md
+
+## v1.1.2
 - [api] fix issue when compiling with only STSE_CONF_STSAFE_L_SUPPORT directive
 - [api][services/stsafea] Fix AES CCM encrypt counter management leading to R-MAC error
 - [services/stsafea] fix frame encrypt/decrypt and MAC issues
