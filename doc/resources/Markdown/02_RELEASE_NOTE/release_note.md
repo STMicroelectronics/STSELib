@@ -15,7 +15,7 @@
 - [doc] Add reference to STSAFE-L_echo in README.md
 - [doc] Add reference to STSAFE-A_echo example in ReadMe.md
 
-## v1.1.1 
+## v1.1.1
 - [all] Format code using Pre-commit and clang formater
 - [stsafea] fix compilation issue when STSE_CONF_USE_HOST_SESSION is disabled
 - [api] [core] [services] Allocate personalization informations to device handler
