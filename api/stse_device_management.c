@@ -19,6 +19,8 @@
 #include "api/stse_device_management.h"
 
 /* Exported variables --------------------------------------------------------*/
+#define I2C_ADDR_MAX 0x7F
+#define IDLE_BUS_DELAY_MAX 0x1F
 
 /* Exported functions --------------------------------------------------------*/
 stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
@@ -345,4 +347,39 @@ stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     return stsafea_query_life_cycle_state(pSTSE, pLife_cycle_state);
+}
+
+stse_ReturnCode_t stse_put_i2c_parameters(
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 i2c_address,
+    stse_low_power_mode_t low_power_mode,
+    PLAT_UI8 idle_bus_time_to_standby,
+    PLAT_UI8 i2c_lock_parameters) {
+    stsafea_i2c_parameters_t i2c_param = {0};
+
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+    if (pSTSE->device_type == STSAFE_L010) {
+        return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+    }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
+
+    if (pSTSE == NULL) {
+        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+    }
+
+    if (i2c_address > I2C_ADDR_MAX || idle_bus_time_to_standby > IDLE_BUS_DELAY_MAX) {
+        return STSE_SERVICE_INVALID_PARAMETER;
+    }
+
+    i2c_param.i2c_address = i2c_address;
+    i2c_param.idle_bus_time_to_standby = idle_bus_time_to_standby;
+    i2c_param.low_power_mode = low_power_mode;
+    i2c_param.i2c_paramers_lock = i2c_lock_parameters;
+
+    /*- Perform Transfer*/
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+    return stsafea_put_i2c_parameters(pSTSE, &i2c_param);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }

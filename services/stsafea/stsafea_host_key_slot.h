@@ -91,11 +91,11 @@ typedef union {
 
 typedef struct
 {
-    PLAT_UI8 wrapped_anonymous : 1;
-    PLAT_UI8 plaintext : 1;
-    PLAT_UI8 reprovision : 1;
-    PLAT_UI8 change_right : 1;
-    PLAT_UI8 filler : 4;
+    PLAT_UI8 wrapped_anonymous : STSE_1BIT_LEN;
+    PLAT_UI8 plaintext : STSE_1BIT_LEN;
+    PLAT_UI8 reprovision : STSE_1BIT_LEN;
+    PLAT_UI8 change_right : STSE_1BIT_LEN;
+    PLAT_UI8 filler : STSE_4BIT_LEN;
     PLAT_UI8 wrapped_or_DH_derived_authentication_key;
 } stsafea_host_key_provisioning_ctrl_fields_t;
 

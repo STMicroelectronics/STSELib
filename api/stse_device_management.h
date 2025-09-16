@@ -43,6 +43,15 @@
  *  @{
  */
 
+/*!
+ * \enum stse_low_power_mode_t
+ * STSAFEA Low power mode type
+ */
+typedef enum stse_low_power_mode_t {
+    STSE_LPM_NONE = 0,    /*!< No low power mode */
+    STSE_LPM_STANDBY = 2, /*!< Standby power mode */
+} stse_low_power_mode_t;
+
 /* Exported Functions  ------------------------------------------------------------*/
 
 /**
@@ -160,6 +169,23 @@ stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
  */
 stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
                                                    stsafea_life_cycle_state_t *pLife_cycle_state);
+
+/**
+ * \brief 		STSE put I2C parameters API
+ * \details 	This API format and send/receive the put I2C parameters command/response
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
+ * \param[in] 	i2c_address 				I2C address (Max 0x7F)
+ * \param[in] 	low_power_mode 				Low power mode (0: none, otherwise standby)
+ * \param[in] 	idle_bus_time_to_standby 	For standby, period of time without any command processing and with I2C bus idle until the chip enters standby mode. Coded in 50ms steps, starting from 50ms as floor value (0: 50ms, 1: 100ms, ..., 31: 1600ms)
+ * \param[in] 	i2c_lock_parameters 		Lock I2C configuration defined by other parameters (0: none, otherwise lock)
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_put_i2c_parameters(
+    stse_Handler_t *pSTSE,
+    PLAT_UI8 i2c_address,
+    stse_low_power_mode_t low_power_mode,
+    PLAT_UI8 idle_bus_time_to_standby,
+    PLAT_UI8 i2c_lock_parameters);
 
 /** \}*/
 

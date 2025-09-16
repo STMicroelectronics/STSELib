@@ -86,6 +86,19 @@ typedef enum stsafea_life_cycle_state_t {
     STSAFEA_LCS_OPERATIONAL_AND_LOCKED = 0x83 /*!< STSAFEA in operational+lock life-cycle state */
 } stsafea_life_cycle_state_t;
 
+/*!
+ * \enum stsafea_i2c_parameters_t
+ * STSAFEA I2C parameters type
+ */
+typedef struct
+{
+    PLAT_UI8 filler : STSE_1BIT_LEN;
+    PLAT_UI8 i2c_address : STSE_7BIT_LEN;              /*!< I2C address (Max 0x7F) */
+    PLAT_UI8 i2c_paramers_lock : STSE_1BIT_LEN;        /*!< Lock I2C configuration defined by other parameters (0: none, 1: lock) */
+    PLAT_UI8 low_power_mode : STSE_2BIT_LEN;           /*!< Low power mode (0: none, 2: standby) */
+    PLAT_UI8 idle_bus_time_to_standby : STSE_5BIT_LEN; /*!< For standby, period of time without any command processing and with I2C bus idle until the chip enters standby mode. Coded in 50ms steps, starting from 50ms as floor value (0: 50ms, 1: 100ms, ..., 31: 1600ms) */
+} stsafea_i2c_parameters_t;
+
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
@@ -107,6 +120,28 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
 stse_ReturnCode_t stsafea_query_life_cycle_state(
     stse_Handler_t *pSTSE,
     stsafea_life_cycle_state_t *pLife_cycle_state);
+
+/**
+ * \brief 		STSAFEA put I2C parameters service
+ * \details 	This service format and send/receive the put I2C parameters command/response
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
+ * \param[in] 	pI2c_parameters 			I2C parameters
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stsafea_put_i2c_parameters(
+    stse_Handler_t *pSTSE,
+    stsafea_i2c_parameters_t *pI2c_parameters);
+
+/**
+ * \brief 		STSAFEA put life cycle service
+ * \details 	This service format and send/receive the put life cycle command/response
+ * \param[in] 	pSTSE	 			Pointer to STSE Handler
+ * \param[out] 	pLife_cycle_state 	Life cycle state
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stsafea_query_i2c_parameters(
+    stse_Handler_t *pSTSE,
+    stsafea_i2c_parameters_t *pI2c_parameters);
 
 /** \}*/
 
