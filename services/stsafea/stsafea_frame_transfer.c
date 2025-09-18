@@ -178,12 +178,10 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /* Append filler frame element even if its length equal 0 */
     PLAT_UI8 filler[filler_size];
-    if (filler_size > 0) {
-        stse_frame_element_allocate_push(pFrame,
-                                         eFiller,
-                                         filler_size,
-                                         filler);
-    }
+    stse_frame_element_allocate_push(pFrame,
+                                     eFiller,
+                                     filler_size,
+                                     filler);
 
     /* ======================================================= */
     /* ========= Receive the frame in frame elements ========= */
@@ -296,9 +294,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     computed_crc = stse_frame_crc16_compute(pFrame);
 
     /* - Pop Filler element from Frame*/
-    if (filler_size > 0) {
-        stse_frame_pop_element(pFrame);
-    }
+    stse_frame_pop_element(pFrame);
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {
