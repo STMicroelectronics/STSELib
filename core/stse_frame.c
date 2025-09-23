@@ -18,21 +18,27 @@
 
 #include "core/stse_frame.h"
 
-PLAT_UI16 stse_frame_crc16_compute(stse_frame_t *pFrame) {
+stse_ReturnCode_t stse_frame_crc16_compute(stse_frame_t *pFrame, PLAT_UI16 *pCrc) {
     stse_frame_element_t *pCurrent_element;
-    PLAT_UI16 crc = 0;
+
+    if (pFrame == NULL || pCrc == NULL) {
+        return STSE_CORE_INCONSISTENT_FRAME;
+    }
 
     pCurrent_element = pFrame->first_element;
-    crc = stse_platform_Crc16_Calculate(pCurrent_element->pData, pCurrent_element->length);
+    *pCrc = stse_platform_Crc16_Calculate(pCurrent_element->pData, pCurrent_element->length);
     pCurrent_element = pCurrent_element->next;
     while (pCurrent_element != NULL) {
-        if ((pCurrent_element->length != 0) && (pCurrent_element->pData != NULL)) {
-            crc = stse_platform_Crc16_Accumulate(pCurrent_element->pData, pCurrent_element->length);
+        if (pCurrent_element->length != 0) {
+            if (pCurrent_element->pData == NULL) {
+                return STSE_CORE_INCONSISTENT_FRAME;
+            }
+            *pCrc = stse_platform_Crc16_Accumulate(pCurrent_element->pData, pCurrent_element->length);
         }
         pCurrent_element = pCurrent_element->next;
-    };
+    }
 
-    return crc;
+    return STSE_OK;
 }
 
 void stse_frame_element_swap_byte_order(stse_frame_element_t *pElement) {

@@ -37,7 +37,10 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
         return STSE_CORE_INVALID_PARAMETER;
     }
     /*- Compute frame crc */
-    crc_ret = stse_frame_crc16_compute(pFrame);
+    ret = stse_frame_crc16_compute(pFrame, &crc_ret);
+    if (ret != STSE_OK) {
+        return ret;
+    }
     crc[0] = (crc_ret >> 8) & 0xFF;
     crc[1] = crc_ret & 0xFF;
 
@@ -50,6 +53,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
     stse_frame_debug_print(pFrame);
     printf("\n\r");
 #endif /* STSE_FRAME_DEBUG_LOG */
+    ret = STSE_PLATFORM_BUS_ACK_ERROR;
     while ((retry_count != 0) && (ret == STSE_PLATFORM_BUS_ACK_ERROR)) {
         /* - Receive frame length from target STSAFE */
         ret = pSTSE->io.BusSendStart(
@@ -268,7 +272,10 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
     stse_frame_pop_element(pFrame);
 
     /* - Compute CRC */
-    computed_crc = stse_frame_crc16_compute(pFrame);
+    ret = stse_frame_crc16_compute(pFrame, &computed_crc);
+    if (ret != STSE_OK) {
+        return ret;
+    }
 
     /* - Pop Filler element from Frame*/
     if (filler_size > 0) {
@@ -391,7 +398,10 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
     stse_frame_pop_element(pFrame);
 
     /* - Compute CRC */
-    computed_crc = stse_frame_crc16_compute(pFrame);
+    ret = stse_frame_crc16_compute(pFrame, &computed_crc);
+    if (ret != STSE_OK) {
+        return ret;
+    }
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {

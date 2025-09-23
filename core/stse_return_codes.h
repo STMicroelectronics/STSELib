@@ -95,6 +95,7 @@ enum stse_ReturnCode_t {
     STSE_CORE_FRAME_CRC_ERROR,  /*!< STSE communication integrity error */
     STSE_CORE_FRAME_RMAC_ERROR, /*!< STSE communication authenticity/integrity error */
     STSE_CORE_SESSION_ERROR,
+    STSE_CORE_INCONSISTENT_FRAME,
 
     /* - STSE Service layer response code (MSB Mask 0x03xx)*/
     STSE_SERVICE_INVALID_PARAMETER = 0x0301, /*!< STSE Wrong function parameters */
