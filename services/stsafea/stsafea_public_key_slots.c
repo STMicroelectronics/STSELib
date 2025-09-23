@@ -117,7 +117,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
             }
         }
         /* If the comparison loop reach the end and pKey_type is always as initialized return error */
-        if ((curve_id_index + 1) >= STSE_ECC_KT_INVALID || (PLAT_I8)*pKey_type >= (PLAT_I8)STSE_ECC_KT_INVALID) {
+        if ((curve_id_index) >= STSE_ECC_KT_INVALID || (PLAT_I8)*pKey_type >= (PLAT_I8)STSE_ECC_KT_INVALID) {
             return STSE_UNEXPECTED_ERROR;
         }
     }
