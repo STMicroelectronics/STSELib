@@ -128,6 +128,7 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE,
     case STSAFE_A120:
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
+        break;
     }
 
     return ret;
@@ -295,6 +296,7 @@ stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE) {
         break;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
     default:
+        break;
     }
 
     return ret;

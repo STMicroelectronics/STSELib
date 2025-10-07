@@ -178,7 +178,7 @@ stse_ReturnCode_t stsafea_finish_hash(
     stse_frame_element_allocate_push(&RspFrame, eDigest, expected_digest_size, pDigest);
 
     /*- Perform Transfer*/
-    return stsafea_frame_transfer(pSTSE,
+    ret = stsafea_frame_transfer(pSTSE,
                                   &CmdFrame,
                                   &RspFrame);
 

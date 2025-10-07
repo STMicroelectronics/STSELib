@@ -449,6 +449,7 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
             break;
 #endif /* STSE_CONF_USE_ST1WIRE */
         default:
+            break;
         }
     }
 
@@ -467,7 +468,7 @@ stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
         if (pCmdFrame->first_element->length == 1) // STSAFEA_HEADER_SIZE)
         {
             cmd_header = pCmdFrame->first_element->pData[0];
-            inter_frame_delay = stsafel_cmd_exec_duration(pSTSE, cmd_header);
+            inter_frame_delay = stsafel_cmd_exec_duration(pSTSE, (stsafel_cmd_code_t)cmd_header);
             ret = STSE_OK;
         }
     }
