@@ -33,9 +33,9 @@ stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_
     }
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
-    PLAT_UI32 digestSize = 32U;
+    PLAT_UI16 digestSize = 32U;
 #else
-    PLAT_UI32 digestSize = stsafea_hash_info_table[hash_algo].length;
+    PLAT_UI16 digestSize = stsafea_hash_info_table[hash_algo].length;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT*/
     PLAT_UI8 digest[digestSize];
     PLAT_UI8 *digestPtr = digest;

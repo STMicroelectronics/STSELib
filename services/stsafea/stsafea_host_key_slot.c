@@ -397,8 +397,8 @@ stse_ReturnCode_t stsafea_establish_host_key_authenticated(
 
     /* Hash algo ID */
     stse_frame_element_allocate(eHash_algo_id, STSAFEA_GENERIC_LENGTH_SIZE, NULL);
-    PLAT_UI8 padding_hash[STSAFEA_HASH_ALGO_ID_LENGTH_SIZE] = {0};
 #ifdef STSE_CONF_ECC_EDWARD_25519
+    PLAT_UI8 padding_hash[STSAFEA_HASH_ALGO_ID_LENGTH_SIZE] = {0};
     if (signature_public_key_type == STSE_ECC_KT_ED25519) {
         eHash_algo_id.length = STSAFEA_HASH_ALGO_ID_LENGTH_SIZE;
         eHash_algo_id.pData = padding_hash;

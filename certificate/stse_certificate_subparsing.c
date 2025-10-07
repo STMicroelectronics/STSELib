@@ -203,7 +203,7 @@ void stse_certificate_parse_ECC_public_key(const PLAT_UI8 *EccPK, stse_certifica
                     next += size;
                     tag = stse_certificate_identify_ASN1_TLV(next, &parsed, &size, &next);
                     if (tag == TAG_BITSTRING) {
-                        if ((next[0] == 0x00U) && (stse_certificate->EllipticCurve !=  EC_Ed25519)) {
+                        if ((next[0] == 0x00U) && (stse_certificate->EllipticCurve != EC_Ed25519)) {
 
                             switch (next[1]) {
                             case 0x04U:

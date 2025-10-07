@@ -179,7 +179,7 @@ stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
     stse_ReturnCode_t ret;
-    PLAT_UI32 hash_length = stsafea_hash_info_table[hash_algo].length;
+    PLAT_UI16 hash_length = stsafea_hash_info_table[hash_algo].length;
     PLAT_UI8 hash_data[hash_length];
 
     if (pPrivate_key == NULL || pPayload == NULL || pSignature == NULL ||
@@ -188,9 +188,8 @@ stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
     }
 
 #ifdef STSE_CONF_ECC_EDWARD_25519
-    if (private_key_type != STSE_ECC_KT_ED25519)
+    if (private_key_type != STSE_ECC_KT_ED25519) {
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
-    {
         /* - Hash the payload */
         ret = stse_platform_hash_compute(
             hash_algo,
@@ -210,13 +209,10 @@ stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
         pPrivate_key,
 #ifdef STSE_CONF_ECC_EDWARD_25519
         (private_key_type == STSE_ECC_KT_ED25519) ? pPayload : hash_data,
-#else
-            hash_length,
-#endif
-#ifdef STSE_CONF_ECC_EDWARD_25519
         (private_key_type == STSE_ECC_KT_ED25519) ? payload_length : hash_length,
 #else
-            hash_length,
+        hash_data,
+        hash_length,
 #endif
         pSignature);
 

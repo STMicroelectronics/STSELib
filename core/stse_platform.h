@@ -133,7 +133,7 @@ stse_ReturnCode_t stse_platform_ecc_verify(stse_ecc_key_type_t key_type,
  */
 stse_ReturnCode_t stse_platform_hash_compute(stse_hash_algorithm_t hash_algo,
                                              PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
-                                             PLAT_UI8 *pHash, PLAT_UI32 *hash_length);
+                                             PLAT_UI8 *pHash, PLAT_UI16 *hash_length);
 
 #if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) ||                      \
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) ||               \
