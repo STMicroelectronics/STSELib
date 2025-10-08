@@ -132,7 +132,7 @@ stse_ReturnCode_t stse_platform_ecc_verify(stse_ecc_key_type_t key_type,
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_hash_compute(stse_hash_algorithm_t hash_algo,
-                                             PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
+                                             PLAT_UI8 *pPayload, PLAT_UI16 payload_length,
                                              PLAT_UI8 *pHash, PLAT_UI16 *hash_length);
 
 #if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) ||                      \
