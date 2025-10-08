@@ -183,7 +183,7 @@ stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
     PLAT_UI8 hash_data[hash_length];
 
     if (pPrivate_key == NULL || pPayload == NULL || pSignature == NULL ||
-        private_key_type == STSE_ECC_KT_INVALID || hash_algo == STSE_SHA_INVALID) {
+        private_key_type >= STSE_ECC_KT_INVALID || hash_algo >= STSE_SHA_INVALID) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 

@@ -32,7 +32,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_ecdhe_public_key == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (host_ecdhe_public_key == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -105,7 +105,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
     }
 
     if (host_ecdhe_public_key == NULL || pSignature == NULL ||
-        ecdhe_key_type == STSE_ECC_KT_INVALID || signature_key_type == STSE_ECC_KT_INVALID) {
+        ecdhe_key_type >= STSE_ECC_KT_INVALID || signature_key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -259,7 +259,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 
     if (pPublic_key == NULL || pSignature == NULL ||
         pMessage == NULL || pSignature_validity == NULL ||
-        key_type == STSE_ECC_KT_INVALID) {
+        key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -360,7 +360,7 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (pMessage == NULL || pSignature == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (pMessage == NULL || pSignature == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -397,7 +397,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (pPublic_key == NULL || pShared_secret == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (pPublic_key == NULL || pShared_secret == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -477,7 +477,7 @@ stse_ReturnCode_t stsafea_ecc_decompress_public_key(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (pPublic_key_X == NULL || pPublic_key_Y == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (pPublic_key_X == NULL || pPublic_key_Y == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 

@@ -65,7 +65,7 @@ stse_ReturnCode_t stsafea_verify_entity_signature(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (pSignature == NULL || pSignature_validity == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (pSignature == NULL || pSignature_validity == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 

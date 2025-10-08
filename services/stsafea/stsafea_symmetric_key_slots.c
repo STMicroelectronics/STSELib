@@ -222,7 +222,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_ecdhe_public_key == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (host_ecdhe_public_key == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -299,7 +299,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_ecdhe_public_key == NULL || pSignature == NULL || key_type == STSE_ECC_KT_INVALID) {
+    if (host_ecdhe_public_key == NULL || pSignature == NULL || key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 

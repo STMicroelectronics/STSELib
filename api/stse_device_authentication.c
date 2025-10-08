@@ -165,7 +165,7 @@ stse_ReturnCode_t stse_device_authenticate(
 
     /* - Get ECC key type from leaf certificate */
     stse_ecc_key_type_t key_type = stse_certificate_get_key_type(&leaf_certificate);
-    if (key_type == STSE_ECC_KT_INVALID) {
+    if (key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_UNEXPECTED_ERROR);
     }
 

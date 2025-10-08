@@ -145,7 +145,7 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pPublic_key == NULL) || (key_type == STSE_ECC_KT_INVALID)) {
+    if ((pPublic_key == NULL) || (key_type >= STSE_ECC_KT_INVALID)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -221,7 +221,7 @@ stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (key_type == STSE_ECC_KT_INVALID) {
+    if (key_type >= STSE_ECC_KT_INVALID) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 

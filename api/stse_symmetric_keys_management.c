@@ -487,7 +487,7 @@ stse_ReturnCode_t stse_host_key_provisioning(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_key_type >= STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -527,7 +527,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_key_type >= STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -614,7 +614,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_key_type >= STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -698,7 +698,7 @@ stse_ReturnCode_t stse_establish_host_key(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_secure_channel_keys_type == STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
+    if (host_secure_channel_keys_type >= STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || ecdh_key_type == STSE_ECC_KT_ED25519
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
@@ -832,7 +832,7 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_secure_channel_keys_type == STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
+    if (host_secure_channel_keys_type >= STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || ecdh_key_type == STSE_ECC_KT_ED25519
 #endif /* STSE_CONF_ECC_EDWARD_25519 */

@@ -265,7 +265,7 @@ stse_ReturnCode_t stsafea_establish_host_key(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((host_ecdh_public_key_type == STSE_ECC_KT_INVALID) || (pPublic_key == NULL) || (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY)) {
+    if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) || (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -337,9 +337,9 @@ stse_ReturnCode_t stsafea_establish_host_key_authenticated(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((host_ecdh_public_key_type == STSE_ECC_KT_INVALID) || (pPublic_key == NULL) ||
-        (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY) || (signature_public_key_type == STSE_ECC_KT_INVALID) ||
-        (signature_hash_algo == STSE_SHA_INVALID) || (pSignature == NULL)) {
+    if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) ||
+        (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY) || (signature_public_key_type >= STSE_ECC_KT_INVALID) ||
+        (signature_hash_algo >= STSE_SHA_INVALID) || (pSignature == NULL)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
