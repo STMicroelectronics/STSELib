@@ -1,6 +1,19 @@
 # Release Note
 
-## v1.1.3 (Latest)
+## v1.1.4 (Latest)
+- [all] Pre-commit code cleanup for v1.1.4
+- [doc] Add STSAFE-A_key_wrapping GitHub ref
+- [cert_parser] Fix ED25519 compressed certificate parsing issue
+- [cert_parser/api/core] Fix hash digest size type
+- [api/services/core] Add I2C configuration put/query
+- [api/services/core] Improve invalid key type detection
+- [services] Fix filler allocation into condition loop
+- [service/stsafea] fix frame transfer communication
+- [services/core] Fix CRC computation
+- [services/stsafea] Fix establish host keys authenticated
+- [services/stsafea] Fix stsafea_query_generic_public_key_slot_info
+
+## v1.1.3
 - [all] Pre-commit code cleanup for v1.1.3
 - [certificate] fix warning caused by single-use macro
 - [api] Add stse_establish_host_key_authenticated
