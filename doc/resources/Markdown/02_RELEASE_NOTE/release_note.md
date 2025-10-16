@@ -1,6 +1,11 @@
 # Release Note
 
-## v1.1.4 (Latest)
+## v1.1.5 (Latest)
+- [api] Add EdDSA warning for few specific cryptographic library (public key concatenated to private key)
+- [api/services] fix IAR build warnings
+- [core] Fix Ed25519 private key size
+
+## v1.1.4
 - [all] Pre-commit code cleanup for v1.1.4
 - [doc] Add STSAFE-A_key_wrapping GitHub ref
 - [cert_parser] Fix ED25519 compressed certificate parsing issue
