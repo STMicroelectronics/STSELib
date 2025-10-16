@@ -141,7 +141,8 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
  * \param[out] 	pSignature			Pointer to buffer containing signature
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_write_generic_ecc_public_key.dox
- */
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
+*/
 stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t private_key_type,

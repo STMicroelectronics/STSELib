@@ -80,6 +80,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
  * \param[in] 	signature_private_key 				Private key used in authentication
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped_authenticated.dox
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
     stse_Handler_t *pSTSE,
@@ -122,6 +123,7 @@ stse_ReturnCode_t stse_establish_host_key(
  * \param[in] 	host_cipher_key 					Pointer to the host cipher key buffer
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_establish_host_key_authenticated(
     stse_Handler_t *pSTSE,
@@ -239,6 +241,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
  * \param[in] 	signature_private_key 				Private key used in authentication
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_write_symmetric_key_wrapped_authenticated.dox
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
     stse_Handler_t *pSTSE,
@@ -282,6 +285,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
  * \param[in] 	private_key						 Authentication private key buffer
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_establish_symmetric_key.dox
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     stse_Handler_t *pSTSE,
