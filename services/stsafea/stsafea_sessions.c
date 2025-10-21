@@ -85,16 +85,29 @@ stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE, stse_session_
 }
 
 void stsafea_close_host_session(stse_session_t *pSession) {
+
+    if (pSession == NULL) {
+        return;
+    }
+
+    /* - Check if session is active in STSE handler*/
+    if (pSession->context.host.pSTSE->pActive_host_session == pSession) {
+        /* Clear pActive_host_session */
+        pSession->context.host.pSTSE->pActive_host_session = NULL;
+    }
+
+    /* - Clear session context */
     stsafea_session_clear_context(pSession);
 }
 
 void stsafea_session_clear_context(stse_session_t *pSession) {
+
     /* - Check stsafe handler initialization */
     if (pSession == NULL) {
         return;
     }
 
-    /*Todo validate correct erase */
+    /* - Clear session context */
     memset(pSession, 0x00, sizeof(stse_session_t));
 }
 
