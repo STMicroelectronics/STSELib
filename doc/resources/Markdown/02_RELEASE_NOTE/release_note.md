@@ -1,6 +1,10 @@
 # Release Note
 
-## v1.1.5 (Latest)
+## v1.1.6 (Latest)
+- [api] Fix stse_put_I2C_parametters warning when compiling without STSE_CONF_STSAFE_A_SUPPORT config
+- [service] Add active host session management in stsafea_close_host_session
+
+## v1.1.5
 - [api] Add EdDSA warning for few specific cryptographic library (public key concatenated to private key)
 - [api/services] fix IAR build warnings
 - [core] Fix Ed25519 private key size
