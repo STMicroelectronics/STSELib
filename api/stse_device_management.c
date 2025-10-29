@@ -360,15 +360,15 @@ stse_ReturnCode_t stse_put_i2c_parameters(
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-	if (pSTSE == NULL) {
+    if (pSTSE == NULL) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }
 
-	if (i2c_address > I2C_ADDR_MAX || idle_bus_time_to_standby > IDLE_BUS_DELAY_MAX) {
+    if (i2c_address > I2C_ADDR_MAX || idle_bus_time_to_standby > IDLE_BUS_DELAY_MAX) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 
-	/*Create new I2C parameters structure */
+    /*Create new I2C parameters structure */
     stsafea_i2c_parameters_t i2c_param = {0};
     i2c_param.i2c_address = i2c_address;
     i2c_param.idle_bus_time_to_standby = idle_bus_time_to_standby;

@@ -179,8 +179,8 @@ stse_ReturnCode_t stsafea_finish_hash(
 
     /*- Perform Transfer*/
     ret = stsafea_frame_transfer(pSTSE,
-                                  &CmdFrame,
-                                  &RspFrame);
+                                 &CmdFrame,
+                                 &RspFrame);
 
     if (ret == STSE_OK) {
         *pDigest_size = ARRAY_2B_SWAP_TO_UI16(digest_size_array);
