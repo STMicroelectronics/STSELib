@@ -1,4 +1,4 @@
-# ## STMicroelectronics Secure Element Library (STSELib)
+# STMicroelectronics Secure Element Library (STSELib)
 
 ![STSELib](doc/resources/Pictures/STSELib.png)
 
@@ -19,7 +19,7 @@ Provides a set of product services that format all commands supported by the tar
 <b>- Core layer</b>
 Contains generic definition for ST Secure Element and functions for communicating with target secure element.
 
-# ## Package documentation 
+## Package documentation 
 
 HTML documentation can either be downloaded as standalone package from the STSELib github repository [release section](https://github.com/STMicroelectronics/STSELib/releases)
 or compiled from the library sources by executing following commands from the STSELib root directory:
@@ -33,7 +33,7 @@ or compiled from the library sources by executing following commands from the ST
 >
 > Doxygen version 1.14.0 is required to build the documentation  
 
-# ## STSELib Integration    
+## STSELib Integration    
 
 ### 1. Add STSELib as a Git submodule
 
@@ -57,16 +57,12 @@ Two headers files are mantatories, [`stse_conf.h`](doc/resources/Markdown/03_LIB
 For platform-specific integrations and STSafe use-cases, you may implement additional headers. Detailed specifications are available in the HTML documentation included in the release ZIP.
 Reference implementation for most common STSE applicative use case can be found in section "Reference applicative examples" of this ReadMe file
 
-# ## Reference applicative examples
+## Reference applicative examples
 
 Following applicative project can be used as reference for STSELib integration and usage.
 
 - STSAFE-A
-    - [STSAFE-A_echo](https://github.com/STMicroelectronics/STSAFE-A_echo)
-    - [STSAFE-A_device_authentication](https://github.com/STMicroelectronics/STSAFE-A_device_authentication)
-    - [STSAFE-A_secure_data_storage](https://github.com/STMicroelectronics/STSAFE-A_secure_data_storage)
-    - [STSAFE-A_asymmetric_cryptography](https://github.com/STMicroelectronics/STSAFE-A_asymmetric_cryptography)
-    - [STSAFE-A_key_wrapping](https://github.com/STMicroelectronics/STSAFE-A_key_wrapping.git)
+    - [STSAFE-A_Examples](https://github.com/STMicroelectronics/STSAFE-A120_examples)
 
 - STSAFE-L
     - [STSAFE-L_echo](https://github.com/STMicroelectronics/STSAFE-L_echo)
