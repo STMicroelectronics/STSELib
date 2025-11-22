@@ -68,7 +68,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
  * \param[in]  	length 			Read length in byte
  * \param[in] 	chunk_size 		Read chunk size in byte
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_read_zone.dox
@@ -91,7 +91,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
  * \param[in]  	length 			Update length in byte
  * \param[in] 	atomicity 		\ref stse_zone_update_atomicity_t atomicity of the update access
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_update_zone.dox
@@ -115,7 +115,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
  * \param[in]  	length 			Associated data update length in byte (optional : set to 0 if not used)
  * \param[out] 	 new_counter_value 		Pointer to applicative counter value buffer
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_decrement_counter.dox
@@ -140,7 +140,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
  * \param[in] 	chunk_size 		Associated data read chunk size in byte  (optional : set to 0 if not used)
  * \param[out] 	counter_value 	Pointer to applicative counter value buffer
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_read_counter.dox
@@ -162,7 +162,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
  * \param[in]	ac				\ref stse_zone_ac_t new access condition
  * \param[in]	ac_change_right	\ref stse_ac_change_right_t new access change right
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_change_read_access_condition.dox
@@ -185,7 +185,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
  * \param[in]  	length 			Update length in byte
  * \param[in] 	atomicity 		\ref stse_zone_update_atomicity_t atomicity of the update access
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_change_update_access_condition.dox
@@ -212,7 +212,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
  * \param[in]  	length 			Associated data update length in byte (optional : set to 0 if not used)
  * \param[out] 	new_counter_value 		Pointer to applicative counter value buffer
  * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \result 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
  * \details 	\include{doc} stse_data_storage_change_decrement_access_condition.dox

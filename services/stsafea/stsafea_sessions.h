@@ -53,6 +53,18 @@ void stsafea_close_host_session(stse_session_t *pSession);
  */
 void stsafea_session_clear_context(stse_session_t *pSession);
 
+/**
+ * \brief 		Perform encrypted session transfer
+ * \details 	This service performs a command/response transfer with encryption
+ * \param[in] 	pSession				Pointer to session structure
+ * \param[in] 	pCmdFrame				Pointer to command frame
+ * \param[out] 	pRspFrame				Pointer to response frame
+ * \param[in] 	cmd_encryption_flag		Command encryption flag
+ * \param[in] 	rsp_encryption_flag		Response encryption flag
+ * \param[in] 	cmd_ac_info				Command access conditions
+ * \param[in] 	processing_time			Expected processing time
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
                                                      stse_frame_t *pCmdFrame,
                                                      stse_frame_t *pRspFrame,
@@ -61,6 +73,16 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
                                                      stse_cmd_access_conditions_t cmd_ac_info,
                                                      PLAT_UI16 processing_time);
 
+/**
+ * \brief 		Perform authenticated session transfer
+ * \details 	This service performs a command/response transfer with authentication
+ * \param[in] 	pSession			Pointer to session structure
+ * \param[in] 	pCmdFrame			Pointer to command frame
+ * \param[out] 	pRspFrame			Pointer to response frame
+ * \param[in] 	cmd_ac_info			Command access conditions
+ * \param[in] 	processing_time		Expected processing time
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_session_authenticated_transfer(stse_session_t *pSession,
                                                          stse_frame_t *pCmdFrame,
                                                          stse_frame_t *pRspFrame,
