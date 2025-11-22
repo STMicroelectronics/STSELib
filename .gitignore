@@ -16,3 +16,4 @@ __docbook
 .settings/
 *.xml
 *.pu
+_codeql_detected_source_root

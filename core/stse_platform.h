@@ -203,6 +203,17 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
+/**
+ * \brief 		Encrypt data using NIST AES Key Wrap algorithm
+ * \details 	This platform function implements the NIST SP 800-38F AES Key Wrap encryption
+ * \param[in]	pPayload			Pointer to the payload data to encrypt
+ * \param[in]	payload_length		Length of the payload in bytes
+ * \param[in]	pKey				Pointer to the encryption key
+ * \param[in]	key_length			Length of the key in bytes
+ * \param[out]	pOutput				Pointer to the output buffer for encrypted data
+ * \param[out]	pOutput_length		Pointer to store the output length
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
                                                 PLAT_UI8 *pKey, PLAT_UI8 key_length,
                                                 PLAT_UI8 *pOutput, PLAT_UI32 *pOutput_length);
