@@ -200,8 +200,8 @@ typedef struct stsafe_generic_key_information_t {
             PLAT_UI8 auth_tag_length; /*!< Length of the authentication tag (4, 8, 12, 13, 14, 15 or 16 bytes) */
         } GCM;
         struct {
-            PLAT_UI8 filler : 7;                    /*!< Filler (Must be all 0b)*/
             PLAT_UI8 allow_derived_key_to_host : 1; /*!< Allow to return some keys derived from the current key in the response */
+            PLAT_UI8 filler : 7;                    /*!< Filler (Must be all 0b)*/
             PLAT_UI8 generic_secret_key_length;     /*!< Byte length of the key (only present if key type == STSAFEA_SYMMETRIC_KEY_TYPE_GENERIC_SECRET */
         } HKDF;
         struct {
