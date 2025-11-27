@@ -176,8 +176,8 @@ typedef struct stsafea_symmetric_key_slot_information_t {
 #define STSAFEA_KEY_INFO_LENGTH_CMAC 7U /*!< AES-CMAC key info length */
 #define STSAFEA_KEY_INFO_LENGTH_ECB 6U  /*!< AES-ECB key info length  */
 #define STSAFEA_KEY_INFO_LENGTH_GCM 7U  /*!< AES-GCM key info length  */
-#define STSAFEA_KEY_INFO_LENGTH_HKDF 7U /*!< AES-HKDF key info length */
-#define STSAFEA_KEY_INFO_LENGTH_HMAC 7U /*!< AES-HMAC key info length */
+#define STSAFEA_KEY_INFO_LENGTH_HKDF 8U /*!< AES-HKDF key info length */
+#define STSAFEA_KEY_INFO_LENGTH_HMAC 8U /*!< AES-HMAC key info length */
 
 /*! STSAFE-A AES generic key information structure */
 typedef struct stsafe_generic_key_information_t {
