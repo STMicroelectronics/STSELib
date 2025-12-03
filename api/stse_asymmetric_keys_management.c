@@ -44,7 +44,6 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
 stse_ReturnCode_t stse_get_ecc_key_table_info(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
-    PLAT_UI8 *pChange_right,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info) {
     stse_ReturnCode_t ret;
@@ -57,7 +56,7 @@ stse_ReturnCode_t stse_get_ecc_key_table_info(
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pChange_right, pGlobal_usage_limit, private_key_table_info);
+    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pGlobal_usage_limit, private_key_table_info);
 
     return ret;
 }
@@ -65,7 +64,6 @@ stse_ReturnCode_t stse_get_ecc_key_table_info(
 stse_ReturnCode_t stse_get_ecc_key_slot_info(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
-    PLAT_UI8 *pChange_right,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_slot_info) {
     stse_ReturnCode_t ret;
@@ -85,7 +83,7 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
 
     stsafea_private_key_slot_information_t private_key_table_info[private_key_slot_count];
 
-    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pChange_right, pGlobal_usage_limit, private_key_table_info);
+    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pGlobal_usage_limit, private_key_table_info);
 
     if (ret != STSE_OK) {
         return (ret);

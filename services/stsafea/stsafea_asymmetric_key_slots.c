@@ -56,7 +56,6 @@ stse_ReturnCode_t stsafea_query_private_key_slots_count(
 stse_ReturnCode_t stsafea_query_private_key_table(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
-    PLAT_UI8 *pChange_right,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info) {
     stse_ReturnCode_t ret;
@@ -71,6 +70,7 @@ stse_ReturnCode_t stsafea_query_private_key_table(
 
     PLAT_UI8 slot_count, i;
     PLAT_UI8 *current_record;
+    PLAT_UI8 filler;
 
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_PRIVATE_KEY_TABLE;
@@ -85,7 +85,7 @@ stse_ReturnCode_t stsafea_query_private_key_table(
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
     stse_frame_element_allocate_push(&RspFrame, eSlot_count, 1, &slot_count);
-    stse_frame_element_allocate_push(&RspFrame, eChange_right, 1, pChange_right);
+    stse_frame_element_allocate_push(&RspFrame, efiller, 1, &filler);
     stse_frame_element_allocate_push(&RspFrame, eGlobal_usage_limit, 2, (PLAT_UI8 *)pGlobal_usage_limit);
     stse_frame_element_allocate_push(&RspFrame, eTable_raw, raw_table_length, pTable_raw);
 

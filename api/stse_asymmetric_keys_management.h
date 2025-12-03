@@ -50,7 +50,6 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
  * \details 	This API query STSE and return ecc key informations list for all key slots in the table
  * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[in] 	private_key_slot_count 		Expected slot count in the table (length of private_key_table_info)
- * \param[out] 	pChange_right 				Private key table information change right
  * \param[out] 	pGlobal_usage_limit 		Private key table information global usage limit
  * \param[out] 	private_key_table_info 		Key slot informations table
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -59,7 +58,6 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
 stse_ReturnCode_t stse_get_ecc_key_table_info(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
-    PLAT_UI8 *pChange_right,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info);
 
