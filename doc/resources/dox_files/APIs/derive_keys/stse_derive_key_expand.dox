@@ -1,0 +1,37 @@
+\b Description
+This command performs the HKDF-Expand step only. It takes a previously extracted PRK (stored in a slot) and expands it into a new key using the provided context information.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key_expand
+        HOST -> STSE : Derive Key Command (HKDF Expand Only)\n[Input: PRK Slot + Info]
+        activate STSE $STSE_ACTIVITY
+        return Response (Derived Key Data)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## HKDF Expand from PRK */
+    PLAT_UI8 output_key[16];
+    PLAT_UI8 context[] = "expansion-context";
+    
+    /* Assumes prk_slot was populated by a previous extract call */
+    stse_ret = stse_derive_key_expand(
+        &stse_handler,
+        prk_slot,
+        context, sizeof(context)-1,
+        output_key, 16
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

@@ -1,0 +1,52 @@
+\b Description
+This helper function performs a full session key derivation sequence in three steps:
+1. Extract a PRK from the master key using the Session ID as salt.
+2. Expand that PRK to create an Encryption Key (Context: "ENC").
+3. Expand that PRK to create a MAC Key (Context: "MAC").
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_session_keys
+        note right of HOST: 1. Extract PRK
+        HOST -> STSE : HKDF Extract (Master + SessionID)
+        activate STSE $STSE_ACTIVITY
+        return PRK Slot Number
+        
+        note right of HOST: 2. Derive Enc Key
+        HOST -> STSE : HKDF Expand (PRK Slot + "ENC")
+        activate STSE $STSE_ACTIVITY
+        return Encryption Key Data
+        
+        note right of HOST: 3. Derive MAC Key
+        HOST -> STSE : HKDF Expand (PRK Slot + "MAC")
+        activate STSE $STSE_ACTIVITY
+        return MAC Key Data
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## Derive Session Keys */
+    PLAT_UI32 session_id = 0x12345678;
+    PLAT_UI8 enc_key[16];
+    PLAT_UI8 mac_key[16];
+    
+    stse_ret = stse_derive_session_keys(
+        &stse_handler,
+        STSE_MASTER_KEY_SLOT,
+        session_id,
+        enc_key, 16,
+        mac_key, 16
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

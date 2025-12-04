@@ -1,0 +1,38 @@
+\b Description
+This function simplifies the key derivation process by using a default empty salt and treating the context as a raw byte array.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key_simple
+        HOST -> STSE : Derive Key Command (Salt=NULL)\n[Input: Slot + Context]
+        activate STSE $STSE_ACTIVITY
+        return Response (Derived Key Data)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## Simple Key Derivation */
+    PLAT_UI8 derived_key[32];
+    PLAT_UI8 context[] = "app-key-v1";
+    
+    stse_ret = stse_derive_key_simple(
+        &stse_handler,
+        STSE_MASTER_KEY_SLOT, 
+        context,
+        (PLAT_UI16)strlen((char*)context),
+        derived_key,
+        32
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

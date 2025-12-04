@@ -1,0 +1,43 @@
+\b Description
+This function uses the HKDF-Expand command to derive multiple keys (up to 32) in a single transaction. This is more efficient than calling stse_derive_key_expand() multiple times.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key_expand_multiple
+        HOST -> STSE : Derive Key Command (NumKeys=N)\n[Input: PRK Slot + Context]
+        activate STSE $STSE_ACTIVITY
+        STSE -> STSE : Generate Key 1, Key 2... Key N
+        return Response (Key 1 Data, Key 2 Data... Key N Data)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## Derive Multiple Keys */
+    PLAT_UI8 *outputs[2];
+    PLAT_UI16 lengths[2] = {16, 16};
+    PLAT_UI8 key1[16], key2[16];
+    
+    outputs[0] = key1;
+    outputs[1] = key2;
+
+    stse_ret = stse_derive_key_expand_multiple(
+        &stse_handler,
+        prk_slot,
+        NULL, NULL, /* Use default/no context */
+        outputs,
+        lengths,
+        2
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

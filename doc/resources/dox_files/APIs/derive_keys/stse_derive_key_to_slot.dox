@@ -1,0 +1,42 @@
+\b Description
+This function performs HKDF derivation (Extract + Expand) but keeps the resulting key inside the secure element by storing it in a symmetric key slot. The key data is never exposed to the host.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key_to_slot
+        HOST -> STSE : Derive Key Command (Dest=Slot)\n[Input: Master Slot + Info + Key Config]
+        activate STSE $STSE_ACTIVITY
+        STSE -> STSE : Derive Key -> Find Empty Slot -> Write Key
+        return Response (New Slot Number)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## Derive Key to Slot */
+    PLAT_UI8 new_key_slot;
+    stsafe_output_key_description_information_t key_config = {
+        .type = STSAFEA_KEY_TYPE_AES_128,
+        .usage = STSAFEA_KEY_USAGE_ENCRYPT | STSAFEA_KEY_USAGE_DECRYPT
+    };
+    
+    stse_ret = stse_derive_key_to_slot(
+        &stse_handler,
+        STSE_MASTER_KEY_SLOT,
+        NULL, 0,
+        (PLAT_UI8*)"working-key", 11,
+        &key_config,
+        &new_key_slot
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

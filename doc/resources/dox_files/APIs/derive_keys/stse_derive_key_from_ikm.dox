@@ -1,0 +1,37 @@
+\b Description
+This function derives a key using raw Input Key Material (IKM) provided in the command payload, rather than a key stored in a slot.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key_from_ikm
+        HOST -> STSE : Derive Key Command (Source=Command)\n[Input: IKM Data + Salt + Info]
+        activate STSE $STSE_ACTIVITY
+        return Response (Derived Key Data)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## Derive from Raw IKM */
+    PLAT_UI8 raw_ikm[] = {0x00, 0x11, 0x22, 0x33, ...};
+    PLAT_UI8 derived_key[32];
+
+    stse_ret = stse_derive_key_from_ikm(
+        &stse_handler,
+        raw_ikm, sizeof(raw_ikm),
+        NULL, 0, /* No Salt */
+        (PLAT_UI8*)"context", 7,
+        derived_key, 32
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

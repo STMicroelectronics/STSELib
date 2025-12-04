@@ -1,0 +1,37 @@
+\b Description
+This command performs the HKDF-Extract step only. It generates a Pseudo-Random Key (PRK) from the input key material and salt, storing the result in an internal secure slot.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key_extract
+        HOST -> STSE : Derive Key Command (HKDF Extract Only)\n[Input: Master Slot + Salt]
+        activate STSE $STSE_ACTIVITY
+        STSE -> STSE : Generate PRK -> Store in internal slot
+        return Response (PRK Slot Number)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n\n
+
+\code{.c}
+    /* ## HKDF Extract PRK */
+    PLAT_UI8 salt[] = {0xAA, 0xBB, 0xCC, 0xDD};
+    PLAT_UI8 prk_slot;
+    
+    stse_ret = stse_derive_key_extract(
+        &stse_handler,
+        STSE_MASTER_KEY_SLOT,
+        salt, sizeof(salt),
+        &prk_slot
+    );
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>

@@ -1,0 +1,44 @@
+\b Description
+The following diagram illustrates the interactions performed between the Host and the target STSE device to derive a key and return it to the host.
+\n\n
+
+@startuml
+    participant "HOST" as HOST
+    participant "STSE" as STSE
+
+    activate HOST $STSE_ACTIVITY
+    group stse_derive_key
+        HOST -> STSE : Derive Key Command (HKDF Extract + Expand)\n[Input: Slot + Salt + Info]
+        activate STSE $STSE_ACTIVITY
+        return Response (Derived Key Data)
+    end
+    deactivate HOST
+@enduml
+
+\n\n \b Use-case \b example
+\n The following applicative code snippet illustrates how to derive a key using a salt and context.
+\n\n
+
+\code{.c}
+    /* ## Derive Key to Host Buffer */
+    PLAT_UI8 derived_key[32];
+    PLAT_UI8 salt[] = {0x01, 0x02, 0x03, 0x04};
+    PLAT_UI8 context[] = "app-context";
+    
+    stse_ret = stse_derive_key(
+        &stse_handler,
+        STSE_MASTER_KEY_SLOT, 
+        salt, sizeof(salt),
+        context, sizeof(context)-1,
+        derived_key, 32
+    );
+    
+    if (stse_ret != STSE_OK)
+    {
+        /* Handle Error */
+    }
+\endcode
+
+\sa stse_init
+
+<div style="page-break-after: always;"></div>
