@@ -238,7 +238,7 @@ void stse_certificate_print_parsed_cert(stse_certificate_t *stse_certificate) {
     //printf("Fields: %08X\n", stse_certificate->fields);
     //printFields(stse_certificate->fields);
 
-    printf("\n\r\t x509 Version: %" PRId32, stse_certificate->x509Version + 1);
+    printf("\n\r\t x509 Version: %" PRIu32, stse_certificate->x509Version + 1);
     if (stse_certificate->serialNumber != NULL && stse_certificate->serialNumberSize > 0)
         print_buffer("\n\r\tSerialNumber: ", stse_certificate->serialNumber, stse_certificate->serialNumberSize);
     if (stse_certificate->issuer != NULL && stse_certificate->issuerSize > 0) {
@@ -323,8 +323,8 @@ void stse_certificate_print_validity(const PLAT_UI8 *validity) {
     const PLAT_UI8 *next;
     stse_certificate_parse_validity(validity, &notBefore_st, &notAfter_st, &next);
     printf("\n\r\t Validity:");
-    printf("\n\r\t\t Not Before: %04" PRId32 "-%02d-%02d %02d:%02d:%02d", notBefore_st.year, notBefore_st.month, notBefore_st.days, notBefore_st.hours, notBefore_st.minutes, notBefore_st.seconds);
-    printf("\n\r\t\t Not After:  %04" PRId32 "-%02d-%02d %02d:%02d:%02d", notAfter_st.year, notAfter_st.month, notAfter_st.days, notAfter_st.hours, notAfter_st.minutes, notAfter_st.seconds);
+    printf("\n\r\t\t Not Before: %04" PRIu32 "-%02d-%02d %02d:%02d:%02d", notBefore_st.year, notBefore_st.month, notBefore_st.days, notBefore_st.hours, notBefore_st.minutes, notBefore_st.seconds);
+    printf("\n\r\t\t Not After:  %04" PRIu32 "-%02d-%02d %02d:%02d:%02d", notAfter_st.year, notAfter_st.month, notAfter_st.days, notAfter_st.hours, notAfter_st.minutes, notAfter_st.seconds);
 }
 
 static void printExtensions(PLAT_UI32 extensionsFlags) {
@@ -340,7 +340,7 @@ static void printExtensions(PLAT_UI32 extensionsFlags) {
             printf("Not a CA certificate. ");
         }
         if (((extensionsFlags >> 3) & 1) == 1) {
-            printf("PathSize: %" PRId32, (extensionsFlags >> 4) & 15);
+            printf("PathSize: %" PRIu32, (extensionsFlags >> 4) & 15);
         }
     }
     if (((extensionsFlags >> 8) & 1) == 1) {
