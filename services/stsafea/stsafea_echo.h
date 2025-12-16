@@ -40,6 +40,7 @@
  * \param[in]	echoed_message		Message buffer to receive the echo response
  * \param[in]	message_size		Size of the echo message
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_data_storage_get_total_partition_count.dox
  */
 stse_ReturnCode_t stsafea_echo(
     stse_Handler_t *pSTSE,
