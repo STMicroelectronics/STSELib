@@ -18,46 +18,41 @@
 
 /* wolfSSL includes */
 #ifdef WOLFSSL_USER_SETTINGS
-#include "user_settings.h"
+    #include "user_settings.h"
 #endif
+#include <wolfssl/wolfcrypt/settings.h>
 #include <wolfssl/wolfcrypt/aes.h>
 #include <wolfssl/wolfcrypt/cmac.h>
-#include <wolfssl/wolfcrypt/ecc.h>
-#include <wolfssl/wolfcrypt/hash.h>
 #include <wolfssl/wolfcrypt/hmac.h>
-#include <wolfssl/wolfcrypt/random.h>
-#include <wolfssl/wolfcrypt/settings.h>
 #include <wolfssl/wolfcrypt/sha256.h>
 #include <wolfssl/wolfcrypt/sha512.h>
+#include <wolfssl/wolfcrypt/hash.h>
+#include <wolfssl/wolfcrypt/ecc.h>
+#include <wolfssl/wolfcrypt/random.h>
 #ifdef HAVE_AES_KEYWRAP
-#include <wolfssl/wolfcrypt/aes.h>
+    #include <wolfssl/wolfcrypt/aes.h>
 #endif
 #ifdef HAVE_CURVE25519
-#include <wolfssl/wolfcrypt/curve25519.h>
+    #include <wolfssl/wolfcrypt/curve25519.h>
 #endif
 #ifdef HAVE_ED25519
-#include <wolfssl/wolfcrypt/ed25519.h>
+    #include <wolfssl/wolfcrypt/ed25519.h>
 #endif
 
-#include <stdlib.h>
 #include <string.h>
+#include <stdlib.h>
 
 /* ========================================================================== */
 /* Helper Macros                                                              */
 /* ========================================================================== */
 
 #ifndef MIN
-#define MIN(a, b) ((a) < (b) ? (a) : (b))
+#define MIN(a,b)           ((a)<(b) ? (a) : (b))
 #endif
-#define _MSB(x) ((((x)[0] & 0x80) == 0x80) ? 1 : 0)
+#define _MSB(x)            ((((x)[0]&0x80)==0x80) ? 1 : 0)
 
-#define ZERO_STRUCT(x) memset((void *)&(x), 0, sizeof(x))
-#define ZERO_STRUCTP(x)                           \
-    do {                                          \
-        if ((x) != NULL) {                        \
-            memset((void *)(x), 0, sizeof(*(x))); \
-        }                                         \
-    } while (0)
+#define ZERO_STRUCT(x)     memset((void*)&(x), 0, sizeof(x))
+#define ZERO_STRUCTP(x)    do { if ((x) != NULL) { memset((void*)(x), 0, sizeof(*(x)));} } while(0)
 
 /* ========================================================================== */
 /* AES CMAC Constants (RFC 4493)                                              */
@@ -65,7 +60,8 @@
 
 static const uint8_t const_Rb[16] = {
     0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x87};
+    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x87
+};
 static const uint8_t const_Zero[16] = {0x00};
 
 /* ========================================================================== */
@@ -83,13 +79,14 @@ typedef struct {
 } stse_cmac_ctx_t;
 
 /* Global CMAC context for init/append/finish pattern */
-static stse_cmac_ctx_t *g_cmac_ctx = NULL;
+static stse_cmac_ctx_t* g_cmac_ctx = NULL;
 
 /* ========================================================================== */
 /* Internal Helper Functions                                                  */
 /* ========================================================================== */
 
-static inline void aes_cmac_left_shift_1(const uint8_t in[16], uint8_t out[16]) {
+static inline void aes_cmac_left_shift_1(const uint8_t in[16], uint8_t out[16])
+{
     int8_t i;
     uint8_t overflow = 0;
 
@@ -100,14 +97,16 @@ static inline void aes_cmac_left_shift_1(const uint8_t in[16], uint8_t out[16]) 
     }
 }
 
-static inline void aes_cmac_xor(const uint8_t in1[16], const uint8_t in2[16], uint8_t out[16]) {
+static inline void aes_cmac_xor(const uint8_t in1[16], const uint8_t in2[16], uint8_t out[16])
+{
     int8_t i;
     for (i = 0; i < 16; i++) {
         out[i] = in1[i] ^ in2[i];
     }
 }
 
-static int aes_cmac_generate_subkeys(Aes *aes, uint8_t k1[16], uint8_t k2[16]) {
+static int aes_cmac_generate_subkeys(Aes* aes, uint8_t k1[16], uint8_t k2[16])
+{
     uint8_t L[16];
     uint8_t tmp_block[16];
     uint8_t iv[16] = {0};
@@ -115,12 +114,10 @@ static int aes_cmac_generate_subkeys(Aes *aes, uint8_t k1[16], uint8_t k2[16]) {
 
     /* Generate L = AES-128(K, const_Zero) */
     ret = wc_AesSetIV(aes, iv);
-    if (ret != 0)
-        return ret;
+    if (ret != 0) return ret;
 
     ret = wc_AesCbcEncrypt(aes, L, const_Zero, 16);
-    if (ret != 0)
-        return ret;
+    if (ret != 0) return ret;
 
     /* Generate K1 */
     if (_MSB(L) == 0) {
@@ -148,7 +145,8 @@ static int aes_cmac_generate_subkeys(Aes *aes, uint8_t k1[16], uint8_t k2[16]) {
 /* Platform Crypto Initialization                                             */
 /* ========================================================================== */
 
-stse_ReturnCode_t stse_platform_crypto_init(void) {
+stse_ReturnCode_t stse_platform_crypto_init(void)
+{
     /* wolfSSL library initialization if needed */
     return STSE_OK;
 }
@@ -159,7 +157,8 @@ stse_ReturnCode_t stse_platform_crypto_init(void) {
 
 stse_ReturnCode_t stse_platform_hash_compute(stse_hash_algorithm_t hash_algo,
                                              PLAT_UI8 *pPayload, PLAT_UI16 payload_length,
-                                             PLAT_UI8 *pHash, PLAT_UI16 *hash_length) {
+                                             PLAT_UI8 *pHash, PLAT_UI16 *hash_length)
+{
     int ret = -1;
 
     if (pPayload == NULL || pHash == NULL || hash_length == NULL) {
@@ -168,23 +167,23 @@ stse_ReturnCode_t stse_platform_hash_compute(stse_hash_algorithm_t hash_algo,
 
     switch (hash_algo) {
 #ifdef STSE_CONF_HASH_SHA_256
-    case STSE_SHA_256:
-        if (*hash_length >= WC_SHA256_DIGEST_SIZE) {
-            ret = wc_Sha256Hash(pPayload, payload_length, pHash);
-            *hash_length = WC_SHA256_DIGEST_SIZE;
-        }
-        break;
+        case STSE_SHA_256:
+            if (*hash_length >= WC_SHA256_DIGEST_SIZE) {
+                ret = wc_Sha256Hash(pPayload, payload_length, pHash);
+                *hash_length = WC_SHA256_DIGEST_SIZE;
+            }
+            break;
 #endif
 #ifdef STSE_CONF_HASH_SHA_384
-    case STSE_SHA_384:
-        if (*hash_length >= WC_SHA384_DIGEST_SIZE) {
-            ret = wc_Sha384Hash(pPayload, payload_length, pHash);
-            *hash_length = WC_SHA384_DIGEST_SIZE;
-        }
-        break;
+        case STSE_SHA_384:
+            if (*hash_length >= WC_SHA384_DIGEST_SIZE) {
+                ret = wc_Sha384Hash(pPayload, payload_length, pHash);
+                *hash_length = WC_SHA384_DIGEST_SIZE;
+            }
+            break;
 #endif
-    default:
-        return STSE_PLATFORM_HASH_ERROR;
+        default:
+            return STSE_PLATFORM_HASH_ERROR;
     }
 
     if (ret != 0) {
@@ -201,84 +200,86 @@ stse_ReturnCode_t stse_platform_hash_compute(stse_hash_algorithm_t hash_algo,
 /**
  * \brief Get key size in bytes for a given STSE ECC key type
  */
-static int stse_get_ecc_key_size(stse_ecc_key_type_t key_type) {
+static int stse_get_ecc_key_size(stse_ecc_key_type_t key_type)
+{
     switch (key_type) {
 #ifdef STSE_CONF_ECC_NIST_P_256
-    case STSE_ECC_KT_NIST_P_256:
-        return 32;
+        case STSE_ECC_KT_NIST_P_256:
+            return 32;
 #endif
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_256
-    case STSE_ECC_KT_BP_P_256:
-        return 32;
+        case STSE_ECC_KT_BP_P_256:
+            return 32;
 #endif
 #ifdef STSE_CONF_ECC_CURVE_25519
-    case STSE_ECC_KT_CURVE25519:
-        return 32;
+        case STSE_ECC_KT_CURVE25519:
+            return 32;
 #endif
 #ifdef STSE_CONF_ECC_EDWARD_25519
-    case STSE_ECC_KT_ED25519:
-        return 32;
+        case STSE_ECC_KT_ED25519:
+            return 32;
 #endif
 #ifdef STSE_CONF_ECC_NIST_P_384
-    case STSE_ECC_KT_NIST_P_384:
-        return 48;
+        case STSE_ECC_KT_NIST_P_384:
+            return 48;
 #endif
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_384
-    case STSE_ECC_KT_BP_P_384:
-        return 48;
+        case STSE_ECC_KT_BP_P_384:
+            return 48;
 #endif
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_512
-    case STSE_ECC_KT_BP_P_512:
-        return 64;
+        case STSE_ECC_KT_BP_P_512:
+            return 64;
 #endif
 #ifdef STSE_CONF_ECC_NIST_P_521
-    case STSE_ECC_KT_NIST_P_521:
-        return 66;
+        case STSE_ECC_KT_NIST_P_521:
+            return 66;
 #endif
-    default:
-        return 0;
+        default:
+            return 0;
     }
 }
 
 /**
  * \brief Get wolfSSL curve ID for a given STSE ECC key type
  */
-static int stse_get_wolfssl_curve_id(stse_ecc_key_type_t key_type) {
+static int stse_get_wolfssl_curve_id(stse_ecc_key_type_t key_type)
+{
     switch (key_type) {
 #ifdef STSE_CONF_ECC_NIST_P_256
-    case STSE_ECC_KT_NIST_P_256:
-        return ECC_SECP256R1;
+        case STSE_ECC_KT_NIST_P_256:
+            return ECC_SECP256R1;
 #endif
 #ifdef STSE_CONF_ECC_NIST_P_384
-    case STSE_ECC_KT_NIST_P_384:
-        return ECC_SECP384R1;
+        case STSE_ECC_KT_NIST_P_384:
+            return ECC_SECP384R1;
 #endif
 #if defined(STSE_CONF_ECC_NIST_P_521) && defined(HAVE_ECC521)
-    case STSE_ECC_KT_NIST_P_521:
-        return ECC_SECP521R1;
+        case STSE_ECC_KT_NIST_P_521:
+            return ECC_SECP521R1;
 #endif
 #if defined(STSE_CONF_ECC_BRAINPOOL_P_256) && defined(HAVE_ECC_BRAINPOOL)
-    case STSE_ECC_KT_BP_P_256:
-        return ECC_BRAINPOOLP256R1;
+        case STSE_ECC_KT_BP_P_256:
+            return ECC_BRAINPOOLP256R1;
 #endif
 #if defined(STSE_CONF_ECC_BRAINPOOL_P_384) && defined(HAVE_ECC_BRAINPOOL)
-    case STSE_ECC_KT_BP_P_384:
-        return ECC_BRAINPOOLP384R1;
+        case STSE_ECC_KT_BP_P_384:
+            return ECC_BRAINPOOLP384R1;
 #endif
 #if defined(STSE_CONF_ECC_BRAINPOOL_P_512) && defined(HAVE_ECC_BRAINPOOL)
-    case STSE_ECC_KT_BP_P_512:
-        return ECC_BRAINPOOLP512R1;
+        case STSE_ECC_KT_BP_P_512:
+            return ECC_BRAINPOOLP512R1;
 #endif
 #if defined(STSE_CONF_ECC_CURVE_25519) && defined(HAVE_CURVE25519)
-    case STSE_ECC_KT_CURVE25519:
-        return ECC_X25519;
+        case STSE_ECC_KT_CURVE25519:
+            return ECC_X25519;
 #endif
 #if defined(STSE_CONF_ECC_EDWARD_25519) && defined(HAVE_ED25519)
-    case STSE_ECC_KT_ED25519:
-        return ECC_ED25519;
+        case STSE_ECC_KT_ED25519:
+            return ECC_ED25519;
 #endif
-    default:
-        return ECC_SECP256R1; /* Default to P-256 */
+        default:
+            return ECC_SECP256R1; /* Default to P-256 */
     }
 }
 
@@ -286,7 +287,8 @@ stse_ReturnCode_t stse_platform_ecc_verify(stse_ecc_key_type_t key_type,
                                            const PLAT_UI8 *pPubKey,
                                            PLAT_UI8 *pDigest,
                                            PLAT_UI16 digestLen,
-                                           PLAT_UI8 *pSignature) {
+                                           PLAT_UI8 *pSignature)
+{
     ecc_key eccKey;
     int ret;
     int verified = 0;
@@ -314,10 +316,10 @@ stse_ReturnCode_t stse_platform_ecc_verify(stse_ecc_key_type_t key_type,
 
     /* Import public key (X || Y format) */
     ret = wc_ecc_import_unsigned(&eccKey,
-                                 (byte *)pPubKey,              /* X coordinate */
-                                 (byte *)(pPubKey + key_size), /* Y coordinate */
-                                 NULL,                         /* No private key */
-                                 curve_id);
+                                  (byte*)pPubKey,              /* X coordinate */
+                                  (byte*)(pPubKey + key_size), /* Y coordinate */
+                                  NULL,                        /* No private key */
+                                  curve_id);
     if (ret != 0) {
         wc_ecc_free(&eccKey);
         return STSE_PLATFORM_ECC_VERIFY_ERROR;
@@ -349,17 +351,18 @@ stse_ReturnCode_t stse_platform_ecc_verify(stse_ecc_key_type_t key_type,
 /* ECC Key Generation Functions                                               */
 /* ========================================================================== */
 
-#if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) ||                      \
-    defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) ||               \
+#if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) || \
+    defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) ||                 \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) ||   \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) || \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 stse_ReturnCode_t stse_platform_ecc_generate_key_pair(stse_ecc_key_type_t key_type,
                                                       PLAT_UI8 *pPrivKey,
-                                                      PLAT_UI8 *pPubKey) {
+                                                      PLAT_UI8 *pPubKey)
+{
     ecc_key eccKey;
     WC_RNG rng;
     int ret;
@@ -520,14 +523,15 @@ stse_ReturnCode_t stse_platform_ecc_generate_key_pair(stse_ecc_key_type_t key_ty
 /* ========================================================================== */
 
 #if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) ||   \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 stse_ReturnCode_t stse_platform_ecc_sign(stse_ecc_key_type_t key_type,
                                          PLAT_UI8 *pPrivKey,
                                          PLAT_UI8 *pDigest,
                                          PLAT_UI16 digestLen,
-                                         PLAT_UI8 *pSignature) {
+                                         PLAT_UI8 *pSignature)
+{
     ecc_key eccKey;
     WC_RNG rng;
     int ret;
@@ -600,8 +604,8 @@ stse_ReturnCode_t stse_platform_ecc_sign(stse_ecc_key_type_t key_type,
 
     /* Import private key */
     ret = wc_ecc_import_private_key_ex(pPrivKey, key_size,
-                                       NULL, 0, /* No public key */
-                                       &eccKey, curve_id);
+                                        NULL, 0, /* No public key */
+                                        &eccKey, curve_id);
     if (ret != 0) {
         wc_ecc_free(&eccKey);
         wc_FreeRng(&rng);
@@ -639,18 +643,19 @@ stse_ReturnCode_t stse_platform_ecc_sign(stse_ecc_key_type_t key_type,
 /* ECDH Key Exchange Functions                                                */
 /* ========================================================================== */
 
-#if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) ||                      \
-    defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) ||               \
+#if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) || \
+    defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) ||                 \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) ||   \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) || \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
                                          const PLAT_UI8 *pPubKey,
                                          const PLAT_UI8 *pPrivKey,
-                                         PLAT_UI8 *pSharedSecret) {
+                                         PLAT_UI8 *pSharedSecret)
+{
     ecc_key privEccKey;
     ecc_key pubEccKey;
     int ret;
@@ -687,7 +692,7 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
 
         /* Import private key */
         ret = wc_curve25519_import_private_ex(pPrivKey, CURVE25519_KEYSIZE,
-                                              &privKey, EC25519_LITTLE_ENDIAN);
+                                               &privKey, EC25519_LITTLE_ENDIAN);
         if (ret != 0) {
             wc_curve25519_free(&pubKey);
             wc_curve25519_free(&privKey);
@@ -696,7 +701,7 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
 
         /* Import public key */
         ret = wc_curve25519_import_public_ex(pPubKey, CURVE25519_KEYSIZE,
-                                             &pubKey, EC25519_LITTLE_ENDIAN);
+                                              &pubKey, EC25519_LITTLE_ENDIAN);
         if (ret != 0) {
             wc_curve25519_free(&pubKey);
             wc_curve25519_free(&privKey);
@@ -732,8 +737,8 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
 
     /* Import private key */
     ret = wc_ecc_import_private_key_ex(pPrivKey, key_size,
-                                       NULL, 0, /* No public key */
-                                       &privEccKey, curve_id);
+                                        NULL, 0, /* No public key */
+                                        &privEccKey, curve_id);
     if (ret != 0) {
         wc_ecc_free(&pubEccKey);
         wc_ecc_free(&privEccKey);
@@ -742,10 +747,10 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
 
     /* Import public key (X || Y format) */
     ret = wc_ecc_import_unsigned(&pubEccKey,
-                                 (byte *)pPubKey,              /* X coordinate */
-                                 (byte *)(pPubKey + key_size), /* Y coordinate */
-                                 NULL,                         /* No private key */
-                                 curve_id);
+                                  (byte*)pPubKey,              /* X coordinate */
+                                  (byte*)(pPubKey + key_size), /* Y coordinate */
+                                  NULL,                        /* No private key */
+                                  curve_id);
     if (ret != 0) {
         wc_ecc_free(&pubEccKey);
         wc_ecc_free(&privEccKey);
@@ -772,7 +777,7 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
 /* AES ECB Functions                                                          */
 /* ========================================================================== */
 
-#if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) ||      \
+#if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || \
     defined(STSE_CONF_USE_HOST_SESSION)
 
@@ -781,7 +786,8 @@ stse_ReturnCode_t stse_platform_aes_ecb_enc(const PLAT_UI8 *pPlaintext,
                                             const PLAT_UI8 *pKey,
                                             PLAT_UI16 key_length,
                                             PLAT_UI8 *pEncryptedtext,
-                                            PLAT_UI16 *pEncryptedtext_length) {
+                                            PLAT_UI16 *pEncryptedtext_length)
+{
     Aes aes;
     int ret;
     PLAT_UI16 i;
@@ -832,7 +838,8 @@ stse_ReturnCode_t stse_platform_aes_cbc_enc(const PLAT_UI8 *pPlaintext,
                                             const PLAT_UI8 *pKey,
                                             PLAT_UI16 key_length,
                                             PLAT_UI8 *pEncryptedtext,
-                                            PLAT_UI16 *pEncryptedtext_length) {
+                                            PLAT_UI16 *pEncryptedtext_length)
+{
     Aes aes;
     int ret;
 
@@ -870,7 +877,8 @@ stse_ReturnCode_t stse_platform_aes_cbc_dec(const PLAT_UI8 *pEncryptedtext,
                                             const PLAT_UI8 *pKey,
                                             PLAT_UI16 key_length,
                                             PLAT_UI8 *pPlaintext,
-                                            PLAT_UI16 *pPlaintext_length) {
+                                            PLAT_UI16 *pPlaintext_length)
+{
     Aes aes;
     int ret;
 
@@ -908,7 +916,8 @@ stse_ReturnCode_t stse_platform_aes_cbc_dec(const PLAT_UI8 *pEncryptedtext,
 
 stse_ReturnCode_t stse_platform_aes_cmac_init(const PLAT_UI8 *pKey,
                                               PLAT_UI16 key_length,
-                                              PLAT_UI16 exp_tag_size) {
+                                              PLAT_UI16 exp_tag_size)
+{
     int ret;
     uint8_t iv[16] = {0};
 
@@ -920,7 +929,7 @@ stse_ReturnCode_t stse_platform_aes_cmac_init(const PLAT_UI8 *pKey,
     }
 
     /* Allocate new context */
-    g_cmac_ctx = (stse_cmac_ctx_t *)malloc(sizeof(stse_cmac_ctx_t));
+    g_cmac_ctx = (stse_cmac_ctx_t*)malloc(sizeof(stse_cmac_ctx_t));
     if (g_cmac_ctx == NULL) {
         return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
     }
@@ -955,7 +964,8 @@ stse_ReturnCode_t stse_platform_aes_cmac_init(const PLAT_UI8 *pKey,
     return STSE_OK;
 }
 
-stse_ReturnCode_t stse_platform_aes_cmac_append(PLAT_UI8 *pInput, PLAT_UI16 length) {
+stse_ReturnCode_t stse_platform_aes_cmac_append(PLAT_UI8 *pInput, PLAT_UI16 length)
+{
     uint8_t iv[16] = {0};
     uint8_t tmp_block[16];
     uint8_t Y[16];
@@ -996,13 +1006,11 @@ stse_ReturnCode_t stse_platform_aes_cmac_append(PLAT_UI8 *pInput, PLAT_UI16 leng
 
     /* Checksum everything but the last block */
     ret = wc_AesSetIV(&g_cmac_ctx->aes, iv);
-    if (ret != 0)
-        return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
+    if (ret != 0) return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
 
     aes_cmac_xor(g_cmac_ctx->x, tmp_block, Y);
     ret = wc_AesCbcEncrypt(&g_cmac_ctx->aes, g_cmac_ctx->x, Y, 16);
-    if (ret != 0)
-        return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
+    if (ret != 0) return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
 
     while (length > 16) {
         memcpy(tmp_block, pInput, 16);
@@ -1011,11 +1019,9 @@ stse_ReturnCode_t stse_platform_aes_cmac_append(PLAT_UI8 *pInput, PLAT_UI16 leng
 
         aes_cmac_xor(g_cmac_ctx->x, tmp_block, Y);
         ret = wc_AesSetIV(&g_cmac_ctx->aes, iv);
-        if (ret != 0)
-            return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
+        if (ret != 0) return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
         ret = wc_AesCbcEncrypt(&g_cmac_ctx->aes, g_cmac_ctx->x, Y, 16);
-        if (ret != 0)
-            return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
+        if (ret != 0) return STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
     }
 
     /* Copy the last block for processing in finish */
@@ -1025,7 +1031,8 @@ stse_ReturnCode_t stse_platform_aes_cmac_append(PLAT_UI8 *pInput, PLAT_UI16 leng
     return STSE_OK;
 }
 
-stse_ReturnCode_t stse_platform_aes_cmac_compute_finish(PLAT_UI8 *pTag, PLAT_UI8 *pTagLen) {
+stse_ReturnCode_t stse_platform_aes_cmac_compute_finish(PLAT_UI8 *pTag, PLAT_UI8 *pTagLen)
+{
     uint8_t iv[16] = {0};
     uint8_t tmp_block[16];
     uint8_t Y[16];
@@ -1070,7 +1077,8 @@ cleanup:
     return (ret == 0) ? STSE_OK : STSE_PLATFORM_AES_CMAC_COMPUTE_ERROR;
 }
 
-stse_ReturnCode_t stse_platform_aes_cmac_verify_finish(PLAT_UI8 *pTag) {
+stse_ReturnCode_t stse_platform_aes_cmac_verify_finish(PLAT_UI8 *pTag)
+{
     uint8_t computed_tag[16];
     PLAT_UI8 tag_len = 16;
     stse_ReturnCode_t ret;
@@ -1105,7 +1113,8 @@ stse_ReturnCode_t stse_platform_aes_cmac_compute(const PLAT_UI8 *pPayload,
                                                  PLAT_UI16 key_length,
                                                  PLAT_UI16 exp_tag_size,
                                                  PLAT_UI8 *pTag,
-                                                 PLAT_UI16 *pTag_length) {
+                                                 PLAT_UI16 *pTag_length)
+{
     stse_ReturnCode_t ret;
     PLAT_UI8 tag_len;
 
@@ -1114,7 +1123,7 @@ stse_ReturnCode_t stse_platform_aes_cmac_compute(const PLAT_UI8 *pPayload,
         return ret;
     }
 
-    ret = stse_platform_aes_cmac_append((PLAT_UI8 *)pPayload, payload_length);
+    ret = stse_platform_aes_cmac_append((PLAT_UI8*)pPayload, payload_length);
     if (ret != STSE_OK) {
         /* Clean up on error */
         if (g_cmac_ctx != NULL) {
@@ -1138,7 +1147,8 @@ stse_ReturnCode_t stse_platform_aes_cmac_verify(const PLAT_UI8 *pPayload,
                                                 const PLAT_UI8 *pKey,
                                                 PLAT_UI16 key_length,
                                                 const PLAT_UI8 *pTag,
-                                                PLAT_UI16 tag_length) {
+                                                PLAT_UI16 tag_length)
+{
     uint8_t computed_tag[16];
     PLAT_UI16 computed_len = 16;
     stse_ReturnCode_t ret;
@@ -1173,7 +1183,8 @@ stse_ReturnCode_t stse_platform_aes_cmac_verify(const PLAT_UI8 *pPayload,
 stse_ReturnCode_t stse_platform_hmac_sha256_compute(PLAT_UI8 *pSalt, PLAT_UI16 salt_length,
                                                     PLAT_UI8 *pInput_keying_material, PLAT_UI16 input_keying_material_length,
                                                     PLAT_UI8 *pInfo, PLAT_UI16 info_length,
-                                                    PLAT_UI8 *pOutput_keying_material, PLAT_UI16 output_keying_material_length) {
+                                                    PLAT_UI8 *pOutput_keying_material, PLAT_UI16 output_keying_material_length)
+{
     PLAT_UI8 prk[WC_SHA256_DIGEST_SIZE];
     stse_ReturnCode_t ret;
 
@@ -1196,7 +1207,8 @@ stse_ReturnCode_t stse_platform_hmac_sha256_compute(PLAT_UI8 *pSalt, PLAT_UI16 s
 
 stse_ReturnCode_t stse_platform_hmac_sha256_extract(PLAT_UI8 *pSalt, PLAT_UI16 salt_length,
                                                     PLAT_UI8 *pInput_keying_material, PLAT_UI16 input_keying_material_length,
-                                                    PLAT_UI8 *pPseudorandom_key, PLAT_UI16 pseudorandom_key_expected_length) {
+                                                    PLAT_UI8 *pPseudorandom_key, PLAT_UI16 pseudorandom_key_expected_length)
+{
     Hmac hmac;
     int ret;
     uint8_t default_salt[WC_SHA256_DIGEST_SIZE] = {0};
@@ -1245,7 +1257,8 @@ stse_ReturnCode_t stse_platform_hmac_sha256_extract(PLAT_UI8 *pSalt, PLAT_UI16 s
 
 stse_ReturnCode_t stse_platform_hmac_sha256_expand(PLAT_UI8 *pPseudorandom_key, PLAT_UI16 pseudorandom_key_length,
                                                    PLAT_UI8 *pInfo, PLAT_UI16 info_length,
-                                                   PLAT_UI8 *pOutput_keying_material, PLAT_UI16 output_keying_material_length) {
+                                                   PLAT_UI8 *pOutput_keying_material, PLAT_UI16 output_keying_material_length)
+{
     Hmac hmac;
     int ret;
     uint8_t T[WC_SHA256_DIGEST_SIZE];
@@ -1273,29 +1286,24 @@ stse_ReturnCode_t stse_platform_hmac_sha256_expand(PLAT_UI8 *pPseudorandom_key, 
         PLAT_UI16 copy_len;
 
         ret = wc_HmacSetKey(&hmac, WC_SHA256, pPseudorandom_key, pseudorandom_key_length);
-        if (ret != 0)
-            break;
+        if (ret != 0) break;
 
         /* T(i) = HMAC-Hash(PRK, T(i-1) | info | i) */
         if (T_len > 0) {
             ret = wc_HmacUpdate(&hmac, T, T_len);
-            if (ret != 0)
-                break;
+            if (ret != 0) break;
         }
 
         if (pInfo != NULL && info_length > 0) {
             ret = wc_HmacUpdate(&hmac, pInfo, info_length);
-            if (ret != 0)
-                break;
+            if (ret != 0) break;
         }
 
         ret = wc_HmacUpdate(&hmac, &counter, 1);
-        if (ret != 0)
-            break;
+        if (ret != 0) break;
 
         ret = wc_HmacFinal(&hmac, T);
-        if (ret != 0)
-            break;
+        if (ret != 0) break;
 
         /* Copy to output */
         copy_len = MIN(WC_SHA256_DIGEST_SIZE, output_keying_material_length - out_index);
@@ -1321,14 +1329,15 @@ stse_ReturnCode_t stse_platform_hmac_sha256_expand(PLAT_UI8 *pPseudorandom_key, 
 /* NIST Key Wrap Functions                                                    */
 /* ========================================================================== */
 
-#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) ||               \
+#if defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
-    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
+    defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
                                                 PLAT_UI8 *pKey, PLAT_UI8 key_length,
-                                                PLAT_UI8 *pOutput, PLAT_UI32 *pOutput_length) {
+                                                PLAT_UI8 *pOutput, PLAT_UI32 *pOutput_length)
+{
 #ifdef HAVE_AES_KEYWRAP
     Aes aes;
     int ret;
