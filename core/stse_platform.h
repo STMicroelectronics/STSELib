@@ -411,6 +411,8 @@ stse_ReturnCode_t stse_platform_power_on(PLAT_UI8 busID, PLAT_UI8 devAddr);
  */
 stse_ReturnCode_t stse_platform_power_off(PLAT_UI8 busID, PLAT_UI8 devAddr);
 
+#if defined(STSE_CONF_USE_I2C) || defined(STSE_CONF_STSAFE_A_SUPPORT)
+
 /*!
  * \brief      Initialize I2C communication
  * \param[in]  busID I2C bus ID
@@ -554,6 +556,10 @@ stse_ReturnCode_t stse_platform_i2c_receive_stop(
     PLAT_UI8 *pElement,
     PLAT_UI16 element_size);
 
+#endif /* defined(STSE_CONF_USE_I2C) || defined(STSE_CONF_STSAFE_A_SUPPORT) */
+
+#if defined(STSE_CONF_USE_ST1WIRE)
+
 /*!
  * \brief      Initialize 1-wire communication
  * \param[in]  busID 1-wire bus ID
@@ -663,6 +669,8 @@ stse_ReturnCode_t stse_platform_st1wire_receive_stop(
     PLAT_UI16 speed,
     PLAT_UI8 *pData,
     PLAT_UI16 data_size);
+
+#endif /* defined(STSE_CONF_USE_ST1WIRE) */
 
 /** @}*/
 
