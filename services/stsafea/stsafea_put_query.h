@@ -25,6 +25,7 @@
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
 #include "services/stsafea/stsafea_commands.h"
+#include "services/stsafea/stsafea_timings.h"
 
 /*  ---------------------------------------------------------------------------------------
  *
