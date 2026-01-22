@@ -77,9 +77,9 @@ stse_ReturnCode_t stse_ecc_verify_signature(
  * \param[in]  message_length  Message length
  * \param[out] pSignature      Signature buffer (concatenation of R and S)
  * \return     \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * 
+ *
  * \note The signature output is the concatenation of R and S values (R|S as defined in ASN.1 DER encoding).
- * 
+ *
  * \details 	\include{doc} stse_ecc_generate_signature.dox
  */
 stse_ReturnCode_t stse_ecc_generate_signature(
@@ -99,9 +99,9 @@ stse_ReturnCode_t stse_ecc_generate_signature(
  * \param[in] 	pPublic_key 				Remote public key
  * \param[out] 	pShared_secret				Shared secret returned by the STSE
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * 
+ *
  * \details 	\include{doc} stse_ecc_establish_shared_secret.dox
- * 
+ *
  * \note The public key format must match the expected ECC representation (typically concatenation of X and Y coordinates for uncompressed, or X with a prefix for compressed).
  */
 stse_ReturnCode_t stse_ecc_establish_shared_secret(

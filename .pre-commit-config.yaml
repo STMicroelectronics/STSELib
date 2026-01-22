@@ -10,6 +10,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: trailing-whitespace
+        exclude: doc
       - id: end-of-file-fixer
       - id: mixed-line-ending
         args: [--fix=lf]

@@ -28,14 +28,14 @@ extern "C" {
 
 /* Use Single Precision (SP) math for ARM platforms - faster */
 #if defined(__ARM_ARCH) || defined(__arm__) || defined(__aarch64__)
-    #define WOLFSSL_SP
-    #define WOLFSSL_SP_ARM64_ASM
-    #define WOLFSSL_SP_MATH_ALL
-    #define SP_INT_BITS 4096
+#define WOLFSSL_SP
+#define WOLFSSL_SP_ARM64_ASM
+#define WOLFSSL_SP_MATH_ALL
+#define SP_INT_BITS 4096
 #else
-    /* Use Fast Math for other platforms */
-    #define USE_FAST_MATH
-    #define TFM_TIMING_RESISTANT
+/* Use Fast Math for other platforms */
+#define USE_FAST_MATH
+#define TFM_TIMING_RESISTANT
 #endif
 
 /* ============================================================================
@@ -56,8 +56,8 @@ extern "C" {
 
 /* Required for STSE session encryption */
 #define HAVE_AES_CBC
-#define WOLFSSL_AES_DIRECT      /* Required for ECB mode */
-#define HAVE_AESGCM             /* Optional: for additional modes */
+#define WOLFSSL_AES_DIRECT /* Required for ECB mode */
+#define HAVE_AESGCM        /* Optional: for additional modes */
 
 /* Required for NIST Key Wrap */
 #define HAVE_AES_KEYWRAP
@@ -73,9 +73,9 @@ extern "C" {
 #define TFM_ECC384
 
 /* NIST Curves (always recommended) */
-#define HAVE_ECC256             /* P-256 - most common */
-#define HAVE_ECC384             /* P-384 */
-/* #define HAVE_ECC521 */       /* P-521 - uncomment if needed */
+#define HAVE_ECC256       /* P-256 - most common */
+#define HAVE_ECC384       /* P-384 */
+/* #define HAVE_ECC521 */ /* P-521 - uncomment if needed */
 
 /* Brainpool Curves (optional) */
 /* #define HAVE_ECC_BRAINPOOL */
@@ -152,4 +152,3 @@ extern "C" {
 #endif
 
 #endif /* WOLFSSL_USER_SETTINGS_H */
-

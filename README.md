@@ -19,7 +19,7 @@ Provides a set of product services that format all commands supported by the tar
 <b>- Core layer</b>
 Contains generic definition for ST Secure Element and functions for communicating with target secure element.
 
-## Package documentation 
+## Package documentation
 
 HTML documentation can either be downloaded as standalone package from the STSELib github repository [release section](https://github.com/STMicroelectronics/STSELib/releases)
 or compiled from the library sources by executing following commands from the STSELib root directory:
@@ -31,9 +31,9 @@ or compiled from the library sources by executing following commands from the ST
 
 > [!NOTE]
 >
-> Doxygen version 1.14.0 is required to build the documentation  
+> Doxygen version 1.14.0 is required to build the documentation
 
-## STSELib Integration    
+## STSELib Integration
 
 ### 1. Add STSELib as a Git submodule
 

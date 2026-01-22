@@ -27,14 +27,12 @@ stse_ReturnCode_t stsafea_derive_keys(
     stsafea_hkdf_info_t *pInfo,
     stsafea_hkdf_okm_description_t *pOkm_map,
     PLAT_UI8 okm_count,
-    stsafea_hkdf_output_t *pOutput
-)
-{
+    stsafea_hkdf_output_t *pOutput) {
     stse_ReturnCode_t ret;
-    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = { STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_DERIVE_KEYS };
+    PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_DERIVE_KEYS};
     PLAT_UI8 rsp_header;
     PLAT_UI8 hkdf_flags = 0;
-    stsafea_hash_algorithm_identifier_t hash_algo = { STSAFEA_HASH_ALGO_ID_LENGTH, STSAFEA_HASH_ALGO_ID_SHA_256 };
+    stsafea_hash_algorithm_identifier_t hash_algo = {STSAFEA_HASH_ALGO_ID_LENGTH, STSAFEA_HASH_ALGO_ID_SHA_256};
 
     /* -- Frame Element Declarations -- */
     stse_frame_element_t eCmdHeader;
@@ -49,8 +47,8 @@ stse_ReturnCode_t stsafea_derive_keys(
 
     /* Salt Elements */
     stse_frame_element_t eSaltSource;
-    stse_frame_element_t eSaltLength, eSaltValue;               /* For Command source */
-    stse_frame_element_t eSaltSlot;                             /* For Slot source */
+    stse_frame_element_t eSaltLength, eSaltValue; /* For Command source */
+    stse_frame_element_t eSaltSlot;               /* For Slot source */
 
     /* Info Elements */
     stse_frame_element_t eInfoLength, eInfoValue;
@@ -102,7 +100,7 @@ stse_ReturnCode_t stsafea_derive_keys(
         input_len_buf[1] = (PLAT_UI8)(pInput_key->command.length);
 
         eInputMode.length = 1;
-        eInputMode.pData = (PLAT_UI8*)&pInput_key->command.mode_of_operation;
+        eInputMode.pData = (PLAT_UI8 *)&pInput_key->command.mode_of_operation;
 
         eInputLength.length = 2;
         eInputLength.pData = input_len_buf;
@@ -120,21 +118,24 @@ stse_ReturnCode_t stsafea_derive_keys(
     }
 
     /* -- HKDF Parameters -- */
-    if (extract_flag) hkdf_flags |= (1 << STSAFEA_HKDF_FLAG_EXTRACT_POS);
-    if (expand_flag)  hkdf_flags |= (1 << STSAFEA_HKDF_FLAG_EXPAND_POS);
+    if (extract_flag)
+        hkdf_flags |= (1 << STSAFEA_HKDF_FLAG_EXTRACT_POS);
+    if (expand_flag)
+        hkdf_flags |= (1 << STSAFEA_HKDF_FLAG_EXPAND_POS);
 
     eHkdfFlags.length = 1;
     eHkdfFlags.pData = &hkdf_flags;
 
     eHashAlgo.length = STSAFEA_HASH_ALGO_ID_SIZE;
-    eHashAlgo.pData = (PLAT_UI8*)&hash_algo;
+    eHashAlgo.pData = (PLAT_UI8 *)&hash_algo;
 
     stse_frame_push_element(&CmdFrame, &eHkdfFlags);
     stse_frame_push_element(&CmdFrame, &eHashAlgo);
 
     /* -- Salt (Conditional) -- */
     if (extract_flag) {
-        if (pSalt == NULL) return STSE_SERVICE_INVALID_PARAMETER;
+        if (pSalt == NULL)
+            return STSE_SERVICE_INVALID_PARAMETER;
 
         eSaltSource.length = 1;
         eSaltSource.pData = &pSalt->source;
@@ -196,7 +197,7 @@ stse_ReturnCode_t stsafea_derive_keys(
                 eOkmDescLength[i].pData = okm_desc_len_buf[i];
 
                 eOkmDestination[i].length = 1;
-                eOkmDestination[i].pData = (PLAT_UI8*)&pDesc->destination;
+                eOkmDestination[i].pData = (PLAT_UI8 *)&pDesc->destination;
 
                 eOkmData1[i].length = 2;
                 eOkmData1[i].pData = okm_key_len_buf[i];
@@ -204,7 +205,8 @@ stse_ReturnCode_t stsafea_derive_keys(
                 eOkmData2[i].length = 0;
                 eOkmData2[i].pData = NULL;
             } else {
-                if (pDesc->symmkey.key_info == NULL) return STSE_SERVICE_INVALID_PARAMETER;
+                if (pDesc->symmkey.key_info == NULL)
+                    return STSE_SERVICE_INVALID_PARAMETER;
 
                 desc_len = 1 + pDesc->symmkey.key_info->info_length;
                 okm_desc_len_buf[i][0] = (PLAT_UI8)(desc_len >> 8);
@@ -214,13 +216,13 @@ stse_ReturnCode_t stsafea_derive_keys(
                 eOkmDescLength[i].pData = okm_desc_len_buf[i];
 
                 eOkmDestination[i].length = 1;
-                eOkmDestination[i].pData = (PLAT_UI8*)&pDesc->destination;
+                eOkmDestination[i].pData = (PLAT_UI8 *)&pDesc->destination;
 
                 eOkmData1[i].length = 1;
-                eOkmData1[i].pData = (PLAT_UI8*)&pDesc->symmkey.key_info->lock_indicator;
+                eOkmData1[i].pData = (PLAT_UI8 *)&pDesc->symmkey.key_info->lock_indicator;
 
                 eOkmData2[i].length = (pDesc->symmkey.key_info->info_length > 1) ? (pDesc->symmkey.key_info->info_length - 1) : 0;
-                eOkmData2[i].pData = (eOkmData2[i].length > 0) ? (PLAT_UI8*)(&pDesc->symmkey.key_info->lock_indicator) + 1 : NULL;
+                eOkmData2[i].pData = (eOkmData2[i].length > 0) ? (PLAT_UI8 *)(&pDesc->symmkey.key_info->lock_indicator) + 1 : NULL;
             }
         }
 
