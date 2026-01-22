@@ -26,6 +26,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
     PLAT_UI16 message_length,
     PLAT_UI8 eddsa_variant,
     PLAT_UI8 *pSignature_validity) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -47,6 +48,9 @@ stse_ReturnCode_t stse_ecc_verify_signature(
     ret = stsafea_ecc_verify_signature(pSTSE, key_type, pPublic_key, pSignature, pMessage, message_length, eddsa_variant, pSignature_validity);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_ecc_generate_signature(
@@ -94,6 +98,7 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
     PLAT_UI8 *pShared_secret) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -119,6 +124,9 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
     ret = stsafea_ecc_establish_shared_secret(pSTSE, private_key_slot_number, key_type, pPublic_key, pShared_secret);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_ecc_decompress_public_key(
@@ -127,6 +135,7 @@ stse_ReturnCode_t stse_ecc_decompress_public_key(
     PLAT_UI8 point_representation_id,
     PLAT_UI8 *pPublic_key_X,
     PLAT_UI8 *pPublic_key_Y) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -155,4 +164,7 @@ stse_ReturnCode_t stse_ecc_decompress_public_key(
     ret = stsafea_ecc_decompress_public_key(pSTSE, key_type, point_representation_id, pPublic_key_X, pPublic_key_Y);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
