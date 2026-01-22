@@ -25,6 +25,7 @@
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
 #include "stse_platform_generic.h"
+#include "services/stsafel/stsafel_timings.h"
 
 /*! \defgroup stsafel_echo STSAFE-L Echo
  *  \ingroup stsafel_services
