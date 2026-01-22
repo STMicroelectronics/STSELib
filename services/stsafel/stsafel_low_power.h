@@ -24,6 +24,7 @@
 #include "core/stse_platform.h"
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
+#include "services/stsafel/stsafel_timings.h"
 
 /*! \defgroup stsafel_low_power STSAFE-L Low power
  *  \ingroup stsafel_services
