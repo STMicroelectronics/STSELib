@@ -18,7 +18,6 @@
 
 #include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
-#include "services/stsafea/stsafea_timings.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
