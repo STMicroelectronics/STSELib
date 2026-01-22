@@ -23,6 +23,7 @@ stse_ReturnCode_t stse_aes_ecb_encrypt(
     PLAT_UI16 message_length,
     PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -33,6 +34,9 @@ stse_ReturnCode_t stse_aes_ecb_encrypt(
         message_length,
         pPlaintext_message,
         pEncrypted_message);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ecb_decrypt(
@@ -41,6 +45,7 @@ stse_ReturnCode_t stse_aes_ecb_decrypt(
     PLAT_UI16 message_length,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pPlaintext_message) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -51,6 +56,9 @@ stse_ReturnCode_t stse_aes_ecb_decrypt(
         message_length,
         pEncrypted_message,
         pPlaintext_message);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_encrypt(
@@ -63,7 +71,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pEncrypted_authentication_tag,
     PLAT_UI8 counter_presence, PLAT_UI32 *pCounter) {
-
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -79,6 +87,9 @@ stse_ReturnCode_t stse_aes_ccm_encrypt(
         pEncrypted_message,
         pEncrypted_authentication_tag,
         counter_presence, pCounter);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_encrypt_start(
@@ -95,6 +106,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_start(
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pCounter_presence,
     PLAT_UI32 *pCounter) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -113,6 +125,9 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_start(
         pEncrypted_message_chunk,
         pCounter_presence,
         pCounter);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_encrypt_process(
@@ -122,6 +137,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_process(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -133,6 +149,9 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_process(
         message_chunk_length,
         pPlaintext_message_chunk,
         pEncrypted_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_encrypt_finish(
@@ -144,6 +163,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_finish(
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pEncrypted_authentication_tag) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -157,6 +177,9 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_finish(
         pPlaintext_message_chunk,
         pEncrypted_message_chunk,
         pEncrypted_authentication_tag);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_decrypt(
@@ -171,6 +194,7 @@ stse_ReturnCode_t stse_aes_ccm_decrypt(
     PLAT_UI8 *pEncrypted_authentication_tag,
     PLAT_UI8 *pVerification_result,
     PLAT_UI8 *pPlaintext_message) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -187,6 +211,9 @@ stse_ReturnCode_t stse_aes_ccm_decrypt(
         pEncrypted_authentication_tag,
         pVerification_result,
         pPlaintext_message);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_encrypt(
@@ -201,6 +228,7 @@ stse_ReturnCode_t stse_aes_gcm_encrypt(
     PLAT_UI8 *pPlaintext_message,
     PLAT_UI8 *pEncrypted_message,
     PLAT_UI8 *pAuthentication_tag) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -217,6 +245,9 @@ stse_ReturnCode_t stse_aes_gcm_encrypt(
         pPlaintext_message,
         pEncrypted_message,
         pAuthentication_tag);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_decrypt_start(
@@ -231,6 +262,7 @@ stse_ReturnCode_t stse_aes_ccm_decrypt_start(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -247,6 +279,9 @@ stse_ReturnCode_t stse_aes_ccm_decrypt_start(
         message_chunk_length,
         pEncrypted_message_chunk,
         pPlaintext_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_decrypt_process(
@@ -256,6 +291,7 @@ stse_ReturnCode_t stse_aes_ccm_decrypt_process(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -267,6 +303,9 @@ stse_ReturnCode_t stse_aes_ccm_decrypt_process(
         message_chunk_length,
         pEncrypted_message_chunk,
         pPlaintext_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_ccm_decrypt_finish(
@@ -279,6 +318,7 @@ stse_ReturnCode_t stse_aes_ccm_decrypt_finish(
     PLAT_UI8 *pAuthentication_tag,
     PLAT_UI8 *pVerification_result,
     PLAT_UI8 *pPlaintext_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -293,6 +333,9 @@ stse_ReturnCode_t stse_aes_ccm_decrypt_finish(
         pAuthentication_tag,
         pVerification_result,
         pPlaintext_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_encrypt_start(
@@ -305,6 +348,7 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_start(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -319,6 +363,9 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_start(
         message_chunk_length,
         pPlaintext_message_chunk,
         pEncrypted_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_encrypt_process(
@@ -328,6 +375,7 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_process(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -339,6 +387,9 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_process(
         message_chunk_length,
         pPlaintext_message_chunk,
         pEncrypted_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_encrypt_finish(
@@ -350,6 +401,7 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_finish(
     PLAT_UI8 *pPlaintext_message_chunk,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pAuthentication_tag) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -363,6 +415,9 @@ stse_ReturnCode_t stse_aes_gcm_encrypt_finish(
         pPlaintext_message_chunk,
         pEncrypted_message_chunk,
         pAuthentication_tag);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_decrypt(
@@ -378,6 +433,7 @@ stse_ReturnCode_t stse_aes_gcm_decrypt(
     PLAT_UI8 *pAuthentication_tag,
     PLAT_UI8 *pVerification_result,
     PLAT_UI8 *pPlaintext_message) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -395,6 +451,9 @@ stse_ReturnCode_t stse_aes_gcm_decrypt(
         pAuthentication_tag,
         pVerification_result,
         pPlaintext_message);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_decrypt_start(
@@ -407,6 +466,7 @@ stse_ReturnCode_t stse_aes_gcm_decrypt_start(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -421,6 +481,9 @@ stse_ReturnCode_t stse_aes_gcm_decrypt_start(
         message_chunk_length,
         pEncrypted_message_chunk,
         pPlaintext_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_decrypt_process(
@@ -430,6 +493,7 @@ stse_ReturnCode_t stse_aes_gcm_decrypt_process(
     PLAT_UI16 message_chunk_length,
     PLAT_UI8 *pEncrypted_message_chunk,
     PLAT_UI8 *pPlaintext_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -441,6 +505,9 @@ stse_ReturnCode_t stse_aes_gcm_decrypt_process(
         message_chunk_length,
         pEncrypted_message_chunk,
         pPlaintext_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gcm_decrypt_finish(
@@ -453,6 +520,7 @@ stse_ReturnCode_t stse_aes_gcm_decrypt_finish(
     PLAT_UI8 *pAuthentication_tag,
     PLAT_UI8 *pVerification_result,
     PLAT_UI8 *pPlaintext_message_chunk) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
@@ -467,4 +535,7 @@ stse_ReturnCode_t stse_aes_gcm_decrypt_finish(
         pAuthentication_tag,
         pVerification_result,
         pPlaintext_message_chunk);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }

@@ -345,6 +345,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
     stse_zone_ac_t ac,
     stse_ac_change_right_t ac_change_right,
     stse_cmd_protection_t protection) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
 
     stsafea_read_option_t options;
@@ -366,6 +367,9 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 
     /* - Return STSE Status code */
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
@@ -377,6 +381,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
                                                                    PLAT_UI16 length,
                                                                    stse_zone_update_atomicity_t atomicity,
                                                                    stse_cmd_protection_t protection) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
     stsafea_update_option_t options;
 
@@ -399,6 +404,9 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
 
     /* - Return STSE Status code */
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handler_t *pSTSE,
@@ -411,6 +419,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
                                                                       PLAT_UI16 length,
                                                                       PLAT_UI32 *new_counter_value,
                                                                       stse_cmd_protection_t protection) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stsafea_decrement_option_t options;
 
     options.change_ac_indicator = STSE_AC_CHANGE;
@@ -432,4 +441,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
                                           length,
                                           new_counter_value,
                                           protection);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
