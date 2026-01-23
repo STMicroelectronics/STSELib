@@ -115,6 +115,8 @@ extern "C" {
 #define STSE_POLLING_RETRY_INTERVAL		10
 //#define STSE_FRAME_DEBUG_LOG
 
+#define STSE_I2C_BUFFER_SIZE            755 // Set to A120 max input buffer size + 2 bytes needed for response length + 1 byte for command or response header. Can be adapted to applicative use case.
+
 #ifdef __cplusplus
 }
 #endif
@@ -163,3 +165,4 @@ The following table lits all parametters
 | STSE_FIRST_POLLING_INTERVAL | First polling delay definition in ms (see section below) | STSAFE-A / STSAFE-L
 | STSE_POLLING_RETRY_INTERVAL | Polling retry interval definition in ms (see section below) | STSAFE-A / STSAFE-L
 | STSE_FRAME_DEBUG_LOG | Enable HOST<->STSE communication logs | STSAFE-A / STSAFE-L
+| STSE_I2C_BUFFER_SIZE | I2C Buffer size used by the library | STSAFE-A / STSAFE-L

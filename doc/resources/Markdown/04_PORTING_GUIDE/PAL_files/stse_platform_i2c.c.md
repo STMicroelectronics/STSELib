@@ -125,7 +125,7 @@ Please find below an example of the `stse_platform_i2c.c` implementation for the
 #include <stdlib.h>
 #include "drivers/i2c/I2C.h"
 
-static PLAT_UI8 I2c_buffer[755U];        // Set to A120 max input buffer size + 2 bytes needed for response length + 1 byte for command or response header. Shall be adapted to applicative use case!
+static PLAT_UI8 I2c_buffer[STSE_I2C_BUFFER_SIZE];
 static PLAT_UI16 i2c_frame_size;
 static volatile PLAT_UI16 i2c_frame_offset;
 
