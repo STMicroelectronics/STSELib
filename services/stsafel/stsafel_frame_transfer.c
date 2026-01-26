@@ -153,6 +153,14 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
     /* - Store response Length */
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE;
 
+    #ifdef STSE_CONF_USE_I2C
+        // Verify received length does not exceed STSE I2C buffer size in case of received length corruption before CRC check
+        if (received_length>= stsafel_maximum_command_length[pSTSE->device_type]) 
+        {
+            return STSE_SERVICE_BUFFER_OVERFLOW; 
+        }
+    #endif /* STSE_CONF_USE_I2C */
+
     /* ======================================================= */
     /* ====== Format the frame to handle CRC and filler ====== */
 

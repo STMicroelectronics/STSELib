@@ -162,6 +162,12 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     /* - Store response Length */
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE + STSE_RSP_FRAME_HEADER_SIZE;
 
+    // Verify received length does not exceed STSE I2C buffer size in case of received length corruption before CRC check
+    if (received_length>= stsafea_maximum_command_length[pSTSE->device_type])
+    {
+        return STSE_SERVICE_BUFFER_OVERFLOW; 
+    }
+
     if ((received_header & STSE_STSAFEA_RSP_STATUS_MASK) != STSE_OK) {
         while (pFrame->element_count > 1) {
             stse_frame_pop_element(pFrame);
