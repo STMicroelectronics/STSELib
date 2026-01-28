@@ -40,7 +40,7 @@
 
 #define STSAFEL_HEADER_SIZE 1U
 #define STSAFEL_COUNTER_VALUE_SIZE 3U
-#define STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010 750U
+#define STSAFEL_MAX_FRAME_LENGTH_L010 750U
 
 /*!
  * \enum stsafel_cmd_code_t
@@ -61,7 +61,7 @@ typedef enum stsafel_cmd_code_t {
     STSAFEL_CMD_REPEAT = 0x3EU,             /*!< STSAFE-L010 "Repeat" command code */
 } stsafel_cmd_code_t;
 
-extern const PLAT_UI16 stsafel_maximum_command_length[STSAFEL_PRODUCT_COUNT];
+extern const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT];
 
 /** \}*/
 /** \}*/
