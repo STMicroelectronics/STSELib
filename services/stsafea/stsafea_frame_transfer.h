@@ -29,6 +29,10 @@
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
 
+#define STSAFEA_PRODUCT_COUNT 4U
+
+extern const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT];
+
 /**
  * \brief 			Transmit frame from target STSAFE-Axxx
  * \details 		This core function prepare frame CRC and send frame to target STSAFE-Axxx device

@@ -167,6 +167,7 @@ stse_ReturnCode_t stse_platform_ecc_generate_key_pair(stse_ecc_key_type_t key_ty
  * \param[in]  digestLen Length of the digest
  * \param[out] pSignature Pointer to the signature buffer
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivKey pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_platform_ecc_sign(stse_ecc_key_type_t key_type,
                                          PLAT_UI8 *pPrivKey,
