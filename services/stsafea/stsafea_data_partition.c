@@ -170,7 +170,7 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
     stse_frame_element_allocate_push(&CmdFrame, eData, data_length, pData);
 
     if (data_length >= stsafea_maximum_frame_length[pSTSE->device_type]) {
-        return STSE_SERVICE_BUFFER_OVERFLOW;
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 
     /*- Create Rsp frame and populate elements*/
@@ -239,7 +239,7 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
     stse_frame_element_allocate_push(&CmdFrame, eLength, STSAFEA_ZONE_ACCESS_LENGTH_SIZE, (PLAT_UI8 *)&Associated_data_length);
 
     if (Associated_data_length >= stsafea_maximum_frame_length[pSTSE->device_type]) {
-        return STSE_SERVICE_BUFFER_OVERFLOW;
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 
     /*- Create Rsp frame and populate elements*/
@@ -308,7 +308,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
     stse_frame_element_allocate_push(&CmdFrame, eLength, STSAFEA_ZONE_ACCESS_LENGTH_SIZE, (PLAT_UI8 *)&read_length);
 
     if (read_length >= stsafea_maximum_frame_length[pSTSE->device_type]) {
-        return STSE_SERVICE_BUFFER_OVERFLOW;
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 
     /*- Create Rsp frame and populate elements*/
@@ -376,7 +376,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
     stse_frame_element_allocate_push(&CmdFrame, eData, data_length, pData);
 
     if (data_length >= stsafea_maximum_frame_length[pSTSE->device_type]) {
-        return STSE_SERVICE_BUFFER_OVERFLOW;
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 
     /*- Create Rsp frame and populate elements*/

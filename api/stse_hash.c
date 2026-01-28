@@ -16,6 +16,7 @@
  *****************************************************************************/
 
 #include "api/stse_hash.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_hash.h"
 
 #if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) ||                                      \
