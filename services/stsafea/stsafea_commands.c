@@ -23,7 +23,7 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-const PLAT_UI16 stsafea_maximum_command_length[4] = {
+const PLAT_UI16 stsafea_maximum_command_length[STSAFEA_PRODUCT_COUNT] = {
     STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100,
     STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A110,
     STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A120,

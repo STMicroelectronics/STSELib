@@ -38,6 +38,8 @@
 #define STSAFEA_TRUE 0b1
 #define STSAFEA_FALSE 0b0
 
+#define STSAFEA_PRODUCT_COUNT 4U
+
 #define STSAFEA_EXT_HEADER_SIZE 2U
 #define STSAFEA_HEADER_SIZE 1U
 #define STSAFEA_CMD_EXTENSION_SIZE 1U
@@ -130,7 +132,7 @@ typedef enum stsafea_extended_cmd_code_t {
     STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY          /*!< STSAFE-A Decompress command code */
 } stsafea_extended_cmd_code_t;
 
-extern const PLAT_UI16 stsafea_maximum_command_length[4];
+extern const PLAT_UI16 stsafea_maximum_command_length[STSAFEA_PRODUCT_COUNT];
 
 stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCommand_count);
 
