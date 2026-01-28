@@ -149,8 +149,7 @@ stse_ReturnCode_t stse_device_power_on(stse_Handler_t *pSTSE) {
     pSTSE->io.PowerLineOn(pSTSE->io.busID, pSTSE->io.Devaddr);
 
     /* - Wait for device to boot (tboot) */
-		switch (pSTSE->device_type)
-    {
+    switch (pSTSE->device_type) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     case STSAFE_A100:
     case STSAFE_A110:

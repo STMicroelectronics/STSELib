@@ -101,7 +101,7 @@ enum stse_ReturnCode_t {
     STSE_SERVICE_INVALID_PARAMETER = 0x0301, /*!< STSE Wrong function parameters */
     STSE_SERVICE_HANDLER_NOT_INITIALISED,    /*!< STSE is not initialized please run stsafe_init function first */
     STSE_SERVICE_SESSION_ERROR,
-    STSE_SERVICE_BUFFER_OVERFLOW,
+    STSE_SERVICE_FRAME_SIZE_ERROR,
     STSE_SERVICE_INVALID_CONFIGURATION,
 
     /* - STSE API layer response code (MSB Mask 0x04xx)*/

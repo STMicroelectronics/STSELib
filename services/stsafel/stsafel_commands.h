@@ -35,7 +35,6 @@
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
 
-#define STSAFEL_PRODUCT_COUNT 1U
 #define STSAFEL_MAX_CMD_COUNT 12U
 
 #define STSAFEL_HEADER_SIZE 1U
@@ -60,8 +59,6 @@ typedef enum stsafel_cmd_code_t {
     STSAFEL_CMD_INCREMENT = 0x16U,          /*!< STSAFE-L010 "Regenerate" command code */
     STSAFEL_CMD_REPEAT = 0x3EU,             /*!< STSAFE-L010 "Repeat" command code */
 } stsafel_cmd_code_t;
-
-extern const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT];
 
 /** \}*/
 /** \}*/
