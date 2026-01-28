@@ -118,7 +118,7 @@ stse_ReturnCode_t stse_compute_hash(
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    PLAT_UI16 maximum_chunk_size = stsafea_maximum_command_length[pSTSE->device_type] - STSE_FRAME_CRC_SIZE - STSAFEA_CMD_EXTENSION_SIZE;
+    PLAT_UI16 maximum_chunk_size = stsafea_maximum_frame_length[pSTSE->device_type] - STSE_FRAME_CRC_SIZE - STSAFEA_CMD_EXTENSION_SIZE;
 
     message_size = ((remaining_length + STSAFEA_HASH_ALGO_ID_SIZE) > maximum_chunk_size) ? maximum_chunk_size - STSAFEA_HASH_ALGO_ID_SIZE : remaining_length;
     ret = stsafea_start_hash(pSTSE, sha_algorithm, pMessage, message_size);

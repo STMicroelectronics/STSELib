@@ -49,10 +49,10 @@
 #define STSAFEA_COUNTER_VALUE_SIZE 4U
 #define STSAFEA_GENERIC_LENGTH_SIZE 2U
 #define STSAFEA_UID_SIZE 8U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100 507U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A110 507U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A120 752U
-#define STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A200 507U
+#define STSAFEA_MAX_FRAME_LENGTH_A100 507U
+#define STSAFEA_MAX_FRAME_LENGTH_A110 507U
+#define STSAFEA_MAX_FRAME_LENGTH_A120 752U
+#define STSAFEA_MAX_FRAME_LENGTH_A200 507U
 
 #define STSAFEA_PROT_Pos 5         /*!< STSAFE  Protected rsp mask */
 #define STSAFEA_PROT_Msk 0xC0U     /*!< STSAFE  Protected mask */
@@ -132,7 +132,7 @@ typedef enum stsafea_extended_cmd_code_t {
     STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY          /*!< STSAFE-A Decompress command code */
 } stsafea_extended_cmd_code_t;
 
-extern const PLAT_UI16 stsafea_maximum_command_length[STSAFEA_PRODUCT_COUNT];
+extern const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT];
 
 stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCommand_count);
 
