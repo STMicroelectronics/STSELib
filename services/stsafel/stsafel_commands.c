@@ -19,8 +19,8 @@
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
-const PLAT_UI16 stsafel_maximum_command_length[STSAFEL_PRODUCT_COUNT] = {
-    STSAFEL_MAXIMUM_CMD_RSP_LENGTH_L010, /*!< STSAFE-L Maximum command length (bytes) */
+const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT] = {
+    STSAFEL_MAX_FRAME_LENGTH_L010, /*!< STSAFE-L Maximum command length (bytes) */
 };
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
