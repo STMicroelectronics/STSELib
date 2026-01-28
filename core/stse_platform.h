@@ -92,7 +92,7 @@ PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length);
  * \param[in]  delay_val length of the delay in milliseconds
  * \return     None
  */
-void stse_platform_Delay_ms(PLAT_UI32 delay_val);
+void stse_platform_Delay_ms(PLAT_UI16 delay_val);
 
 /*!
  * \brief      Start a timeout counter of "timeout_val" ms
