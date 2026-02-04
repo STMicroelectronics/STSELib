@@ -349,7 +349,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 
     stsafea_read_option_t options;
 
-    options.change_ac_indicator = STSE_AC_IGNORE;
+    options.change_ac_indicator = STSE_AC_CHANGE;
     options.filler = 0;
     options.new_read_ac = ac;
     options.new_read_ac_change_right = ac_change_right;
