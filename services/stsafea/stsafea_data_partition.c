@@ -315,7 +315,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
     if (read_length != 0){
-        stse_frame_element_allocate_push(&RspFrame, eData, read_length, (PLAT_UI8 *)pReadBuffer);
+    	stse_frame_element_allocate_push(&RspFrame, eData, read_length, (PLAT_UI8 *)pReadBuffer);
     }
 
     /*- Swap Elements byte order before sending*/

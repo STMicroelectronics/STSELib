@@ -178,7 +178,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Change the Update access condition of one target STSE device zone and Update de zone with new datas
+ * \brief 		Change the Read access condition and update data of one target STSE device zone
  * \param[in]   pSTSE 		Pointer to target STSE handler
  * \param[in]  	zone 			Target STSE zone index
  * \param[in]	ac				\ref stse_zone_ac_t new access condition
