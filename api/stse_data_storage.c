@@ -349,7 +349,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 
     stsafea_read_option_t options;
 
-    options.change_ac_indicator = STSE_AC_IGNORE;
+    options.change_ac_indicator = STSE_AC_CHANGE;
     options.filler = 0;
     options.new_read_ac = ac;
     options.new_read_ac_change_right = ac_change_right;
@@ -381,7 +381,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
     stsafea_update_option_t options;
 
     /*- Prepare update options */
-    options.change_ac_indicator = STSE_AC_IGNORE;
+    options.change_ac_indicator = STSE_AC_CHANGE;
     options.filler = 0;
     options.new_update_ac = ac;
     options.new_update_ac_change_right = ac_change_right;
@@ -413,7 +413,7 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
                                                                       stse_cmd_protection_t protection) {
     stsafea_decrement_option_t options;
 
-    options.change_ac_indicator = STSE_AC_IGNORE;
+    options.change_ac_indicator = STSE_AC_CHANGE;
     options.filler = 0;
     options.new_decrement_ac = ac;
     options.new_decrement_ac_change_right = ac_change_right;
