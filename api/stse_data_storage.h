@@ -165,6 +165,9 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note    - The device may enforce a monotonic policy on READ AC: once set to a more restrictive condition
+ *       (e.g. ALWAYS -> HOST -> AUTH + HOST), it may not be possible to revert to a less restrictive one
+ *       (e.g. HOST -> ALWAYS).
  * \details 	\include{doc} stse_data_storage_change_read_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_read_access_condition(
@@ -175,7 +178,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Change the Read access condition and update data of one target STSE device zone
+ * \brief 		Change the Update access condition of one target STSE device zone and Update de zone with new datas
  * \param[in]   pSTSE 		Pointer to target STSE handler
  * \param[in]  	zone 			Target STSE zone index
  * \param[in]	ac				\ref stse_zone_ac_t new access condition
@@ -188,6 +191,9 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note    - The device may enforce a monotonic policy on Update AC: once set to a more restrictive condition
+ *       (e.g. ALWAYS -> HOST -> AUTH + HOST), it may not be possible to revert to a less restrictive one
+ *       (e.g. HOST -> ALWAYS).
  * \details 	\include{doc} stse_data_storage_change_update_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
