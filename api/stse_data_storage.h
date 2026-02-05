@@ -1,6 +1,6 @@
 /*!
  *******************************************************************************
- * \file	stse_data_storage.h
+ * \file    stse_data_storage.h
  * \brief   STSE secure data storage API set (header)
  * \author  STMicroelectronics - CS application team
  *
@@ -24,34 +24,34 @@
 #include "services/stsafea/stsafea_put_query.h"
 #include "services/stsafel/stsafel_data_partition.h"
 
-/** \defgroup 	stse_data_storage 	STSE Data storage
- *  \ingroup 	stse_api
- *  \brief		STSE data storage API set
- *  \details  	The data storage API set provides high level functions to manage Access to the Secure User NVM of STSE devices.
+/** \defgroup   stse_data_storage   STSE Data storage
+ *  \ingroup    stse_api
+ *  \brief      STSE data storage API set
+ *  \details    The data storage API set provides high level functions to manage Access to the Secure User NVM of STSE devices.
  *  @{
  */
 
 /**
- * \brief Get the total partition count from the target STSE device
+ * \brief       Get the total partition count from the target STSE device
  * \details This API functions use the STSE get service to report the total partition count from the target STSE device
- * \param[in] 	pSTSE 					Pointer to target STSE handler
- * \param[out] 	pTotal_partition_count 	Pointer to total partition count applicative variable
+ * \param[in]   pSTSE                   Pointer to target STSE handler
+ * \param[out]  pTotal_partition_count  Pointer to total partition count applicative variable
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	\include{doc} stse_data_storage_get_total_partition_count.dox
+ * \details \include{doc} stse_data_storage_get_total_partition_count.dox
  */
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pTotal_partition_count);
 
 /**
- * \brief Get the partition table from the target STSE device
+ * \brief       Get the partition table from the target STSE device
  * \details This API functions use the STSE get service to report the total partition count from the target STSE device
- * \param[in]	pSTSE 					Pointer to target STSE handler
- * \param[in]	total_partition_count	Total partition count
- * \param[out]	pPartitioning_table 	Pointer to the partition table buffer
- * \param[in]	Partitioning_table_length Length of the partition table to be received
+ * \param[in]   pSTSE                   Pointer to target STSE handler
+ * \param[in]   total_partition_count   Total partition count
+ * \param[out]  pPartitioning_table     Pointer to the partition table buffer
+ * \param[in]   Partitioning_table_length Length of the partition table to be received
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	\include{doc} stse_data_storage_get_partitioning_table.dox
+ * \details \include{doc} stse_data_storage_get_partitioning_table.dox
  */
 stse_ReturnCode_t stse_data_storage_get_partitioning_table(
     stse_Handler_t *pSTSE,
@@ -60,18 +60,21 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
     PLAT_UI16 Partitioning_table_length);
 
 /*!
- * \brief 		Read one memory zone of the STSE device
- * \param[in]   pSTSE 		Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]  	offset 			Read offset
- * \param[out] 	pBuffer 		Pointer to applicative read buffer
- * \param[in]  	length 			Read length in byte
- * \param[in] 	chunk_size 		Read chunk size in byte
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
- * \details 	\include{doc} stse_data_storage_read_zone.dox
+ * \brief       Read one memory zone of the STSE device
+ * \param[in]   pSTSE           Pointer to target STSE handler
+ * \param[in]   zone            Target STSE zone index
+ * \param[in]   offset          Read offset
+ * \param[out]  pBuffer         Pointer to applicative read buffer
+ * \param[in]   length          Read length in byte
+ * \param[in]   chunk_size      Read chunk size in byte
+ * \param[in]   protection      \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
+ * \details \include{doc} stse_data_storage_read_zone.dox
  */
 stse_ReturnCode_t stse_data_storage_read_data_zone(
     stse_Handler_t *pSTSE,
@@ -83,18 +86,21 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Update one memory zone of the STSE device
- * \param[in]   pSTSE 		Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]  	offset 			Update offset
- * \param[in] 	pBuffer 		Pointer to applicative read buffer
- * \param[in]  	length 			Update length in byte
- * \param[in] 	atomicity 		\ref stse_zone_update_atomicity_t atomicity of the update access
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
- * \details 	\include{doc} stse_data_storage_update_zone.dox
+ * \brief       Update one memory zone of the STSE device
+ * \param[in]   pSTSE           Pointer to target STSE handler
+ * \param[in]   zone            Target STSE zone index
+ * \param[in]   offset          Update offset
+ * \param[in]   pBuffer         Pointer to applicative read buffer
+ * \param[in]   length          Update length in byte
+ * \param[in]   atomicity       \ref stse_zone_update_atomicity_t atomicity of the update access
+ * \param[in]   protection      \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
+ * \details \include{doc} stse_data_storage_update_zone.dox
  */
 stse_ReturnCode_t stse_data_storage_update_data_zone(
     stse_Handler_t *pSTSE,
@@ -106,19 +112,22 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Decrement one counter zone of the STSE device
- * \param[in]   pSTSE 		Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]  	amount 			Decrement amount
- * \param[in]	offset			Associated data update offset (optional : set to 0 if not used)
- * \param[in] 	pBuffer 		Associated data update buffer (optional : set to NULL if not used)
- * \param[in]  	length 			Associated data update length in byte (optional : set to 0 if not used)
- * \param[out] 	 new_counter_value 		Pointer to applicative counter value buffer
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
- * \details 	\include{doc} stse_data_storage_decrement_counter.dox
+ * \brief       Decrement one counter zone of the STSE device
+ * \param[in]   pSTSE               Pointer to target STSE handler
+ * \param[in]   zone                Target STSE zone index
+ * \param[in]   amount              Decrement amount
+ * \param[in]   offset              Associated data update offset (optional : set to 0 if not used)
+ * \param[in]   pBuffer             Associated data update buffer (optional : set to NULL if not used)
+ * \param[in]   length              Associated data update length in byte (optional : set to 0 if not used)
+ * \param[out]  new_counter_value   Pointer to applicative counter value buffer
+ * \param[in]   protection          \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
+ * \details \include{doc} stse_data_storage_decrement_counter.dox
  */
 stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
     stse_Handler_t *pSTSE,
@@ -131,19 +140,22 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		read one counter zone of the STSE device
- * \param[in]   pSTSE 			Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]	offset			Associated data read offset (optional : set to 0 if not used)
- * \param[in] 	pBuffer 		Associated data read buffer (optional : set to NULL if not used)
- * \param[in]  	length 			Associated data read length in byte  (optional : set to 0 if not used)
- * \param[in] 	chunk_size 		Associated data read chunk size in byte  (optional : set to 0 if not used)
- * \param[out] 	counter_value 	Pointer to applicative counter value buffer
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
- * \details 	\include{doc} stse_data_storage_read_counter.dox
+ * \brief       read one counter zone of the STSE device
+ * \param[in]   pSTSE           Pointer to target STSE handler
+ * \param[in]   zone            Target STSE zone index
+ * \param[in]   offset          Associated data read offset (optional : set to 0 if not used)
+ * \param[in]   pBuffer         Associated data read buffer (optional : set to NULL if not used)
+ * \param[in]   length          Associated data read length in byte  (optional : set to 0 if not used)
+ * \param[in]   chunk_size      Associated data read chunk size in byte  (optional : set to 0 if not used)
+ * \param[out]  counter_value   Pointer to applicative counter value buffer
+ * \param[in]   protection      \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
+ * \details \include{doc} stse_data_storage_read_counter.dox
  */
 stse_ReturnCode_t stse_data_storage_read_counter_zone(
     stse_Handler_t *pSTSE,
@@ -156,16 +168,19 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Change the Read access condition of one target STSE device zone
- * \param[in]   pSTSE 		Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]	ac				\ref stse_zone_ac_t new access condition
- * \param[in]	ac_change_right	\ref stse_ac_change_right_t new access change right
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
- * \details 	\include{doc} stse_data_storage_change_read_access_condition.dox
+ * \brief       Change the Read access condition of one target STSE device zone
+ * \param[in]   pSTSE               Pointer to target STSE handler
+ * \param[in]   zone                Target STSE zone index
+ * \param[in]   ac                  \ref stse_zone_ac_t new access condition
+ * \param[in]   ac_change_right     \ref stse_ac_change_right_t new access change right
+ * \param[in]   protection          \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
+ * \details \include{doc} stse_data_storage_change_read_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_read_access_condition(
     stse_Handler_t *pSTSE,
@@ -175,20 +190,23 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
     stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Change the Read access condition and update data of one target STSE device zone
- * \param[in]   pSTSE 		Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]	ac				\ref stse_zone_ac_t new access condition
- * \param[in]	ac_change_right	\ref stse_ac_change_right_t new access change right
- * \param[in]  	offset 			Update offset
- * \param[in] 	pBuffer 		Pointer to applicative read buffer
- * \param[in]  	length 			Update length in byte
- * \param[in] 	atomicity 		\ref stse_zone_update_atomicity_t atomicity of the update access
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
- * \details 	\include{doc} stse_data_storage_change_update_access_condition.dox
+ * \brief       Change the Update access condition of one target STSE device zone and Update de zone with new datas
+ * \param[in]   pSTSE               Pointer to target STSE handler
+ * \param[in]   zone                Target STSE zone index
+ * \param[in]   ac                  \ref stse_zone_ac_t new access condition
+ * \param[in]   ac_change_right     \ref stse_ac_change_right_t new access change right
+ * \param[in]   offset              Update offset
+ * \param[in]   pBuffer             Pointer to applicative read buffer
+ * \param[in]   length              Update length in byte
+ * \param[in]   atomicity           \ref stse_zone_update_atomicity_t atomicity of the update access
+ * \param[in]   protection          \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
+ * \details \include{doc} stse_data_storage_change_update_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
                                                                    PLAT_UI32 zone,
@@ -201,20 +219,23 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
                                                                    stse_cmd_protection_t protection);
 
 /*!
- * \brief 		Change the Decrement access condition, decrements the one-way counter and update data of one target STSE device counter zone
- * \param[in]   pSTSE 		Pointer to target STSE handler
- * \param[in]  	zone 			Target STSE zone index
- * \param[in]	ac				\ref stse_zone_ac_t new access condition
- * \param[in]	ac_change_right	\ref stse_ac_change_right_t new access change right
- * \param[in]  	amount 			Decrement amount
- * \param[in]	offset			Associated data update offset (optional : set to 0 if not used)
- * \param[in] 	pBuffer 		Associated data update buffer (optional : set to NULL if not used)
- * \param[in]  	length 			Associated data update length in byte (optional : set to 0 if not used)
- * \param[out] 	new_counter_value 		Pointer to applicative counter value buffer
- * \param[in]  	protection 		\ref stse_cmd_protection_t command response protection indicator
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \note 		- A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
- * \note 		- If command response protection is required an active session between Host/Companion and STSE must be open
+ * \brief       Change the Decrement access condition, decrements the one-way counter and update data of one target STSE device counter zone
+ * \param[in]   pSTSE               Pointer to target STSE handler
+ * \param[in]   zone                Target STSE zone index
+ * \param[in]   ac                  \ref stse_zone_ac_t new access condition
+ * \param[in]   ac_change_right     \ref stse_ac_change_right_t new access change right
+ * \param[in]   amount              Decrement amount
+ * \param[in]   offset              Associated data update offset (optional : set to 0 if not used)
+ * \param[in]   pBuffer             Associated data update buffer (optional : set to NULL if not used)
+ * \param[in]   length              Associated data update length in byte (optional : set to 0 if not used)
+ * \param[out]  new_counter_value   Pointer to applicative counter value buffer
+ * \param[in]   protection          \ref stse_cmd_protection_t command response protection indicator
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
+ * \note - If command response protection is required an active session between Host/Companion and STSE must be open
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
+ *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details 	\include{doc} stse_data_storage_change_decrement_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(
