@@ -95,19 +95,6 @@ PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length);
 void stse_platform_Delay_ms(PLAT_UI16 delay_val);
 
 /*!
- * \brief      Start a timeout counter of "timeout_val" ms
- * \param[in]  timeout_val length of the timeout in milliseconds
- * \return     None
- */
-void stse_platform_timeout_ms_start(PLAT_UI16 timeout_val);
-
-/*!
- * \brief      Return timeout status
- * \return     0 if the timeout counter is still running; 1 if the timeout was exceeded
- */
-PLAT_UI8 stse_platform_timeout_ms_get_status(void);
-
-/*!
  * \brief      Verify ECC signature
  * \param[in]  key_type Type of ECC key
  * \param[in]  pPubKey Pointer to the public key

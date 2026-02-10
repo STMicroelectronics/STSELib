@@ -19,23 +19,6 @@ The `stse_platform_delay.c` file provides delay functions for the STSecureElemen
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that performs a delay in milliseconds.
 
-## stse_platform_timeout_ms_start:
-
-- **Purpose**: Starts a timeout with a specified duration in milliseconds.
-- **Parameters**:
-  - `timeout_val`: Duration of the timeout in milliseconds.
-- **Return Value**: None.
-
-**Implementation directives**: This abstraction function should implement or call a platform function/driver that starts a timeout.
-
-## stse_platform_timeout_ms_get_status:
-
-- **Purpose**: Gets the status of the timeout.
-- **Parameters**: None.
-- **Return Value**: Returns the status of the timeout as a `PLAT_UI8`.
-
-**Implementation directives**: This abstraction function should implement or call a platform function/driver that gets the status of the timeout.
-
 ## Implementation Example:
 
 Please find below an example of the `stse_platform_delay` implementation for the STM32 platform:
@@ -76,16 +59,6 @@ void stse_platform_Delay_ms(PLAT_UI32 delay_val)
 {
     delay_ms(delay_val);
 }
-
-void stse_platform_timeout_ms_start(PLAT_UI16 timeout_val)
-{
-    timeout_ms_start(timeout_val);
-}
-
-PLAT_UI8 stse_platform_timeout_ms_get_status(void)
-{
-    return timeout_ms_get_status();
-}
 ```
 
-This example demonstrates how to initialize the delay mechanisms, perform a delay in milliseconds, start a timeout, and get the status of the timeout using platform-specific drivers.
+This example demonstrates how to initialize the delay mechanisms, perform a delay in milliseconds using platform-specific drivers.
