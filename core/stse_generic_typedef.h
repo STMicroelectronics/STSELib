@@ -214,10 +214,10 @@ typedef enum stse_zone_update_atomicity_t {
  * \brief STSE data storage access condition enumeration
  */
 typedef enum stse_zone_ac_t {
-    STSE_AC_ALWAYS = 0, /*!< Zone/counter access always granted */
-    STSE_AC_HOST,       /*!< Zone/counter access granted on Host C-MAC validation */
-    STSE_AC_AUTH,       /*!< Zone/counter access granted on Auth C-MAC validation */
-    STSE_AC_NEVER = 7   /*!< Zone/counter access never granted */
+    STSE_AC_ALWAYS = 0,        /*!< Zone/counter access always granted */
+    STSE_AC_HOST,              /*!< Zone/counter access granted on Host C-MAC validation */
+    STSE_AC_AUTH_AND_HOST = 6, /*!< Zone/counter access granted on true Authentic entity status (verify entity signature) + Host C-MAC validation */
+    STSE_AC_NEVER = 7          /*!< Zone/counter access never granted */
 } stse_zone_ac_t;
 
 /**

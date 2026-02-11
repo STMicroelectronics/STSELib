@@ -481,6 +481,7 @@ stse_ReturnCode_t stse_host_key_provisioning(
     stse_Handler_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
     stsafea_host_keys_t *host_keys) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -512,6 +513,9 @@ stse_ReturnCode_t stse_host_key_provisioning(
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED
@@ -1075,17 +1079,22 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
 stse_ReturnCode_t stse_get_symmetric_key_slots_count(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_slot_count) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_query_symmetric_key_slots_count(pSTSE, pSymmetric_key_slot_count);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_get_symmetric_key_slot_info(
     stse_Handler_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_information_t *pSymmetric_key_slot_info) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
     PLAT_UI8 slot_count;
 
@@ -1116,45 +1125,61 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
            sizeof(stsafea_symmetric_key_slot_information_t));
 
     return STSE_OK;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_get_symmetric_key_table_info(
     stse_Handler_t *pSTSE,
     PLAT_UI16 total_slot_count,
     stsafea_symmetric_key_slot_information_t *pSymmetric_key_table_info) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_query_symmetric_key_table(pSTSE, total_slot_count, pSymmetric_key_table_info);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
     stse_Handler_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(pSTSE, slot_number, pCtrl_fields);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
     stse_Handler_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(pSTSE, slot_number, pCtrl_fields);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *pSymmetric_key_info) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
@@ -1162,6 +1187,9 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 
     /* - Write the plaintext key */
     return stsafea_write_symmetric_key_plaintext(pSTSE, pKey, pSymmetric_key_info);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED
@@ -1171,6 +1199,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *key_info,
     stse_ecc_key_type_t kek_session_ecc_type) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -1232,6 +1261,9 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
     ret = stse_stop_volatile_KEK_session(pSTSE, &volatile_KEK_session);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 #endif /* STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED */
 
@@ -1246,6 +1278,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
     stse_hash_algorithm_t signature_hash_algo,
     stse_ecc_key_type_t signature_private_ecc_key_type,
     PLAT_UI8 *signature_private_key) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -1316,6 +1349,9 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
     ret = stse_stop_volatile_KEK_session(pSTSE, &volatile_KEK_session);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 #endif /* STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
@@ -1327,6 +1363,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
     PLAT_UI8 key_infos_count,
     stsafea_generic_key_information_t *key_infos_list,
     PLAT_UI8 *key_list) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - HKDF variables */
@@ -1434,6 +1471,9 @@ stse_ReturnCode_t stse_establish_symmetric_key(
            okm_length - STSAFEA_AES_256_KEY_SIZE);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 #endif /* STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT */
 
@@ -1449,6 +1489,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     stse_hash_algorithm_t hash_algo,
     stse_ecc_key_type_t private_ecc_key_type,
     PLAT_UI8 *private_key) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -1665,5 +1706,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
            okm_length - STSAFEA_AES_256_KEY_SIZE);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 #endif /* STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED */

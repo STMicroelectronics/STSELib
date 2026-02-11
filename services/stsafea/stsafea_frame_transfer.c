@@ -23,6 +23,13 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
+const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT] = {
+    STSAFEA_MAX_FRAME_LENGTH_A100,
+    STSAFEA_MAX_FRAME_LENGTH_A110,
+    STSAFEA_MAX_FRAME_LENGTH_A120,
+    STSAFEA_MAX_FRAME_LENGTH_A200,
+};
+
 stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
@@ -32,11 +39,15 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 
     /*- Verify Parameters */
     if ((pSTSE == NULL) || (pFrame == NULL)) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
     }
     /*- Verify Frame length */
     if (pFrame->element_count == 0) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
+    }
+    /*- Verify Frame overflow */
+    if (pFrame->length > stsafea_maximum_frame_length[pSTSE->device_type - STSAFE_A100]) {
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
     /*- Compute frame crc */
     ret = stse_frame_crc16_compute(pFrame, &crc_ret);
@@ -162,10 +173,9 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     /* - Store response Length */
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE + STSE_RSP_FRAME_HEADER_SIZE;
 
-    // Verify received length does not exceed STSE I2C buffer size in case of received length corruption before CRC check
-    if (received_length>= stsafea_maximum_command_length[pSTSE->device_type])
-    {
-        return STSE_SERVICE_BUFFER_OVERFLOW; 
+    /*- Verify Frame overflow */
+    if (received_length > stsafea_maximum_frame_length[pSTSE->device_type - STSAFE_A100]) {
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 
     if ((received_header & STSE_STSAFEA_RSP_STATUS_MASK) != STSE_OK) {

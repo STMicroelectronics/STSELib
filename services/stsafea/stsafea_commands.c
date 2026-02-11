@@ -23,13 +23,6 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-const PLAT_UI16 stsafea_maximum_command_length[4] = {
-    STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A100,
-    STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A110,
-    STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A120,
-    STSAFEA_MAXIMUM_CMD_RSP_LENGTH_A200,
-};
-
 stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCommand_count) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_COMMAND_AUTHORIZATION_CONFIG;

@@ -21,6 +21,10 @@
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
+const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT] = {
+    STSAFEL_MAX_FRAME_LENGTH_L010, /*!< STSAFE-L Maximum command length (bytes) */
+};
+
 stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
@@ -30,11 +34,15 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 
     /*- Verify Parameters */
     if ((pSTSE == NULL) || (pFrame == NULL)) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
     }
     /*- Verify Frame length */
     if (pFrame->element_count == 0) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
+    }
+    /*- Verify Frame overflow */
+    if (pFrame->length > stsafel_maximum_frame_length[pSTSE->device_type - STSAFE_L010]) {
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
     /*- Compute frame crc */
     ret = stse_frame_crc16_compute(pFrame, &crc_ret);
@@ -153,13 +161,10 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
     /* - Store response Length */
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE;
 
-    #ifdef STSE_CONF_USE_I2C
-        // Verify received length does not exceed STSE I2C buffer size in case of received length corruption before CRC check
-        if (received_length>= stsafel_maximum_command_length[pSTSE->device_type]) 
-        {
-            return STSE_SERVICE_BUFFER_OVERFLOW; 
-        }
-    #endif /* STSE_CONF_USE_I2C */
+    /*- Verify Frame overflow */
+    if (pFrame->length > stsafel_maximum_frame_length[pSTSE->device_type - STSAFE_L010]) {
+        return STSE_SERVICE_FRAME_SIZE_ERROR;
+    }
 
     /* ======================================================= */
     /* ====== Format the frame to handle CRC and filler ====== */

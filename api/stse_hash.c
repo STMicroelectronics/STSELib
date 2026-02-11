@@ -16,6 +16,7 @@
  *****************************************************************************/
 
 #include "api/stse_hash.h"
+#include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_hash.h"
 
 #if defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) ||                                      \
@@ -27,6 +28,7 @@ stse_ReturnCode_t stse_start_hash(
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -41,12 +43,16 @@ stse_ReturnCode_t stse_start_hash(
     ret = stsafea_start_hash(pSTSE, sha_algorithm, pMessage, message_size);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_process_hash(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -61,6 +67,9 @@ stse_ReturnCode_t stse_process_hash(
     ret = stsafea_process_hash(pSTSE, pMessage, message_size);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_finish_hash(
@@ -70,6 +79,7 @@ stse_ReturnCode_t stse_finish_hash(
     PLAT_UI16 message_size,
     PLAT_UI8 *pDigest,
     PLAT_UI16 *pDigest_size) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     /* - Check stsafe handler initialization */
@@ -84,6 +94,9 @@ stse_ReturnCode_t stse_finish_hash(
     ret = stsafea_finish_hash(pSTSE, sha_algorithm, pMessage, message_size, pDigest, pDigest_size);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_compute_hash(
@@ -93,6 +106,7 @@ stse_ReturnCode_t stse_compute_hash(
     PLAT_UI16 message_size,
     PLAT_UI8 *pDigest,
     PLAT_UI16 *pDigest_size) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
     PLAT_UI16 remaining_length = message_size;
 
@@ -105,7 +119,7 @@ stse_ReturnCode_t stse_compute_hash(
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    PLAT_UI16 maximum_chunk_size = stsafea_maximum_command_length[pSTSE->device_type] - STSE_FRAME_CRC_SIZE - STSAFEA_CMD_EXTENSION_SIZE;
+    PLAT_UI16 maximum_chunk_size = stsafea_maximum_frame_length[pSTSE->device_type] - STSE_FRAME_CRC_SIZE - STSAFEA_CMD_EXTENSION_SIZE;
 
     message_size = ((remaining_length + STSAFEA_HASH_ALGO_ID_SIZE) > maximum_chunk_size) ? maximum_chunk_size - STSAFEA_HASH_ALGO_ID_SIZE : remaining_length;
     ret = stsafea_start_hash(pSTSE, sha_algorithm, pMessage, message_size);
@@ -128,6 +142,11 @@ stse_ReturnCode_t stse_compute_hash(
     ret = stsafea_finish_hash(pSTSE, sha_algorithm, NULL, 0, pDigest, pDigest_size);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
-#endif
+#endif /* STSE_CONF_HASH_SHA_1 || STSE_CONF_HASH_SHA_224 ||
+          STSE_CONF_HASH_SHA_256 || STSE_CONF_HASH_SHA_384 || STSE_CONF_HASH_SHA_512 ||
+          STSE_CONF_HASH_SHA_3_256 || STSE_CONF_HASH_SHA_3_384 || STSE_CONF_HASH_SHA_3_512 */
