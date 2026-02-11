@@ -23,7 +23,7 @@ This command performs the HKDF-Extract step only. It generates a Pseudo-Random K
     /* ## HKDF Extract PRK */
     PLAT_UI8 salt[] = {0xAA, 0xBB, 0xCC, 0xDD};
     PLAT_UI8 prk_slot;
-    
+
     stse_ret = stse_derive_key_extract(
         &stse_handler,
         STSE_MASTER_KEY_SLOT,

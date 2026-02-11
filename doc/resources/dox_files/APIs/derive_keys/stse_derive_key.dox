@@ -24,15 +24,15 @@ The following diagram illustrates the interactions performed between the Host an
     PLAT_UI8 derived_key[32];
     PLAT_UI8 salt[] = {0x01, 0x02, 0x03, 0x04};
     PLAT_UI8 context[] = "app-context";
-    
+
     stse_ret = stse_derive_key(
         &stse_handler,
-        STSE_MASTER_KEY_SLOT, 
+        STSE_MASTER_KEY_SLOT,
         salt, sizeof(salt),
         context, sizeof(context)-1,
         derived_key, 32
     );
-    
+
     if (stse_ret != STSE_OK)
     {
         /* Handle Error */

@@ -33,21 +33,21 @@
  */
 
 /* Defines for bit positions in the HKDF flags byte */
-#define STSAFEA_HKDF_FLAG_EXTRACT_POS  (1)
-#define STSAFEA_HKDF_FLAG_EXPAND_POS   (0)
+#define STSAFEA_HKDF_FLAG_EXTRACT_POS (1)
+#define STSAFEA_HKDF_FLAG_EXPAND_POS (0)
 
 /* Key/Salt source location codes */
-#define STSAFEA_KEY_SOURCE_COMMAND   0x00  /*!< Source from command data */
-#define STSAFEA_KEY_SOURCE_RESPONSE  0x01  /*!< Destination to response */
-#define STSAFEA_KEY_SOURCE_SYMMKEY   0x02  /*!< Source/Destination symmetric key slot */
+#define STSAFEA_KEY_SOURCE_COMMAND 0x00  /*!< Source from command data */
+#define STSAFEA_KEY_SOURCE_RESPONSE 0x01 /*!< Destination to response */
+#define STSAFEA_KEY_SOURCE_SYMMKEY 0x02  /*!< Source/Destination symmetric key slot */
 
 /*! STSAFE-A AES key information structure for derive key command output key description information. Doesn't contain slot number */
 typedef struct stsafe_output_key_description_information_t {
-    PLAT_UI16 info_length;                                        /*!< Structure length excluding this field */
-    stsafea_symmetric_key_lock_indicator_t lock_indicator;        /*!< Key lock indicator */
-    stsafea_symmetric_key_t type;                                 /*!< Key type */
-    stsafea_symmetric_key_operation_mode_t mode_of_operation;     /*!< Mode of operation */
-    stsafea_symmetric_key_usage_t usage;                          /*!< Key usage flags */
+    PLAT_UI16 info_length;                                    /*!< Structure length excluding this field */
+    stsafea_symmetric_key_lock_indicator_t lock_indicator;    /*!< Key lock indicator */
+    stsafea_symmetric_key_t type;                             /*!< Key type */
+    stsafea_symmetric_key_operation_mode_t mode_of_operation; /*!< Mode of operation */
+    stsafea_symmetric_key_usage_t usage;                      /*!< Key usage flags */
     union {
         struct {
             PLAT_UI8 auth_tag_length;             /*!< Authentication tag length (0, 4, 8, 16) */
@@ -55,10 +55,10 @@ typedef struct stsafe_output_key_description_information_t {
             PLAT_UI8 counter_presence : 1;        /*!< Counter presence indicator */
         } CCM;
         struct {
-            PLAT_UI8 min_MAC_length;              /*!< Minimum MAC verification length */
+            PLAT_UI8 min_MAC_length; /*!< Minimum MAC verification length */
         } CMAC;
         struct {
-            PLAT_UI8 auth_tag_length;             /*!< Authentication tag length (4, 8, 12-16) */
+            PLAT_UI8 auth_tag_length; /*!< Authentication tag length (4, 8, 12-16) */
         } GCM;
         struct {
             PLAT_UI8 allow_derived_key_to_host : 1; /*!< Flag: Allow derived keys to be returned to host */
@@ -66,8 +66,8 @@ typedef struct stsafe_output_key_description_information_t {
             PLAT_UI8 generic_secret_key_length;     /*!< Key length (Generic Secret type only) */
         } HKDF;
         struct {
-            PLAT_UI8 min_MAC_length;                /*!< Minimum MAC verification length */
-            PLAT_UI8 generic_secret_key_length;     /*!< Key length (Generic Secret type only) */
+            PLAT_UI8 min_MAC_length;            /*!< Minimum MAC verification length */
+            PLAT_UI8 generic_secret_key_length; /*!< Key length (Generic Secret type only) */
         } HMAC;
     };
 } stsafe_output_key_description_information_t;
@@ -103,8 +103,8 @@ typedef struct stsafea_hkdf_salt_t {
 
 /*! STSAFE-A HKDF Info structure */
 typedef struct stsafea_hkdf_info_t {
-    PLAT_UI16 length;  /*!< Info length (0 = no info) */
-    PLAT_UI8 *data;    /*!< Pointer to info data */
+    PLAT_UI16 length; /*!< Info length (0 = no info) */
+    PLAT_UI8 *data;   /*!< Pointer to info data */
 } stsafea_hkdf_info_t;
 
 /*! STSAFE-A HKDF Output Key Map (OKM) Description */
@@ -136,9 +136,9 @@ typedef struct stsafea_hkdf_derived_key_output_t {
 /*! STSAFE-A HKDF Output structure */
 typedef struct stsafea_hkdf_output_t {
     /* For Extract-only mode (Extract=1, Expand=0) */
-    PLAT_UI8 prk_slot;  /*!< Slot number where PRK is stored */
+    PLAT_UI8 prk_slot; /*!< Slot number where PRK is stored */
     /* For Expand mode (Expand=1) */
-    stsafea_hkdf_derived_key_output_t *derived_keys;  /*!< Array of derived key results */
+    stsafea_hkdf_derived_key_output_t *derived_keys; /*!< Array of derived key results */
 } stsafea_hkdf_output_t;
 
 /**
@@ -151,10 +151,10 @@ typedef struct stsafea_hkdf_output_t {
  * - **Response Buffer**: Returned to the host application in plaintext.
  * - **Secure Slot**: Stored directly in an internal symmetric key slot (never exposed).
  *
- * 
+ *
  *
  * @param[in]  pSTSE        Pointer to STSE Handler.
- * @param[in]  pInput_key   Configuration for the input key (IKM). 
+ * @param[in]  pInput_key   Configuration for the input key (IKM).
  * - Can be raw bytes provided in the command.
  * - Can be an existing key in a symmetric slot.
  * @param[in]  extract_flag 1 to perform HKDF-Extract, 0 to skip.
@@ -207,8 +207,7 @@ stse_ReturnCode_t stsafea_derive_keys(
     stsafea_hkdf_info_t *pInfo,
     stsafea_hkdf_okm_description_t *pOkm_map,
     PLAT_UI8 okm_count,
-    stsafea_hkdf_output_t *pOutput
-);
+    stsafea_hkdf_output_t *pOutput);
 
 #endif /* STSAFEA_DERIVE_KEYS_H */
 
