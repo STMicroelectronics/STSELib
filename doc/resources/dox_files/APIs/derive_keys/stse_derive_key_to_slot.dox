@@ -26,7 +26,7 @@ This function performs HKDF derivation (Extract + Expand) but keeps the resultin
         .type = STSAFEA_KEY_TYPE_AES_128,
         .usage = STSAFEA_KEY_USAGE_ENCRYPT | STSAFEA_KEY_USAGE_DECRYPT
     };
-    
+
     stse_ret = stse_derive_key_to_slot(
         &stse_handler,
         STSE_MASTER_KEY_SLOT,

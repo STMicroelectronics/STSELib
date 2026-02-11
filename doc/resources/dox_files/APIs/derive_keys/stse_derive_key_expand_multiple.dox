@@ -24,7 +24,7 @@ This function uses the HKDF-Expand command to derive multiple keys (up to 32) in
     PLAT_UI8 *outputs[2];
     PLAT_UI16 lengths[2] = {16, 16};
     PLAT_UI8 key1[16], key2[16];
-    
+
     outputs[0] = key1;
     outputs[1] = key2;
 

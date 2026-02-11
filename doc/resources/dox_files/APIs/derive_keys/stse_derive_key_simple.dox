@@ -22,10 +22,10 @@ This function simplifies the key derivation process by using a default empty sal
     /* ## Simple Key Derivation */
     PLAT_UI8 derived_key[32];
     PLAT_UI8 context[] = "app-key-v1";
-    
+
     stse_ret = stse_derive_key_simple(
         &stse_handler,
-        STSE_MASTER_KEY_SLOT, 
+        STSE_MASTER_KEY_SLOT,
         context,
         (PLAT_UI16)strlen((char*)context),
         derived_key,
