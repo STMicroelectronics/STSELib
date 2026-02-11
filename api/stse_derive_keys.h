@@ -212,7 +212,6 @@ stse_ReturnCode_t stse_derive_key_from_ikm(
     PLAT_UI8 *pOutput_key,
     PLAT_UI16 key_length);
 
-    
 #endif /* STSE_DERIVE_KEYS_H */
 
 /*! @}*/

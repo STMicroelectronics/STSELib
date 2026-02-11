@@ -167,7 +167,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
                                     pSession->context.host.pHost_cypher_key,
                                     (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                     initial_value,
-									&encrypted_iv_len);
+                                    &encrypted_iv_len);
     if (ret != STSE_OK) {
         return (ret);
     }
@@ -199,7 +199,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
         pSession->context.host.pHost_cypher_key,
         (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
         pEnc_payload_element->pData,
-		&encrypted_payload_len);
+        &encrypted_payload_len);
     if (ret != 0) {
         return (STSE_SESSION_ERROR);
     } else {
