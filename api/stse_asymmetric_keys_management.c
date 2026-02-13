@@ -202,7 +202,7 @@ stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
 
     if (pPrivate_key == NULL || pPayload == NULL || pSignature == NULL ||
         private_key_type >= STSE_ECC_KT_INVALID || hash_algo >= STSE_SHA_INVALID) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
 #ifdef STSE_CONF_ECC_EDWARD_25519
