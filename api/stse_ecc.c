@@ -42,7 +42,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
     if (pPublic_key == NULL || pSignature == NULL || pMessage == NULL || pSignature_validity == NULL) {
-        return (STSE_SERVICE_INVALID_PARAMETER);
+        return (STSE_API_INVALID_PARAMETER);
     }
 
     ret = stsafea_ecc_verify_signature(pSTSE, key_type, pPublic_key, pSignature, pMessage, message_length, eddsa_variant, pSignature_validity);
@@ -68,7 +68,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
     }
 
     if (pMessage == NULL || pSignature == NULL) {
-        return (STSE_SERVICE_INVALID_PARAMETER);
+        return (STSE_API_INVALID_PARAMETER);
     }
 
     switch (pSTSE->device_type) {
@@ -118,7 +118,7 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
         || key_type == STSE_ECC_KT_CURVE25519
 #endif /* STSE_CONF_ECC_CURVE_25519 */
     ) {
-        return (STSE_SERVICE_INVALID_PARAMETER);
+        return (STSE_API_INVALID_PARAMETER);
     }
 
     ret = stsafea_ecc_establish_shared_secret(pSTSE, private_key_slot_number, key_type, pPublic_key, pShared_secret);
@@ -158,7 +158,7 @@ stse_ReturnCode_t stse_ecc_decompress_public_key(
         || key_type == STSE_ECC_KT_ED25519
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
     ) {
-        return (STSE_SERVICE_INVALID_PARAMETER);
+        return (STSE_API_INVALID_PARAMETER);
     }
 
     ret = stsafea_ecc_decompress_public_key(pSTSE, key_type, point_representation_id, pPublic_key_X, pPublic_key_Y);

@@ -35,7 +35,7 @@ stse_ReturnCode_t stse_derive_key(
 
     /* Validate parameters */
     if (pSTSE == NULL || pOutput_key == NULL || key_length == 0) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Setup input key from slot */
@@ -103,7 +103,7 @@ stse_ReturnCode_t stse_derive_key_extract(
 
     /* Validate parameters */
     if (pSTSE == NULL || pPrk_slot == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Setup input key from slot */
@@ -148,7 +148,7 @@ stse_ReturnCode_t stse_derive_key_expand(
 
     /* Validate parameters */
     if (pSTSE == NULL || pOutput_key == NULL || key_length == 0) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Setup input key (PRK from slot) */
@@ -193,7 +193,7 @@ stse_ReturnCode_t stse_derive_session_keys(
 
     /* Validate parameters */
     if (pSTSE == NULL || pEnc_key == NULL || pMac_key == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Convert session ID to salt (big-endian) */
@@ -241,7 +241,7 @@ stse_ReturnCode_t stse_derive_key_to_slot(
 
     /* Validate parameters */
     if (pSTSE == NULL || pKey_info == NULL || pOutput_slot == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Setup input key from slot */
@@ -300,7 +300,7 @@ stse_ReturnCode_t stse_derive_key_expand_multiple(
     /* Validate parameters */
     if (pSTSE == NULL || pOutput_keys == NULL || pKey_lengths == NULL ||
         num_keys == 0 || num_keys > 32) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Setup input key (PRK from slot) */
@@ -359,7 +359,7 @@ stse_ReturnCode_t stse_derive_key_from_ikm(
     /* Validate parameters */
     if (pSTSE == NULL || pIkm == NULL || pOutput_key == NULL ||
         ikm_length == 0 || key_length == 0) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
     /* Setup input key from command */
