@@ -58,7 +58,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
 #endif /* STSE_CONF_USE_ST1WIRE */
 
     default:
-        return (STSE_CORE_INVALID_PARAMETER);
+        return (STSE_API_INVALID_PARAMETER);
     }
 
     if (ret != STSE_OK) {

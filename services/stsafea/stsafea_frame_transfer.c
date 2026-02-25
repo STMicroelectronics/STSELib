@@ -123,11 +123,11 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /*- Verify Parameters */
     if ((pSTSE == NULL) || (pFrame == NULL)) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
     }
     /* - Verify Frame length */
     if (pFrame->element_count == 0) {
-        return (STSE_CORE_INVALID_PARAMETER);
+        return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
     /* ======================================================= */
@@ -326,7 +326,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {
-        return (STSE_CORE_FRAME_CRC_ERROR);
+        return (STSE_SERVICE_FRAME_CRC_ERROR);
     }
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEA_RSP_STATUS_MASK);
@@ -338,7 +338,7 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
                                              stse_frame_t *pCmdFrame,
                                              stse_frame_t *pRspFrame,
                                              PLAT_UI16 inter_frame_delay) {
-    stse_ReturnCode_t ret = STSE_CORE_INVALID_PARAMETER;
+    stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
 
 #ifdef STSE_USE_RSP_POLLING
     (void)inter_frame_delay;
@@ -363,7 +363,7 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
 
 stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pCmdFrame,
                                          stse_frame_t *pRspFrame) {
-    stse_ReturnCode_t ret = STSE_CORE_INVALID_PARAMETER;
+    stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
     PLAT_UI16 inter_frame_delay = STSAFEA_EXEC_TIME_DEFAULT;
 
 #ifdef STSE_CONF_USE_HOST_SESSION

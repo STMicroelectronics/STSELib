@@ -119,11 +119,11 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     /*- Verify Parameters */
     if ((pSTSE == NULL) || (pFrame == NULL)) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
     }
     /* - Verify Frame length */
     if (pFrame->element_count == 0) {
-        return (STSE_CORE_INVALID_PARAMETER);
+        return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
     /* ======================================================= */
@@ -298,7 +298,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {
-        return (STSE_CORE_FRAME_CRC_ERROR);
+        return (STSE_SERVICE_FRAME_CRC_ERROR);
     }
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
@@ -318,11 +318,11 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
 
     /*- Verify Parameters */
     if ((pSTSE == NULL) || (pFrame == NULL)) {
-        return STSE_CORE_INVALID_PARAMETER;
+        return STSE_SERVICE_INVALID_PARAMETER;
     }
     /* - Verify Frame length */
     if (pFrame->element_count == 0) {
-        return (STSE_CORE_INVALID_PARAMETER);
+        return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
     /* - Append CRC element to the RSP Frame (valid only in Receive Scope) */
@@ -419,7 +419,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc) {
-        return (STSE_CORE_FRAME_CRC_ERROR);
+        return (STSE_SERVICE_FRAME_CRC_ERROR);
     }
 
     ret = (stse_ReturnCode_t)(pFrame->first_element->pData[0] & STSE_STSAFEL_RSP_STATUS_MASK);
@@ -432,7 +432,7 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
                                              stse_frame_t *pCmdFrame,
                                              stse_frame_t *pRspFrame,
                                              PLAT_UI16 inter_frame_delay) {
-    stse_ReturnCode_t ret = STSE_CORE_INVALID_PARAMETER;
+    stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
 
 #ifdef STSE_USE_RSP_POLLING
     (void)inter_frame_delay;
@@ -472,7 +472,7 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
 stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
                                          stse_frame_t *pCmdFrame,
                                          stse_frame_t *pRspFrame) {
-    stse_ReturnCode_t ret = STSE_CORE_INVALID_PARAMETER;
+    stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
     PLAT_UI8 cmd_header;
 
     PLAT_UI16 inter_frame_delay = STSAFEL_EXEC_TIME_DEFAULT;
