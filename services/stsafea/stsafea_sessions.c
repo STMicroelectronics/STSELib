@@ -75,9 +75,21 @@ stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE, stse_session_
         pSession->context.host.MAC_counter = ARRAY_3B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
     }
 
+    PLAT_UI32 HostMacKeyIdx;
+    PLAT_UI32 HostCypherKeyIdx;
+    PLAT_UI16 key_length = (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE;
+
+    ret = stse_platform_store_session_key(pHost_cypher_key, &HostCypherKeyIdx, pHost_MAC_key, &HostMacKeyIdx, key_length);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    memset(pHost_MAC_key, 0x00, key_length);
+    memset(pHost_cypher_key, 0x00, key_length);
+
     pSession->type = STSE_HOST_SESSION;
-    pSession->context.host.pHost_MAC_key = pHost_MAC_key;
-    pSession->context.host.pHost_cypher_key = pHost_cypher_key;
+    pSession->context.host.Host_MAC_key_idx = HostMacKeyIdx;
+    pSession->context.host.Host_cypher_key_idx = HostCypherKeyIdx;
     pSession->context.host.pSTSE = pSTSE;
     pSTSE->pActive_host_session = pSession;
 
@@ -105,6 +117,12 @@ void stsafea_session_clear_context(stse_session_t *pSession) {
     /* - Check stsafe handler initialization */
     if (pSession == NULL) {
         return;
+    }
+
+    if (pSession->context.host.Host_MAC_key_idx && pSession->context.host.Host_cypher_key_idx) {
+        stse_platform_delete_key(pSession->context.host.Host_cypher_key_idx, pSession->context.host.Host_MAC_key_idx);
+        pSession->context.host.Host_MAC_key_idx = 0x00;
+        pSession->context.host.Host_cypher_key_idx = 0x00;
     }
 
     /* - Clear session context */
@@ -164,8 +182,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
     /* - Perform first AES ECB round on IV */
     ret = stse_platform_aes_ecb_enc(initial_value,
                                     STSAFEA_HOST_AES_BLOCK_SIZE,
-                                    pSession->context.host.pHost_cypher_key,
-                                    (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                    pSession->context.host.Host_cypher_key_idx,
                                     initial_value,
                                     &encrypted_iv_len);
     if (ret != STSE_OK) {
@@ -196,8 +213,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
         pEnc_payload_element->pData,
         pEnc_payload_element->length,
         initial_value,
-        pSession->context.host.pHost_cypher_key,
-        (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+        pSession->context.host.Host_cypher_key_idx,
         pEnc_payload_element->pData,
         &encrypted_payload_len);
     if (ret != 0) {
@@ -256,8 +272,7 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
     /* - Transform IV using AES ECB */
     ret = stse_platform_aes_ecb_enc(initial_value,
                                     STSAFEA_HOST_AES_BLOCK_SIZE,
-                                    pSession->context.host.pHost_cypher_key,
-                                    (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                    pSession->context.host.Host_cypher_key_idx,
                                     initial_value,
                                     &out_len);
 
@@ -271,8 +286,7 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
     ret = stse_platform_aes_cbc_dec(decrypt_buffer,
                                     encrypted_payload_len,
                                     initial_value,
-                                    pSession->context.host.pHost_cypher_key,
-                                    (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                    pSession->context.host.Host_cypher_key_idx,
                                     decrypt_buffer,
                                     &decrypted_payload_len);
 
@@ -328,8 +342,7 @@ static stse_ReturnCode_t stsafea_session_frame_c_mac_compute(stse_session_t *pSe
 
     /*- Initialize AES C-MAC computation */
 
-    ret = stse_platform_aes_cmac_init(pSession->context.host.pHost_MAC_key,
-                                      (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+    ret = stse_platform_aes_cmac_init(pSession->context.host.Host_MAC_key_idx,
                                       STSAFEA_MAC_SIZE);
     if (ret != STSE_OK) {
         return ret;
@@ -420,8 +433,7 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify(stse_session_t *pSes
 
         /*- Initialize AES CMAC computation */
         stse_platform_aes_cmac_init(
-            pSession->context.host.pHost_MAC_key,
-            (pSession->context.host.key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+            pSession->context.host.Host_MAC_key_idx,
             STSAFEA_MAC_SIZE);
 
         /*- Perform First AES-CMAC round */
