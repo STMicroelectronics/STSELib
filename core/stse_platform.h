@@ -223,14 +223,33 @@ stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 pa
 #if defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) || defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || defined(STSE_CONF_USE_HOST_SESSION)
 
 /*!
+ * \brief      Store session key in platform secure storage
+ * \param[in]  pCypherKey Pointer to the cypher key
+ * \param[out] pCypherKeyIdx Pointer to receive the index of the stored cypher key
+ * \param[in]  pMACKey Pointer to the MAC key
+ * \param[out] pMACKeyIdx Pointer to receive the index of the stored MAC key
+ * \param[in]  key_length Length of the keys in bytes
+ * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_store_session_key(PLAT_UI8 *pCypherKey, PLAT_UI32 *pCypherKeyIdx,
+                                                  PLAT_UI8 *pMACKey, PLAT_UI32 *pMACKeyIdx,
+                                                  PLAT_UI16 key_length);
+
+/*!
+ * \brief      Delete session key from platform secure storage
+ * \param[in]  CypherKeyIdx Index of the cypher key to delete
+ * \param[in]  MACKeyIdx Index of the MAC key to delete
+ * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_platform_delete_key(PLAT_UI32 CypherKeyIdx, PLAT_UI32 MACKeyIdx);
+
+/*!
  * \brief      Initialize AES CMAC computation
- * \param[in]  pKey Pointer to the key
- * \param[in]  key_length Length of the key
+ * \param[in]  key_idx Index of the key in secure storage
  * \param[in]  exp_tag_size Expected tag size
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_aes_cmac_init(const PLAT_UI8 *pKey,
-                                              PLAT_UI16 key_length,
+stse_ReturnCode_t stse_platform_aes_cmac_init(const PLAT_UI32 key_idx,
                                               PLAT_UI16 exp_tag_size);
 
 /*!
@@ -260,15 +279,14 @@ stse_ReturnCode_t stse_platform_aes_cmac_verify_finish(PLAT_UI8 *pTag);
  * \brief      Perform an AES CMAC encryption
  * \param[in]  pPayload Pointer to Payload
  * \param[in]  payload_length Length of the payload in bytes
- * \param[in]  pKey Pointer to key
- * \param[in]  key_length Length of the key in bytes
+ * \param[in]  key_idx Index of the key in secure storage
  * \param[in]  exp_tag_size Expected tag size in bytes
  * \param[out] pTag Pointer to Tag
  * \param[out] pTag_length Pointer to Tag length value output
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cmac_compute(const PLAT_UI8 *pPayload, PLAT_UI16 payload_length,
-                                                 const PLAT_UI8 *pKey, PLAT_UI16 key_length,
+                                                 const PLAT_UI32 key_idx,
                                                  PLAT_UI16 exp_tag_size,
                                                  PLAT_UI8 *pTag, PLAT_UI16 *pTag_length);
 
@@ -276,14 +294,13 @@ stse_ReturnCode_t stse_platform_aes_cmac_compute(const PLAT_UI8 *pPayload, PLAT_
  * \brief      Perform an AES CMAC decryption
  * \param[in]  pPayload Pointer to Payload
  * \param[in]  payload_length Length of the payload in bytes
- * \param[in]  pKey Pointer to key
- * \param[in]  key_length Length of the key in bytes
+ * \param[in]  key_idx Index of the key in secure storage
  * \param[in]  pTag Pointer to Tag
  * \param[in]  tag_length Pointer to Tag length value output
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cmac_verify(const PLAT_UI8 *pPayload, PLAT_UI16 payload_length,
-                                                const PLAT_UI8 *pKey, PLAT_UI16 key_length,
+                                                const PLAT_UI32 key_idx,
                                                 const PLAT_UI8 *pTag, PLAT_UI16 tag_length);
 
 /*!
@@ -291,15 +308,14 @@ stse_ReturnCode_t stse_platform_aes_cmac_verify(const PLAT_UI8 *pPayload, PLAT_U
  * \param[in]  pPlaintext Pointer to the plaintext data
  * \param[in]  plaintext_length Length of the plaintext data
  * \param[in]  pInitial_value Pointer to encryption IV
- * \param[in]  pKey Pointer to the key
- * \param[in]  key_length Length of the key
+ * \param[in]  key_idx Index of the key in secure storage
  * \param[out] pEncryptedtext Pointer to the encrypted payload
  * \param[out] pEncryptedtext_length Length of encrypted payload
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cbc_enc(const PLAT_UI8 *pPlaintext, PLAT_UI16 plaintext_length,
-                                            PLAT_UI8 *pInitial_value, const PLAT_UI8 *pKey,
-                                            PLAT_UI16 key_length, PLAT_UI8 *pEncryptedtext,
+                                            PLAT_UI8 *pInitial_value, const PLAT_UI32 key_idx,
+                                            PLAT_UI8 *pEncryptedtext,
                                             PLAT_UI16 *pEncryptedtext_length);
 
 /*!
@@ -307,29 +323,27 @@ stse_ReturnCode_t stse_platform_aes_cbc_enc(const PLAT_UI8 *pPlaintext, PLAT_UI1
  * \param[in]  pEncryptedtext Pointer to the encrypted payload
  * \param[in]  encryptedtext_length Length of encrypted payload
  * \param[in]  pInitial_value Pointer to decryption IV
- * \param[in]  pKey Pointer to the key
- * \param[in]  key_length Length of the key
+ * \param[in]  key_idx Index of the key in secure storage
  * \param[out] pPlaintext Pointer to PlainText payload
  * \param[out] pPlaintext_length Length of the PlainText payload
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_cbc_dec(const PLAT_UI8 *pEncryptedtext, PLAT_UI16 encryptedtext_length,
-                                            PLAT_UI8 *pInitial_value, const PLAT_UI8 *pKey,
-                                            PLAT_UI16 key_length, PLAT_UI8 *pPlaintext,
+                                            PLAT_UI8 *pInitial_value, const PLAT_UI32 key_idx,
+                                            PLAT_UI8 *pPlaintext,
                                             PLAT_UI16 *pPlaintext_length);
 
 /*!
  * \brief      Perform an AES ECB encryption
  * \param[in]  pPlaintext Pointer to the plaintext data
  * \param[in]  plaintext_length Length of the plaintext data
- * \param[in]  pKey Pointer to the key
- * \param[in]  key_length Length of the key
+ * \param[in]  key_idx Index of the key in secure storage
  * \param[out] pEncryptedtext Pointer to the encrypted payload
  * \param[out] pEncryptedtext_length Length of encrypted payload
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_platform_aes_ecb_enc(const PLAT_UI8 *pPlaintext, PLAT_UI16 plaintext_length,
-                                            const PLAT_UI8 *pKey, PLAT_UI16 key_length,
+                                            const PLAT_UI32 key_idx,
                                             PLAT_UI8 *pEncryptedtext, PLAT_UI16 *pEncryptedtext_length);
 
 #endif /* defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) || defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT) || defined(STSE_CONF_USE_HOST_SESSION) */
