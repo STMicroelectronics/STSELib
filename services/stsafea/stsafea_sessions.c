@@ -96,6 +96,54 @@ stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE, stse_session_
     return (STSE_OK);
 }
 
+stse_ReturnCode_t stsafea_open_host_session_from_idx(stse_Handler_t *pSTSE, stse_session_t *pSession, PLAT_UI32 Host_MAC_key_idx, PLAT_UI32 Host_cypher_key_idx) {
+    stse_ReturnCode_t ret;
+
+    if (pSTSE == NULL) {
+        return STSE_CORE_HANDLER_NOT_INITIALISED;
+    }
+
+    if (pSession == NULL) {
+        return STSE_CORE_SESSION_ERROR;
+    }
+
+    if (pSTSE->device_type == STSAFE_A120) {
+        stsafea_host_key_slot_v2_t host_key_slot;
+
+        ret = stsafea_query_host_key_v2(pSTSE, &host_key_slot);
+        if (ret != STSE_OK) {
+            return ret;
+        }
+
+        if (host_key_slot.key_presence_flag == 0) {
+            return STSE_SERVICE_SESSION_ERROR;
+        }
+        pSession->context.host.key_type = (stse_aes_key_type_t)host_key_slot.key_type;
+        pSession->context.host.MAC_counter = ARRAY_4B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
+    } else {
+        stsafea_host_key_slot_t host_key_slot;
+
+        ret = stsafea_query_host_key(pSTSE, &host_key_slot);
+        if (ret != STSE_OK) {
+            return ret;
+        }
+
+        if (host_key_slot.key_presence_flag == 0) {
+            return STSE_SERVICE_SESSION_ERROR;
+        }
+        pSession->context.host.key_type = STSE_AES_128_KT;
+        pSession->context.host.MAC_counter = ARRAY_3B_SWAP_TO_UI32(host_key_slot.cmac_sequence_counter);
+    }
+
+    pSession->type = STSE_HOST_SESSION;
+    pSession->context.host.Host_MAC_key_idx = Host_MAC_key_idx;
+    pSession->context.host.Host_cypher_key_idx = Host_cypher_key_idx;
+    pSession->context.host.pSTSE = pSTSE;
+    pSTSE->pActive_host_session = pSession;
+
+    return (STSE_OK);
+}
+
 void stsafea_close_host_session(stse_session_t *pSession) {
 
     if (pSession == NULL) {
