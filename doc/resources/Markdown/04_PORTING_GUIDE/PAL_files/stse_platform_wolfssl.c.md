@@ -145,8 +145,7 @@ int main(void)
 
 ## File Location
 
-The reference implementation is located at:
-- `examples/wolfssl/stse_platform_crypto_wolfssl.c`
+The reference implementation is available in [wolfssl-examples repository](https://github.com/wolfSSL/wolfssl-examples/tree/master/stsafe)
 
 Copy this file to your platform directory and include it in your build.
 
