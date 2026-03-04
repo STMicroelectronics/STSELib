@@ -113,11 +113,7 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
     }
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
-    if (pPublic_key == NULL || pShared_secret == NULL
-#ifdef STSE_CONF_ECC_CURVE_25519
-        || key_type == STSE_ECC_KT_CURVE25519
-#endif /* STSE_CONF_ECC_CURVE_25519 */
-    ) {
+    if (pPublic_key == NULL || pShared_secret == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -150,14 +146,7 @@ stse_ReturnCode_t stse_ecc_decompress_public_key(
     }
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
-    if (pPublic_key_X == NULL || pPublic_key_Y == NULL
-#ifdef STSE_CONF_ECC_CURVE_25519
-        || key_type == STSE_ECC_KT_CURVE25519
-#endif /* STSE_CONF_ECC_CURVE_25519 */
-#ifdef STSE_CONF_ECC_EDWARD_25519
-        || key_type == STSE_ECC_KT_ED25519
-#endif /* STSE_CONF_ECC_EDWARD_25519 */
-    ) {
+    if (pPublic_key_X == NULL || pPublic_key_Y == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
