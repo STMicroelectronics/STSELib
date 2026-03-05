@@ -39,6 +39,21 @@ stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE,
                                             PLAT_UI8 *pHost_cypher_key);
 
 /*!
+ * \brief 		This Core function Create a session context and associate it to STSAFE handler based on provided key index
+ * \details 	In some configuration, the session keys are already stored in the platform secure storage. This function
+ * allows to open a session based on the key index in the platform secure storage without providing the key value in input.
+ * \param[in] 	*pSession 			\ref stse_session_t Pointer to session
+ * \param[in] 	Host_MAC_key_idx 	Index of the MAC key in the platform secure storage
+ * \param[in] 	Host_cypher_key_idx Index of the cypher key in the platform secure storage
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stsafe_erase_context.dox
+ */
+stse_ReturnCode_t stsafea_open_host_session_from_idx(stse_Handler_t *pSTSE,
+                                                     stse_session_t *pSession,
+                                                     PLAT_UI32 Host_MAC_key_idx,
+                                                     PLAT_UI32 Host_cypher_key_idx);
+
+/*!
  * \brief 		This Core function Close an existing host session context
  * \param[in] 	*pSession 			\ref stse_session_t Pointer to session
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
