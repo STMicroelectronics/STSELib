@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafel_ecc.h
- * \brief   Elliptic Curves Cryptography (ECC) services for STSAFE-L
+ * \brief   STSAFE-L services for ECC (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafel/stsafel_ecc.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_ecc.h"
 #include "services/stsafel/stsafel_frame_transfer.h"
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT

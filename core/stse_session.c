@@ -1,14 +1,29 @@
+/******************************************************************************
+ * \file	stse_session.c
+ * \brief   STSELib api for session manager (source)
+ * \author  STMicroelectronics - CS application team
+ *
+ ******************************************************************************
+ * \attention
+ *
+ * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
+ *
+ * This software is licensed under terms that can be found in the LICENSE file in
+ * the root directory of this software component.
+ * If no LICENSE file comes with this software, it is provided AS-IS.
+ *
+ ******************************************************************************
+ */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
+
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
 #include "core/stse_return_codes.h"
 
-/* Private variables ---------------------------------------------------------*/
-
-//static uint8_t  evaluation_host_mac_key[ ]    = { 0x00, 0x11, 0x22, 0x33, 0x44, 0x55, 0x66, 0x77, 0x88, 0x99, 0xAA, 0xBB, 0xCC, 0xDD, 0xEE, 0xFF }; /*!< STSAFE-A's Host cipher key */
-//static uint8_t  evaluation_host_cipher_key[ ] = { 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF, 0x01, 0x23, 0x45, 0x67, 0x89, 0xAB, 0xCD, 0xEF }; /*!< STSAFE-A's Host Mac key */
-
 /* Public functions ----------------------------------------------------------*/
-
 void stse_session_erase_context(stse_session_t *pSession) {
     /* - Check stsafe handler initialization */
     if (pSession == NULL) {

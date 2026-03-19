@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_aes.c
- * \brief   STSAFE Middleware services for symmetric key cryptography (source)
+ * \brief   STSAFE-A services for symmetric key cryptography (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -14,6 +14,10 @@
  * If no LICENSE file comes with this software, it is provided AS-IS.
  *
  *****************************************************************************/
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
 
 #include "services/stsafea/stsafea_aes.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

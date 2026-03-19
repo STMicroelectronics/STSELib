@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_derive_keys.c
- * \brief   STSAFE Middleware services for derive keys command (source)
+ * \brief   STSAFE-A services for derive keys command (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -14,6 +14,9 @@
  * If no LICENSE file comes with this software, it is provided AS-IS.
  *
  *****************************************************************************/
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
 #include "services/stsafea/stsafea_derive_keys.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

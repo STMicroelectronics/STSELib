@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stsafel_frame_transfer.h
- * \brief   STSAFE-L Frame transfer service (header)
+ * \brief   STSAFE-L services for frame transfer (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

@@ -1,6 +1,6 @@
 /******************************************************************************
  * \file	stsafe_timings.c
- * \brief   Util Macros for STSAFE Middleware
+ * \brief   STSAFE-A timings definition (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -89,9 +89,9 @@ const PLAT_UI16 stsafea_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_CMD_COUNT
     },
     /* STSAFE_A120 */
     {
-        50,                        /* Echo */
-        22,                        /* Reset */
-        26,                        /* Generate Random */
+        2,                         /* Echo */
+        2,                         /* Reset */
+        4,                         /* Generate Random */
         22,                        /* Start Session */
         23,                        /* Decrement zone counter */
         23,                        /* Read zone */
@@ -103,21 +103,21 @@ const PLAT_UI16 stsafea_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_CMD_COUNT
         STSAFEA_EXEC_TIME_DEFAULT, /* Unwrap issuer envelope (Not applicable)*/
         STSAFEA_EXEC_TIME_DEFAULT, /* Delete MAC (Not applicable)*/
         STSAFEA_EXEC_TIME_DEFAULT, /* Hibernate, (Not applicable)*/
-        25,                        /* Wrap Local Envelope */
-        24,                        /* Unwrap Local Envelope */
+        3,                         /* Wrap Local Envelope */
+        3,                         /* Unwrap Local Envelope */
         STSAFEA_EXEC_TIME_DEFAULT, /* Put attribute(Not applicable)  */
-        80,                        /* Generate key */
+        32,                        /* Generate key */
         STSAFEA_EXEC_TIME_DEFAULT, /* Put key (Not applicable)*/
         STSAFEA_EXEC_TIME_DEFAULT, /* Configure */
-        10,                        /* Query */
+        5,                         /* Query */
         STSAFEA_EXEC_TIME_DEFAULT, /* Get Signature */
-        96,                        /* Generate Signature */
-        156,                       /* Verify Signature */
-        34,                        /* Establish Key */
+        37,                        /* Generate Signature */
+        62,                        /* Verify Signature */
+        83,                        /* Establish Key */
         STSAFEA_EXEC_TIME_DEFAULT, /* Standby (Not applicable)*/
         STSAFEA_EXEC_TIME_DEFAULT, /* Verify Password (Not applicable)*/
-        25,                        /* Encrypt */
-        26                         /* Decrypt */
+        5,                         /* Encrypt */
+        6                          /* Decrypt */
     },
     /* STSAFE_A200 */
     {

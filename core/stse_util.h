@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stse_util.h
- * \brief   Util Macros for STSAFE Middleware
+ * \brief   STSELib api for util macros (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

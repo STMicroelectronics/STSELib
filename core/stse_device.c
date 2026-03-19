@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stse_device.c
- * \brief   STSAFE Frame layer (sources)
+ * \brief   STSELib api for device (sources)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

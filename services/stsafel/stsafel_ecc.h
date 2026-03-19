@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafel_ecc.h
- * \brief   Elliptic Curves Cryptography (ECC) services for STSAFE-L
+ * \brief   STSAFE-A services for ECC (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

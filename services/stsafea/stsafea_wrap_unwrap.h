@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_hash.h
- * \brief   Hash services for STSAFE-A
+ * \brief   STSAFE-A services for wrap & unwrap (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

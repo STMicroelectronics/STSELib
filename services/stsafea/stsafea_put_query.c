@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_put_query.c
- * \brief   Put and query services for STSAFE-A
+ * \brief   STSAFE-A services for put and query (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_put_query.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_put_query.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

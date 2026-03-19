@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_reset.c
- * \brief   Reset services for STSAFE
+ * \brief   STSAFE-A services for reset (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_reset.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_reset.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

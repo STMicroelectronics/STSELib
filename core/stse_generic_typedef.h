@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stse_generic_typedef.h
- * \brief   STSE Generic typedefs (header)
+ * \brief   STSELib generic typedefs header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

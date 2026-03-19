@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_hash.c
- * \brief   Hash services for STSAFE-A
+ * \brief   STSAFE-A services for hash (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_hash.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_hash.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

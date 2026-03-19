@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file    stse_device.h
- * \brief   STSE device (header)
+ * \brief   STSELib api for device (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

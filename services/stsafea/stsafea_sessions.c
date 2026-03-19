@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_sessions.c
- * \brief   STSAFE-A sessions (header)
+ * \brief   STSAFE-A services for sessions (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,11 +16,16 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_sessions.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <stdio.h>
+#include <string.h>
+
 #include "services/stsafea/stsafea_aes.h"
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_host_key_slot.h"
+#include "services/stsafea/stsafea_sessions.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

@@ -1,6 +1,7 @@
-/******************************************************************************
- * \file	stsafe_asymmetric_key_crypto_services.h
- * \brief   STSAFE-Axxx Middleware Asymmetric key cryptography services (header)
+/*
+ ******************************************************************************
+ * \file	stsafea_asymmetric_key_slots.h
+ * \brief   STSAFE-A services for asymmetric key slots management (header)
  * \author  STMicroelectronics - SMD application team
  *
  ******************************************************************************

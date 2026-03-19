@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafel_echo.h
- * \brief   Echo services for STSAFE-L
+ * \brief   STSAFE-L services for echo (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

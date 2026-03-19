@@ -15,6 +15,10 @@
  *
  *****************************************************************************/
 
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
+
 #include "api/stse_derive_keys.h"
 
 stse_ReturnCode_t stse_derive_key(

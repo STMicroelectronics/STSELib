@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stse_return_codes.h
- * \brief   STSE return code type definition
+ * \brief   STSELib return code type definition
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file    stsafel_low_power.c
- * \brief   Low power services for STSAFE-L
+ * \brief   STSAFE-L services for low-power modes services (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,10 +16,13 @@
  ******************************************************************************
  */
 
-#include "services/stsafel/stsafel_low_power.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafel/stsafel_commands.h"
 #include "services/stsafel/stsafel_echo.h"
 #include "services/stsafel/stsafel_frame_transfer.h"
+#include "services/stsafel/stsafel_low_power.h"
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 

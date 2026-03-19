@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafel_device_info.c
- * \brief   Device info services for STSAFE-L
+ * \brief   STSAFE-L services for device info (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafel/stsafel_device_info.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_device_info.h"
 #include "services/stsafel/stsafel_frame_transfer.h"
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT

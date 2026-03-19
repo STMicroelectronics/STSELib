@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_aes.h
- * \brief   STSAFE Middleware services for symmetric key cryptography (header)
+ * \brief   STSAFE-A services for symmetric key cryptography (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

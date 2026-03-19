@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_low_power.h
- * \brief   low-power modes services for STSAFE-A
+ * \brief   STSAFE-A services for low-power modes services (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stse_session.h
- * \brief   STSE session manager (header)
+ * \brief   STSAFE-A services for sessions (header)
  * \author  STMicroelectronics - SMD application team
  *
  ******************************************************************************

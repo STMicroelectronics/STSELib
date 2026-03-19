@@ -1,6 +1,6 @@
 /******************************************************************************
- * \file	stselib_crypto_platform.h
- * \brief   STSecureElement cryptographic platform file
+ * \file	stse_platform.h
+ * \brief   STSELib core functions for platform Abstraction layer (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -14,6 +14,9 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <string.h>
 
 #include "core/stse_platform.h"
 #include "services/stsafea/stsafea_hash.h"

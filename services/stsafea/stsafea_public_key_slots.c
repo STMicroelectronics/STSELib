@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_public_key_slots.c
- * \brief   STSAFE Middleware services for genric public slots (source)
+ * \brief   STSAFE-A services for for generic public slots (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,8 +15,12 @@
  *
  *****************************************************************************/
 
-#include "services/stsafea/stsafea_public_key_slots.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_public_key_slots.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

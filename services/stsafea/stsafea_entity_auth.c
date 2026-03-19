@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_entity_auth.c
- * \brief   Entity authentication services for STSAFE-A (source)
+ * \brief   STSAFE-A services for entity authentication (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,9 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
 #include "services/stsafea/stsafea_entity_auth.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_data_partition.c
- * \brief   Data partition services for STSAFE-A
+ * \brief   STSAFE-A services for data partition (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,9 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
 #include "services/stsafea/stsafea_data_partition.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

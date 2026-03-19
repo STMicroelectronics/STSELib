@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_random.c
- * \brief   Random services for STSAFE
+ * \brief   STSAFE-A services for random (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,12 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_random.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+//#include <string.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_random.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

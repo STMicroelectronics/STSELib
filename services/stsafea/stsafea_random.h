@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_random.h
- * \brief   Random services for STSAFE
+ * \brief   STSAFE-A services for random (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
