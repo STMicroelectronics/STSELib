@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_password.h
- * \brief   password services for STSAFE-A
+ * \brief   STSAFE-A services for password (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

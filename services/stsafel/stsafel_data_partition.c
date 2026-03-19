@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafel_data_partition.c
- * \brief   Data partition services for STSAFE-L
+ * \brief   STSAFE-A services for data partition (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafel/stsafel_data_partition.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_data_partition.h"
 #include "services/stsafel/stsafel_frame_transfer.h"
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_entity_auth.c
- * \brief   Entity authentication services for STSAFE-A (header)
+ * \brief   STSAFE-A services for entity authentication (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

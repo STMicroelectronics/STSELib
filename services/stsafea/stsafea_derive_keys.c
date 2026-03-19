@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_derive_keys.c
- * \brief   STSAFE Middleware services for derive keys command (source)
+ * \brief   STSAFE-A services for derive keys command (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,8 +15,13 @@
  *
  *****************************************************************************/
 
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_derive_keys.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_derive_keys(
     stse_Handler_t *pSTSE,
@@ -267,3 +272,5 @@ stse_ReturnCode_t stsafea_derive_keys(
 
     return ret;
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

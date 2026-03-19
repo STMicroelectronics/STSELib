@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stse_frame.h
- * \brief   STSAFE Frame layer (header)
+ * \brief   STSELib api for frame layer (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

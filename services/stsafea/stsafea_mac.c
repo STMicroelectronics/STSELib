@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_mac.c
- * \brief   STSAFE Middleware services for Message Authentication Code - MAC (source)
+ * \brief   STSAFE-A services for message Authentication Code - MAC (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,8 +15,11 @@
  *
  *****************************************************************************/
 
-#include "services/stsafea/stsafea_mac.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_mac.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

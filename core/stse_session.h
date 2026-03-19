@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stse_session.h
- * \brief   STSE session manager (header)
+ * \brief   STSELib api for session manager (header)
  * \author  STMicroelectronics - SMD application team
  *
  ******************************************************************************
@@ -16,8 +16,8 @@
  ******************************************************************************
  */
 
-#ifndef STSE_SESSION_MANAGER_H
-#define STSE_SESSION_MANAGER_H
+#ifndef STSE_SESSION_H
+#define STSE_SESSION_H
 
 #include "core/stse_device.h"
 #include "core/stse_frame.h"
@@ -32,4 +32,4 @@
  */
 void stse_session_erase_context(stse_session_t *pSession);
 
-#endif /* STSE_SESSION_MANAGER_H */
+#endif /* STSE_SESSION_H */

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_symmetric_key_slots.c
- * \brief   STSAFEA symmetric key slots management services (source)
+ * \brief   STSAFE-A services for symmetric key slots management (source)
  * \author  STMicroelectronics - SMD application team
  *
  ******************************************************************************
@@ -16,10 +16,12 @@
  *****************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
 
-#include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_sessions.h"
+#include "services/stsafea/stsafea_symmetric_key_slots.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

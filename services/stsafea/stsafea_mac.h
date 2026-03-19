@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_mac.h
- * \brief   STSAFE Middleware services for Message Authentication Code - MAC (header)
+ * \brief   STSAFE-A services for message Authentication Code - MAC (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

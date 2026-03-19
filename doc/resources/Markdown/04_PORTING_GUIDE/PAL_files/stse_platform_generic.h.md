@@ -21,9 +21,6 @@ The `stse_platform_generic.h` file provides generic platform definitions and inc
 ## Includes:
 
 - **stm32l4xx.h**: Includes the STM32L4xx header file.
-- **stddef.h**: Includes the standard definitions header file.
-- **string.h**: Includes the string manipulation functions header file.
-- **stdio.h**: Includes the standard input/output functions header file.
 
 ## Implementation Example:
 

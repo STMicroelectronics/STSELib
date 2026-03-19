@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_password.c
- * \brief   password services for STSAFE-A
+ * \brief   STSAFE-A services for password (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_password.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_password.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

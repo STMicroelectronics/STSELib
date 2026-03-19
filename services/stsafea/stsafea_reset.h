@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_reset.h
- * \brief   Reset services for STSAFE
+ * \brief   STSAFE-A services for reset (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

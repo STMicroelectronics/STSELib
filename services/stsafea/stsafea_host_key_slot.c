@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_host_key_slot.c
- * \brief   STSAFEA host key slot management services (source)
+ * \brief   STSAFE-A services for host key slot management (source)
  * \author  STMicroelectronics - SMD application team
  *
  ******************************************************************************
@@ -16,10 +16,11 @@
  *****************************************************************************/
 
 /* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
-#include "services/stsafea/stsafea_host_key_slot.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_hash.h"
+#include "services/stsafea/stsafea_host_key_slot.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

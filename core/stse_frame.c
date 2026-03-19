@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stse_frame.c
- * \brief   STSAFE Frame layer (sources)
+ * \brief   STSELib api for frame layer (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,10 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <stdio.h>
 
 #include "core/stse_frame.h"
 

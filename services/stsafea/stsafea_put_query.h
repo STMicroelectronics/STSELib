@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_patch.c
- * \brief   Patch services for STSAFE-A
+ * \brief   STSAFE-A services for put and query (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

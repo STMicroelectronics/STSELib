@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_ecc.c
- * \brief   ECC services for STSAFE-A
+ * \brief   STSAFE-A services for ECC (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,9 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
 #include "services/stsafea/stsafea_ecc.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_data_partition.h
- * \brief   Data partition services for STSAFE-A
+ * \brief   STSAFE-A services for data partition (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

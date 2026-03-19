@@ -1,6 +1,6 @@
 /******************************************************************************
  * \file	stsafel_timings.h
- * \brief   STSAFE-L Timings definitions
+ * \brief   STSAFE-L timings definition (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

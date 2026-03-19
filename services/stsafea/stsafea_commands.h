@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stsafea_commands.h
- * \brief   STSAFE-A command typedefs and services
+ * \brief   STSAFE-A command typedefs and services (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

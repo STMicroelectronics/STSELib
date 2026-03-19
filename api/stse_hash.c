@@ -15,6 +15,9 @@
  *
  *****************************************************************************/
 
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "api/stse_hash.h"
 #include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_hash.h"

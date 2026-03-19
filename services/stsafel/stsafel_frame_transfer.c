@@ -1,7 +1,7 @@
 /*!
  * ******************************************************************************
  * \file	stsafel_frame_transfer.c
- * \brief   STSAFE-L Frame transfer service (sources)
+ * \brief   STSAFE-L services for frame transfer (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,10 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <stdio.h>
 
 #include "services/stsafel/stsafel_frame_transfer.h"
 #include "services/stsafel/stsafel_timings.h"

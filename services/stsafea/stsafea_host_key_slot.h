@@ -1,6 +1,6 @@
 /******************************************************************************
  * \file	stsafe_symmetric_key_crypto_services.h
- * \brief   STSAFE Middleware services for symmetric key cryptography (header)
+ * \brief   STSAFE-A services for host key slot management (header)
  * \author  STMicroelectronics - SMD application team
  *
  ******************************************************************************

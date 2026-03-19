@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file    stsafea_commands.c
- * \brief   Commands services for STSAFE-A
+ * \brief   STSAFE-A command services (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,9 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

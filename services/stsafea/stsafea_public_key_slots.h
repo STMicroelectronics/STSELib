@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_public_key_slots.h
- * \brief   STSAFE Middleware services for genric public slots (header)
+ * \brief   STSAFE-A services for for generic public slots (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

@@ -15,9 +15,13 @@
   ******************************************************************************
   */
 
-#include "certificate/stse_certificate_crypto.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
+
 #include "api/stse_ecc.h"
 #include "api/stse_hash.h"
+#include "certificate/stse_certificate_crypto.h"
 
 stse_ReturnCode_t stse_certificate_verify_cert_signature(const stse_certificate_t *parent, const stse_certificate_t *child) {
     stse_ReturnCode_t ret;

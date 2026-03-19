@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file    stsafea_derive_keys.h
- * \brief   STSAFE Middleware services for derive keys command (header)
+ * \brief   STSAFE-A services for derive keys command (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

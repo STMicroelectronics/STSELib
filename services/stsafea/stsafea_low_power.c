@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_low_power.c
- * \brief   low-power modes services for STSAFE-A
+ * \brief   STSAFE-A services for low-power modes services (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -16,8 +16,11 @@
  ******************************************************************************
  */
 
-#include "services/stsafea/stsafea_low_power.h"
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+
 #include "services/stsafea/stsafea_frame_transfer.h"
+#include "services/stsafea/stsafea_low_power.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 

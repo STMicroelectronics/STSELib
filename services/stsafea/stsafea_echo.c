@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_echo.c
- * \brief   Echo services for STSAFE-A
+ * \brief   STSAFE-A services for echo (source)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
@@ -15,6 +15,9 @@
  *
  ******************************************************************************
  */
+
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
 
 #include "services/stsafea/stsafea_echo.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

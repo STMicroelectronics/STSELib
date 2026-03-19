@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stse_platform.h
- * \brief   STSAFE-Axxx Middleware Platform Abstraction layer (header)
+ * \brief   STSELib callback functions declaration for platform Abstraction layer (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

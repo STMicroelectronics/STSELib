@@ -15,7 +15,13 @@
  *
  *****************************************************************************/
 
+/* Includes ------------------------------------------------------------------*/
+#include <stddef.h>
+#include <string.h>
+
 #include "api/stse_derive_keys.h"
+
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stse_derive_key(
     stse_Handler_t *pSTSE,
@@ -396,3 +402,5 @@ stse_ReturnCode_t stse_derive_key_from_ikm(
         1,
         &output);
 }
+
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */

@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafel_device_info.h
- * \brief   Device info services for STSAFE-L
+ * \brief   STSAFE-L services for device info (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************

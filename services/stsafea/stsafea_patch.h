@@ -1,7 +1,7 @@
 /*!
  ******************************************************************************
  * \file	stsafea_patch.c
- * \brief   Patch services for STSAFE-A
+ * \brief   STSAFE-A services for patch (header)
  * \author  STMicroelectronics - CS application team
  *
  ******************************************************************************
