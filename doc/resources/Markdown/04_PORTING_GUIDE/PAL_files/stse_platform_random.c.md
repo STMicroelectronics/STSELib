@@ -44,7 +44,7 @@ Please find below an example of the `stse_platform_random.c` implementation for 
  * \brief   Initializes the random number generator.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_generate_random_init(void)
+stse_ReturnCode_t stse_platform_generate_random_init(void *pArg)
 {
     rng_start();
 

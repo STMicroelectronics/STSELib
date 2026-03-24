@@ -23,7 +23,7 @@
 #define IDLE_BUS_DELAY_MAX 0x1F
 
 /* Exported functions --------------------------------------------------------*/
-stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
+stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE, void *pArg) {
     stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
 
     /* - Check STSAFE handler initialization */
@@ -35,7 +35,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
 #if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
     (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
     case STSE_BUS_TYPE_I2C:
-        ret = stse_platform_i2c_init(pSTSE->io.busID);
+        ret = stse_platform_i2c_init(pSTSE->io.busID, pArg);
         if (ret != STSE_OK) {
             return ret;
         }
@@ -43,7 +43,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
 #endif /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && defined(STSE_CONF_USE_I2C) */
 #ifdef STSE_CONF_USE_ST1WIRE
     case STSE_BUS_TYPE_ST1WIRE:
-        ret = stse_platform_st1wire_init(pSTSE->io.busID);
+        ret = stse_platform_st1wire_init(pSTSE->io.busID, pArg);
         if (ret != STSE_OK) {
             return ret;
         }
@@ -66,23 +66,23 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
     }
 
     /* - Initialize Host platform */
-    ret = stse_platform_generate_random_init();
+    ret = stse_platform_generate_random_init(pArg);
     if (ret != STSE_OK) {
         return ret;
     }
-    ret = stse_platform_delay_init();
+    ret = stse_platform_delay_init(pArg);
     if (ret != STSE_OK) {
         return ret;
     }
-    ret = stse_platform_power_init();
+    ret = stse_platform_power_init(pArg);
     if (ret != STSE_OK) {
         return ret;
     }
-    ret = stse_platform_crc16_init();
+    ret = stse_platform_crc16_init(pArg);
     if (ret != STSE_OK) {
         return ret;
     }
-    ret = stse_platform_crypto_init();
+    ret = stse_platform_crypto_init(pArg);
     if (ret != STSE_OK) {
         return ret;
     }
