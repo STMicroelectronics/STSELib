@@ -57,12 +57,15 @@ Two headers files are mantatories, [`stse_conf.h`](doc/resources/Markdown/03_LIB
 For platform-specific integrations and STSafe use-cases, you may implement additional headers. Detailed specifications are available in the HTML documentation included in the release ZIP.
 Reference implementation for most common STSE applicative use case can be found in section "Reference applicative examples" of this ReadMe file
 
-## Reference applicative examples
+## Applicative projects integrating the STSELib
 
 Following applicative project can be used as reference for STSELib integration and usage.
 
 - STSAFE-A
-    - [STSAFE-A_Examples](https://github.com/STMicroelectronics/STSAFE-A120_examples)
+    - [stsafe-a-sdk](https://github.com/STMicroelectronics/STSAFE-A120_sdk) 
+    - [wolfssl-examples](https://github.com/wolfSSL/wolfssl-examples/tree/master/stsafe) developed and maintained by [WolfSSL](https://www.wolfssl.com/) 
+    - [Zephyr_st-stsafe-a1xx](https://github.com/catie-aq/zephyr_st-stsafe-a1xx) developed and maintained by [CATIE](https://www.catie.fr/language/en/home/) 
+
 
 - STSAFE-L
     - [STSAFE-L_echo](https://github.com/STMicroelectronics/STSAFE-L_echo)
