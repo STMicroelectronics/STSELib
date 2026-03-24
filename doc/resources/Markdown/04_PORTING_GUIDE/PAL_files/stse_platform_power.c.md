@@ -57,7 +57,7 @@ Please find below an example of the `stse_platform_power.c` implementation for t
  * \brief   Initializes the power control lines.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_power_init (void)
+stse_ReturnCode_t stse_platform_power_init(void *pArg)
 {
     /* -Initialize power line control (PC0  - open-drain) */
     GPIOC->MODER    &=  ~(GPIO_MODER_MODE0_Msk);

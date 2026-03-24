@@ -59,10 +59,11 @@ typedef enum stse_low_power_mode_t {
  * \details 	This function call the handler initialization function from core layer
  *          	to initialize STSE handler in argument
  * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in]   pArg Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_init.dox
  */
-stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE, void *pArg);
 
 /**
  * \brief 		Reset target device
