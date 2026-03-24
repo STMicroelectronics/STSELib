@@ -37,33 +37,38 @@
 
 /*!
  * \brief      Platform delay initialization callback function
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_delay_init(void);
+stse_ReturnCode_t stse_platform_delay_init(void *pArg);
 
 /*!
  * \brief      Platform power control initialization callback function
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_power_init(void);
+stse_ReturnCode_t stse_platform_power_init(void *pArg);
 
 /*!
  * \brief      Platform CRC16 initialization callback function
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_crc16_init(void);
+stse_ReturnCode_t stse_platform_crc16_init(void *pArg);
 
 /*!
  * \brief      Platform crypto library initialization callback function
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_crypto_init(void);
+stse_ReturnCode_t stse_platform_crypto_init(void *pArg);
 
 /*!
  * \brief      Platform random number generation initialization callback function
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_generate_random_init(void);
+stse_ReturnCode_t stse_platform_generate_random_init(void *pArg);
 
 /*!
  * \brief      Platform generate random callback function
@@ -404,9 +409,10 @@ stse_ReturnCode_t stse_platform_power_off(PLAT_UI8 busID, PLAT_UI8 devAddr);
 /*!
  * \brief      Initialize I2C communication
  * \param[in]  busID I2C bus ID
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_i2c_init(PLAT_UI8 busID);
+stse_ReturnCode_t stse_platform_i2c_init(PLAT_UI8 busID, void *pArg);
 
 /*!
  * \brief      Send data over I2C
@@ -551,9 +557,10 @@ stse_ReturnCode_t stse_platform_i2c_receive_stop(
 /*!
  * \brief      Initialize 1-wire communication
  * \param[in]  busID 1-wire bus ID
+ * \param[in]  pArg Argument coming from \ref stse_init through its `pArg` parameter
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_platform_st1wire_init(PLAT_UI8 busID);
+stse_ReturnCode_t stse_platform_st1wire_init(PLAT_UI8 busID, void *pArg);
 
 /*!
  * \brief      Wake up 1-wire device
