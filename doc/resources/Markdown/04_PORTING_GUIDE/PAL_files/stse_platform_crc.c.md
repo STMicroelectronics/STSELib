@@ -57,7 +57,7 @@ Please find below an extract
  * \brief   Initializes the CRC16 calculation module.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_crc16_init(void)
+stse_ReturnCode_t stse_platform_crc16_init(void *pArg)
 {
     crc16_Init();
 
