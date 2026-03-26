@@ -36,7 +36,7 @@ Please find below an example of the `stse_platform_crypto_init` implementation f
 #include "stselib.h"
 #include "Middleware/STM32_Cryptographic/include/cmox_crypto.h"
 
-stse_ReturnCode_t stse_platform_crypto_init(void)
+stse_ReturnCode_t stse_platform_crypto_init(void *pArg)
 {
     stse_ReturnCode_t ret = STSE_OK;
 
