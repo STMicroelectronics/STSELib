@@ -34,7 +34,7 @@
 
 /* Exported functions --------------------------------------------------------*/
 
-stse_ReturnCode_t stse_get_device_id(stse_Handler_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI8 *pDevice_id) {
+stse_ReturnCode_t stse_get_device_id(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI8 *pDevice_id) {
     volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
 
     /* - Check stsafe handler initialization */
@@ -54,7 +54,7 @@ stse_ReturnCode_t stse_get_device_id(stse_Handler_t *pSTSE, PLAT_UI8 certificate
     return ret;
 }
 
-stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 *pCertificate_size) {
+stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 *pCertificate_size) {
     volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
     PLAT_UI8 certificate_size_ui8[2];
 
@@ -85,7 +85,7 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handler_t *pSTSE, PLAT_U
     return STSE_OK;
 }
 
-stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 certificate_size, PLAT_UI8 *pCertificate) {
+stse_ReturnCode_t stse_get_device_certificate(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 certificate_size, PLAT_UI8 *pCertificate) {
     volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
 
     /* - Check stsafe handler initialization */
@@ -114,7 +114,7 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handler_t *pSTSE, PLAT_UI8 ce
 }
 
 stse_ReturnCode_t stse_device_authenticate(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     const PLAT_UI8 *pRoot_CA_certificate,
     PLAT_UI8 certificate_zone,
     PLAT_UI8 priv_key_slot_number) {

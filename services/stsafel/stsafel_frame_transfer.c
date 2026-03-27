@@ -25,7 +25,7 @@ const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT] = {
     STSAFEL_MAX_FRAME_LENGTH_L010, /*!< STSAFE-L Maximum command length (bytes) */
 };
 
-stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
+stse_ReturnCode_t stsafel_frame_transmit(stse_Handle_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
     stse_frame_element_t *pCurrent_element;
@@ -106,7 +106,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 }
 
 #ifdef STSE_CONF_USE_I2C
-stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
+stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     stse_frame_element_t *pCurrent_element;
     PLAT_UI8 received_header;
@@ -308,7 +308,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 #endif /* STSE_CONF_USE_I2C */
 
 #ifdef STSE_CONF_USE_ST1WIRE
-stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
+stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     stse_frame_element_t *pCurrent_element;
     PLAT_UI16 received_length;
@@ -428,7 +428,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
 }
 #endif /* STSE_CONF_USE_ST1WIRE */
 
-stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handle_t *pSTSE,
                                              stse_frame_t *pCmdFrame,
                                              stse_frame_t *pRspFrame,
                                              PLAT_UI16 inter_frame_delay) {
@@ -469,7 +469,7 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
     return ret;
 }
 
-stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafel_frame_transfer(stse_Handle_t *pSTSE,
                                          stse_frame_t *pCmdFrame,
                                          stse_frame_t *pRspFrame) {
     stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;

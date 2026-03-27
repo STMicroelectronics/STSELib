@@ -31,7 +31,7 @@
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED)
 
 static stse_ReturnCode_t stse_start_volatile_KEK_session(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_session_t *pSession,
     stse_ecc_key_type_t ecc_key_type) {
     stse_ReturnCode_t ret;
@@ -159,7 +159,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session(
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_session_t *pSession,
     stse_ecc_key_type_t ecc_key_type,
     PLAT_UI8 signature_public_key_slot_number,
@@ -378,7 +378,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
-static stse_ReturnCode_t stse_stop_volatile_KEK_session(stse_Handler_t *pSTSE, stse_session_t *pSession) {
+static stse_ReturnCode_t stse_stop_volatile_KEK_session(stse_Handle_t *pSTSE, stse_session_t *pSession) {
     stse_ReturnCode_t ret;
 
     /* - Check function parameters */
@@ -396,7 +396,7 @@ static stse_ReturnCode_t stse_stop_volatile_KEK_session(stse_Handler_t *pSTSE, s
 }
 
 static stse_ReturnCode_t stse_derive_working_KEK(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_session_t *pSession,
     PLAT_UI8 *working_kek) {
     stse_ReturnCode_t ret;
@@ -431,7 +431,7 @@ static stse_ReturnCode_t stse_derive_working_KEK(
 }
 
 static stse_ReturnCode_t stse_KEK_wrap(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_session_t *pSession,
     PLAT_UI8 *pPayload,
     PLAT_UI32 payload_length,
@@ -478,7 +478,7 @@ static stse_ReturnCode_t stse_KEK_wrap(
 /* Exported functions --------------------------------------------------------*/
 
 stse_ReturnCode_t stse_host_key_provisioning(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
     stsafea_host_keys_t *host_keys) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -521,7 +521,7 @@ stse_ReturnCode_t stse_host_key_provisioning(
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED
 
 stse_ReturnCode_t stse_host_key_provisioning_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
     stsafea_host_keys_t *host_keys,
     stse_ecc_key_type_t ecdhe_ecc_key_type) {
@@ -604,7 +604,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
 
 stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
     stsafea_host_keys_t *host_keys,
     stse_ecc_key_type_t ecdhe_ecc_key_type,
@@ -690,7 +690,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
 
 #ifdef STSE_CONF_USE_HOST_KEY_ESTABLISHMENT
 stse_ReturnCode_t stse_establish_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
     stsafea_host_key_type_t host_secure_channel_keys_type,
     PLAT_UI8 *host_mac_key,
@@ -821,7 +821,7 @@ stse_ReturnCode_t stse_establish_host_key(
 }
 
 stse_ReturnCode_t stse_establish_host_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
     stsafea_host_key_type_t host_secure_channel_keys_type,
     stse_hash_algorithm_t tbs_hash_algo,
@@ -1077,7 +1077,7 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
    ------------------------------------------------------------------------------------------ */
 
 stse_ReturnCode_t stse_get_symmetric_key_slots_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_slot_count) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
@@ -1091,7 +1091,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slots_count(
 }
 
 stse_ReturnCode_t stse_get_symmetric_key_slot_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_information_t *pSymmetric_key_slot_info) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -1131,7 +1131,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
 }
 
 stse_ReturnCode_t stse_get_symmetric_key_table_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI16 total_slot_count,
     stsafea_symmetric_key_slot_information_t *pSymmetric_key_table_info) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -1146,7 +1146,7 @@ stse_ReturnCode_t stse_get_symmetric_key_table_info(
 }
 
 stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -1161,7 +1161,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
 }
 
 stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -1176,7 +1176,7 @@ stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
 }
 
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *pSymmetric_key_info) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -1195,7 +1195,7 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED
 
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *key_info,
     stse_ecc_key_type_t kek_session_ecc_type) {
@@ -1270,7 +1270,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
 
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *key_info,
     stse_ecc_key_type_t kek_session_ecc_type,
@@ -1358,7 +1358,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT
 
 stse_ReturnCode_t stse_establish_symmetric_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecc_key_type,
     PLAT_UI8 key_infos_count,
     stsafea_generic_key_information_t *key_infos_list,
@@ -1480,7 +1480,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
 #ifdef STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED
 
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecc_key_type,
     PLAT_UI8 key_infos_count,
     stsafea_generic_key_information_t *key_infos_list,

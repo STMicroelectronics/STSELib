@@ -42,7 +42,7 @@
  * \details 	\include{doc} stse_get_ecc_key_slots_count.dox
  */
 stse_ReturnCode_t stse_get_ecc_key_slots_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pPrivate_key_slot_count);
 
 /**
@@ -56,7 +56,7 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
  * \details 	\include{doc} stse_get_ecc_key_table_info.dox
  */
 stse_ReturnCode_t stse_get_ecc_key_table_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info);
@@ -72,7 +72,7 @@ stse_ReturnCode_t stse_get_ecc_key_table_info(
  * \details 	\include{doc} stse_get_ecc_key_slot_info.dox
  */
 stse_ReturnCode_t stse_get_ecc_key_slot_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_slot_info);
@@ -87,7 +87,7 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
  * \details 	\include{doc} stse_generate_ECDHE_key_pair.dox
  */
 stse_ReturnCode_t stse_generate_ECDHE_key_pair(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
 
@@ -103,7 +103,7 @@ stse_ReturnCode_t stse_generate_ECDHE_key_pair(
  * \details 	\include{doc} stse_generate_ecc_key_pair.dox
  */
 stse_ReturnCode_t stse_generate_ecc_key_pair(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI16 usage_limit,
@@ -120,7 +120,7 @@ stse_ReturnCode_t stse_generate_ecc_key_pair(
  * \details 	\include{doc} stse_write_generic_ecc_public_key.dox
  */
 stse_ReturnCode_t stse_write_generic_ecc_public_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
@@ -140,7 +140,7 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
 */
 stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t private_key_type,
     PLAT_UI8 *pPrivate_key,
     stse_hash_algorithm_t hash_algo,

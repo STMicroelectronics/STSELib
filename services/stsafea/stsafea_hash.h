@@ -114,7 +114,7 @@ extern const stsafea_hash_info_t stsafea_hash_info_table[];
  * \param[in]		message_size	Input message length in bytes
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_start_hash(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_start_hash(stse_Handle_t *pSTSE,
                                      stse_hash_algorithm_t sha_algorithm,
                                      PLAT_UI8 *pMessage,
                                      PLAT_UI16 message_size);
@@ -128,7 +128,7 @@ stse_ReturnCode_t stsafea_start_hash(stse_Handler_t *pSTSE,
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_process_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size);
 
@@ -144,7 +144,7 @@ stse_ReturnCode_t stsafea_process_hash(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_finish_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size,

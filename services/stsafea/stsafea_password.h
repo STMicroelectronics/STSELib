@@ -45,7 +45,7 @@
  * \param[out]	 	pRemaining_tries 		Pointer to remaining tries
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_verify_password(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_verify_password(stse_Handle_t *pSTSE,
                                           PLAT_UI8 *pPassword_buffer,
                                           PLAT_UI8 password_length,
                                           PLAT_UI8 *pVerification_status,
@@ -57,7 +57,7 @@ stse_ReturnCode_t stsafea_verify_password(stse_Handler_t *pSTSE,
  * \param[in]		pSTSE					Pointer to target SE handler
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_delete_password(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stsafea_delete_password(stse_Handle_t *pSTSE);
 
 /** \}*/
 

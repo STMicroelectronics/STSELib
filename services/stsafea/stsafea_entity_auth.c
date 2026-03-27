@@ -22,7 +22,7 @@
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_generate_challenge(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 challenge_size,
     PLAT_UI8 *pChallenge) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE};
@@ -52,7 +52,7 @@ stse_ReturnCode_t stsafea_generate_challenge(
 }
 
 stse_ReturnCode_t stsafea_verify_entity_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pSignature,

@@ -78,7 +78,7 @@ typedef struct stsafea_private_key_slot_information_t {
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_private_key_slots_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pPrivate_key_slot_count);
 
 /**
@@ -91,7 +91,7 @@ stse_ReturnCode_t stsafea_query_private_key_slots_count(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_private_key_table(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info);
@@ -107,7 +107,7 @@ stse_ReturnCode_t stsafea_query_private_key_table(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_ecc_key_pair(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI16 usage_limit,
@@ -122,7 +122,7 @@ stse_ReturnCode_t stsafea_generate_ecc_key_pair(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_ECDHE_key_pair(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
 

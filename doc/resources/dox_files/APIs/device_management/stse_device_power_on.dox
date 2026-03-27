@@ -35,7 +35,7 @@ int main (void)
     stse_handler.io.Busaddr = 1;
 	stsafe_handler.io.PowerLineOn  = power_on;
 	stsafe_handler.io.PowerLineOff = power_off;
-    stse_ret = stse_init(&stse_handler);
+    stse_ret = stse_init(&stse_handler, NULL);
     if (stse_ret != STSE_OK)
     {
         /* Handle Error */

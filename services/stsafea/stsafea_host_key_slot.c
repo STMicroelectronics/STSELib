@@ -26,7 +26,7 @@
 /* Exported functions --------------------------------------------------------*/
 
 stse_ReturnCode_t stsafea_query_host_key_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_provisioning_ctrl_fields_t *pCtrl_fields) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 
@@ -58,7 +58,7 @@ stse_ReturnCode_t stsafea_query_host_key_provisioning_ctrl_fields(
 }
 
 stse_ReturnCode_t stsafea_put_host_key_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_provisioning_ctrl_fields_t *pCtrl_fields) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
 
@@ -90,7 +90,7 @@ stse_ReturnCode_t stsafea_put_host_key_provisioning_ctrl_fields(
 }
 
 stse_ReturnCode_t stsafea_query_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_slot_t *pHost_key_slot) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 
@@ -122,7 +122,7 @@ stse_ReturnCode_t stsafea_query_host_key(
 }
 
 stse_ReturnCode_t stsafea_query_host_key_v2(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_slot_v2_t *pHost_key_slot_v2) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 
@@ -155,7 +155,7 @@ stse_ReturnCode_t stsafea_query_host_key_v2(
 }
 
 stse_ReturnCode_t stsafea_put_attribute_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_aes_128_host_keys_t *host_keys) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
 
@@ -187,7 +187,7 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
 }
 
 stse_ReturnCode_t stsafea_host_key_provisioning(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t key_type,
     stsafea_host_keys_t *host_keys) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_PLAINTEXT};
@@ -222,7 +222,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning(
 }
 
 stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t key_type,
     PLAT_UI8 *pHost_key_envelope) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_WRAPPED};
@@ -254,7 +254,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
 }
 
 stse_ReturnCode_t stsafea_establish_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t host_ecdh_public_key_type,
     PLAT_UI8 *pPublic_key,
     stsafea_host_key_type_t host_keys_type) {
@@ -322,7 +322,7 @@ stse_ReturnCode_t stsafea_establish_host_key(
 }
 
 stse_ReturnCode_t stsafea_establish_host_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t host_ecdh_public_key_type,
     PLAT_UI8 *pPublic_key,
     stsafea_host_key_type_t host_keys_type,
