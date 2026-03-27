@@ -228,7 +228,7 @@ typedef struct stse_internal_certificate stse_certificate_t;
 
 /* Exported Variables */
 
-extern stse_Handler_t *stsafe_x509_parser_companion_handler;
+extern stse_Handle_t *stsafe_x509_parser_companion_handler;
 
 /** @}*/
 

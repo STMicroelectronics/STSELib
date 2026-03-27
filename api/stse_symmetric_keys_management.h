@@ -47,7 +47,7 @@
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
 stse_ReturnCode_t stse_host_key_provisioning(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t host_ecc_key_type,
     stsafea_host_keys_t *host_keys);
 
@@ -62,7 +62,7 @@ stse_ReturnCode_t stse_host_key_provisioning(
  * \details 	\include{doc} stse_host_key_provisioning_wrapped.dox
  */
 stse_ReturnCode_t stse_host_key_provisioning_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
     stsafea_host_keys_t *host_keys,
     stse_ecc_key_type_t ecdhe_key_type);
@@ -83,7 +83,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t host_key_type,
     stsafea_host_keys_t *host_keys,
     stse_ecc_key_type_t ecdhe_key_type,
@@ -104,7 +104,7 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
 stse_ReturnCode_t stse_establish_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
     stsafea_host_key_type_t host_secure_channel_keys_type,
     PLAT_UI8 *host_mac_key,
@@ -126,7 +126,7 @@ stse_ReturnCode_t stse_establish_host_key(
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_establish_host_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
     stsafea_host_key_type_t host_secure_channel_keys_type,
     stse_hash_algorithm_t tbs_hash_algo,
@@ -143,7 +143,7 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slots_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_slot_count);
 
 /**
@@ -155,7 +155,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slots_count(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slot_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_information_t *pSymmetric_key_slot_info);
 
@@ -168,7 +168,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_table_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI16 total_slot_count,
     stsafea_symmetric_key_slot_information_t *symmetric_key_table_info);
 
@@ -181,7 +181,7 @@ stse_ReturnCode_t stse_get_symmetric_key_table_info(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
 
@@ -194,7 +194,7 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
 
@@ -208,7 +208,7 @@ stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
  * \details 	\include{doc} stse_write_symmetric_key_plaintext.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_plaintext(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *pSymmetric_key_info);
 
@@ -223,7 +223,7 @@ stse_ReturnCode_t stse_write_symmetric_key_plaintext(
  * \details 	\include{doc} stse_write_symmetric_key_wrapped.dox
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *key_info,
     stse_ecc_key_type_t kek_session_ecc_type);
@@ -244,7 +244,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pKey,
     stsafea_generic_key_information_t *key_info,
     stse_ecc_key_type_t kek_session_ecc_type,
@@ -265,7 +265,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
  * \details 	\include{doc} stse_establish_symmetric_key.dox
  */
 stse_ReturnCode_t stse_establish_symmetric_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecc_key_type,
     PLAT_UI8 key_infos_count,
     stsafea_generic_key_information_t *key_infos_list,
@@ -288,7 +288,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 key_infos_count,
     stsafea_generic_key_information_t *key_infos_list,

@@ -42,7 +42,7 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_echo(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *message,
     PLAT_UI8 *echoed_message,
     PLAT_UI16 message_size);

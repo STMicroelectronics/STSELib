@@ -25,7 +25,7 @@
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
-stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafel_read_data_zone(stse_Handle_t *pSTSE,
                                          PLAT_UI8 zone_index,
                                          stsafel_read_option_t option,
                                          PLAT_UI16 offset,
@@ -65,7 +65,7 @@ stse_ReturnCode_t stsafel_read_data_zone(stse_Handler_t *pSTSE,
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafel_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI8 zone_index,
                                            stsafel_update_option_t option,
                                            PLAT_UI16 offset,
@@ -104,7 +104,7 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handler_t *pSTSE,
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafel_read_counter_zone(stse_Handle_t *pSTSE,
                                             PLAT_UI8 zone_index,
                                             stsafel_read_option_t option,
                                             PLAT_UI16 offset,
@@ -154,7 +154,7 @@ stse_ReturnCode_t stsafel_read_counter_zone(stse_Handler_t *pSTSE,
     return (ret);
 }
 
-stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafel_decrement_counter_zone(stse_Handle_t *pSTSE,
                                                  PLAT_UI8 zone_index,
                                                  stsafel_decrement_option_t option,
                                                  PLAT_UI32 amount,

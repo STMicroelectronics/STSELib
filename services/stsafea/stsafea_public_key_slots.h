@@ -57,7 +57,7 @@ typedef struct stsafea_generic_public_key_configuration_flags_t {
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pGeneric_public_key_slot_count);
 
 /*!
@@ -71,7 +71,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slots_count(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     PLAT_UI8 *pPresence_flag,
     stsafea_generic_public_key_configuration_flags_t *pConfiguration_flags,
@@ -87,7 +87,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_info(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
@@ -102,7 +102,7 @@ stse_ReturnCode_t stsafea_query_generic_public_key_slot_value(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key);
@@ -116,7 +116,7 @@ stse_ReturnCode_t stsafea_write_generic_ecc_public_key(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_set_generic_public_slot_configuration_flag(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_generic_public_key_configuration_flags_t configuration_flags);
 
