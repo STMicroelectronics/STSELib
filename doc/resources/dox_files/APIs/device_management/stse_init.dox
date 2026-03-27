@@ -42,7 +42,7 @@ Following diagram illustrates the interactions performed between the Host and th
 \code{.c}
 
 	stse_ReturnCode_t stse_ret = STSE_API_INVALID_PARAMETER;
-	stse_Handler_t stse_handler;
+	stse_Handle_t stse_handler;
 
     /* - Initialize STSE device handler */
     stse_ret = stse_set_default_handler_value(&stse_handler);

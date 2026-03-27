@@ -24,7 +24,7 @@
     defined(STSE_CONF_HASH_SHA_3_256) || defined(STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
 
 stse_ReturnCode_t stse_start_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size) {
@@ -49,7 +49,7 @@ stse_ReturnCode_t stse_start_hash(
 }
 
 stse_ReturnCode_t stse_process_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -73,7 +73,7 @@ stse_ReturnCode_t stse_process_hash(
 }
 
 stse_ReturnCode_t stse_finish_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size,
@@ -100,7 +100,7 @@ stse_ReturnCode_t stse_finish_hash(
 }
 
 stse_ReturnCode_t stse_compute_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size,

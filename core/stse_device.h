@@ -34,7 +34,7 @@ extern "C" {
  *  @{
  */
 
-typedef struct stse_Handler_t stse_Handler_t;
+typedef struct stse_Handle_t stse_Handle_t;
 
 /*
  * \brief STSE Session_type type
@@ -160,7 +160,7 @@ struct stse_session_t {
     stse_session_type_t type;
     union {
         struct {
-            stse_Handler_t *pSTSE;
+            stse_Handle_t *pSTSE;
             PLAT_UI8 *pHost_MAC_key;
             PLAT_UI8 *pHost_cypher_key;
             stse_aes_key_type_t key_type;
@@ -175,13 +175,13 @@ struct stse_session_t {
 } PLAT_PACKED_STRUCT;
 
 /*!
- * \typedef stse_Handler_t
+ * \typedef stse_Handle_t
  * \brief STSE Handler
  *        This handler stores all the context and working data related to a specific STSE target. \n
  *        Pointer to a specific stsafe_Handler is the main parameters of all STSE middleware API functions. \n
  *        A specific STSE target Handler must be initialized using the "stsafe_init" API function
  */
-struct stse_Handler_t {
+struct stse_Handle_t {
     stse_device_t device_type;
     stse_perso_info_t perso_info;
     stse_session_t *pActive_host_session;
@@ -197,7 +197,7 @@ struct stse_Handler_t {
  * \param[in]   pStseHandler : Pointer to STSE handler
  * \return \ref stse_ReturnCode_t : STSE_OK on success ; error code otherwise
  */
-stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler);
+stse_ReturnCode_t stse_set_default_handler_value(stse_Handle_t *pStseHandler);
 
 /*! @}*/
 

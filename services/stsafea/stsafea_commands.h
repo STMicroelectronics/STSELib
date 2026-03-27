@@ -130,7 +130,7 @@ typedef enum stsafea_extended_cmd_code_t {
     STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY          /*!< STSAFE-A Decompress command code */
 } stsafea_extended_cmd_code_t;
 
-stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCommand_count);
+stse_ReturnCode_t stsafea_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count);
 
 /**
  * \brief 		Get command access control table
@@ -141,12 +141,12 @@ stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCo
  * \param[out] 	pRecord_table			Pointer to record table array
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handle_t *pSTSE,
                                                PLAT_UI8 total_command_count,
                                                stse_cmd_authorization_CR_t *pChange_rights,
                                                stse_cmd_authorization_record_t *pRecord_table);
 
-stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stsafea_perso_info_update(stse_Handle_t *pSTSE);
 
 /**
  * \brief 		Get command access conditions from personalization info

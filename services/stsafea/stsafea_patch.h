@@ -40,7 +40,7 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_get_patch_update_command_counter(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 pCounter);
 
 /**
@@ -50,7 +50,7 @@ stse_ReturnCode_t stsafea_get_patch_update_command_counter(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_start(
-    stse_Handler_t *pSTSE);
+    stse_Handle_t *pSTSE);
 
 /**
  * \brief 		STSAFEA Update Patch service
@@ -59,7 +59,7 @@ stse_ReturnCode_t stsafea_patch_start(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_update(
-    stse_Handler_t *pSTSE);
+    stse_Handle_t *pSTSE);
 
 /**
  * \brief 		STSAFEA Finalize Patch service
@@ -68,7 +68,7 @@ stse_ReturnCode_t stsafea_patch_update(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_patch_finalize(
-    stse_Handler_t *pSTSE);
+    stse_Handle_t *pSTSE);
 
 /** \}*/
 

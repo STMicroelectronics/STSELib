@@ -47,7 +47,7 @@ extern const PLAT_UI16 stsafel_wakeup_time[STSAFEL_PRODUCT_COUNT];
  * \return PLAT_UI16 : specific command execution time
  */
 PLAT_UI16 stsafel_cmd_exec_duration(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafel_cmd_code_t command_code);
 
 /** @}*/

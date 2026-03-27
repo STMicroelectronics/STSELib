@@ -23,7 +23,7 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCommand_count) {
+stse_ReturnCode_t stsafea_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_COMMAND_AUTHORIZATION_CONFIG;
     PLAT_UI8 rsp_header;
@@ -51,7 +51,7 @@ stse_ReturnCode_t stsafea_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *pCo
                                       stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handle_t *pSTSE,
                                                PLAT_UI8 total_command_count,
                                                stse_cmd_authorization_CR_t *pChange_rights,
                                                stse_cmd_authorization_record_t *pRecord_table) {
@@ -103,7 +103,7 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handler_t *pSTSE,
     return ret;
 }
 
-stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE) {
+stse_ReturnCode_t stsafea_perso_info_update(stse_Handle_t *pSTSE) {
     stse_ReturnCode_t ret;
     PLAT_UI8 total_command_count = 0;
     stse_cmd_authorization_CR_t change_rights;

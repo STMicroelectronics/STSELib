@@ -21,7 +21,7 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_hibernate(stse_Handle_t *pSTSE,
                                     stse_hibernate_wake_up_mode_t wake_up_mode)
 
 {

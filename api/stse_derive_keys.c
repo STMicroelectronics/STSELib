@@ -18,7 +18,7 @@
 #include "api/stse_derive_keys.h"
 
 stse_ReturnCode_t stse_derive_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 master_slot,
     PLAT_UI8 *pSalt,
     PLAT_UI16 salt_length,
@@ -72,7 +72,7 @@ stse_ReturnCode_t stse_derive_key(
 }
 
 stse_ReturnCode_t stse_derive_key_simple(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 master_slot,
     PLAT_UI8 *pContext,
     PLAT_UI16 context_len,
@@ -91,7 +91,7 @@ stse_ReturnCode_t stse_derive_key_simple(
 }
 
 stse_ReturnCode_t stse_derive_key_extract(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 master_slot,
     PLAT_UI8 *pSalt,
     PLAT_UI16 salt_length,
@@ -134,7 +134,7 @@ stse_ReturnCode_t stse_derive_key_extract(
 }
 
 stse_ReturnCode_t stse_derive_key_expand(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 prk_slot,
     PLAT_UI8 *pContext,
     PLAT_UI16 context_len,
@@ -180,7 +180,7 @@ stse_ReturnCode_t stse_derive_key_expand(
 }
 
 stse_ReturnCode_t stse_derive_session_keys(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 master_slot,
     PLAT_UI32 session_id,
     PLAT_UI8 *pEnc_key,
@@ -223,7 +223,7 @@ stse_ReturnCode_t stse_derive_session_keys(
 }
 
 stse_ReturnCode_t stse_derive_key_to_slot(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 master_slot,
     PLAT_UI8 *pSalt,
     PLAT_UI16 salt_length,
@@ -283,7 +283,7 @@ stse_ReturnCode_t stse_derive_key_to_slot(
 }
 
 stse_ReturnCode_t stse_derive_key_expand_multiple(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 prk_slot,
     PLAT_UI8 **pContexts,
     PLAT_UI16 *pContext_lens,
@@ -340,7 +340,7 @@ stse_ReturnCode_t stse_derive_key_expand_multiple(
 }
 
 stse_ReturnCode_t stse_derive_key_from_ikm(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pIkm,
     PLAT_UI16 ikm_length,
     PLAT_UI8 *pSalt,

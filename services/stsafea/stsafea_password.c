@@ -22,7 +22,7 @@
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_verify_password(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pPassword_buffer,
     PLAT_UI8 password_length,
     PLAT_UI8 *pVerification_status,
@@ -55,7 +55,7 @@ stse_ReturnCode_t stsafea_verify_password(
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafea_delete_password(stse_Handler_t *pSTSE) {
+stse_ReturnCode_t stsafea_delete_password(stse_Handle_t *pSTSE) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_DELETE;
     PLAT_UI8 tag = STSAFEA_DELETE_TAG_PASSWORD;
     PLAT_UI8 rsp_header;

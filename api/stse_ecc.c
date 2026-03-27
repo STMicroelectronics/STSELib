@@ -18,7 +18,7 @@
 #include "api/stse_ecc.h"
 
 stse_ReturnCode_t stse_ecc_verify_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
     PLAT_UI8 *pSignature,
@@ -54,7 +54,7 @@ stse_ReturnCode_t stse_ecc_verify_signature(
 }
 
 stse_ReturnCode_t stse_ecc_generate_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pMessage,
@@ -93,7 +93,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
 }
 
 stse_ReturnCode_t stse_ecc_establish_shared_secret(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
@@ -126,7 +126,7 @@ stse_ReturnCode_t stse_ecc_establish_shared_secret(
 }
 
 stse_ReturnCode_t stse_ecc_decompress_public_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 point_representation_id,
     PLAT_UI8 *pPublic_key_X,

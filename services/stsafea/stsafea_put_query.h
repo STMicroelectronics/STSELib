@@ -108,7 +108,7 @@ typedef struct
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_put_life_cyle_state(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_life_cycle_state_t life_cycle_state);
 
 /**
@@ -119,7 +119,7 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_life_cycle_state(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_life_cycle_state_t *pLife_cycle_state);
 
 /**
@@ -130,7 +130,7 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_put_i2c_parameters(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_i2c_parameters_t *pI2c_parameters);
 
 /**
@@ -141,7 +141,7 @@ stse_ReturnCode_t stsafea_put_i2c_parameters(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_i2c_parameters(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_i2c_parameters_t *pI2c_parameters);
 
 /** \}*/
