@@ -40,7 +40,7 @@
  * 									listed in enum \ref stse_hibernate_wake_up_mode_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_hibernate(stse_Handler_t *pSTSAFE,
+stse_ReturnCode_t stsafea_hibernate(stse_Handle_t *pSTSAFE,
                                     stse_hibernate_wake_up_mode_t wake_up_mode);
 
 /** \}*/

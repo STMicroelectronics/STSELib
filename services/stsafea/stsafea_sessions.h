@@ -33,7 +33,7 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stsafe_erase_context.dox
  */
-stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_open_host_session(stse_Handle_t *pSTSE,
                                             stse_session_t *pSession,
                                             PLAT_UI8 *pHost_MAC_key,
                                             PLAT_UI8 *pHost_cypher_key);

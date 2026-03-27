@@ -37,7 +37,7 @@
  * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafel_hibernate(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stsafel_hibernate(stse_Handle_t *pSTSE);
 
 /**
  * \brief 		Send wakeup command to target device
@@ -45,7 +45,7 @@ stse_ReturnCode_t stsafel_hibernate(stse_Handler_t *pSTSE);
  * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafel_wakeup(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stsafel_wakeup(stse_Handle_t *pSTSE);
 
 /** \}*/
 

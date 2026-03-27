@@ -127,7 +127,7 @@ Public keys are expected in raw X||Y coordinate format (uncompressed, without th
 
 int main(void)
 {
-    stse_Handler_t stse_handler;
+    stse_Handle_t stse_handler;
     stse_ReturnCode_t ret;
 
     /* Initialize STSE (calls stse_platform_crypto_init internally) */
