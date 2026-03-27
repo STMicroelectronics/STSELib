@@ -38,7 +38,7 @@
  * \param[in] 	pSTSAFE 	Pointer to STSE Handler
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_reset(stse_Handler_t *pSTSAFE);
+stse_ReturnCode_t stsafea_reset(stse_Handle_t *pSTSAFE);
 
 /** \}*/
 

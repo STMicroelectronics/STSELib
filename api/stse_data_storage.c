@@ -21,7 +21,7 @@
 #include <string.h>
 
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *total_partition_count) {
 
     stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
@@ -40,7 +40,7 @@ stse_ReturnCode_t stse_data_storage_get_total_partition_count(
 }
 
 stse_ReturnCode_t stse_data_storage_get_partitioning_table(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 total_partition_count,
     stsafea_data_partition_record_t *pPartitioning_table,
     PLAT_UI16 Partitioning_table_length) {
@@ -61,7 +61,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
 }
 
 stse_ReturnCode_t stse_data_storage_read_data_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
     PLAT_UI8 *pBuffer,
@@ -142,7 +142,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
 }
 
 stse_ReturnCode_t stse_data_storage_update_data_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
     PLAT_UI8 *pBuffer,
@@ -201,7 +201,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
 }
 
 stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI32 amount,
     PLAT_UI16 offset,
@@ -264,7 +264,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
 }
 
 stse_ReturnCode_t stse_data_storage_read_counter_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
     PLAT_UI8 *pBuffer,
@@ -340,7 +340,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
 }
 
 stse_ReturnCode_t stse_data_storage_change_read_access_condition(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     stse_zone_ac_t ac,
     stse_ac_change_right_t ac_change_right,
@@ -372,7 +372,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
-stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handle_t *pSTSE,
                                                                    PLAT_UI32 zone,
                                                                    stse_zone_ac_t ac,
                                                                    stse_ac_change_right_t ac_change_right,
@@ -409,7 +409,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
-stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handle_t *pSTSE,
                                                                       PLAT_UI32 zone,
                                                                       stse_zone_ac_t ac,
                                                                       stse_ac_change_right_t ac_change_right,

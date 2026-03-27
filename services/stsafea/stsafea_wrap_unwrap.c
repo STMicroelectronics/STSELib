@@ -21,7 +21,7 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-stse_ReturnCode_t stsafea_wrap_payload(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_wrap_payload(stse_Handle_t *pSTSE,
                                        PLAT_UI8 wrap_key_slot,
                                        PLAT_UI8 *pPayload,
                                        PLAT_UI16 payload_size,
@@ -55,7 +55,7 @@ stse_ReturnCode_t stsafea_wrap_payload(stse_Handler_t *pSTSE,
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafea_unwrap_payload(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_unwrap_payload(stse_Handle_t *pSTSE,
                                          PLAT_UI8 wrap_key_slot,
                                          PLAT_UI8 *pWrapped_Payload,
                                          PLAT_UI16 wrapped_payload_size,

@@ -26,7 +26,7 @@
 /* Exported functions --------------------------------------------------------*/
 
 stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
@@ -59,7 +59,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
 }
 
 stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
@@ -91,7 +91,7 @@ stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
                                       stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handler_t *pSTSE, PLAT_UI8 *pSymmetric_key_slot_count) {
+stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handle_t *pSTSE, PLAT_UI8 *pSymmetric_key_slot_count) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
 
     /* - Check stsafe handler initialization */
@@ -122,7 +122,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handler_t *pSTSE,
 }
 
 stse_ReturnCode_t stsafea_query_symmetric_key_table(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 symmetric_key_slot_count,
     stsafea_symmetric_key_slot_information_t *symmetric_key_table_info) {
     stse_ReturnCode_t ret;
@@ -212,7 +212,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 }
 
 stse_ReturnCode_t stsafea_establish_symmetric_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS};
@@ -285,7 +285,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 }
 
 stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key,
     stse_hash_algorithm_t hash_algo,
@@ -389,7 +389,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
     defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED)
 
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pMac_confirmation_key,
     PLAT_UI8 key_count,
     stsafea_generic_key_information_t *pKey_information_list) {
@@ -470,7 +470,7 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
 stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_envelope,
     PLAT_UI8 symmetric_key_envelope_length) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_WRAPPED};
@@ -501,7 +501,7 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
 #endif
 
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_value,
     stsafea_generic_key_information_t *pSymmetric_key_info) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_PLAINTEXT};
@@ -546,7 +546,7 @@ stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(stse_Handle_t *pSTSE,
                                                    PLAT_UI8 wrap_key_slot,
                                                    stse_aes_key_type_t key_type) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_KEY;
@@ -577,7 +577,7 @@ stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(stse_Handler_t *pSTSE,
 }
 
 stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 symmetric_key_slot_number) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT};
 

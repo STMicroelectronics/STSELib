@@ -50,7 +50,7 @@ typedef enum {
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_start_volatile_KEK_session(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key);
 
@@ -67,7 +67,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdhe_key_type,
     PLAT_UI8 *host_ecdhe_public_key,
     stse_hash_algorithm_t hash_algo,
@@ -82,7 +82,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
-    stse_Handler_t *pSTSE);
+    stse_Handle_t *pSTSE);
 
 /**
  * \brief 		Verify the signature in arguments
@@ -99,7 +99,7 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
  * \details 	\include{doc} stse_ecc_verify_signature.dox
  */
 stse_ReturnCode_t stsafea_ecc_verify_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
     PLAT_UI8 *pSignature,
@@ -121,7 +121,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
  * \details 	\include{doc} stse_ecc_verify_signature.dox
  */
 stse_ReturnCode_t stsafea_ecc_generate_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pMessage,
@@ -139,7 +139,7 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
@@ -156,7 +156,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_ecc_decompress_public_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 point_representation_id,
     PLAT_UI8 *pPublic_key_X,

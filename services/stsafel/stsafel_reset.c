@@ -22,7 +22,7 @@
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
-stse_ReturnCode_t stsafel_reset(stse_Handler_t *pSTSE) {
+stse_ReturnCode_t stsafel_reset(stse_Handle_t *pSTSE) {
     PLAT_UI8 cmd_header = STSAFEL_CMD_RESET;
     PLAT_UI8 rsp_header;
 

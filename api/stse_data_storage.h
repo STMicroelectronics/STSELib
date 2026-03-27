@@ -40,7 +40,7 @@
  * \details \include{doc} stse_data_storage_get_total_partition_count.dox
  */
 stse_ReturnCode_t stse_data_storage_get_total_partition_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pTotal_partition_count);
 
 /**
@@ -54,7 +54,7 @@ stse_ReturnCode_t stse_data_storage_get_total_partition_count(
  * \details \include{doc} stse_data_storage_get_partitioning_table.dox
  */
 stse_ReturnCode_t stse_data_storage_get_partitioning_table(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 total_partition_count,
     stsafea_data_partition_record_t *pPartitioning_table,
     PLAT_UI16 Partitioning_table_length);
@@ -77,7 +77,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
  * \details \include{doc} stse_data_storage_read_zone.dox
  */
 stse_ReturnCode_t stse_data_storage_read_data_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
     PLAT_UI8 *pBuffer,
@@ -103,7 +103,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
  * \details \include{doc} stse_data_storage_update_zone.dox
  */
 stse_ReturnCode_t stse_data_storage_update_data_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
     PLAT_UI8 *pBuffer,
@@ -130,7 +130,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
  * \details \include{doc} stse_data_storage_decrement_counter.dox
  */
 stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI32 amount,
     PLAT_UI16 offset,
@@ -158,7 +158,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
  * \details \include{doc} stse_data_storage_read_counter.dox
  */
 stse_ReturnCode_t stse_data_storage_read_counter_zone(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
     PLAT_UI8 *pBuffer,
@@ -183,7 +183,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
  * \details \include{doc} stse_data_storage_change_read_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_read_access_condition(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     stse_zone_ac_t ac,
     stse_ac_change_right_t ac_change_right,
@@ -208,7 +208,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_change_update_access_condition.dox
  */
-stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handle_t *pSTSE,
                                                                    PLAT_UI32 zone,
                                                                    stse_zone_ac_t ac,
                                                                    stse_ac_change_right_t ac_change_right,
@@ -239,7 +239,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handler_
  * \details 	\include{doc} stse_data_storage_change_decrement_access_condition.dox
  */
 stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     stse_zone_ac_t ac,
     stse_ac_change_right_t ac_change_right,

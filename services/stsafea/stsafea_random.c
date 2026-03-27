@@ -22,7 +22,7 @@
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_generate_random(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pRandom,
     PLAT_UI8 random_size) {
     stse_ReturnCode_t ret;

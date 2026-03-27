@@ -63,7 +63,7 @@ typedef enum stse_low_power_mode_t {
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_init.dox
  */
-stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE, void *pArg);
+stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg);
 
 /**
  * \brief 		Reset target device
@@ -71,7 +71,7 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE, void *pArg);
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stse_device_reset(stse_Handle_t *pSTSE);
 
 /**
  * \brief 		Put target device in hibernate mode
@@ -81,7 +81,7 @@ stse_ReturnCode_t stse_device_reset(stse_Handler_t *pSTSE);
  * 									listed in enum \ref stse_hibernate_wake_up_mode_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE, stse_hibernate_wake_up_mode_t wake_up_mode);
+stse_ReturnCode_t stse_device_enter_hibernate(stse_Handle_t *pSTSE, stse_hibernate_wake_up_mode_t wake_up_mode);
 
 /**
  * \brief 		Power-on target device
@@ -89,7 +89,7 @@ stse_ReturnCode_t stse_device_enter_hibernate(stse_Handler_t *pSTSE, stse_hibern
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_device_power_on(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stse_device_power_on(stse_Handle_t *pSTSE);
 
 /**
  * \brief 		Power-off target device
@@ -98,7 +98,7 @@ stse_ReturnCode_t stse_device_power_on(stse_Handler_t *pSTSE);
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	Please refer to stse_device_power_on()
  */
-stse_ReturnCode_t stse_device_power_off(stse_Handler_t *pSTSE);
+stse_ReturnCode_t stse_device_power_off(stse_Handle_t *pSTSE);
 
 /**
  * \brief 		Send echo command
@@ -110,7 +110,7 @@ stse_ReturnCode_t stse_device_power_off(stse_Handler_t *pSTSE);
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_device_echo.dox
  */
-stse_ReturnCode_t stse_device_echo(stse_Handler_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI8 *pOut, PLAT_UI16 size);
+stse_ReturnCode_t stse_device_echo(stse_Handle_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI8 *pOut, PLAT_UI16 size);
 
 /**
  * \brief 		Lock target device
@@ -121,7 +121,7 @@ stse_ReturnCode_t stse_device_echo(stse_Handler_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_device_lock.dox
  */
-stse_ReturnCode_t stse_device_lock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
+stse_ReturnCode_t stse_device_lock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
 
 /**
  * \brief 		Unlock target device
@@ -132,7 +132,7 @@ stse_ReturnCode_t stse_device_lock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword, P
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_device_unlock.dox
  */
-stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
+stse_ReturnCode_t stse_device_unlock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
 
 /**
  * \brief 		Return the record count of command access conditions
@@ -143,7 +143,7 @@ stse_ReturnCode_t stse_device_unlock(stse_Handler_t *pSTSE, PLAT_UI8 *pPassword,
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	Please refer to stse_device_get_command_AC()
  */
-stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 *record_count);
+stse_ReturnCode_t stse_device_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *record_count);
 
 /**
  * \brief 		Return the command access conditions and change right
@@ -156,7 +156,7 @@ stse_ReturnCode_t stse_device_get_command_count(stse_Handler_t *pSTSE, PLAT_UI8 
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_device_get_command_AC.dox
  */
-stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handle_t *pSTSE,
                                                      PLAT_UI8 record_count,
                                                      stse_cmd_authorization_CR_t *pChange_rights,
                                                      stse_cmd_authorization_record_t *pRecord_table);
@@ -168,7 +168,7 @@ stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handler_t *pSTSE,
  * \param[out] 	pLife_cycle_state 		Pointer to \ref stsafea_life_cycle_state_t variable to be updated
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handle_t *pSTSE,
                                                    stsafea_life_cycle_state_t *pLife_cycle_state);
 
 /**
@@ -182,7 +182,7 @@ stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handler_t *pSTSE,
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_put_i2c_parameters(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 i2c_address,
     stse_low_power_mode_t low_power_mode,
     PLAT_UI8 idle_bus_time_to_standby,

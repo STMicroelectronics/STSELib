@@ -22,7 +22,7 @@
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION};
@@ -90,7 +90,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session(
 }
 
 stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdhe_key_type,
     PLAT_UI8 *host_ecdhe_public_key,
     stse_hash_algorithm_t hash_algo,
@@ -204,7 +204,7 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
 }
 
 stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
-    stse_Handler_t *pSTSE) {
+    stse_Handle_t *pSTSE) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION};
 
     /* - Check stsafe handler initialization */
@@ -227,7 +227,7 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
 }
 
 stse_ReturnCode_t stsafea_ecc_verify_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
     PLAT_UI8 *pSignature,
@@ -340,7 +340,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 }
 
 stse_ReturnCode_t stsafea_ecc_generate_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pMessage,
@@ -385,7 +385,7 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
 }
 
 stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key,
@@ -465,7 +465,7 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
 }
 
 stse_ReturnCode_t stsafea_ecc_decompress_public_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 point_representation_id,
     PLAT_UI8 *pPublic_key_X,

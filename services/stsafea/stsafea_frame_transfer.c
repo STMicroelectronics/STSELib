@@ -30,7 +30,7 @@ const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT] = {
     STSAFEA_MAX_FRAME_LENGTH_A200,
 };
 
-stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
+stse_ReturnCode_t stsafea_frame_transmit(stse_Handle_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     PLAT_UI16 retry_count = STSE_MAX_POLLING_RETRY;
     stse_frame_element_t *pCurrent_element;
@@ -110,7 +110,7 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
     return ret;
 }
 
-stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
+stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
     stse_frame_element_t *pCurrent_element;
     PLAT_UI8 received_header;
@@ -334,7 +334,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handler_t *pSTSE, stse_frame_t *pFr
     return ret;
 }
 
-stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handle_t *pSTSE,
                                              stse_frame_t *pCmdFrame,
                                              stse_frame_t *pRspFrame,
                                              PLAT_UI16 inter_frame_delay) {
@@ -361,7 +361,7 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
     return ret;
 }
 
-stse_ReturnCode_t stsafea_frame_transfer(stse_Handler_t *pSTSE, stse_frame_t *pCmdFrame,
+stse_ReturnCode_t stsafea_frame_transfer(stse_Handle_t *pSTSE, stse_frame_t *pCmdFrame,
                                          stse_frame_t *pRspFrame) {
     stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
     PLAT_UI16 inter_frame_delay = STSAFEA_EXEC_TIME_DEFAULT;

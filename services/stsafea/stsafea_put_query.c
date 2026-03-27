@@ -22,7 +22,7 @@
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_put_life_cyle_state(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_life_cycle_state_t life_cycle_state) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_LIFE_CYCLE_STATE;
@@ -50,7 +50,7 @@ stse_ReturnCode_t stsafea_put_life_cyle_state(
 }
 
 stse_ReturnCode_t stsafea_query_life_cycle_state(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_life_cycle_state_t *pLife_cycle_state) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_LIFE_CYCLE_STATE;
@@ -78,7 +78,7 @@ stse_ReturnCode_t stsafea_query_life_cycle_state(
 }
 
 stse_ReturnCode_t stsafea_put_i2c_parameters(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_i2c_parameters_t *pI2c_parameters) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_I2C_PARAMETERS;
@@ -118,7 +118,7 @@ stse_ReturnCode_t stsafea_put_i2c_parameters(
 }
 
 stse_ReturnCode_t stsafea_query_i2c_parameters(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_i2c_parameters_t *pI2c_parameters) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_I2C_PARAMETERS;

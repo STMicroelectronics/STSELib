@@ -107,7 +107,7 @@ typedef struct
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_query_host_key_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_provisioning_ctrl_fields_t *pCtrl_fields);
 
 /**
@@ -118,7 +118,7 @@ stse_ReturnCode_t stsafea_query_host_key_provisioning_ctrl_fields(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_put_host_key_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_provisioning_ctrl_fields_t *pCtrl_fields);
 
 /**
@@ -129,7 +129,7 @@ stse_ReturnCode_t stsafea_put_host_key_provisioning_ctrl_fields(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_query_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_slot_t *pHostKeySlot);
 
 /**
@@ -140,7 +140,7 @@ stse_ReturnCode_t stsafea_query_host_key(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_query_host_key_v2(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_slot_v2_t *pHostKeySlotV2);
 
 /**
@@ -151,7 +151,7 @@ stse_ReturnCode_t stsafea_query_host_key_v2(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_put_attribute_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_aes_128_host_keys_t *host_keys);
 
 /**
@@ -163,7 +163,7 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_host_key_provisioning(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t key_type,
     stsafea_host_keys_t *host_keys);
 
@@ -176,7 +176,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_host_key_type_t key_type,
     PLAT_UI8 *pHost_key_envelope);
 
@@ -190,7 +190,7 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_host_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t host_ecdh_public_key_type,
     PLAT_UI8 *pPublic_key,
     stsafea_host_key_type_t host_keys_type);
@@ -209,7 +209,7 @@ stse_ReturnCode_t stsafea_establish_host_key(
  * \return \ref stse_ReturnCode_t : STSAFEA_OK on success ; error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_host_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t host_ecdh_public_key_type,
     PLAT_UI8 *pPublic_key,
     stsafea_host_key_type_t host_keys_type,
