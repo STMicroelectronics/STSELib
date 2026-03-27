@@ -224,7 +224,7 @@ typedef struct stsafe_generic_key_information_t {
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
 
@@ -237,7 +237,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
 
@@ -248,7 +248,7 @@ stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
  * \param[out] 	pSymmetric_key_slot_count	Slot count output
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handler_t *pSTSE, PLAT_UI8 *pSymmetric_key_slot_count);
+stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handle_t *pSTSE, PLAT_UI8 *pSymmetric_key_slot_count);
 
 /**
  * \brief 		Query symmetric key table informations
@@ -259,7 +259,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handler_t *pSTSE,
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_symmetric_key_table(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 symmetric_key_slot_count,
     stsafea_symmetric_key_slot_information_t *symmetric_key_table_info);
 
@@ -272,7 +272,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_symmetric_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key);
 
@@ -289,7 +289,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key,
     stse_hash_algorithm_t hash_algo,
@@ -307,7 +307,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pMac_confirmation_key,
     PLAT_UI8 key_count,
     stsafea_generic_key_information_t *pKey_information_list);
@@ -321,7 +321,7 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_envelope,
     PLAT_UI8 symmetric_key_envelope_length);
 
@@ -334,7 +334,7 @@ stse_ReturnCode_t stsafea_write_symmetric_key_wrapped(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pSymmetric_key_value,
     stsafea_generic_key_information_t *pSymmetric_key_info);
 
@@ -347,7 +347,7 @@ stse_ReturnCode_t stsafea_write_symmetric_key_plaintext(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 wrap_key_slot,
     stse_aes_key_type_t key_type);
 
@@ -359,7 +359,7 @@ stse_ReturnCode_t stsafea_generate_wrap_unwrap_key(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_erase_symmetric_key_slot(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 symmetric_key_slot_number);
 
 /** \}*/

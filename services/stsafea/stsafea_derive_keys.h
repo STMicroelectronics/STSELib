@@ -199,7 +199,7 @@ typedef struct stsafea_hkdf_output_t {
  * @see stse_hkdf_derive_session_keys
  */
 stse_ReturnCode_t stsafea_derive_keys(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafea_hkdf_input_key_t *pInput_key,
     PLAT_UI8 extract_flag,
     PLAT_UI8 expand_flag,

@@ -36,7 +36,7 @@
 
 #ifdef STSE_CONF_USE_HOST_SESSION
 
-stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE, stse_session_t *pSession, PLAT_UI8 *pHost_MAC_key, PLAT_UI8 *pHost_cypher_key) {
+stse_ReturnCode_t stsafea_open_host_session(stse_Handle_t *pSTSE, stse_session_t *pSession, PLAT_UI8 *pHost_MAC_key, PLAT_UI8 *pHost_cypher_key) {
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -111,7 +111,7 @@ void stsafea_session_clear_context(stse_session_t *pSession) {
     memset(pSession, 0x00, sizeof(stse_session_t));
 }
 
-stse_ReturnCode_t stsafea_set_active_host_session(stse_Handler_t *pSTSE, stse_session_t *pSession) {
+stse_ReturnCode_t stsafea_set_active_host_session(stse_Handle_t *pSTSE, stse_session_t *pSession) {
     if (pSTSE == NULL) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }

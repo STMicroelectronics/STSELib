@@ -20,7 +20,7 @@
 #include "api/stse_asymmetric_keys_management.h"
 
 stse_ReturnCode_t stse_get_ecc_key_slots_count(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pPrivate_key_slot_count) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
@@ -42,7 +42,7 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
 }
 
 stse_ReturnCode_t stse_get_ecc_key_table_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info) {
@@ -66,7 +66,7 @@ stse_ReturnCode_t stse_get_ecc_key_table_info(
 }
 
 stse_ReturnCode_t stse_get_ecc_key_slot_info(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_slot_info) {
@@ -112,7 +112,7 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
 }
 
 stse_ReturnCode_t stse_generate_ECDHE_key_pair(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
@@ -135,7 +135,7 @@ stse_ReturnCode_t stse_generate_ECDHE_key_pair(
 }
 
 stse_ReturnCode_t stse_generate_ecc_key_pair(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI16 usage_limit,
@@ -160,7 +160,7 @@ stse_ReturnCode_t stse_generate_ecc_key_pair(
 }
 
 stse_ReturnCode_t stse_write_generic_ecc_public_key(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key) {
@@ -184,7 +184,7 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
 }
 
 stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t private_key_type,
     PLAT_UI8 *pPrivate_key,
     stse_hash_algorithm_t hash_algo,

@@ -82,7 +82,7 @@ const stsafea_hash_info_t stsafea_hash_info_table[] =
     defined(STSE_CONF_HASH_SHA_3_256) || defined(STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
 
 stse_ReturnCode_t stsafea_start_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size) {
@@ -115,7 +115,7 @@ stse_ReturnCode_t stsafea_start_hash(
 }
 
 stse_ReturnCode_t stsafea_process_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_PROCESS_HASH};
@@ -145,7 +145,7 @@ stse_ReturnCode_t stsafea_process_hash(
 }
 
 stse_ReturnCode_t stsafea_finish_hash(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_hash_algorithm_t sha_algorithm,
     PLAT_UI8 *pMessage,
     PLAT_UI16 message_size,

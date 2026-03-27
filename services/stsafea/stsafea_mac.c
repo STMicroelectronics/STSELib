@@ -21,7 +21,7 @@
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
 stse_ReturnCode_t stsafea_cmac_hmac_compute(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     PLAT_UI8 *pMessage,
     PLAT_UI8 message_length,
@@ -61,7 +61,7 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
 }
 
 stse_ReturnCode_t stsafea_cmac_hmac_verify(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     PLAT_UI8 *pMac,
     PLAT_UI8 mac_length,
@@ -103,7 +103,7 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
 }
 
 stse_ReturnCode_t stsafea_aes_gmac_compute(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     PLAT_UI16 IV_length,
     PLAT_UI8 *pIV,
@@ -130,7 +130,7 @@ stse_ReturnCode_t stsafea_aes_gmac_compute(
 }
 
 stse_ReturnCode_t stsafea_aes_gmac_verify(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     PLAT_UI16 IV_length,
     PLAT_UI8 *pIV,

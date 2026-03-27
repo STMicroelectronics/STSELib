@@ -23,7 +23,7 @@
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
-stse_ReturnCode_t stsafel_hibernate(stse_Handler_t *pSTSE) {
+stse_ReturnCode_t stsafel_hibernate(stse_Handle_t *pSTSE) {
     PLAT_UI8 cmd_header = STSAFEL_CMD_HIBERNATE;
     PLAT_UI8 rsp_header;
 
@@ -45,7 +45,7 @@ stse_ReturnCode_t stsafel_hibernate(stse_Handler_t *pSTSE) {
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafel_wakeup(stse_Handler_t *pSTSE) {
+stse_ReturnCode_t stsafel_wakeup(stse_Handle_t *pSTSE) {
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {

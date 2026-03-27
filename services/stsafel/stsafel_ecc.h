@@ -46,7 +46,7 @@
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_ecc_generate_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pChallenge,
     PLAT_UI16 challenge_length,

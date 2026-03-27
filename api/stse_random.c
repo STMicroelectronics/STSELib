@@ -18,7 +18,7 @@
 #include "api/stse_random.h"
 
 stse_ReturnCode_t stse_generate_random(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pRandom,
     PLAT_UI16 random_size) {
     stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;

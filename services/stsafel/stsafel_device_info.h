@@ -72,7 +72,7 @@ typedef struct /*!< Device traceability info */
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_device_UID(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pDevice_UID);
 
 /**
@@ -83,7 +83,7 @@ stse_ReturnCode_t stsafel_get_device_UID(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_device_traceability(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafel_device_traceability_t *pDevice_traceability);
 
 /**
@@ -98,7 +98,7 @@ stse_ReturnCode_t stsafel_get_device_traceability(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_get_data(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafel_device_info_tag_t tag,
     PLAT_UI16 additional_data_length,
     PLAT_UI8 *pAdditional_data,
@@ -115,7 +115,7 @@ stse_ReturnCode_t stsafel_get_data(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafel_put_data(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     stsafel_device_info_tag_t tag,
     PLAT_UI16 device_info_length,
     PLAT_UI8 *pDevice_info);

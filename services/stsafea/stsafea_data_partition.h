@@ -104,7 +104,7 @@ typedef struct {
  * \param[out]		total_partition_count	total partition count in bytes
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handle_t *pSTSE,
                                                     PLAT_UI8 *total_partition_count);
 
 /**
@@ -116,7 +116,7 @@ stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
  * \param[in]		record_table_length		Applicative record table length
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handle_t *pSTSE,
                                                             PLAT_UI8 total_partitions_count,
                                                             stsafea_data_partition_record_t *pRecord_table,
                                                             PLAT_UI16 record_table_length);
@@ -135,7 +135,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTS
  * \param[in] 	protection				Command protection type
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handle_t *pSTSE,
                                                  PLAT_UI8 zone_index,
                                                  stsafea_decrement_option_t option,
                                                  PLAT_UI32 amount,
@@ -158,7 +158,7 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
  * \param[in] 	protection			Command protection type
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_read_counter_zone(stse_Handle_t *pSTSE,
                                             PLAT_UI32 zone_index,
                                             stsafea_read_option_t read_ac,
                                             PLAT_UI16 read_offset,
@@ -179,7 +179,7 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
  * \param[in] 	protection		Command protection type
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_read_data_zone(stse_Handle_t *pSTSE,
                                          PLAT_UI32 zone_index,
                                          stsafea_read_option_t read_ac,
                                          PLAT_UI16 read_offset,
@@ -199,7 +199,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
  * \param[in] 	protection		Command protection type
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
-stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI32 zone_index,
                                            stsafea_update_option_t option,
                                            PLAT_UI16 offset,

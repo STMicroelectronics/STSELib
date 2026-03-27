@@ -27,7 +27,7 @@
 #define STSAFEA_INC_DEC_AMOUT_SIZE 4U
 #define STSAFEA_ZONE_ACCESS_LENGTH_SIZE 2U
 
-stse_ReturnCode_t stsafea_switch_data_partition_access_protection(stse_Handler_t *pSTSE, PLAT_UI8 command_code, stse_cmd_protection_t protection) {
+stse_ReturnCode_t stsafea_switch_data_partition_access_protection(stse_Handle_t *pSTSE, PLAT_UI8 command_code, stse_cmd_protection_t protection) {
     switch (protection) {
 
     case STSE_HOST_C_MAC_R_MAC:
@@ -45,7 +45,7 @@ stse_ReturnCode_t stsafea_switch_data_partition_access_protection(stse_Handler_t
     return STSE_OK;
 }
 
-stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handle_t *pSTSE,
                                                     PLAT_UI8 *pTotal_partition_count) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_DATA_PARTITION_CONFIGURATION;
@@ -72,7 +72,7 @@ stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
                                       stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handle_t *pSTSE,
                                                             PLAT_UI8 total_partitions_count,
                                                             stsafea_data_partition_record_t *pRecord_table,
                                                             PLAT_UI16 record_table_length) {
@@ -130,7 +130,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTS
     return (ret);
 }
 
-stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handle_t *pSTSE,
                                                  PLAT_UI8 zone_index,
                                                  stsafea_decrement_option_t option,
                                                  PLAT_UI32 amount,
@@ -201,7 +201,7 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handler_t *pSTSE,
     return ret;
 }
 
-stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_read_counter_zone(stse_Handle_t *pSTSE,
                                             PLAT_UI32 zone_index,
                                             stsafea_read_option_t option,
                                             PLAT_UI16 offset,
@@ -271,7 +271,7 @@ stse_ReturnCode_t stsafea_read_counter_zone(stse_Handler_t *pSTSE,
     return (ret);
 }
 
-stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_read_data_zone(stse_Handle_t *pSTSE,
                                          PLAT_UI32 zone_index,
                                          stsafea_read_option_t option,
                                          PLAT_UI16 offset,
@@ -338,7 +338,7 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
     return ret;
 }
 
-stse_ReturnCode_t stsafea_update_data_zone(stse_Handler_t *pSTSE,
+stse_ReturnCode_t stsafea_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI32 zone_index,
                                            stsafea_update_option_t option,
                                            PLAT_UI16 offset,
