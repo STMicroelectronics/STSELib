@@ -41,7 +41,7 @@
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_generate_challenge(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 challenge_size,
     PLAT_UI8 *pChallenge);
 
@@ -56,7 +56,7 @@ stse_ReturnCode_t stsafea_generate_challenge(
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_verify_entity_signature(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pSignature,

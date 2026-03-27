@@ -37,7 +37,7 @@
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_generate_random(
-    stse_Handler_t *pSTSE,
+    stse_Handle_t *pSTSE,
     PLAT_UI8 *pRandom,
     PLAT_UI16 random_size);
 

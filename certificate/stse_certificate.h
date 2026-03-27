@@ -104,7 +104,7 @@ stse_ReturnCode_t stse_certificate_parse_chain(
  * \brief Assign the certificate parser STSAFE-A companion
  * \param[in] 	pSTSE 	Pointer to STSAFE handler
  */
-void stse_certificate_set_stse_companion(stse_Handler_t *pSTSE);
+void stse_certificate_set_stse_companion(stse_Handle_t *pSTSE);
 
 /**
  * \brief Reset the certificate parser STSAFE-A companion

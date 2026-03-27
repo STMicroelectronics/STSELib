@@ -22,7 +22,7 @@
 #include <stdint.h>
 #include <string.h>
 
-stse_Handler_t *stsafe_x509_parser_companion_handler = NULL;
+stse_Handle_t *stsafe_x509_parser_companion_handler = NULL;
 
 /**
  * \brief  Parse the extensions part of a certificate
@@ -392,7 +392,7 @@ stse_ReturnCode_t stse_certificate_parse_chain(
     return ret;
 }
 
-void stse_certificate_set_stse_companion(stse_Handler_t *pSTSE) {
+void stse_certificate_set_stse_companion(stse_Handle_t *pSTSE) {
     if (pSTSE != NULL) {
         stsafe_x509_parser_companion_handler = pSTSE;
     }
