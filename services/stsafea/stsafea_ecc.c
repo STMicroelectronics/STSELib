@@ -343,7 +343,7 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
     stse_Handler_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pMessage,
+    const PLAT_UI8 *pMessage,
     PLAT_UI16 message_length,
     PLAT_UI8 *pSignature) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_GENERATE_SIGNATURE;
@@ -368,7 +368,7 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
     stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSlot_number, STSAFEA_SLOT_NUMBER_ID_SIZE, &slot_number);
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
-    stse_frame_element_allocate_push(&CmdFrame, eMessage, message_length, pMessage);
+    stse_frame_element_allocate_push(&CmdFrame, eMessage, message_length, (PLAT_UI8 *)pMessage);
     stse_frame_element_swap_byte_order(&eMessage_length);
 
     stse_frame_allocate(RspFrame);
