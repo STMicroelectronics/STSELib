@@ -86,7 +86,7 @@ stse_ReturnCode_t stse_ecc_generate_signature(
     stse_Handler_t *pSTSE,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pMessage,
+    const PLAT_UI8 *pMessage,
     PLAT_UI16 message_length,
     PLAT_UI8 *pSignature);
 
