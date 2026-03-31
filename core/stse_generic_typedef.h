@@ -71,6 +71,8 @@
 /*!
  * \enum stse_ecc_key_type_t
  * \brief STSE ECC key type
+ *
+ * \note Do not assign any value to these enumerators, as they are used as indices in the `stse_ecc_info_table` array.
  */
 typedef enum stse_ecc_key_type_t {
 #ifdef STSE_CONF_ECC_NIST_P_256
@@ -572,6 +574,30 @@ stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
     PLAT_UI8 curve_id_length,
     const PLAT_UI8 *pCurve_id_value,
     stse_ecc_key_type_t *pKey_type);
+
+/**
+ * \brief Get the signature size for a given ECC key type.
+ *
+ * This function retrieves the expected signature size (in bytes) associated with the specified ECC 
+ * key type (curve).
+ *
+ * The returned signature size accounts only for the raw \b R and \b S components of the ECC 
+ * signature (i.e. concatenated R || S), without any additional encoding (e.g. ASN.1/DER).
+ *
+ * \param[in]  key_type        The ECC key type (curve identifier).
+ * \param[out] signature_size  Pointer to a variable that will receive the signature size in bytes.
+ *
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+inline stse_ReturnCode_t stse_get_ecc_key_signature_size_from_curve_type(stse_ecc_key_type_t key_type,
+    PLAT_UI16 *signature_size) {
+    if (key_type < STSE_ECC_KT_INVALID) {
+        *signature_size = stse_ecc_info_table[key_type].signature_size;
+        return STSE_OK;
+    } else {
+        return STSE_CORE_INVALID_PARAMETER;
+    }
+}
 
 #endif
 

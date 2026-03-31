@@ -26,7 +26,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
 #else
     {
 #ifdef STSE_CONF_ECC_NIST_P_256
-        {/* NIST P 256 */
+        [STSE_ECC_KT_NIST_P_256] = {/* NIST P 256 */
          .curve_id_total_length = (STSE_NIST_P_256_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_NIST_P_256_ID_VALUE_SIZE), UI16_B0(STSE_NIST_P_256_ID_VALUE_SIZE)},
                       STSE_NIST_P_256_ID_VALUE},
@@ -37,7 +37,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = (STSE_NIST_P_256_SIGNATURE_R_VALUE_SIZE + STSE_NIST_P_256_SIGNATURE_S_VALUE_SIZE)},
 #endif
 #ifdef STSE_CONF_ECC_NIST_P_384
-        {/* NIST P_384 */
+        [STSE_ECC_KT_NIST_P_384] = {/* NIST P_384 */
          .curve_id_total_length = (STSE_NIST_P_384_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_NIST_P_384_ID_VALUE_SIZE), UI16_B0(STSE_NIST_P_384_ID_VALUE_SIZE)},
                       STSE_NIST_P_384_ID_VALUE},
@@ -48,7 +48,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = (STSE_NIST_P_384_SIGNATURE_R_VALUE_SIZE + STSE_NIST_P_384_SIGNATURE_S_VALUE_SIZE)},
 #endif
 #ifdef STSE_CONF_ECC_NIST_P_521
-        {/* NIST P 521 */
+        [STSE_ECC_KT_NIST_P_521] = {/* NIST P 521 */
          .curve_id_total_length = (STSE_NIST_P_521_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_NIST_P_521_ID_VALUE_SIZE), UI16_B0(STSE_NIST_P_521_ID_VALUE_SIZE)},
                       STSE_NIST_P_521_ID_VALUE},
@@ -59,7 +59,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = (STSE_NIST_P_521_SIGNATURE_R_VALUE_SIZE + STSE_NIST_P_521_SIGNATURE_S_VALUE_SIZE)},
 #endif
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_256
-        {/* BRAINPOOL P 256 */
+        [STSE_ECC_KT_BP_P_256] = {/* BRAINPOOL P 256 */
          .curve_id_total_length = (STSE_BRAINPOOL_P_256_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_BRAINPOOL_P_256_ID_VALUE_SIZE), UI16_B0(STSE_BRAINPOOL_P_256_ID_VALUE_SIZE)},
                       STSE_BRAINPOOL_P_256_ID_VALUE},
@@ -70,7 +70,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = (STSE_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE + STSE_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE)},
 #endif
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_384
-        {/* BRAINPOOL P 384 */
+        [STSE_ECC_KT_BP_P_384] = {/* BRAINPOOL P 384 */
          .curve_id_total_length = (STSE_BRAINPOOL_P_384_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_BRAINPOOL_P_384_ID_VALUE_SIZE), UI16_B0(STSE_BRAINPOOL_P_384_ID_VALUE_SIZE)},
                       STSE_BRAINPOOL_P_384_ID_VALUE},
@@ -81,7 +81,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = (STSE_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE + STSE_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE)},
 #endif
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_512
-        {/* BRAINPOOL P 512 */
+        [STSE_ECC_KT_BP_P_512] = {/* BRAINPOOL P 512 */
          .curve_id_total_length = (STSE_BRAINPOOL_P_512_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_BRAINPOOL_P_512_ID_VALUE_SIZE), UI16_B0(STSE_BRAINPOOL_P_512_ID_VALUE_SIZE)},
                       STSE_BRAINPOOL_P_512_ID_VALUE},
@@ -92,7 +92,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = (STSE_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE + STSE_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE)},
 #endif
 #ifdef STSE_CONF_ECC_CURVE_25519
-        {/* X25519 */
+        [STSE_ECC_KT_CURVE25519] = {/* X25519 */
          .curve_id_total_length = (STSE_X25519_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_X25519_ID_VALUE_SIZE), UI16_B0(STSE_X25519_ID_VALUE_SIZE)},
                       STSE_X25519_ID_VALUE},
@@ -103,7 +103,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
          .signature_size = 0},
 #endif
 #ifdef STSE_CONF_ECC_EDWARD_25519
-        {/* ED25519 */
+        [STSE_ECC_KT_ED25519] = {/* ED25519 */
          .curve_id_total_length = (STSE_ED25519_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
          .curve_id = {{UI16_B1(STSE_ED25519_ID_VALUE_SIZE), UI16_B0(STSE_ED25519_ID_VALUE_SIZE)},
                       STSE_ED25519_ID_VALUE},
@@ -143,5 +143,8 @@ stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
 
     return ret;
 }
+
+extern inline stse_ReturnCode_t stse_get_ecc_key_signature_size_from_curve_type(stse_ecc_key_type_t key_type,
+    PLAT_UI16 *signature_size);
 
 #endif
