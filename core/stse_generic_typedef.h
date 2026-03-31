@@ -71,6 +71,8 @@
 /*!
  * \enum stse_ecc_key_type_t
  * \brief STSE ECC key type
+ *
+ * \note Do not assign any value to these enumerators, as they are used as indices in the `stse_ecc_info_table` array.
  */
 typedef enum stse_ecc_key_type_t {
 #ifdef STSE_CONF_ECC_NIST_P_256
