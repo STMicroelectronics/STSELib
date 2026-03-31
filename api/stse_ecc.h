@@ -71,7 +71,8 @@ stse_ReturnCode_t stse_ecc_verify_signature(
  * \param[in] 	key_type 				Signature key type
  * \param[in] 	pMessage 				Message to sign
  * \param[in] 	message_length 			Message length
- * \param[out] 	pSignature 				Signature buffer
+ * \param[out] 	pSignature 				Signature buffer. The required buffer size can be determined using
+ *                                      \ref stse_get_ecc_key_signature_size_from_curve_type().
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_ecc_generate_signature.dox
  */
