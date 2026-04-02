@@ -176,8 +176,8 @@ typedef struct stsafea_symmetric_key_slot_information_t {
 #define STSAFEA_KEY_INFO_LENGTH_CMAC 7U /*!< AES-CMAC key info length */
 #define STSAFEA_KEY_INFO_LENGTH_ECB 6U  /*!< AES-ECB key info length  */
 #define STSAFEA_KEY_INFO_LENGTH_GCM 7U  /*!< AES-GCM key info length  */
-#define STSAFEA_KEY_INFO_LENGTH_HKDF 7U /*!< AES-HKDF key info length */
-#define STSAFEA_KEY_INFO_LENGTH_HMAC 7U /*!< AES-HMAC key info length */
+#define STSAFEA_KEY_INFO_LENGTH_HKDF 8U /*!< AES-HKDF key info length */
+#define STSAFEA_KEY_INFO_LENGTH_HMAC 8U /*!< AES-HMAC key info length */
 
 /*! STSAFE-A AES generic key information structure */
 typedef struct stsafe_generic_key_information_t {
@@ -200,8 +200,8 @@ typedef struct stsafe_generic_key_information_t {
             PLAT_UI8 auth_tag_length; /*!< Length of the authentication tag (4, 8, 12, 13, 14, 15 or 16 bytes) */
         } GCM;
         struct {
-            PLAT_UI8 filler : 7;                    /*!< Filler (Must be all 0b)*/
             PLAT_UI8 allow_derived_key_to_host : 1; /*!< Allow to return some keys derived from the current key in the response */
+            PLAT_UI8 filler : 7;                    /*!< Filler (Must be all 0b)*/
             PLAT_UI8 generic_secret_key_length;     /*!< Byte length of the key (only present if key type == STSAFEA_SYMMETRIC_KEY_TYPE_GENERIC_SECRET */
         } HKDF;
         struct {

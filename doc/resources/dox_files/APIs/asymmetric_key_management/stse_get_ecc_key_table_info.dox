@@ -30,7 +30,6 @@ Following diagram illustrates the interactions performed between the Host and th
 
 	stse_ReturnCode_t ret;
 	PLAT_UI8 slot_count;
-	PLAT_UI8 change_right;
 	PLAT_UI16 global_usage_limit;
 
 	ret = stse_get_ecc_key_slots_count(pSTSE, &slot_count);
@@ -45,7 +44,6 @@ Following diagram illustrates the interactions performed between the Host and th
 	ret = stse_get_ecc_key_table_info(
 			pSTSE,
 			slot_count,
-			&change_right,
 			&global_usage_limit,
 			private_key_table_info);
 

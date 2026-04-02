@@ -92,20 +92,7 @@ PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length);
  * \param[in]  delay_val length of the delay in milliseconds
  * \return     None
  */
-void stse_platform_Delay_ms(PLAT_UI32 delay_val);
-
-/*!
- * \brief      Start a timeout counter of "timeout_val" ms
- * \param[in]  timeout_val length of the timeout in milliseconds
- * \return     None
- */
-void stse_platform_timeout_ms_start(PLAT_UI16 timeout_val);
-
-/*!
- * \brief      Return timeout status
- * \return     0 if the timeout counter is still running; 1 if the timeout was exceeded
- */
-PLAT_UI8 stse_platform_timeout_ms_get_status(void);
+void stse_platform_Delay_ms(PLAT_UI16 delay_val);
 
 /*!
  * \brief      Verify ECC signature
@@ -167,6 +154,7 @@ stse_ReturnCode_t stse_platform_ecc_generate_key_pair(stse_ecc_key_type_t key_ty
  * \param[in]  digestLen Length of the digest
  * \param[out] pSignature Pointer to the signature buffer
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
+ * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivKey pointer shall reference concatenated key pair buffer's address.
  */
 stse_ReturnCode_t stse_platform_ecc_sign(stse_ecc_key_type_t key_type,
                                          PLAT_UI8 *pPrivKey,
@@ -203,6 +191,17 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(stse_ecc_key_type_t key_type,
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
+/**
+ * \brief 		Encrypt data using NIST AES Key Wrap algorithm
+ * \details 	This platform function implements the NIST SP 800-38F AES Key Wrap encryption
+ * \param[in]	pPayload			Pointer to the payload data to encrypt
+ * \param[in]	payload_length		Length of the payload in bytes
+ * \param[in]	pKey				Pointer to the encryption key
+ * \param[in]	key_length			Length of the key in bytes
+ * \param[out]	pOutput				Pointer to the output buffer for encrypted data
+ * \param[out]	pOutput_length		Pointer to store the output length
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
                                                 PLAT_UI8 *pKey, PLAT_UI8 key_length,
                                                 PLAT_UI8 *pOutput, PLAT_UI32 *pOutput_length);
@@ -400,6 +399,8 @@ stse_ReturnCode_t stse_platform_power_on(PLAT_UI8 busID, PLAT_UI8 devAddr);
  */
 stse_ReturnCode_t stse_platform_power_off(PLAT_UI8 busID, PLAT_UI8 devAddr);
 
+#if defined(STSE_CONF_USE_I2C) || defined(STSE_CONF_STSAFE_A_SUPPORT)
+
 /*!
  * \brief      Initialize I2C communication
  * \param[in]  busID I2C bus ID
@@ -543,6 +544,10 @@ stse_ReturnCode_t stse_platform_i2c_receive_stop(
     PLAT_UI8 *pElement,
     PLAT_UI16 element_size);
 
+#endif /* defined(STSE_CONF_USE_I2C) || defined(STSE_CONF_STSAFE_A_SUPPORT) */
+
+#if defined(STSE_CONF_USE_ST1WIRE)
+
 /*!
  * \brief      Initialize 1-wire communication
  * \param[in]  busID 1-wire bus ID
@@ -652,6 +657,8 @@ stse_ReturnCode_t stse_platform_st1wire_receive_stop(
     PLAT_UI16 speed,
     PLAT_UI8 *pData,
     PLAT_UI16 data_size);
+
+#endif /* defined(STSE_CONF_USE_ST1WIRE) */
 
 /** @}*/
 

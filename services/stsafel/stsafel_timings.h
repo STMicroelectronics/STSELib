@@ -26,6 +26,7 @@ extern "C" {
 #include "core/stse_platform.h"
 #include "core/stse_return_codes.h"
 #include "services/stsafel/stsafel_commands.h"
+#include "services/stsafel/stsafel_frame_transfer.h"
 
 #define STSAFEL_EXEC_TIME_DEFAULT 500U /*!< STSAFE-L default command processing time (used when specific time == 0) */
 

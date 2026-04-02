@@ -19,7 +19,21 @@ Provides a set of product services that format all commands supported by the tar
 <b>- Core layer</b>
 Contains generic definition for ST Secure Element and functions for communicating with target secure element.
 
-## Integration
+## Package documentation
+
+HTML documentation can either be downloaded as standalone package from the STSELib github repository [release section](https://github.com/STMicroelectronics/STSELib/releases)
+or compiled from the library sources by executing following commands from the STSELib root directory:
+
+```bash
+    cd Middleware/STSELib/doc/resources/
+    doxygen STSELib.doxyfile
+```
+
+> [!NOTE]
+>
+> Doxygen version 1.14.0 is required to build the documentation
+
+## STSELib Integration
 
 ### 1. Add STSELib as a Git submodule
 
@@ -43,16 +57,15 @@ Two headers files are mantatories, [`stse_conf.h`](doc/resources/Markdown/03_LIB
 For platform-specific integrations and STSafe use-cases, you may implement additional headers. Detailed specifications are available in the HTML documentation included in the release ZIP.
 Reference implementation for most common STSE applicative use case can be found in section "Reference applicative examples" of this ReadMe file
 
-## Reference applicative examples
+## Applicative projects integrating the STSELib
 
 Following applicative project can be used as reference for STSELib integration and usage.
 
 - STSAFE-A
-    - [STSAFE-A_echo](https://github.com/STMicroelectronics/STSAFE-A_echo)
-    - [STSAFE-A_device_authentication](https://github.com/STMicroelectronics/STSAFE-A_device_authentication)
-    - [STSAFE-A_secure_data_storage](https://github.com/STMicroelectronics/STSAFE-A_secure_data_storage)
-    - [STSAFE-A_asymmetric_cryptography](https://github.com/STMicroelectronics/STSAFE-A_asymmetric_cryptography)
-    - [STSAFE-A_key_wrapping](https://github.com/STMicroelectronics/STSAFE-A_key_wrapping.git)
+    - [stsafe-a-sdk](https://github.com/STMicroelectronics/STSAFE-A120-sdk) 
+    - [wolfssl-examples](https://github.com/wolfSSL/wolfssl-examples/tree/master/stsafe) developed and maintained by [WolfSSL](https://www.wolfssl.com/) 
+    - [Zephyr_st-stsafe-a1xx](https://github.com/catie-aq/zephyr_st-stsafe-a1xx) developed and maintained by [CATIE](https://www.catie.fr/language/en/home/) 
+
 
 - STSAFE-L
     - [STSAFE-L_echo](https://github.com/STMicroelectronics/STSAFE-L_echo)

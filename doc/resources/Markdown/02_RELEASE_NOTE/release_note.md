@@ -1,6 +1,35 @@
 # Release Note
 
-## v1.1.6 (Latest)
+## v1.1.7 (Latest)
+- [certificate] Update some prints for Linux miss alignment
+- [api] Update returned error code
+- [api] Update key type check 
+- [api] Update stste_ecc.h functions parametters description
+- [api] Discard some APIs regarding L010
+- [api/services] rename max frame length of arrays and constants
+- [api/services/stsafea] fix service validation of read data zone when only changing access condition and change ac indicator in api
+- [api/services/stsafea] fix asymmetric keys header signatures mismatch
+- [api/services/stsafea] remove STSAFE-A private key table change right reference
+- [api/services/stsafea] Add derive key service and api functions
+- [services/stsafea] fix null pointer in session frame encrypt and decrypt (pub issue #59)
+- [services/stsafea] fix stsafea key info length for HKDF and HMAC
+- [services/stsafea] fix stsafea generic key HKDF structure
+- [services/stsafea] Add STSAFEA_PRODUCT_COUNT for code harmonization
+- [api/core/service] Verify frame overflow at frame transfer layer
+- [core/wolfssl] add wolfCrypt crypto platform support
+- [services] Include timings declaration
+- [core][services][api] Align return core with SW layer
+- [core] platform cleanup of timeout functions
+- [core] change ms delay type to UI16
+- [core] added conditional definition for i2c and st1wire functions (pub issue #51)
+- [core] modified zone access condition auth into auth and host
+- [doc] document non-reversible Read/Update AC downgrades
+- [doc] add conf use i2c for stsafel
+- [doc] update stse_platform_wolfssl.c.md with link to official wolfssl repo
+- [doc] update README.md with new reference to STSAFE-A120_example
+- [doc] Add doc building steps to ReadMe.md
+
+## v1.1.6
 - [api] Fix stse_put_I2C_parametters warning when compiling without STSE_CONF_STSAFE_A_SUPPORT config
 - [service] Add active host session management in stsafea_close_host_session
 

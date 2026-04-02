@@ -24,11 +24,15 @@ stse_ReturnCode_t stse_cmac_hmac_compute(
     PLAT_UI8 message_length,
     PLAT_UI8 *pMac,
     PLAT_UI8 mac_length) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_cmac_hmac_compute(pSTSE, slot_number, pMessage, message_length, pMac, mac_length);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_cmac_hmac_verify(
@@ -39,11 +43,15 @@ stse_ReturnCode_t stse_cmac_hmac_verify(
     PLAT_UI8 *pMessage,
     PLAT_UI8 message_length,
     PLAT_UI8 *verification_result) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_cmac_hmac_verify(pSTSE, slot_number, pMac, mac_length, pMessage, message_length, verification_result);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gmac_compute(
@@ -55,11 +63,15 @@ stse_ReturnCode_t stse_aes_gmac_compute(
     PLAT_UI8 *pAssociated_data,
     PLAT_UI8 authentication_tag_length,
     PLAT_UI8 *pAuthentication_tag) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_aes_gmac_compute(pSTSE, slot_number, IV_length, pIV, associated_data_length, pAssociated_data, authentication_tag_length, pAuthentication_tag);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_aes_gmac_verify(
@@ -72,9 +84,13 @@ stse_ReturnCode_t stse_aes_gmac_verify(
     PLAT_UI8 authentication_tag_length,
     PLAT_UI8 *pAuthentication_tag,
     PLAT_UI8 *pVerification_result) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     return stsafea_aes_gmac_verify(pSTSE, slot_number, IV_length, pIV, associated_data_length, pAssociated_data, authentication_tag_length, pAuthentication_tag, pVerification_result);
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
