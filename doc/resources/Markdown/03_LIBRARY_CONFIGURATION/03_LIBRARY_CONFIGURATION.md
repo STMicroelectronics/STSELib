@@ -88,6 +88,9 @@ extern "C" {
  *                STSAFE-L API/SERVICE SETTINGS
  ************************************************************/
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
+
+/* STSAFE-L communication protocol configuration */
+#define STSE_CONF_USE_I2C
 #define STSE_CONF_USE_ST1WIRE
 
 #ifndef STSE_CONF_HASH_SHA_256
@@ -157,6 +160,7 @@ The following table lits all parametters
 | STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED | Enable symmetric key establishment support via authenticated key exchange , ECDH and key derivation | STSAFE-A
 | STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED | Enable symmetric key secure provisioning using KEK wrapped exchange | STSAFE-A
 | STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED | Enable symmetric key secure provisioning using authenticated KEK wrapped exchange | STSAFE-A
+| STSE_CONF_USE_I2C | Enable I2C communication protocol support | STSAFE-L (By default enabled on STSAFE-A)
 | STSE_CONF_USE_ST1WIRE | Enable ST1Wire communication protocol support | STSAFE-L
 | STSE_USE_RSP_POLLING | Enable STSE response polling (see section below) | STSAFE-A / STSAFE-L
 | STSE_MAX_POLLING_RETRY | Max polling retry definition (see section below) | STSAFE-A / STSAFE-L

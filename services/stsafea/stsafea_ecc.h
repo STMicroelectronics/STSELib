@@ -41,11 +41,31 @@ typedef enum {
     STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY
 } stsafea_host_kdf_algo_id_t;
 
+/**
+ * \brief 		Start volatile KEK session
+ * \details 	This service initiates a volatile Key Encryption Key session
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	key_type				ECC key type for ECDHE
+ * \param[in] 	host_ecdhe_public_key	Pointer to host ECDHE public key
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_start_volatile_KEK_session(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *host_ecdhe_public_key);
 
+/**
+ * \brief 		Start authenticated volatile KEK session
+ * \details 	This service initiates an authenticated volatile Key Encryption Key session
+ * \param[in] 	pSTSE 							Pointer to STSE Handler
+ * \param[in] 	ecdhe_key_type					ECC key type for ECDHE
+ * \param[in] 	host_ecdhe_public_key			Pointer to host ECDHE public key
+ * \param[in] 	hash_algo						Hash algorithm for signature
+ * \param[in] 	signature_public_key_slot_number	Slot number of signature public key
+ * \param[in] 	signature_key_type				Signature key type
+ * \param[in] 	pSignature						Pointer to signature buffer
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t ecdhe_key_type,
@@ -55,6 +75,12 @@ stse_ReturnCode_t stsafea_start_volatile_KEK_session_authenticated(
     stse_ecc_key_type_t signature_key_type,
     PLAT_UI8 *pSignature);
 
+/**
+ * \brief 		Stop volatile KEK session
+ * \details 	This service terminates the active volatile Key Encryption Key session
+ * \param[in] 	pSTSE 		Pointer to STSE Handler
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
     stse_Handler_t *pSTSE);
 
@@ -102,6 +128,16 @@ stse_ReturnCode_t stsafea_ecc_generate_signature(
     PLAT_UI16 message_length,
     PLAT_UI8 *pSignature);
 
+/**
+ * \brief 		Establish shared secret using ECDH
+ * \details 	This service performs ECDH key agreement to establish a shared secret
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	private_key_slot_number	Slot number containing the private key
+ * \param[in] 	key_type				ECC key type
+ * \param[in] 	pPublic_key				Pointer to the peer's public key
+ * \param[out] 	pShared_secret			Pointer to buffer for the shared secret
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
@@ -109,6 +145,16 @@ stse_ReturnCode_t stsafea_ecc_establish_shared_secret(
     PLAT_UI8 *pPublic_key,
     PLAT_UI8 *pShared_secret);
 
+/**
+ * \brief 		Decompress ECC public key
+ * \details 	This service decompresses a compressed ECC public key point
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	key_type				ECC key type
+ * \param[in] 	point_representation_id	Point representation identifier
+ * \param[in] 	pPublic_key_X			Pointer to X coordinate of public key
+ * \param[out] 	pPublic_key_Y			Pointer to buffer for Y coordinate of public key
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_ecc_decompress_public_key(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t key_type,

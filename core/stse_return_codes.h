@@ -92,7 +92,6 @@ enum stse_ReturnCode_t {
     /* - STSE Core layer response code (MSB Mask 0x02xx)*/
     STSE_CORE_INVALID_PARAMETER = 0x0201,
     STSE_CORE_HANDLER_NOT_INITIALISED,
-    STSE_CORE_FRAME_CRC_ERROR,  /*!< STSE communication integrity error */
     STSE_CORE_FRAME_RMAC_ERROR, /*!< STSE communication authenticity/integrity error */
     STSE_CORE_SESSION_ERROR,
     STSE_CORE_INCONSISTENT_FRAME,
@@ -100,8 +99,9 @@ enum stse_ReturnCode_t {
     /* - STSE Service layer response code (MSB Mask 0x03xx)*/
     STSE_SERVICE_INVALID_PARAMETER = 0x0301, /*!< STSE Wrong function parameters */
     STSE_SERVICE_HANDLER_NOT_INITIALISED,    /*!< STSE is not initialized please run stsafe_init function first */
+    STSE_SERVICE_FRAME_CRC_ERROR,            /*!< STSE communication integrity error */
     STSE_SERVICE_SESSION_ERROR,
-    STSE_SERVICE_BUFFER_OVERFLOW,
+    STSE_SERVICE_FRAME_SIZE_ERROR,
     STSE_SERVICE_INVALID_CONFIGURATION,
 
     /* - STSE API layer response code (MSB Mask 0x04xx)*/

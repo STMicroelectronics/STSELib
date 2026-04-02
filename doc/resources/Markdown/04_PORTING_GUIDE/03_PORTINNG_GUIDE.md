@@ -41,3 +41,19 @@ Following platform files architecture are recommended to simplify the porting of
 - @subpage stse_platform_power
 - @subpage stse_platform_i2c
 - @subpage stse_platform_st1wire
+
+# Reference Implementations
+
+The following reference implementations are available for common cryptographic libraries:
+
+## STM32 CMOX Library
+
+The examples above demonstrate implementation using the STM32 Cryptographic Library (CMOX), which is optimized for STM32 microcontrollers.
+
+## wolfSSL/wolfCrypt Library
+
+A complete reference implementation using wolfSSL/wolfCrypt is available for platforms where wolfSSL is the cryptographic provider. This implementation supports Linux, RTOS, and bare-metal environments.
+
+- @subpage stse_platform_wolfssl
+
+See also the `examples/wolfssl/` directory for ready-to-use implementation files.

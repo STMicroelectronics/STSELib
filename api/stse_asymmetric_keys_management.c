@@ -19,13 +19,10 @@
 
 #include "api/stse_asymmetric_keys_management.h"
 
-/* Static functions declaration ----------------------------------------------*/
-
-/* Exported functions --------------------------------------------------------*/
-
 stse_ReturnCode_t stse_get_ecc_key_slots_count(
     stse_Handler_t *pSTSE,
     PLAT_UI8 *pPrivate_key_slot_count) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -39,14 +36,17 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
     ret = stsafea_query_private_key_slots_count(pSTSE, pPrivate_key_slot_count);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_get_ecc_key_table_info(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_count,
-    PLAT_UI8 *pChange_right,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_table_info) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -57,17 +57,20 @@ stse_ReturnCode_t stse_get_ecc_key_table_info(
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pChange_right, pGlobal_usage_limit, private_key_table_info);
+    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pGlobal_usage_limit, private_key_table_info);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_get_ecc_key_slot_info(
     stse_Handler_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
-    PLAT_UI8 *pChange_right,
     PLAT_UI16 *pGlobal_usage_limit,
     stsafea_private_key_slot_information_t *private_key_slot_info) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -85,7 +88,7 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
 
     stsafea_private_key_slot_information_t private_key_table_info[private_key_slot_count];
 
-    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pChange_right, pGlobal_usage_limit, private_key_table_info);
+    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pGlobal_usage_limit, private_key_table_info);
 
     if (ret != STSE_OK) {
         return (ret);
@@ -103,12 +106,16 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
     }
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_generate_ECDHE_key_pair(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -122,6 +129,9 @@ stse_ReturnCode_t stse_generate_ECDHE_key_pair(
     ret = stsafea_generate_ECDHE_key_pair(pSTSE, key_type, pPublic_key);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_generate_ecc_key_pair(
@@ -130,6 +140,7 @@ stse_ReturnCode_t stse_generate_ecc_key_pair(
     stse_ecc_key_type_t key_type,
     PLAT_UI16 usage_limit,
     PLAT_UI8 *pPublic_key) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -143,6 +154,9 @@ stse_ReturnCode_t stse_generate_ecc_key_pair(
     ret = stsafea_generate_ecc_key_pair(pSTSE, slot_number, key_type, usage_limit, pPublic_key);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_write_generic_ecc_public_key(
@@ -150,6 +164,7 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
     PLAT_UI8 *pPublic_key) {
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -163,6 +178,9 @@ stse_ReturnCode_t stse_write_generic_ecc_public_key(
     ret = stsafea_write_generic_ecc_public_key(pSTSE, slot_number, key_type, pPublic_key);
 
     return ret;
+#else
+    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
 stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
@@ -184,7 +202,7 @@ stse_ReturnCode_t stse_sign_for_generic_public_key_slot(
 
     if (pPrivate_key == NULL || pPayload == NULL || pSignature == NULL ||
         private_key_type >= STSE_ECC_KT_INVALID || hash_algo >= STSE_SHA_INVALID) {
-        return STSE_SERVICE_INVALID_PARAMETER;
+        return STSE_API_INVALID_PARAMETER;
     }
 
 #ifdef STSE_CONF_ECC_EDWARD_25519

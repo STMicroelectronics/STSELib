@@ -217,36 +217,35 @@ const PLAT_UI16 stsafea_extended_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_
         STSAFEA_EXEC_TIME_DEFAULT},
     /* STSAFE_A120 */
     {
-        50,                        /* Echo */
-        22,                        /* Reset */
-        26,                        /* Generate Random */
-        22,                        /* Start Session */
-        23,                        /* Decrement zone counter */
-        23,                        /* Read zone */
-        22,                        /* Update zone */
-        26,                        /* Increment zone counter */
-        STSAFEA_EXEC_TIME_DEFAULT, /* Derive LORA key (Not applicable) */
-        23,                        /* Generate MAC */
-        23,                        /* Verify MAC */
-        STSAFEA_EXEC_TIME_DEFAULT, /* Unwrap issuer envelope (Not applicable)*/
-        STSAFEA_EXEC_TIME_DEFAULT, /* Delete MAC (Not applicable)*/
-        STSAFEA_EXEC_TIME_DEFAULT, /* Hibernate, (Not applicable)*/
-        25,                        /* Wrap Local Envelope */
-        24,                        /* Unwrap Local Envelope */
-        STSAFEA_EXEC_TIME_DEFAULT, /* Put attribute(Not applicable)  */
-        80,                        /* Generate key */
-        STSAFEA_EXEC_TIME_DEFAULT, /* Put key (Not applicable)*/
-        STSAFEA_EXEC_TIME_DEFAULT, /* Configure */
-        10,                        /* Query */
-        STSAFEA_EXEC_TIME_DEFAULT, /* Get Signature (Not applicable)*/
-        96,                        /* Generate Signature */
-        156,                       /* Verify Signature */
-        34,                        /* Establish Key */
-        STSAFEA_EXEC_TIME_DEFAULT, /* Standby (Not applicable)*/
-        STSAFEA_EXEC_TIME_DEFAULT, /* Verify Password (Not applicable)*/
-        25,                        /* Encrypt */
-        26                         /* Decrypt */
-    },
+        STSAFEA_EXEC_TIME_DEFAULT, /* start hash */
+        STSAFEA_EXEC_TIME_DEFAULT, /* process hash */
+        STSAFEA_EXEC_TIME_DEFAULT, /* finish hash */
+        STSAFEA_EXEC_TIME_DEFAULT, /* start volatile KEK session*/
+        STSAFEA_EXEC_TIME_DEFAULT, /* establish symmetric keys */
+        STSAFEA_EXEC_TIME_DEFAULT, /* confirm symmetric keys */
+        STSAFEA_EXEC_TIME_DEFAULT, /* stop volatile KEK session */
+        STSAFEA_EXEC_TIME_DEFAULT, /* WRITE_HOST_KEY_V2_PLAINTEXT */
+        STSAFEA_EXEC_TIME_DEFAULT, /* WRITE_HOST_KEY_V2_WRAPPED */
+        STSAFEA_EXEC_TIME_DEFAULT, /* WRITE_SYMMETRIC_KEY */
+        STSAFEA_EXEC_TIME_DEFAULT, /* WRITE_PUBLIC_KEY */
+        STSAFEA_EXEC_TIME_DEFAULT, /* GENERATE_ECDHE */
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT,
+        STSAFEA_EXEC_TIME_DEFAULT},
     /* STSAFE_A200 */
     {
         STSAFEA_EXEC_TIME_DEFAULT, /* start hash */
