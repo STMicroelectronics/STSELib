@@ -23,9 +23,9 @@
 stse_ReturnCode_t stse_ecc_verify_signature(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pPublic_key,
-    PLAT_UI8 *pSignature,
-    PLAT_UI8 *pMessage,
+    const PLAT_UI8 *pPublic_key,
+    const PLAT_UI8 *pSignature,
+    const PLAT_UI8 *pMessage,
     PLAT_UI16 message_length,
     PLAT_UI8 eddsa_variant,
     PLAT_UI8 *pSignature_validity) {
