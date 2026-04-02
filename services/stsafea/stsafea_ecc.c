@@ -232,9 +232,9 @@ stse_ReturnCode_t stsafea_stop_volatile_KEK_session(
 stse_ReturnCode_t stsafea_ecc_verify_signature(
     stse_Handler_t *pSTSE,
     stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pPublic_key,
-    PLAT_UI8 *pSignature,
-    PLAT_UI8 *pMessage,
+    const PLAT_UI8 *pPublic_key,
+    const PLAT_UI8 *pSignature,
+    const PLAT_UI8 *pMessage,
     PLAT_UI16 message_length,
     PLAT_UI8 eddsa_variant,
     PLAT_UI8 *pSignature_validity) {
@@ -291,7 +291,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
     if (key_type == STSE_ECC_KT_ED25519) {
         stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
         ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
-        ePublic_key_first_element.pData = pPublic_key;
+        ePublic_key_first_element.pData = (PLAT_UI8 *)pPublic_key;
         stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
     } else
 #endif
@@ -301,20 +301,20 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
         stse_frame_push_element(&CmdFrame, &ePublic_key_length_first_element);
 
         ePublic_key_first_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
-        ePublic_key_first_element.pData = pPublic_key;
+        ePublic_key_first_element.pData = (PLAT_UI8 *)pPublic_key;
         stse_frame_push_element(&CmdFrame, &ePublic_key_first_element);
 
         stse_frame_push_element(&CmdFrame, &ePublic_key_length_second_element);
 
         ePublic_key_second_element.length = stse_ecc_info_table[key_type].coordinate_or_key_size;
-        ePublic_key_second_element.pData = pPublic_key + ePublic_key_first_element.length;
+        ePublic_key_second_element.pData = (PLAT_UI8 *)pPublic_key + ePublic_key_first_element.length;
         stse_frame_push_element(&CmdFrame, &ePublic_key_second_element);
     }
 
     stse_frame_element_allocate_push(&CmdFrame, eSignature_R_length, STSE_ECC_GENERIC_LENGTH_SIZE, pSignature_length_element);
-    stse_frame_element_allocate_push(&CmdFrame, eSignature_R, (stse_ecc_info_table[key_type].signature_size >> 1), pSignature);
+    stse_frame_element_allocate_push(&CmdFrame, eSignature_R, (stse_ecc_info_table[key_type].signature_size >> 1), (PLAT_UI8 *)pSignature);
     stse_frame_element_allocate_push(&CmdFrame, eSignature_S_length, STSE_ECC_GENERIC_LENGTH_SIZE, pSignature_length_element);
-    stse_frame_element_allocate_push(&CmdFrame, eSignature_S, (stse_ecc_info_table[key_type].signature_size >> 1), pSignature + (stse_ecc_info_table[key_type].signature_size >> 1));
+    stse_frame_element_allocate_push(&CmdFrame, eSignature_S, (stse_ecc_info_table[key_type].signature_size >> 1), (PLAT_UI8 *)pSignature + (stse_ecc_info_table[key_type].signature_size >> 1));
 
 #ifdef STSE_CONF_ECC_EDWARD_25519
     if (key_type == STSE_ECC_KT_ED25519) {
@@ -323,7 +323,7 @@ stse_ReturnCode_t stsafea_ecc_verify_signature(
 #endif
 
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
-    stse_frame_element_allocate_push(&CmdFrame, eMessage, message_length, pMessage);
+    stse_frame_element_allocate_push(&CmdFrame, eMessage, message_length, (PLAT_UI8 *)pMessage);
     stse_frame_element_swap_byte_order(&eMessage_length);
 
     stse_frame_allocate(RspFrame);
