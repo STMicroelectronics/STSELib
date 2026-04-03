@@ -29,14 +29,17 @@ stse_ReturnCode_t stse_set_default_handler_value(stse_Handler_t *pStseHandler) {
     memset(&pStseHandler->perso_info, 0, sizeof(pStseHandler->perso_info));
     pStseHandler->pActive_host_session = NULL;
     pStseHandler->pActive_other_session = NULL;
+#if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
+    (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
     pStseHandler->io.BusRecvStart = stse_platform_i2c_receive_start;
     pStseHandler->io.BusRecvContinue = stse_platform_i2c_receive_continue;
     pStseHandler->io.BusRecvStop = stse_platform_i2c_receive_stop;
     pStseHandler->io.BusSendStart = stse_platform_i2c_send_start;
     pStseHandler->io.BusSendContinue = stse_platform_i2c_send_continue;
     pStseHandler->io.BusSendStop = stse_platform_i2c_send_stop;
-    pStseHandler->io.IOLineGet = NULL;
     pStseHandler->io.BusWake = stse_platform_i2c_wake;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && defined(STSE_CONF_USE_I2C) */
+    pStseHandler->io.IOLineGet = NULL;
     pStseHandler->io.BusRecovery = NULL;
     pStseHandler->io.PowerLineOff = stse_platform_power_off;
     pStseHandler->io.PowerLineOn = stse_platform_power_on;
