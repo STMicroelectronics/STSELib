@@ -92,4 +92,9 @@ extern "C" {
 #include "stse_conf.h"
 #include "stse_platform_generic.h"
 
+/* Optional PKCS#11 provider layer -----------------------------------------*/
+#ifdef STSE_CONF_PKCS11_SUPPORT
+#include "sal/pkcs11/stse_pkcs11.h"
+#endif /* STSE_CONF_PKCS11_SUPPORT */
+
 #endif /* STSELIB_H */
