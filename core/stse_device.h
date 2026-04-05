@@ -161,8 +161,8 @@ struct stse_session_t {
     union {
         struct {
             stse_Handler_t *pSTSE;
-            PLAT_UI8 *pHost_MAC_key;
-            PLAT_UI8 *pHost_cypher_key;
+            PLAT_UI32 Host_MAC_key_idx;
+            PLAT_UI32 Host_cypher_key_idx;
             stse_aes_key_type_t key_type;
             PLAT_UI32 MAC_counter;
         } host;
