@@ -111,7 +111,6 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
         case STSAFE_A100:
         case STSAFE_A110:
         case STSAFE_A120:
-        case STSAFE_A200:
             ret = stsafea_read_data_zone(
                 pSTSE,
                 zone,
@@ -181,7 +180,6 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
     case STSAFE_A100:
     case STSAFE_A110:
     case STSAFE_A120:
-    case STSAFE_A200:
         ret = stsafea_update_data_zone(
             pSTSE,
             zone,
@@ -242,7 +240,6 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
     case STSAFE_A100:
     case STSAFE_A110:
     case STSAFE_A120:
-    case STSAFE_A200:
         ret = stsafea_decrement_counter_zone(
             pSTSE,
             zone,
@@ -315,7 +312,6 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
         case STSAFE_A100:
         case STSAFE_A110:
         case STSAFE_A120:
-        case STSAFE_A200:
             ret = stsafea_read_counter_zone(
                 pSTSE,
                 zone,

@@ -84,7 +84,6 @@ stse_ReturnCode_t stse_ecc_generate_signature(
     case STSAFE_A100:
     case STSAFE_A110:
     case STSAFE_A120:
-    case STSAFE_A200:
         ret = stsafea_ecc_generate_signature(pSTSE, slot_number, key_type, pMessage, message_length, pSignature);
         break;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */

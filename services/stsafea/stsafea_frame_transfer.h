@@ -29,7 +29,7 @@
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
 
-#define STSAFEA_PRODUCT_COUNT 4U
+#define STSAFEA_PRODUCT_COUNT 3U
 
 extern const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT];
 

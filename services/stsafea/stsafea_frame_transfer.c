@@ -30,9 +30,7 @@
 const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT] = {
     STSAFEA_MAX_FRAME_LENGTH_A100,
     STSAFEA_MAX_FRAME_LENGTH_A110,
-    STSAFEA_MAX_FRAME_LENGTH_A120,
-    STSAFEA_MAX_FRAME_LENGTH_A200,
-};
+    STSAFEA_MAX_FRAME_LENGTH_A120};
 
 stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
