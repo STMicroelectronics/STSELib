@@ -98,8 +98,7 @@ stse_ReturnCode_t stsafea_put_i2c_parameters(
 #endif
 
     if (pSTSE->device_type == STSAFE_A100 ||
-        pSTSE->device_type == STSAFE_A110 ||
-        pSTSE->device_type == STSAFE_A200) {
+        pSTSE->device_type == STSAFE_A110) {
         pI2c_parameters->idle_bus_time_to_standby = 0;
     }
 
