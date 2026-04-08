@@ -57,7 +57,6 @@
 #define STSAFEA_PROT_CMD_Msk 0x80U /*!< STSAFE  Protected command mask */
 #define STSAFEA_PROT_RSP_Msk 0x40U /*!< STSAFE  Protected rsp mask */
 
-#define STSAFEA_PRODUCT_COUNT 4U
 #define STSAFEA_MAX_CMD_COUNT 29U
 #define STSAFEA_MAX_EXT_CMD_COUNT 29U
 
