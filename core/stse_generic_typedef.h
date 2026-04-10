@@ -110,6 +110,15 @@ typedef enum stse_aes_key_type_t {
 } stse_aes_key_type_t;
 
 /*!
+ * \enum stse_aes_key_usage_t
+ * \brief STSE AES key usage
+ */
+typedef enum stse_aes_key_usage_t {
+    STSE_AES_KEY_USAGE_MAC = 0, /**< Key used for MAC operations (CMAC) */
+    STSE_AES_KEY_USAGE_CIPHER   /**< Key used for cipher operations (CBC, ECB) */
+} stse_aes_key_usage_t;
+
+/*!
  * \enum stse_hash_algorithm_t
  * \brief STSE Hash algorithm type
  */
