@@ -78,13 +78,13 @@ stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
 stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTSE,
                                                             PLAT_UI8 total_partitions_count,
                                                             stsafea_data_partition_record_t *pRecord_table,
-                                                            PLAT_UI16 record_table_length) {
+                                                            PLAT_UI16 record_table_size) {
     stse_ReturnCode_t ret;
     volatile PLAT_UI8 partition_idx;
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_DATA_PARTITION_CONFIGURATION;
     PLAT_UI8 rsp_header;
-    PLAT_UI8 raw_data[record_table_length];
+    PLAT_UI8 raw_data[record_table_size];
 
     if (pSTSE == NULL) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
@@ -98,7 +98,7 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTS
     /*- Create Rsp frame and populate elements*/
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
-    stse_frame_element_allocate_push(&RspFrame, eRaw, record_table_length, raw_data);
+    stse_frame_element_allocate_push(&RspFrame, eRaw, record_table_size, raw_data);
 
     /*- Perform Transfer*/
     ret = stsafea_frame_raw_transfer(pSTSE,

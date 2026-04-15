@@ -48,7 +48,8 @@ Following diagram illustrates the interactions performed between the Host and th
     stse_ret = stse_data_storage_get_partitioning_table(
             &stse_handler,
             total_zone_count,
-            data_partition_record_table
+            data_partition_record_table,
+            sizeof(data_partition_record_table)
     );
     if(stse_ret != STSE_OK )
     {
