@@ -43,7 +43,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
     stse_Handler_t *pSTSE,
     PLAT_UI8 total_partition_count,
     stsafea_data_partition_record_t *pPartitioning_table,
-    PLAT_UI16 Partitioning_table_length) {
+    PLAT_UI16 partitioning_table_size) {
 
     stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 
@@ -51,7 +51,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type != STSAFE_L010) {
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
-        ret = stsafea_get_data_partitions_configuration(pSTSE, total_partition_count, pPartitioning_table, Partitioning_table_length);
+        ret = stsafea_get_data_partitions_configuration(pSTSE, total_partition_count, pPartitioning_table, partitioning_table_size);
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     }
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
