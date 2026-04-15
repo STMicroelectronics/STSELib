@@ -113,13 +113,13 @@ stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handler_t *pSTSE,
  * \param[in]		pSTSE					Pointer to target SE handler
  * \param[in]		total_partitions_count	Total partition count in bytes
  * \param[in,out]	pRecord_table			Pointer to applicative partition record table
- * \param[in]		record_table_length		Applicative record table length
+ * \param[in]		record_table_size		Applicative record table (@p pRecord_table) size (in bytes)
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTSE,
                                                             PLAT_UI8 total_partitions_count,
                                                             stsafea_data_partition_record_t *pRecord_table,
-                                                            PLAT_UI16 record_table_length);
+                                                            PLAT_UI16 record_table_size);
 
 /**
  * \brief 		Decrement counter zone

@@ -49,7 +49,7 @@ stse_ReturnCode_t stse_data_storage_get_total_partition_count(
  * \param[in]   pSTSE                   Pointer to target STSE handler
  * \param[in]   total_partition_count   Total partition count
  * \param[out]  pPartitioning_table     Pointer to the partition table buffer
- * \param[in]   Partitioning_table_length Length of the partition table to be received
+ * \param[in]   partitioning_table_size Size (in bytes) of the partition table (@p pPartitioning_table) to be received
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details \include{doc} stse_data_storage_get_partitioning_table.dox
  */
@@ -57,7 +57,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
     stse_Handler_t *pSTSE,
     PLAT_UI8 total_partition_count,
     stsafea_data_partition_record_t *pPartitioning_table,
-    PLAT_UI16 Partitioning_table_length);
+    PLAT_UI16 partitioning_table_size);
 
 /*!
  * \brief       Read one memory zone of the STSE device
