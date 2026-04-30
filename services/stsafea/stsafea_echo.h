@@ -38,7 +38,11 @@
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in]	message				Message buffer to send the echo command
  * \param[in]	echoed_message		Message buffer to receive the echo response
- * \param[in]	message_size		Size of the echo message
+ * \param[in]	message_size		Size of the echo message<br>
+ * message_size maximum value (in bytes):
+ * - STSAFE-A100 : STSAFEA_MAX_FRAME_LENGTH_A100 - 2
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 2
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 2
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_echo(

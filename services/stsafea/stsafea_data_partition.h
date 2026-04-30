@@ -130,7 +130,11 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handler_t *pSTS
  * \param[in] 	amount					Amount to decrement
  * \param[in] 	offset					Associated data offset
  * \param[in] 	data					Pointer to associated data
- * \param[in] 	data_length				Length of associated data
+ * \param[in] 	data_length				Length of associated data<br>
+ * data_length maximum value (in bytes):
+ * - STSAFE-A100 : STSAFEA_MAX_FRAME_LENGTH_A100 - 11
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 11
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11
  * \param[out] 	new_counter_value		Pointer to store new counter value
  * \param[in] 	protection				Command protection type
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -195,7 +199,11 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handler_t *pSTSE,
  * \param[in] 	option			Update option
  * \param[in] 	offset			Update offset
  * \param[in] 	data			Pointer to data to write
- * \param[in] 	data_length		Length of data to write
+ * \param[in] 	data_length		Length of data to write<br>
+ * data_length maximum value (in bytes):
+ * - STSAFE-A100 : STSAFEA_MAX_FRAME_LENGTH_A100 - 7
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 7
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 7
  * \param[in] 	protection		Command protection type
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */

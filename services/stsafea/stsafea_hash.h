@@ -111,7 +111,9 @@ extern const stsafea_hash_info_t stsafea_hash_info_table[];
  * \param[in]		pSTSE			Pointer to target SE handler
  * \param[in] 		sha_algorithm	\ref stse_hash_algorithm_t SHA algorithm
  * \param[in] 		pMessage		Pointer to message buffer
- * \param[in]		message_size	Input message length in bytes
+ * \param[in]		message_size	Input message length in bytes<br>
+ * message_size maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 15
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_start_hash(stse_Handler_t *pSTSE,
@@ -124,7 +126,9 @@ stse_ReturnCode_t stsafea_start_hash(stse_Handler_t *pSTSE,
  * \details 		This service format and send/receive STSAFE-Axxx process hash command/response
  * \param[in]		pSTSE			Pointer to target SE handler
  * \param[in] 		pMessage		Pointer to message buffer
- * \param[in]		message_size	Input message length in bytes
+ * \param[in]		message_size	Input message length in bytes<br>
+ * message_size maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 4
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_process_hash(
@@ -138,7 +142,9 @@ stse_ReturnCode_t stsafea_process_hash(
  * \param[in]       pSTSE			Pointer to target SE handler
  * \param[in] 		sha_algorithm	\ref stse_hash_algorithm_t SHA algorithm
  * \param[in]       pMessage		Pointer to message buffer
- * \param[in]       message_size	Input message length in bytes
+ * \param[in]       message_size	Input message length in bytes<br>
+ * message_size maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 4
  * \param[out]      pDigest			Pointer to digest buffer
  * \param[out]      pDigest_size	Digest buffer length in bytes
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise

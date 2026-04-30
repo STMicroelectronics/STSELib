@@ -44,7 +44,7 @@ stse_ReturnCode_t stsafea_generate_random(
 
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSubject, 1, &subject);
     stse_frame_element_allocate_push(&CmdFrame, eSize, 1, &random_size);
 

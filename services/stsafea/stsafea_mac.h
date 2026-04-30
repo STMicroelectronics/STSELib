@@ -42,7 +42,10 @@
  * \param[in] 	pSTSE 		Pointer to STSE Handler
  * \param[in] 	slot_number 	Key slot in symmetric key table to be used
  * \param[in]	pMessage		Plaintext message
- * \param[in]	message_length	Plaintext message length
+ * \param[in]	message_length	Plaintext message length<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 6
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 6
  * \param[out] 	pMac 			Buffer to store the MAC
  * \param[out]	mac_length		MAC length (CMAC:2,4,8,16 / HMAC:16-32)
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -63,7 +66,10 @@ stse_ReturnCode_t stsafea_cmac_hmac_compute(
  * \param[in] 	pMac 					Buffer containing the MAC
  * \param[in]	mac_length				MAC length (CMAC:2,4,8,16 / HMAC:16-32)
  * \param[in]	pMessage				Plaintext message
- * \param[in]	message_length			Plaintext message length
+ * \param[in]	message_length			Plaintext message length<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 6 - mac_length
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 6 - mac_length
  * \param[out]	verification_result		Verification result flag
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
@@ -83,7 +89,9 @@ stse_ReturnCode_t stsafea_cmac_hmac_verify(
  * \param[in] 	slot_number 				Key slot in symmetric key table to be used
  * \param[in]	IV_length					IV buffer length in bytes
  * \param[in]	pIV							IV buffer
- * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	associated_data_length		Length of the associated data<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - IV_length
  * \param[in]	pAssociated_data			Buffer containing associated data
  * \param[in] 	authentication_tag_length 	Expected length for the authentication tag
  * \param[out]	pAuthentication_tag			Buffer to store the authentication tag
@@ -106,7 +114,9 @@ stse_ReturnCode_t stsafea_aes_gmac_compute(
  * \param[in] 	slot_number 				Key slot in symmetric key table to be used
  * \param[in]	IV_length					IV buffer length in bytes
  * \param[in]	pIV							IV buffer
- * \param[in]	associated_data_length		Length of the associated data
+ * \param[in]	associated_data_length		Length of the associated data<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - IV_length - authentication_tag_length
  * \param[in]	pAssociated_data			Buffer containing associated data
  * \param[in] 	authentication_tag_length 	Expected length for the authentication tag
  * \param[in]	pAuthentication_tag			Buffer containing the authentication tag

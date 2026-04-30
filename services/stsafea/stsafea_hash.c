@@ -91,7 +91,6 @@ stse_ReturnCode_t stsafea_start_hash(
     PLAT_UI16 message_size) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_HASH};
     PLAT_UI8 rsp_header;
-    PLAT_UI16 hash_algo_id_length = STSAFEA_HASH_ALGO_ID_SIZE;
 
     if (pSTSE == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
@@ -104,7 +103,7 @@ stse_ReturnCode_t stsafea_start_hash(
     /*- Create CMD frame and populate elements */
     stse_frame_allocate(CmdFrame);
     stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eHashAlgo, hash_algo_id_length, (PLAT_UI8 *)&stsafea_hash_info_table[sha_algorithm].id);
+    stse_frame_element_allocate_push(&CmdFrame, eHashAlgo, STSAFEA_HASH_ALGO_ID_SIZE, (PLAT_UI8 *)&stsafea_hash_info_table[sha_algorithm].id);
     stse_frame_element_allocate_push(&CmdFrame, eMessage, message_size, pMessage);
 
     /*- Create Rsp frame and populate elements*/

@@ -43,7 +43,10 @@
  * \details 	This service format and send encrypt command in AES ECB mode
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	slot_number 		Key slot in symmetric key table to be used
- * \param[in] 	message_length 		Length of the message
+ * \param[in] 	message_length 		Length of the message<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 5
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 5
  * \param[in]	pPlaintext_message	Plaintext message to encrypt
  * \param[out]	pEncrypted_message	Encrypted message
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -60,7 +63,10 @@ stse_ReturnCode_t stsafea_aes_ecb_encrypt(
  * \details 	This service format and send decrypt command in AES ECB mode
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	slot_number 		Key slot in symmetric key table to be used
- * \param[in] 	message_length 		Length of the message
+ * \param[in] 	message_length 		Length of the message<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 5
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 5
  * \param[in]	pEncrypted_message	Encrypted message to decrypt
  * \param[out]	pPlaintext_message	Plaintext message
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -81,7 +87,10 @@ stse_ReturnCode_t stsafea_aes_ecb_decrypt(
  * \param[in]	pNonce							Buffer containing the nonce
  * \param[in]	associated_data_length			Length of the associated data
  * \param[in]	pAssociated_data				Buffer containing associated data
- * \param[in]	message_length					Length of the message to encrypt
+ * \param[in]	message_length					Length of the message to encrypt<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 22 - associated_data_length
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 22 - associated_data_length
  * \param[in]	pPlaintext_message				Buffer containing the message to encrypt
  * \param[out]	pEncrypted_message				Buffer to store the encrypted message
  * \param[out]	pEncrypted_authentication_tag	Buffer to store the authentication tag
@@ -114,7 +123,9 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
  * \param[in]	total_message_length			Length of the complete message to be encrypted by chunks
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 17 - Nonce_length - associated_data_chunk_length
  * \param[in]	pPlaintext_message_chunk		Buffer containing 1st piece of plaintext message chunk to encrypt
  * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
  * \param[out]	pCounter_presence				Counter presence flag
@@ -142,7 +153,9 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
  * \param[in] 	pSTSE 							Pointer to STSE Handler
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - associated_data_chunk_length
  * \param[in]	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
  * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -162,7 +175,9 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_process(
  * \param[in] 	authentication_tag_length		Length of the output authentication tag
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - associated_data_chunk_length
  * \param[in]	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
  * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
  * \param[out] 	pEncrypted_authentication_tag	Encrypted authentication tag
@@ -187,7 +202,10 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_finish(
  * \param[in]	pNonce							Buffer containing the nonce
  * \param[in]	associated_data_length			Length of the associated data
  * \param[in]	pAssociated_data				Buffer containing associated data
- * \param[in]	message_length					Length of the message to encrypt
+ * \param[in]	message_length					Length of the message to encrypt<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 22 - authentication_tag_length - associated_data_length
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 22 - authentication_tag_length - associated_data_length
  * \param[in]	pEncrypted_message				Buffer containing the message to decrypt
  * \param[in]	pAuthentication_tag				Buffer containing the authentication tag
  * \param[out]	pVerification_result			Verification result flag
@@ -218,7 +236,9 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
  * \param[in]	total_ciphertext_length			Length of the complete ciphertext
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 17 - Nonce_length - associated_data_chunk_length
  * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
  * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -242,7 +262,9 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
  * \param[in] 	pSTSE 							Pointer to STSE Handler
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - associated_data_chunk_length
  * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
  * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -262,7 +284,9 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_process(
  * \param[in] 	authentication_tag_length		Length of the output authentication tag
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - authentication_tag_length - associated_data_chunk_length
  * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
  * \param[in] 	pAuthentication_tag 			Authentication tag
  * \param[out] 	pVerification_result 			Verification result flag
@@ -290,7 +314,9 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_finish(
  * \param[in]	pIV							IV buffer
  * \param[in]	associated_data_length		Length of the associated data
  * \param[in]	pAssociated_data			Buffer containing associated data
- * \param[in]	message_length				Length of the message to encrypt
+ * \param[in]	message_length				Length of the message to encrypt<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - IV_length - associated_data_length
  * \param[in]	pPlaintext_message			Buffer containing the message to encrypt
  * \param[out]	pEncrypted_message			Buffer to store the encrypted message
  * \param[out]	pAuthentication_tag			Buffer to store the authentication tag
@@ -318,7 +344,9 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
  * \param[in]	pIV								IV buffer
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - IV_length - associated_data_chunk_length
  * \param[in]	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
  * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -340,7 +368,9 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_start(
  * \param[in] 	pSTSE 							Pointer to STSE Handler
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to encrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to encrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - associated_data_chunk_length
  * \param[in]	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
  * \param[out]	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -360,7 +390,9 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_process(
  * \param[in] 	authentication_tag_length		Length of the output authentication tag
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in] 	message_chunk_length 			Length of the message chunk
+ * \param[in] 	message_chunk_length 			Length of the message chunk<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - associated_data_chunk_length
  * \param[in] 	pPlaintext_message_chunk		Buffer containing the message chunk to encrypt
  * \param[out] 	pEncrypted_message_chunk		Buffer to store the encrypted message chunk
  * \param[out] 	pAuthentication_tag 			Authentication tag
@@ -386,7 +418,9 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt_finish(
  * \param[in]	pIV							IV buffer
  * \param[in]	associated_data_length		Length of the associated data
  * \param[in]	pAssociated_data			Buffer containing associated data
- * \param[in]	message_length				Length of the message to decrypt
+ * \param[in]	message_length				Length of the message to decrypt<br>
+ * message_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - authentication_tag_length - IV_length - associated_data_length
  * \param[in]	pEncrypted_message			Buffer containing the message to decrypt
  * \param[in]	pAuthentication_tag			Buffer containing the authentication tag
  * \param[out]	pVerification_result		Verification result flag
@@ -416,7 +450,9 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt(
  * \param[in]	pIV								IV buffer
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - IV_length - associated_data_chunk_length
  * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
  * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -438,7 +474,9 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_start(
  * \param[in] 	pSTSE 							Pointer to STSE Handler
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 8 - associated_data_chunk_length
  * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
  * \param[out]	pPlaintext_message_chunk		Buffer to store the decrypted message chunk
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -458,7 +496,9 @@ stse_ReturnCode_t stsafea_aes_gcm_decrypt_process(
  * \param[in] 	authentication_tag_length		Length of the output authentication tag
  * \param[in]	associated_data_chunk_length	Length of the associated data chunk
  * \param[in]	pAssociated_data_chunk			Buffer containing associated data chunk
- * \param[in]	message_chunk_length			Length of the message chunk to decrypt
+ * \param[in]	message_chunk_length			Length of the message chunk to decrypt<br>
+ * message_chunk_length maximum value (in bytes):
+ * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11 - authentication_tag_length - associated_data_chunk_length
  * \param[in]	pEncrypted_message_chunk		Buffer containing the message chunk to decrypt
  * \param[in] 	pAuthentication_tag 			Authentication tag
  * \param[out] 	pVerification_result 			Verification result flag
