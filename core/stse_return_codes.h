@@ -121,6 +121,8 @@ enum stse_ReturnCode_t {
     STSE_CERT_INVALID_CERTIFICATE,
     STSE_CERT_CA_NOT_MATCHING,
     STSE_CERT_UNSUPPORTED_FEATURE,
+
+    __STSE_SIGNED = -1 // Used to make the type of this enum a signed integer, don't use.
 };
 
 typedef enum stse_ReturnCode_t stse_ReturnCode_t;
