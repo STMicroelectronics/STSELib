@@ -33,7 +33,7 @@
  * \details 		This API use the STSE to generate random number
  * \param[in]		pSTSE 			Pointer to target STSecureElement device
  * \param[in,out] 	pRandom 		Pointer to random buffer
- * \param[in,out] 	random_size 	Random size
+ * \param[in]       random_size 	Random size
  * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_generate_random(
