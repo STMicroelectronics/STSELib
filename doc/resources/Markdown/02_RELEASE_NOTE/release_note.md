@@ -1,6 +1,32 @@
 # Release Note
 
-## v1.1.7 (Latest)
+## v1.1.8 (Latest)
+
+### SW Dependency fix   
+
+- [doc] Update plantuml.jar version (3-Clause DSD)
+
+### Improvements 
+
+- [doc] add partners repositories list in readme.md
+- [doc] fix link to stsafe-a-sdk
+- [doc] clarify that partitioning table buffer size is measured in bytes
+- [doc] clarify buffer sizing due to hidden overhead bytes 
+- [api/services/core] Move includes of standard library into source files
+- [api/services] Make message buffer const in ECC sign
+- [api/services] Make input buffers const in ECC verify 
+- [services/stsafea] optimize frame reception
+- [core] Use indexed ECC info table
+- [core] update handler initialization for protocol different than I2C
+
+### Bug Fixes : 
+
+- [api/services/core] Remove STSAFE-A200 reference 
+- [services/stsafea] fix regression on ext. command timings 
+- [services/stsafea] fix hibernate
+- [services/stsafea] fix potential issue/crash in case of transfer error
+
+## v1.1.7 
 - [certificate] Update some prints for Linux miss alignment
 - [api] Update returned error code
 - [api] Update key type check 
@@ -18,7 +44,7 @@
 - [api/core/service] Verify frame overflow at frame transfer layer
 - [core/wolfssl] add wolfCrypt crypto platform support
 - [services] Include timings declaration
-- [core][services][api] Align return core with SW layer
+- [api/services/core] Align return core with SW layer
 - [core] platform cleanup of timeout functions
 - [core] change ms delay type to UI16
 - [core] added conditional definition for i2c and st1wire functions (pub issue #51)
