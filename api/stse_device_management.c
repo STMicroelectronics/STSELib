@@ -80,6 +80,10 @@ stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg) {
     if (ret != STSE_OK) {
         return ret;
     }
+    ret = stse_device_power_on(pSTSE);
+    if (ret != STSE_OK) {
+        return ret;
+    }
     ret = stse_platform_crc16_init(pArg);
     if (ret != STSE_OK) {
         return ret;
@@ -93,8 +97,6 @@ stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg) {
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     if (pSTSE->device_type != STSAFE_L010) {
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
-        stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
-
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
         ret = stsafea_perso_info_update(pSTSE);
 #endif /* STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS */
