@@ -24,6 +24,11 @@
 #include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_sessions.h"
 #include "services/stsafea/stsafea_timings.h"
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+#include <pthread.h>
+#include <stdlib.h>
+#include <time.h>
+#endif
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
@@ -31,6 +36,126 @@ const PLAT_UI16 stsafea_maximum_frame_length[STSAFEA_PRODUCT_COUNT] = {
     STSAFEA_MAX_FRAME_LENGTH_A100,
     STSAFEA_MAX_FRAME_LENGTH_A110,
     STSAFEA_MAX_FRAME_LENGTH_A120};
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+static pthread_mutex_t stsafea_device_use_mutex = PTHREAD_MUTEX_INITIALIZER;
+static pthread_key_t stsafea_device_session_owner_key;
+static PLAT_UI8 stsafea_device_session_key_initialized = 0;
+
+struct stsafea_device_session_state {
+    pthread_t thread_id;
+    PLAT_UI8 session_locked;  /* True if lock held by an open session */
+};
+
+static void stsafea_device_session_state_cleanup(void *data) {
+    if (data != NULL) {
+        free(data);
+    }
+}
+
+static void stsafea_device_ensure_key_initialized(void) {
+    if (stsafea_device_session_key_initialized == 0) {
+        pthread_key_create(&stsafea_device_session_owner_key, stsafea_device_session_state_cleanup);
+        stsafea_device_session_key_initialized = 1;
+    }
+}
+
+static struct stsafea_device_session_state* stsafea_device_get_session_state(void) {
+    struct stsafea_device_session_state *state;
+    stsafea_device_ensure_key_initialized();
+    state = (struct stsafea_device_session_state *)pthread_getspecific(stsafea_device_session_owner_key);
+    if (state == NULL) {
+        state = (struct stsafea_device_session_state *)malloc(sizeof(struct stsafea_device_session_state));
+        if (state != NULL) {
+            state->thread_id = pthread_self();
+            state->session_locked = 0;
+            pthread_setspecific(stsafea_device_session_owner_key, state);
+        }
+    }
+    return state;
+}
+
+static stse_ReturnCode_t stsafea_guard_enter_internal(void) {
+#if defined(STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS) && (STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS > 0)
+#define STSAFEA_DEVICE_LOCK_TIMEOUT_MS STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS
+#elif defined(STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS) && (STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS > 0)
+#define STSAFEA_DEVICE_LOCK_TIMEOUT_MS STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS
+#endif
+
+#if defined(STSAFEA_DEVICE_LOCK_TIMEOUT_MS)
+    struct timespec abs_timeout;
+
+    if (clock_gettime(CLOCK_REALTIME, &abs_timeout) != 0) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+
+    abs_timeout.tv_sec += (time_t)(STSAFEA_DEVICE_LOCK_TIMEOUT_MS / 1000U);
+    abs_timeout.tv_nsec += (long)(STSAFEA_DEVICE_LOCK_TIMEOUT_MS % 1000U) * 1000000L;
+    if (abs_timeout.tv_nsec >= 1000000000L) {
+        abs_timeout.tv_sec += 1;
+        abs_timeout.tv_nsec -= 1000000000L;
+    }
+
+    if (pthread_mutex_timedlock(&stsafea_device_use_mutex, &abs_timeout) != 0) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+#else
+    if (pthread_mutex_lock(&stsafea_device_use_mutex) != 0) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+#endif
+
+#if defined(STSAFEA_DEVICE_LOCK_TIMEOUT_MS)
+#undef STSAFEA_DEVICE_LOCK_TIMEOUT_MS
+#endif
+
+    return STSE_OK;
+}
+
+static stse_ReturnCode_t stsafea_guard_enter(PLAT_UI8 *out_guard_entered) {
+    struct stsafea_device_session_state *state = stsafea_device_get_session_state();
+    if (state == NULL) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+    *out_guard_entered = 0;
+    if (state->session_locked == 0) {
+        if (stsafea_guard_enter_internal() != STSE_OK) {
+            return STSE_PLATFORM_BUS_ACK_ERROR;
+        }
+        *out_guard_entered = 1;
+    }
+    return STSE_OK;
+}
+
+static void stsafea_guard_exit(PLAT_UI8 guard_entered) {
+    if (guard_entered != 0) {
+        (void)pthread_mutex_unlock(&stsafea_device_use_mutex);
+    }
+}
+
+stse_ReturnCode_t stsafea_device_session_guard_enter(void) {
+    struct stsafea_device_session_state *state = stsafea_device_get_session_state();
+    if (state == NULL) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+    if (state->session_locked != 0) {
+        return STSE_OK;  /* Already locked by this session/thread */
+    }
+    if (stsafea_guard_enter_internal() != STSE_OK) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+    state->session_locked = 1;
+    return STSE_OK;
+}
+
+void stsafea_device_session_guard_exit(void) {
+    struct stsafea_device_session_state *state = stsafea_device_get_session_state();
+    if (state != NULL && state->session_locked != 0) {
+        state->session_locked = 0;
+        (void)pthread_mutex_unlock(&stsafea_device_use_mutex);
+    }
+}
+#endif
 
 stse_ReturnCode_t stsafea_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
@@ -406,6 +531,17 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
                                              stse_frame_t *pRspFrame,
                                              PLAT_UI16 inter_frame_delay) {
     stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    PLAT_UI8 guard_entered = 0;
+#endif
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    if (pSTSE != NULL) {
+        if (stsafea_guard_enter(&guard_entered) != STSE_OK) {
+            return STSE_PLATFORM_BUS_ACK_ERROR;
+        }
+    }
+#endif
 
 #ifdef STSE_USE_RSP_POLLING
     (void)inter_frame_delay;
@@ -424,6 +560,10 @@ stse_ReturnCode_t stsafea_frame_raw_transfer(stse_Handler_t *pSTSE,
         /* - Receive non protected Frame */
         ret = stsafea_frame_receive(pSTSE, pRspFrame);
     }
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    stsafea_guard_exit(guard_entered);
+#endif
 
     return ret;
 }

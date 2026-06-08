@@ -26,6 +26,7 @@
 #include "services/stsafea/stsafea_frame_transfer.h"
 #include "services/stsafea/stsafea_host_key_slot.h"
 #include "services/stsafea/stsafea_sessions.h"
+#include "core/stse_platform.h"
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
@@ -86,6 +87,14 @@ stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE, stse_session_
     pSession->context.host.pSTSE = pSTSE;
     pSTSE->pActive_host_session = pSession;
 
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    /* Enter STSAFE device usage guard for the session lifetime */
+    if (stsafea_device_session_guard_enter() != STSE_OK) {
+        pSTSE->pActive_host_session = NULL;
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+#endif
+
     return (STSE_OK);
 }
 
@@ -94,6 +103,11 @@ void stsafea_close_host_session(stse_session_t *pSession) {
     if (pSession == NULL) {
         return;
     }
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    /* Exit STSAFE device usage guard at session end */
+    stsafea_device_session_guard_exit();
+#endif
 
     /* - Check if session is active in STSE handler*/
     if (pSession->context.host.pSTSE->pActive_host_session == pSession) {
