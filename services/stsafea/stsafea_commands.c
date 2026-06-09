@@ -115,7 +115,7 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }
 
-    pSTSE->perso_info.cmd_encryption_status = 0,
+    pSTSE->perso_info.cmd_encryption_status = 0;
     pSTSE->perso_info.rsp_encryption_status = 0;
     pSTSE->perso_info.ext_cmd_encryption_status = 0;
     pSTSE->perso_info.ext_rsp_encryption_status = 0;
