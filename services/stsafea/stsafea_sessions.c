@@ -41,7 +41,7 @@
 
 #ifdef STSE_CONF_USE_HOST_SESSION
 
-stse_ReturnCode_t stsafea_open_host_session_from_idx(stse_Handle_t *pSTSE, stse_session_t *pSession, PLAT_UI32 host_MAC_key_idx, PLAT_UI32 host_cypher_key_idx) {
+stse_ReturnCode_t stsafea_open_host_session_from_idx(stse_Handle_t *pSTSE, stse_session_t *pSession, PLAT_UI32 host_MAC_key_idx, PLAT_UI32 host_cipher_key_idx) {
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
@@ -82,7 +82,7 @@ stse_ReturnCode_t stsafea_open_host_session_from_idx(stse_Handle_t *pSTSE, stse_
 
     pSession->type = STSE_HOST_SESSION;
     pSession->context.host.host_MAC_key_idx = host_MAC_key_idx;
-    pSession->context.host.host_cypher_key_idx = host_cypher_key_idx;
+    pSession->context.host.host_cypher_key_idx = host_cipher_key_idx;
     pSession->context.host.pSTSE = pSTSE;
     pSTSE->pActive_host_session = pSession;
 

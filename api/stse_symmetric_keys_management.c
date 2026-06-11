@@ -479,10 +479,12 @@ static stse_ReturnCode_t stse_KEK_wrap(
 
 /* Exported functions --------------------------------------------------------*/
 
-stse_ReturnCode_t stse_host_key_provisioning(
+stse_ReturnCode_t stse_host_secure_channel_keys_provisioning(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t host_key_type,
-    stsafea_host_keys_t *host_keys) {
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
 
@@ -490,29 +492,49 @@ stse_ReturnCode_t stse_host_key_provisioning(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_key_type >= STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_mac_key == NULL || host_mac_key_index == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
 #if defined(STSE_CONF_STSAFE_A_SUPPORT)
     if (pSTSE->device_type == STSAFE_A120) {
         /* - Write host key plaintext to the STSAFE */
-        ret = stsafea_host_key_provisioning(
+        ret = stsafea_host_secure_channel_keys_provisioning(
             pSTSE,
-            host_key_type,
-            host_keys);
+            host_mac_key,
+            host_cipher_key);
     } else {
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
-        if (host_key_type != STSAFEA_AES_128_HOST_KEY) {
-            return STSE_API_INVALID_PARAMETER;
-        }
 
-        ret = stsafea_put_attribute_host_key(
+        ret = stsafea_put_attribute_host_secure_channel_keys(
             pSTSE,
-            (stsafea_aes_128_host_keys_t *)host_keys);
+            host_mac_key,
+            host_cipher_key);
 #if defined(STSE_CONF_STSAFE_A_SUPPORT)
     }
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
+
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    /* - Store host MAC key */
+    ret = stse_platform_store_aes_key(host_mac_key->key,
+                                      (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                      STSE_AES_KEY_USAGE_MAC,
+                                      host_mac_key_index);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    /* - Store host cipher key */
+    ret = stse_platform_store_aes_key(host_cipher_key->key,
+                                      (host_cipher_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                      STSE_AES_KEY_USAGE_CIPHER,
+                                      host_cipher_key_index);
+    if (ret != STSE_OK) {
+        return ret;
+    }
 
     return ret;
 #else
@@ -522,18 +544,22 @@ stse_ReturnCode_t stse_host_key_provisioning(
 
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED
 
-stse_ReturnCode_t stse_host_key_provisioning_wrapped(
+stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t host_key_type,
-    stsafea_host_keys_t *host_keys,
-    stse_ecc_key_type_t ecdhe_ecc_key_type) {
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key,
+    stse_ecc_key_type_t ecdhe_ecc_key_type,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index) {
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_key_type >= STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_mac_key == NULL || host_mac_key_index == NULL || host_mac_key->usage != STSE_AES_KEY_USAGE_MAC || host_mac_key->type >= STSE_AES_INVALID_KT ||
+        host_cipher_key == NULL || host_cipher_key_index == NULL || host_cipher_key->usage != STSE_AES_KEY_USAGE_CIPHER || host_cipher_key->type >= STSE_AES_INVALID_KT ||
+        host_mac_key->type != host_cipher_key->type) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -541,10 +567,9 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
         return (STSE_COMMAND_CODE_NOT_SUPPORTED);
     }
 
-    PLAT_UI8 host_keys_length = (host_key_type == STSAFEA_AES_128_HOST_KEY) ? STSAFEA_HOST_AES_128_KEYS_SIZE
-                                                                            : STSAFEA_HOST_AES_256_KEYS_SIZE;
+    PLAT_UI8 host_keys_length = (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE;
 
-    PLAT_UI8 host_keys_envelope_length = STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + host_keys_length + STSE_HOST_KEY_ENVELOPE_PADDING_LENGTH + STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH;
+    PLAT_UI8 host_keys_envelope_length = STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + (2u * host_keys_length) + STSE_HOST_KEY_ENVELOPE_PADDING_LENGTH + STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH;
 
     PLAT_UI8 host_key_envelope[host_keys_envelope_length];
 
@@ -563,15 +588,19 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
     /* - Format host key to be wrapped */
     memset(host_key_envelope, 0, host_keys_envelope_length);
 
-    host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH] = host_key_type;
+    host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH] = host_mac_key->type;
 
     memcpy(&host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH],
-           host_keys,
+           host_mac_key->key,
+           host_keys_length);
+
+    memcpy(&host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + host_keys_length],
+           host_cipher_key->key,
            host_keys_length);
 
     host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH +
                       STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH +
-                      host_keys_length] = 0x80;
+                      (2u * host_keys_length)] = 0x80;
 
     /* - Wrap */
     ret = stse_KEK_wrap(
@@ -581,23 +610,39 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
         (host_keys_envelope_length - STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH),
         host_key_envelope,
         host_keys_envelope_length);
-
     if (ret != STSE_OK) {
         return ret;
     }
 
     /* - Write host key wrapped to the STSAFE */
-    ret = stsafea_host_key_provisioning_wrapped(
+    ret = stsafea_host_secure_channel_keys_provisioning_wrapped(
         pSTSE,
-        host_key_type,
+        host_mac_key->type,
         host_key_envelope);
-
     if (ret != STSE_OK) {
         return ret;
     }
 
     /* - Stop volatile KEK */
     ret = stsafea_stop_volatile_KEK_session(pSTSE);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    /* - Store host MAC key */
+    ret = stse_platform_store_aes_key(host_mac_key->key,
+                                      (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                      STSE_AES_KEY_USAGE_MAC,
+                                      host_mac_key_index);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    /* - Store host cipher key */
+    ret = stse_platform_store_aes_key(host_cipher_key->key,
+                                      (host_cipher_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                      STSE_AES_KEY_USAGE_CIPHER,
+                                      host_cipher_key_index);
 
     return ret;
 }
@@ -605,22 +650,26 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped(
 
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED
 
-stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
+stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped_authenticated(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t host_key_type,
-    stsafea_host_keys_t *host_keys,
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key,
     stse_ecc_key_type_t ecdhe_ecc_key_type,
     PLAT_UI8 signature_public_key_slot_number,
     stse_hash_algorithm_t signature_hash_algo,
     stse_ecc_key_type_t signature_private_ecc_key_type,
-    PLAT_UI8 *signature_private_key) {
+    PLAT_UI8 *signature_private_key,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index) {
     stse_ReturnCode_t ret;
 
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_key_type >= STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_mac_key == NULL || host_mac_key_index == NULL || host_mac_key->usage != STSE_AES_KEY_USAGE_MAC || host_mac_key->type >= STSE_AES_INVALID_KT ||
+        host_cipher_key == NULL || host_cipher_key_index == NULL || host_cipher_key->usage != STSE_AES_KEY_USAGE_CIPHER || host_cipher_key->type >= STSE_AES_INVALID_KT ||
+        host_mac_key->type != host_cipher_key->type) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -628,10 +677,9 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
         return (STSE_COMMAND_CODE_NOT_SUPPORTED);
     }
 
-    PLAT_UI8 host_keys_length = (host_key_type == STSAFEA_AES_128_HOST_KEY) ? STSAFEA_HOST_AES_128_KEYS_SIZE
-                                                                            : STSAFEA_HOST_AES_256_KEYS_SIZE;
+    PLAT_UI8 host_keys_length = (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE;
 
-    PLAT_UI8 host_keys_envelope_length = host_keys_length + STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH;
+    PLAT_UI8 host_keys_envelope_length = (2 * host_keys_length) + STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH;
 
     PLAT_UI8 host_key_envelope[host_keys_envelope_length];
 
@@ -654,10 +702,14 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
     /* - Format host key to be wrapped */
     memset(&host_key_envelope, 0, host_keys_envelope_length);
 
-    host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH] = host_key_type;
+    host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH] = host_mac_key->type;
 
     memcpy(&host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH],
-           host_keys,
+           host_mac_key->key,
+           host_keys_length);
+
+    memcpy(&host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + host_keys_length],
+           host_cipher_key->key,
            host_keys_length);
 
     host_key_envelope[STSE_HOST_KEY_ENVELOPE_FRONT_PADDING_LENGTH + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH + host_keys_length] = 0x80;
@@ -675,9 +727,9 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
     }
 
     /* - Write host key wrapped to the STSAFE */
-    ret = stsafea_host_key_provisioning_wrapped(
+    ret = stsafea_host_secure_channel_keys_provisioning_wrapped(
         pSTSE,
-        host_key_type,
+        host_mac_key->type,
         host_key_envelope);
     if (ret != STSE_OK) {
         return ret;
@@ -685,18 +737,36 @@ stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
 
     /* - Stop volatile KEK */
     ret = stse_stop_volatile_KEK_session(pSTSE, &volatile_KEK_session);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    /* - Store host MAC key */
+    ret = stse_platform_store_aes_key(host_mac_key->key,
+                                      (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                      STSE_AES_KEY_USAGE_MAC,
+                                      host_mac_key_index);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
+    /* - Store host cipher key */
+    ret = stse_platform_store_aes_key(host_cipher_key->key,
+                                      (host_cipher_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
+                                      STSE_AES_KEY_USAGE_CIPHER,
+                                      host_cipher_key_index);
 
     return ret;
 }
 #endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
 #ifdef STSE_CONF_USE_HOST_KEY_ESTABLISHMENT
-stse_ReturnCode_t stse_establish_host_key(
+stse_ReturnCode_t stse_establish_host_secure_channel_keys(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
-    stsafea_host_key_type_t host_secure_channel_keys_type,
-    PLAT_UI8 *host_mac_key,
-    PLAT_UI8 *host_cipher_key) {
+    stse_aes_key_type_t host_secure_channel_keys_type,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index) {
     stse_ReturnCode_t ret;
 
     /* - Check function parameters */
@@ -704,7 +774,8 @@ stse_ReturnCode_t stse_establish_host_key(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_secure_channel_keys_type >= STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
+    if (host_mac_key_index == NULL || host_cipher_key_index == NULL ||
+        host_secure_channel_keys_type >= STSE_AES_INVALID_KT || ecdh_key_type >= STSE_ECC_KT_INVALID
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || ecdh_key_type == STSE_ECC_KT_ED25519
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
@@ -728,8 +799,8 @@ stse_ReturnCode_t stse_establish_host_key(
     PLAT_UI8 pHkdf_info[hkdf_info_size];
 
     /* - Initialize the OKM length with the confirmation key length */
-    PLAT_UI16 host_mac_key_length = host_secure_channel_keys_type == STSAFEA_AES_256_HOST_KEY ? STSAFEA_HOST_AES_256_MAC_KEY_SIZE : STSAFEA_HOST_AES_128_MAC_KEY_SIZE;
-    PLAT_UI16 host_cipher_key_length = host_secure_channel_keys_type == STSAFEA_AES_256_HOST_KEY ? STSAFEA_HOST_AES_256_CIPHER_KEY_SIZE : STSAFEA_HOST_AES_128_CIPHER_KEY_SIZE;
+    PLAT_UI16 host_mac_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT) ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
+    PLAT_UI16 host_cipher_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT) ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
     PLAT_UI8 okm_buffer[host_mac_key_length + host_cipher_key_length];
 
     /* - Generate local host ECDHE key pair */
@@ -799,7 +870,7 @@ stse_ReturnCode_t stse_establish_host_key(
     }
 
     /* - Establish the host keys through STSAFE */
-    ret = stsafea_establish_host_key(
+    ret = stsafea_establish_host_secure_channel_keys(
         pSTSE,
         ecdh_key_type,
         host_ecdhe_public_key,
@@ -811,26 +882,30 @@ stse_ReturnCode_t stse_establish_host_key(
         return ret;
     }
 
-    memcpy(host_mac_key,
-           okm_buffer,
-           host_mac_key_length);
-    memcpy(host_cipher_key,
-           okm_buffer + host_mac_key_length,
-           host_cipher_key_length);
+    /* - Store host MAC key */
+    ret = stse_platform_store_aes_key(okm_buffer, host_mac_key_length, STSE_AES_KEY_USAGE_MAC, host_mac_key_index);
+    if (ret != STSE_OK) {
+        memset(okm_buffer, 0, sizeof(okm_buffer));
+        return ret;
+    }
+
+    /* - Store host cipher key */
+    ret = stse_platform_store_aes_key(okm_buffer + host_mac_key_length, host_cipher_key_length, STSE_AES_KEY_USAGE_CIPHER, host_cipher_key_index);
+
     memset(okm_buffer, 0, sizeof(okm_buffer));
 
     return ret;
 }
 
-stse_ReturnCode_t stse_establish_host_key_authenticated(
+stse_ReturnCode_t stse_establish_host_secure_channel_keys_authenticated(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
-    stsafea_host_key_type_t host_secure_channel_keys_type,
+    stse_aes_key_type_t host_secure_channel_keys_type,
     stse_hash_algorithm_t tbs_hash_algo,
     PLAT_UI8 tbs_public_key_slot,
     PLAT_UI8 *tbs_private_key,
-    PLAT_UI8 *host_mac_key,
-    PLAT_UI8 *host_cipher_key) {
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index) {
     stse_ReturnCode_t ret;
 
     /* - Check function parameters */
@@ -838,7 +913,8 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_secure_channel_keys_type >= STSAFEA_AES_INVALID_HOST_KEY || host_mac_key == NULL || host_cipher_key == NULL
+    if (host_mac_key_index == NULL || host_cipher_key_index == NULL || tbs_private_key == NULL ||
+        host_secure_channel_keys_type >= STSE_AES_INVALID_KT || ecdh_key_type >= STSE_ECC_KT_INVALID
 #ifdef STSE_CONF_ECC_EDWARD_25519
         || ecdh_key_type == STSE_ECC_KT_ED25519
 #endif /* STSE_CONF_ECC_EDWARD_25519 */
@@ -880,8 +956,8 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
     PLAT_UI8 signature[stse_ecc_info_table[tbs_key_type].signature_size];
 
     /* - Initialize the OKM length with the confirmation key length */
-    PLAT_UI16 host_mac_key_length = host_secure_channel_keys_type == STSAFEA_AES_256_HOST_KEY ? STSAFEA_HOST_AES_256_MAC_KEY_SIZE : STSAFEA_HOST_AES_128_MAC_KEY_SIZE;
-    PLAT_UI16 host_cipher_key_length = host_secure_channel_keys_type == STSAFEA_AES_256_HOST_KEY ? STSAFEA_HOST_AES_256_CIPHER_KEY_SIZE : STSAFEA_HOST_AES_128_CIPHER_KEY_SIZE;
+    PLAT_UI16 host_mac_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT) ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
+    PLAT_UI16 host_cipher_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT) ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
     PLAT_UI8 okm_buffer[host_mac_key_length + host_cipher_key_length];
 
     /* - Generate local host ECDHE key pair */
@@ -1046,26 +1122,30 @@ stse_ReturnCode_t stse_establish_host_key_authenticated(
     }
 
     /* - Establish the host keys through STSAFE with authentication */
-    ret = stsafea_establish_host_key_authenticated(pSTSE,
-                                                   ecdh_key_type,
-                                                   host_ecdhe_public_key,
-                                                   host_secure_channel_keys_type,
-                                                   tbs_public_key_slot,
-                                                   tbs_key_type,
-                                                   tbs_hash_algo,
-                                                   signature);
+    ret = stsafea_establish_host_secure_channel_keys_authenticated(pSTSE,
+                                                                   ecdh_key_type,
+                                                                   host_ecdhe_public_key,
+                                                                   host_secure_channel_keys_type,
+                                                                   tbs_public_key_slot,
+                                                                   tbs_key_type,
+                                                                   tbs_hash_algo,
+                                                                   signature);
     memset(host_ecdhe_public_key, 0, sizeof(host_ecdhe_public_key));
     if (ret != STSE_OK) {
         memset(okm_buffer, 0, sizeof(okm_buffer));
         return ret;
     }
 
-    memcpy(host_mac_key,
-           okm_buffer,
-           host_mac_key_length);
-    memcpy(host_cipher_key,
-           okm_buffer + host_mac_key_length,
-           host_cipher_key_length);
+    /* - Store host MAC key */
+    ret = stse_platform_store_aes_key(okm_buffer, host_mac_key_length, STSE_AES_KEY_USAGE_MAC, host_mac_key_index);
+    if (ret != STSE_OK) {
+        memset(okm_buffer, 0, sizeof(okm_buffer));
+        return ret;
+    }
+
+    /* - Store host cipher key */
+    ret = stse_platform_store_aes_key(okm_buffer + host_mac_key_length, host_cipher_key_length, STSE_AES_KEY_USAGE_CIPHER, host_cipher_key_index);
+
     memset(okm_buffer, 0, sizeof(okm_buffer));
 
     return ret;
@@ -1219,7 +1299,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped(
     }
 
     /* - Format envelope to wrap */
-    PLAT_UI8 envelope_key_length = key_info->type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSAFEA_AES_256_KEY_SIZE : STSAFEA_AES_128_KEY_SIZE;
+    PLAT_UI8 envelope_key_length = key_info->type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
     PLAT_UI8 envelope_length = envelope_key_length + key_info->info_length;
     PLAT_UI8 envelope_padding_length = 8 - (envelope_length % 8);
 
@@ -1309,7 +1389,7 @@ stse_ReturnCode_t stse_write_symmetric_key_wrapped_authenticated(
     }
 
     /* - Format envelope to wrap */
-    PLAT_UI8 envelope_key_length = key_info->type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSAFEA_AES_256_KEY_SIZE : STSAFEA_AES_128_KEY_SIZE;
+    PLAT_UI8 envelope_key_length = key_info->type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
     PLAT_UI8 envelope_length = envelope_key_length + key_info->info_length;
     PLAT_UI8 envelope_padding_length = 8 - (envelope_length % 8);
 
@@ -1367,6 +1447,7 @@ stse_ReturnCode_t stse_establish_symmetric_key(
     PLAT_UI8 *key_list) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
+    PLAT_UI32 confirmation_key_index;
 
     /* - HKDF variables */
     PLAT_UI8 pHkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
@@ -1395,11 +1476,11 @@ stse_ReturnCode_t stse_establish_symmetric_key(
     PLAT_UI8 shared_secret[2 * shared_secret_size];
 
     /* - Initialize the OKM length with the confirmation key length */
-    PLAT_UI16 okm_length = STSAFEA_AES_256_KEY_SIZE;
+    PLAT_UI16 okm_length = STSE_AES_256_KEY_SIZE;
 
     for (PLAT_UI8 i = 0; i < key_infos_count; i++) {
         /* - Add the current key length (16 or 32 bytes) depending on key type */
-        okm_length += key_infos_list[i].type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSAFEA_AES_256_KEY_SIZE : STSAFEA_AES_128_KEY_SIZE;
+        okm_length += key_infos_list[i].type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
     }
 
     PLAT_UI8 okm_buffer[okm_length];
@@ -1456,21 +1537,30 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         return ret;
     }
 
+    /* - Store confirmation key */
+    ret = stse_platform_store_aes_key(
+        okm_buffer,
+        STSE_AES_256_KEY_SIZE,
+        STSE_AES_KEY_USAGE_GENERIC_SECRET,
+        &confirmation_key_index);
+    if (ret != STSE_OK) {
+        return ret;
+    }
+
     /* - Send confirmation MAC + Key information list */
     ret = stsafea_confirm_symmetric_key(
         pSTSE,
-        okm_buffer,
+        confirmation_key_index,
         key_infos_count,
         key_infos_list);
-
     if (ret != STSE_OK) {
         return ret;
     }
 
     /* - Format OKM for return value */
     memcpy(key_list,
-           okm_buffer + STSAFEA_AES_256_KEY_SIZE,
-           okm_length - STSAFEA_AES_256_KEY_SIZE);
+           okm_buffer + STSE_AES_256_KEY_SIZE,
+           okm_length - STSE_AES_256_KEY_SIZE);
 
     return ret;
 #else
@@ -1493,6 +1583,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     PLAT_UI8 *private_key) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     stse_ReturnCode_t ret;
+    PLAT_UI32 confirmation_key_index;
 
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
@@ -1536,11 +1627,11 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     PLAT_UI8 signature[signature_size];
 
     /* - Initialize the OKM length with the confirmation key length */
-    PLAT_UI16 okm_length = STSAFEA_AES_256_KEY_SIZE;
+    PLAT_UI16 okm_length = STSE_AES_256_KEY_SIZE;
 
     for (PLAT_UI8 i = 0; i < key_infos_count; i++) {
         /* - Add the current key length (16 or 32 bytes) depending on key type */
-        okm_length += key_infos_list[i].type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSAFEA_AES_256_KEY_SIZE : STSAFEA_AES_128_KEY_SIZE;
+        okm_length += key_infos_list[i].type == STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
     }
 
     PLAT_UI8 okm_buffer[okm_length];
@@ -1687,7 +1778,16 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         STSAFEA_KT_LENGTH + STSAFEA_KT_LENGTH,
         okm_buffer,
         okm_length);
+    if (ret != STSE_OK) {
+        return ret;
+    }
 
+    /* - Store confirmation key */
+    ret = stse_platform_store_aes_key(
+        okm_buffer,
+        STSE_AES_256_KEY_SIZE,
+        STSE_AES_KEY_USAGE_GENERIC_SECRET,
+        &confirmation_key_index);
     if (ret != STSE_OK) {
         return ret;
     }
@@ -1695,7 +1795,7 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
     /* - Send confirmation MAC + Key information list */
     ret = stsafea_confirm_symmetric_key(
         pSTSE,
-        okm_buffer,
+        confirmation_key_index,
         key_infos_count,
         key_infos_list);
     if (ret != STSE_OK) {
@@ -1704,8 +1804,8 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
 
     /* - Format OKM for return value */
     memcpy(key_list,
-           okm_buffer + STSAFEA_AES_256_KEY_SIZE,
-           okm_length - STSAFEA_AES_256_KEY_SIZE);
+           okm_buffer + STSE_AES_256_KEY_SIZE,
+           okm_length - STSE_AES_256_KEY_SIZE);
 
     return ret;
 #else

@@ -36,104 +36,116 @@
  */
 
 /**
- * \brief 		Host key provisioning in plaintext
- * \details 	This API perform host key provisioning in plaintext, \n
+ * \brief 		Host secure channel keys provisioning in plaintext
+ * \details 	This API perform host secure channel keys provisioning in plaintext, \n
  * 				it use the put attribute command if the device isn't a STSAFE-A120 \n
  * 				and it use the "write host key" command if it is a STSAFE-A120
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \param[in] 	host_ecc_key_type 		Key type
- * \param[in] 	host_keys 			Pointer to the key structure
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	host_mac_key		Pointer to host MAC key (AES key structure) to be provisioned
+ * \param[in] 	host_cipher_key		Pointer to Host cipher key (AES key structure) to be provisioned
+ * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
+ * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
-stse_ReturnCode_t stse_host_key_provisioning(
+stse_ReturnCode_t stse_host_secure_channel_keys_provisioning(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t host_ecc_key_type,
-    stsafea_host_keys_t *host_keys);
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host key provisioning wrapped
- * \details 	This API perform host key provisioning with the key wrapped using a volatile KEK session
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \param[in] 	host_key_type 		Key type
- * \param[in] 	host_keys 			Pointer to the key structure
+ * \brief 		Host secure channel keys provisioning wrapped
+ * \details 	This API perform host secure channel keys provisioning with the key wrapped using a volatile KEK session
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	host_mac_key		Pointer to host MAC key (AES key structure) to be provisioned
+ * \param[in] 	host_cipher_key		Pointer to Host cipher key (AES key structure) to be provisioned
  * \param[in] 	ecdhe_key_type 		ECC key type to use in KEK session
+ * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
+ * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped.dox
  */
-stse_ReturnCode_t stse_host_key_provisioning_wrapped(
+stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t host_key_type,
-    stsafea_host_keys_t *host_keys,
-    stse_ecc_key_type_t ecdhe_key_type);
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key,
+    stse_ecc_key_type_t ecdhe_ecc_key_type,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host key provisioning wrapped and authenticated
- * \details 	This API perform host key provisioning with the key wrapped using an authenticated volatile KEK session
+ * \brief 		Host secure channel keys provisioning wrapped and authenticated
+ * \details 	This API perform host secure channel keys provisioning with the key wrapped using an authenticated volatile KEK session
  * \param[in] 	pSTSE 								Pointer to STSE Handler
- * \param[in] 	host_key_type 						Key type
- * \param[in] 	host_keys 							Pointer to the key structure
+ * \param[in] 	host_mac_key						Pointer to host MAC key (AES key structure) to be provisioned
+ * \param[in] 	host_cipher_key						Pointer to Host cipher key (AES key structure) to be provisioned
  * \param[in] 	ecdhe_key_type 						ECC key type to use in KEK session
  * \param[in] 	signature_public_key_slot_number 	Slot number of the public key used in authentication
  * \param[in] 	signature_hash_algo 				Hash algo used for the signature digest
  * \param[in] 	signature_private_key_type 			Key type of the private key used in authentication
  * \param[in] 	signature_private_key 				Private key used in authentication
+ * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
+ * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning_wrapped_authenticated.dox
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
-stse_ReturnCode_t stse_host_key_provisioning_wrapped_authenticated(
+stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped_authenticated(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t host_key_type,
-    stsafea_host_keys_t *host_keys,
-    stse_ecc_key_type_t ecdhe_key_type,
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key,
+    stse_ecc_key_type_t ecdhe_ecc_key_type,
     PLAT_UI8 signature_public_key_slot_number,
     stse_hash_algorithm_t signature_hash_algo,
-    stse_ecc_key_type_t signature_private_key_type,
-    PLAT_UI8 *signature_private_key);
+    stse_ecc_key_type_t signature_private_ecc_key_type,
+    PLAT_UI8 *signature_private_key,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host key establishment
- * \details 	This API establish host key (from STSAFE-A120)
+ * \brief 		Host secure channel keys establishment
+ * \details 	This API establish host secure channel keys (from STSAFE-A120)
  * \param[in] 	pSTSE 								Pointer to STSE Handler
  * \param[in] 	ecdh_key_type 						ECDH key pair type
- * \param[in] 	host_secure_channel_keys_type 		Host secure channel keys type
- * \param[in] 	host_mac_key 						Pointer to the host mac key buffer
- * \param[in] 	host_cipher_key 					Pointer to the host cipher key buffer
+ * \param[in]	host_secure_channel_keys_type		Host secure channel keys type
+ * \param[out]	host_mac_key_index					Index of the MAC key in platform secure storage to be used under the session
+ * \param[out]	host_cipher_key_index					Index of the cipher key in platform secure storage to be used under the session
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
  */
-stse_ReturnCode_t stse_establish_host_key(
+stse_ReturnCode_t stse_establish_host_secure_channel_keys(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
-    stsafea_host_key_type_t host_secure_channel_keys_type,
-    PLAT_UI8 *host_mac_key,
-    PLAT_UI8 *host_cipher_key);
+    stse_aes_key_type_t host_secure_channel_keys_type,
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host key establishment authenticated
- * \details 	This API establish host key after verifying entity signature (from STSAFE-A120)
+ * \brief 		Host secure channel keys establishment authenticated
+ * \details 	This API establish host secure channel keys after verifying entity signature (from STSAFE-A120)
  * \param[in] 	pSTSE 								Pointer to STSE Handler
  * \param[in] 	ecdh_key_type 						ECDH key pair type
  * \param[in] 	host_secure_channel_keys_type 		Host secure channel keys type
  * \param[in] 	tbs_hash_algo 						Hashing algorithm used for the signature
  * \param[in] 	tbs_public_key_slot 				Public key slot used for the signature
  * \param[in] 	tbs_private_key 					Private key associated to public key slot used for the signature
- * \param[in] 	host_mac_key 						Pointer to the host mac key buffer
- * \param[in] 	host_cipher_key 					Pointer to the host cipher key buffer
+ * \param[out]	host_mac_key_index        			Index of the MAC key in platform secure storage to be used under the session
+ * \param[out]	host_cipher_key_index     			Index of the cipher key in platform secure storage to be used under the session
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_host_key_provisioning.dox
  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, pPrivate_key pointer shall reference concatenated key pair buffer's address.
  */
-stse_ReturnCode_t stse_establish_host_key_authenticated(
+stse_ReturnCode_t stse_establish_host_secure_channel_keys_authenticated(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
-    stsafea_host_key_type_t host_secure_channel_keys_type,
+    stse_aes_key_type_t host_secure_channel_keys_type,
     stse_hash_algorithm_t tbs_hash_algo,
     PLAT_UI8 tbs_public_key_slot,
     PLAT_UI8 *tbs_private_key,
-    PLAT_UI8 *host_mac_key,
-    PLAT_UI8 *host_cipher_key);
+    PLAT_UI32 *host_mac_key_index,
+    PLAT_UI32 *host_cipher_key_index);
 
 /**
  * \brief 		Get symmetric key slot count
