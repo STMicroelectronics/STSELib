@@ -392,7 +392,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
     stse_Handle_t *pSTSE,
-    PLAT_UI8 *pMac_confirmation_key,
+    PLAT_UI32 confirmation_key_index,
     PLAT_UI8 key_count,
     stsafea_generic_key_information_t *pKey_information_list) {
     stse_ReturnCode_t ret;
@@ -403,7 +403,7 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pMac_confirmation_key == NULL) || (pKey_information_list == NULL) || (key_count == 0)) {
+    if ((pKey_information_list == NULL) || (key_count == 0)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -416,8 +416,7 @@ stse_ReturnCode_t stsafea_confirm_symmetric_key(
     stse_frame_element_allocate_push(&CmdFrame, eConfirmation_mac, STSE_KEY_CONFIRMATION_MAC_SIZE, pConfirmation_mac);
 
     ret = stse_platform_aes_cmac_init(
-        pMac_confirmation_key,
-        STSAFEA_AES_256_KEY_SIZE,
+        confirmation_key_index,
         STSE_KEY_CONFIRMATION_MAC_SIZE);
     if (ret != STSE_OK) {
         return (ret);

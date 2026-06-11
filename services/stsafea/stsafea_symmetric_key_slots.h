@@ -218,7 +218,7 @@ typedef struct stsafe_generic_key_information_t {
 /**
  * \brief 		Query symmetric key slot provisioning control fields
  * \details 	This service format and send query symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	slot_number			Slot number of the slot to query
  * \param[out] 	pCtrl_fields		Output structure for the provisioning control fields of the target slot
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -244,7 +244,7 @@ stse_ReturnCode_t stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(
 /**
  * \brief 		Query symmetric key slot count
  * \details 	This service format and send query symmetric key slot count
- * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[out] 	pSymmetric_key_slot_count	Slot count output
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
@@ -253,7 +253,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_slots_count(stse_Handle_t *pSTSE, 
 /**
  * \brief 		Query symmetric key table informations
  * \details 	This service format and send query symmetric key table informations
- * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	pSTSE 						Pointer to STSE Handler
  * \param[in] 	symmetric_key_slot_count	Expected table slot count
  * \param[out] 	symmetric_key_table_info	Output key slot info list of length equal to symmetric_key_slot_count
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -266,7 +266,7 @@ stse_ReturnCode_t stsafea_query_symmetric_key_table(
 /**
  * \brief 		Establish symmetric key in stsafe symmetric key table
  * \details 	This service format and send establish symmetric key command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
  * \param[in] 	key_type 				Type of the key used in ECDHE
  * \param[in] 	host_ecdhe_public_key	Key used in ECDHE
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -279,7 +279,7 @@ stse_ReturnCode_t stsafea_establish_symmetric_key(
 /**
  * \brief 		Authenticate establish symmetric key in stsafe symmetric key table
  * \details 	This service format and send establish symmetric key command with an authentication signature
- * \param[in] 	pSTSE 							Pointer to STSE Handler
+ * \param[in] 	pSTSE 								Pointer to STSE Handler
  * \param[in] 	key_type 							Type of the key used in ECDHE
  * \param[in] 	host_ecdhe_public_key				Key used in ECDHE
  * \param[in] 	hash_algo							Signature hash algorithm ID
@@ -300,22 +300,22 @@ stse_ReturnCode_t stsafea_establish_symmetric_key_authenticated(
 /**
  * \brief 		Confirm symmetric key establishment in stsafe symmetric key table
  * \details 	This service format and send confirm symmetric key command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	pMac_confirmation_key 	Key used to MAC the confirmation command payload
+ * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	confirmation_key_index 	Index of key used to MAC the confirmation command payload
  * \param[in] 	key_count				Number of key to populate
  * \param[in]	pKey_information_list	Key information list used to populate the symmetric key table
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_confirm_symmetric_key(
     stse_Handle_t *pSTSE,
-    PLAT_UI8 *pMac_confirmation_key,
+    PLAT_UI32 confirmation_key_index,
     PLAT_UI8 key_count,
     stsafea_generic_key_information_t *pKey_information_list);
 
 /**
  * \brief 		Write symmetric key envelope in stsafe symmetric key table
  * \details 	This service format and send write symmetric key command
- * \param[in] 	pSTSE 			 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 			 				Pointer to STSE Handler
  * \param[in] 	pSymmetric_key_envelope 		Envelope containing key materials to write in STSAFE
  * \param[in] 	symmetric_key_envelope_length 	Envelope length in bytes
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise

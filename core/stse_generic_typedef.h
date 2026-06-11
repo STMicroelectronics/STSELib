@@ -108,7 +108,8 @@ typedef enum stse_ecc_key_type_t {
  */
 typedef enum stse_aes_key_type_t {
     STSE_AES_128_KT = 0x00,
-    STSE_AES_256_KT
+    STSE_AES_256_KT,
+    STSE_AES_INVALID_KT
 } stse_aes_key_type_t;
 
 /*!
@@ -116,8 +117,10 @@ typedef enum stse_aes_key_type_t {
  * \brief STSE AES key usage
  */
 typedef enum stse_aes_key_usage_t {
-    STSE_AES_KEY_USAGE_MAC = 0, /**< Key used for MAC operations (CMAC) */
-    STSE_AES_KEY_USAGE_CIPHER   /**< Key used for cipher operations (CBC, ECB) */
+    STSE_AES_KEY_USAGE_MAC = 0,        /**< Key used for host MAC operations */
+    STSE_AES_KEY_USAGE_CIPHER,         /**< Key used for host cipher operations */
+    STSE_AES_KEY_USAGE_GENERIC_SECRET, /**< Generic secret: AES key with variable-length keys (from 16 to 32 bytes) */
+    STSE_AES_KEY_USAGE_INVALID
 } stse_aes_key_usage_t;
 
 /*!
@@ -172,6 +175,17 @@ typedef enum stse_cmd_protection_t {
     STSE_HOST_R_WRAP,       /*!< Encrypted and authenticated response using HOST MAC and cipher Keys*/
     STSE_HOST_C_WRAP_R_WRAP /*!< Encrypted and authenticated command and response using HOST MAC and cipher Keys*/
 } stse_cmd_protection_t;
+
+/*!
+ * \struct stse_aes_key_t
+ * \brief STSE AES key type
+ */
+typedef struct
+{
+    stse_aes_key_type_t type;
+    stse_aes_key_usage_t usage;
+    PLAT_UI8 key[STSE_AES_256_KEY_SIZE];
+} stse_aes_key_t;
 
 /*!
  * \struct stse_cmd_authorization_CR_t

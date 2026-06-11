@@ -155,9 +155,10 @@ stse_ReturnCode_t stsafea_query_host_key_v2(
                                       stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_put_attribute_host_key(
+stse_ReturnCode_t stsafea_put_attribute_host_secure_channel_keys(
     stse_Handle_t *pSTSE,
-    stsafea_aes_128_host_keys_t *host_keys) {
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
 
     /* - Check stsafe handler initialization */
@@ -165,7 +166,9 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (host_keys == NULL) {
+    if (host_mac_key == NULL || host_cipher_key == NULL || host_mac_key->type != host_cipher_key->type ||
+        host_mac_key->type != STSE_AES_128_KT || host_cipher_key->type != STSE_AES_128_KT ||
+        host_mac_key->usage != STSE_AES_KEY_USAGE_MAC || host_cipher_key->usage != STSE_AES_KEY_USAGE_CIPHER) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -175,7 +178,8 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
     stse_frame_allocate(CmdFrame);
     stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_HEADER_SIZE, &cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, eSubject_tag, 1, &subject_tag);
-    stse_frame_element_allocate_push(&CmdFrame, eHost_keys, sizeof(stsafea_aes_128_host_keys_t), (PLAT_UI8 *)host_keys);
+    stse_frame_element_allocate_push(&CmdFrame, e_host_mac_key, STSE_AES_128_KEY_SIZE, host_mac_key->key);
+    stse_frame_element_allocate_push(&CmdFrame, e_host_cipher_key, STSE_AES_128_KEY_SIZE, host_cipher_key->key);
 
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
@@ -187,10 +191,10 @@ stse_ReturnCode_t stsafea_put_attribute_host_key(
                                       stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_host_key_provisioning(
+stse_ReturnCode_t stsafea_host_secure_channel_keys_provisioning(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t key_type,
-    stsafea_host_keys_t *host_keys) {
+    stse_aes_key_t *host_mac_key,
+    stse_aes_key_t *host_cipher_key) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_PLAINTEXT};
 
     /* - Check stsafe handler initialization */
@@ -198,11 +202,13 @@ stse_ReturnCode_t stsafea_host_key_provisioning(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (key_type == STSAFEA_AES_INVALID_HOST_KEY || host_keys == NULL) {
+    if (host_mac_key == NULL || host_cipher_key == NULL || host_mac_key->type != host_cipher_key->type ||
+        host_mac_key->type >= STSE_AES_INVALID_KT || host_cipher_key->type >= STSE_AES_INVALID_KT ||
+        host_mac_key->usage != STSE_AES_KEY_USAGE_MAC || host_cipher_key->usage != STSE_AES_KEY_USAGE_CIPHER) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
-    PLAT_UI8 host_keys_length = (key_type == STSAFEA_AES_128_HOST_KEY ? STSAFEA_HOST_AES_128_KEYS_SIZE : STSAFEA_HOST_AES_256_KEYS_SIZE);
+    PLAT_UI8 host_keys_length = (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE;
 
     PLAT_UI8 pPadding[3] = {0};
     PLAT_UI8 rsp_header;
@@ -210,8 +216,9 @@ stse_ReturnCode_t stsafea_host_key_provisioning(
     stse_frame_allocate(CmdFrame);
     stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, ePadding, 3, pPadding);
-    stse_frame_element_allocate_push(&CmdFrame, eKey_type, 1, (PLAT_UI8 *)&key_type);
-    stse_frame_element_allocate_push(&CmdFrame, eHost_keys, host_keys_length, (PLAT_UI8 *)host_keys);
+    stse_frame_element_allocate_push(&CmdFrame, eKey_type, 1, (PLAT_UI8 *)host_mac_key->type);
+    stse_frame_element_allocate_push(&CmdFrame, e_host_mac_key, host_keys_length, host_mac_key->key);
+    stse_frame_element_allocate_push(&CmdFrame, e_host_cipher_key, host_keys_length, host_cipher_key->key);
 
     stse_frame_allocate(RspFrame);
     stse_frame_element_allocate_push(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
@@ -222,9 +229,9 @@ stse_ReturnCode_t stsafea_host_key_provisioning(
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
+stse_ReturnCode_t stsafea_host_secure_channel_keys_provisioning_wrapped(
     stse_Handle_t *pSTSE,
-    stsafea_host_key_type_t key_type,
+    stse_aes_key_type_t key_type,
     PLAT_UI8 *pHost_key_envelope) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_WRAPPED};
 
@@ -233,11 +240,11 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if (key_type == STSAFEA_AES_INVALID_HOST_KEY || pHost_key_envelope == NULL) {
+    if (key_type > STSE_AES_INVALID_KT || pHost_key_envelope == NULL) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
-    PLAT_UI8 host_keys_envelope_length = key_type == STSAFEA_AES_128_HOST_KEY ? STSAFEA_HOST_AES_128_KEYS_ENVELOPE_SIZE : STSAFEA_HOST_AES_256_KEYS_ENVELOPE_SIZE;
+    PLAT_UI8 host_keys_envelope_length = (key_type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE;
 
     PLAT_UI8 rsp_header;
 
@@ -254,11 +261,11 @@ stse_ReturnCode_t stsafea_host_key_provisioning_wrapped(
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafea_establish_host_key(
+stse_ReturnCode_t stsafea_establish_host_secure_channel_keys(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t host_ecdh_public_key_type,
     PLAT_UI8 *pPublic_key,
-    stsafea_host_key_type_t host_keys_type) {
+    stse_aes_key_type_t host_keys_type) {
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_ESTABLISH_HOST_KEY_V2};
 
     /* - Check stsafe handler initialization */
@@ -266,7 +273,7 @@ stse_ReturnCode_t stsafea_establish_host_key(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) || (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY)) {
+    if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) || (host_keys_type >= STSE_AES_INVALID_KT)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -322,11 +329,11 @@ stse_ReturnCode_t stsafea_establish_host_key(
                                   &RspFrame);
 }
 
-stse_ReturnCode_t stsafea_establish_host_key_authenticated(
+stse_ReturnCode_t stsafea_establish_host_secure_channel_keys_authenticated(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t host_ecdh_public_key_type,
     PLAT_UI8 *pPublic_key,
-    stsafea_host_key_type_t host_keys_type,
+    stse_aes_key_type_t host_keys_type,
     PLAT_UI8 signature_public_key_slot,
     stse_ecc_key_type_t signature_public_key_type,
     stse_hash_algorithm_t signature_hash_algo,
@@ -339,7 +346,7 @@ stse_ReturnCode_t stsafea_establish_host_key_authenticated(
     }
 
     if ((host_ecdh_public_key_type >= STSE_ECC_KT_INVALID) || (pPublic_key == NULL) ||
-        (host_keys_type >= STSAFEA_AES_INVALID_HOST_KEY) || (signature_public_key_type >= STSE_ECC_KT_INVALID) ||
+        (host_keys_type >= STSE_AES_INVALID_KT) || (signature_public_key_type >= STSE_ECC_KT_INVALID) ||
         (signature_hash_algo >= STSE_SHA_INVALID) || (pSignature == NULL)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }

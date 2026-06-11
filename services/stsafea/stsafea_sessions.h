@@ -30,7 +30,7 @@
  * \param[in]   *pSTSE                  Pointer to STSE handler
  * \param[in]   *pSession               \ref stse_session_t Pointer to session
  * \param[in]   host_MAC_key_idx        Index of the MAC key in platform secure storage to be used under the session
- * \param[in]   host_cypher_key_idx     Index of the cypher key in platform secure storage to be used under the session
+ * \param[in]   host_cipher_key_idx     Index of the cipher key in platform secure storage to be used under the session
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details     \include{doc} stsafe_erase_context.dox
  * \details     \include{doc} stse_platform_store_aes_key.dox
@@ -38,7 +38,7 @@
 stse_ReturnCode_t stsafea_open_host_session_from_idx(stse_Handle_t *pSTSE,
                                                      stse_session_t *pSession,
                                                      PLAT_UI32 host_MAC_key_idx,
-                                                     PLAT_UI32 host_cypher_key_idx);
+                                                     PLAT_UI32 host_cipher_key_idx);
 
 /*!
  * \brief 		This Core function Close an existing host session context

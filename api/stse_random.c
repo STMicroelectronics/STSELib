@@ -43,8 +43,7 @@ stse_ReturnCode_t stse_generate_random(
     if (pSTSE->device_type != STSAFE_L010) {
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
         while (0 < random_size) {
-            PLAT_UI16 chunk = (random_size < STSAFEA_MAXIMUM_RNG_SIZE) ? 
-                            random_size : STSAFEA_MAXIMUM_RNG_SIZE;
+            PLAT_UI16 chunk = (random_size < STSAFEA_MAXIMUM_RNG_SIZE) ? random_size : STSAFEA_MAXIMUM_RNG_SIZE;
 
             ret = stsafea_generate_random(pSTSE, pRandom, chunk);
 
