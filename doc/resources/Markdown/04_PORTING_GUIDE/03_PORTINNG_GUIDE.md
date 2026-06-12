@@ -41,6 +41,7 @@ Following platform files architecture are recommended to simplify the porting of
 - @subpage stse_platform_power
 - @subpage stse_platform_i2c
 - @subpage stse_platform_st1wire
+- @subpage stse_platform_log
 
 # Reference Implementations
 
