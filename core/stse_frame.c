@@ -164,25 +164,25 @@ void stse_frame_debug_print(stse_frame_t *pFrame) {
     PLAT_UI16 data_index;
 
     if (pFrame->element_count == 0) {
-        printf("\n\r (EMPTY)");
+        stse_platform_printf("\n\r (EMPTY)");
         return;
     }
     pCurrent_element = pFrame->first_element;
-    printf(" (%d-byte) :", pFrame->length);
+    stse_platform_printf(" (%d-byte) :", pFrame->length);
     do {
-        printf(" { ");
+        stse_platform_printf(" { ");
         if (pCurrent_element->length == 0) {
-            printf("S ");
+            stse_platform_printf("S ");
         } else {
             for (data_index = 0; data_index < pCurrent_element->length; data_index++) {
                 if (pCurrent_element->pData != NULL) {
-                    printf("0x%02X ", pCurrent_element->pData[data_index]);
+                    stse_platform_printf("0x%02X ", pCurrent_element->pData[data_index]);
                 } else {
-                    printf("0x00 ");
+                    stse_platform_printf("0x00 ");
                 }
             }
         }
-        printf("}");
+        stse_platform_printf("}");
         pCurrent_element = pCurrent_element->next;
     } while (pCurrent_element != NULL);
 }

@@ -18,11 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **API change** — all platform-level SecureElement initialization functions now require an additional `void *pArg` parameter ([51aa3f8](https://github.com/STMicroelectronics/STSELib/commit/51aa3f8114d33adfe38da6fd261e4b9a71a1fa9b))
 - **Platform AES API change** — all platform AES cryptographic functions now reference keys by secure storage index (`PLAT_UI32 key_idx`) instead of raw key pointer and length (`PLAT_UI8 *pKey, PLAT_UI16 key_length`). Affected functions: `stse_platform_aes_cmac_init`, `stse_platform_aes_cmac_compute`, `stse_platform_aes_cmac_verify`, `stse_platform_aes_cbc_enc`, `stse_platform_aes_cbc_dec`, `stse_platform_aes_ecb_enc`
 - **Renamed** `stsafea_open_host_session` to `stsafea_open_host_session_from_idx` — signature updated to accept key indices (`PLAT_UI32 host_MAC_key_idx`, `PLAT_UI32 host_cypher_key_idx`) instead of raw key pointers
+- **printf() calls replaced** with `stse_platform_printf()` in all library code to abstract away standard I/O and allow platform-specific implementations for logging and output
 
 ### Added
 
 - `stse_platform_store_aes_key()` — new platform function to store an AES key into platform secure storage and retrieve its index
 - `stse_platform_delete_aes_key()` — new platform function to delete an AES key from platform secure storage by index
+- `stse_platform_printf()` — new platform function for formatted output, replacing all direct calls to `printf()` in the library with this abstraction to allow platform-specific implementations and avoid direct use of standard I/O in library code
 
 ### Changed
 

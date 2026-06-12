@@ -71,6 +71,11 @@ stse_ReturnCode_t stse_platform_crypto_init(void *pArg);
 stse_ReturnCode_t stse_platform_generate_random_init(void *pArg);
 
 /*!
+ * \brief      Platform log abstraction
+ */
+void stse_platform_printf(const char *format, ...);
+
+/*!
  * \brief      Platform generate random callback function
  * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
  */

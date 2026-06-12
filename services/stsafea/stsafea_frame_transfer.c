@@ -72,9 +72,9 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handle_t *pSTSE, stse_frame_t *pFr
     stse_frame_push_element(pFrame, &crc_element);
 
 #ifdef STSE_FRAME_DEBUG_LOG
-    printf("\n\r STSAFE Frame > ");
+    stse_platform_printf("\n\r STSAFE Frame > ");
     stse_frame_debug_print(pFrame);
-    printf("\n\r");
+    stse_platform_printf("\n\r");
 #endif /* STSE_FRAME_DEBUG_LOG */
 
     ret = STSE_PLATFORM_BUS_ACK_ERROR;
@@ -223,11 +223,11 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFra
         computed_crc = stse_platform_Crc16_Calculate(&received_header, STSE_RSP_FRAME_HEADER_SIZE);
 
 #ifdef STSE_FRAME_DEBUG_LOG
-        printf("\n\r STSAFE Frame <  (%d-byte) : { 0x%02X } { 0x%02X 0x%02X }\n\r",
-               received_length + STSE_FRAME_CRC_SIZE,
-               received_header,
-               received_crc[0],
-               received_crc[1]);
+        stse_platform_printf("\n\r STSAFE Frame <  (%d-byte) : { 0x%02X } { 0x%02X 0x%02X }\n\r",
+                             received_length + STSE_FRAME_CRC_SIZE,
+                             received_header,
+                             received_crc[0],
+                             received_crc[1]);
 #endif /* STSE_FRAME_DEBUG_LOG */
 
         /* - Verify CRC */
@@ -367,9 +367,9 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFra
         }
 
 #ifdef STSE_FRAME_DEBUG_LOG
-        printf("\n\r STSAFE Frame < ");
+        stse_platform_printf("\n\r STSAFE Frame < ");
         stse_frame_debug_print(pFrame);
-        printf("\n\r");
+        stse_platform_printf("\n\r");
 #endif /* STSE_FRAME_DEBUG_LOG */
 
         /* - Swap CRC */
