@@ -18,7 +18,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <stddef.h>
-#include <stdio.h>
 
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_frame_transfer.h"

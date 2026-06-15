@@ -18,7 +18,6 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <stddef.h>
-#include <stdio.h>
 
 #include "services/stsafel/stsafel_frame_transfer.h"
 #include "services/stsafel/stsafel_timings.h"
@@ -69,9 +68,9 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handle_t *pSTSE, stse_frame_t *pFr
     stse_frame_push_element(pFrame, &crc_element);
 
 #ifdef STSE_FRAME_DEBUG_LOG
-    printf("\n\r STSAFE Frame > ");
+    stse_platform_printf("\n\r STSAFE Frame > ");
     stse_frame_debug_print(pFrame);
-    printf("\n\r");
+    stse_platform_printf("\n\r");
 #endif /* STSE_FRAME_DEBUG_LOG */
 
     ret = STSE_PLATFORM_BUS_ACK_ERROR;
@@ -324,9 +323,9 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *
     }
 
 #ifdef STSE_FRAME_DEBUG_LOG
-    printf("\n\r STSAFE Frame < ");
+    stse_platform_printf("\n\r STSAFE Frame < ");
     stse_frame_debug_print(pFrame);
-    printf("\n\r");
+    stse_platform_printf("\n\r");
 #endif /* STSE_FRAME_DEBUG_LOG */
 
     /* - Swap CRC */
@@ -451,9 +450,9 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handle_t *pSTSE, stse_frame
     }
 
 #ifdef STSE_FRAME_DEBUG_LOG
-    printf("\n\r STSE Frame < ");
+    stse_platform_printf("\n\r STSE Frame < ");
     stse_frame_debug_print(pFrame);
-    printf("\n\r");
+    stse_platform_printf("\n\r");
 #endif
 
     /* - Swap CRC */
