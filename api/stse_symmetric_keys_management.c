@@ -479,6 +479,8 @@ static stse_ReturnCode_t stse_KEK_wrap(
 
 /* Exported functions --------------------------------------------------------*/
 
+#if defined(STSE_CONF_USE_HOST_SESSION)
+
 stse_ReturnCode_t stse_host_secure_channel_keys_provisioning(
     stse_Handle_t *pSTSE,
     stse_aes_key_t *host_mac_key,
@@ -541,6 +543,8 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning(
     return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
+
+#endif /* STSE_CONF_USE_HOST_SESSION */
 
 #ifdef STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED
 
