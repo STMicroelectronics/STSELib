@@ -525,6 +525,8 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning(
                                       (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                       STSE_AES_KEY_USAGE_MAC,
                                       host_mac_key_index);
+    memset(host_mac_key->key, 0, sizeof(host_mac_key->key));
+
     if (ret != STSE_OK) {
         return ret;
     }
@@ -534,9 +536,7 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning(
                                       (host_cipher_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                       STSE_AES_KEY_USAGE_CIPHER,
                                       host_cipher_key_index);
-    if (ret != STSE_OK) {
-        return ret;
-    }
+    memset(host_cipher_key->key, 0, sizeof(host_cipher_key->key));
 
     return ret;
 #else
@@ -638,6 +638,8 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped(
                                       (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                       STSE_AES_KEY_USAGE_MAC,
                                       host_mac_key_index);
+    memset(host_mac_key->key, 0, sizeof(host_mac_key->key));
+
     if (ret != STSE_OK) {
         return ret;
     }
@@ -647,6 +649,7 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped(
                                       (host_cipher_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                       STSE_AES_KEY_USAGE_CIPHER,
                                       host_cipher_key_index);
+    memset(host_cipher_key->key, 0, sizeof(host_cipher_key->key));
 
     return ret;
 }
@@ -750,6 +753,8 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped_authenticat
                                       (host_mac_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                       STSE_AES_KEY_USAGE_MAC,
                                       host_mac_key_index);
+    memset(host_mac_key->key, 0, sizeof(host_mac_key->key));
+
     if (ret != STSE_OK) {
         return ret;
     }
@@ -759,6 +764,7 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped_authenticat
                                       (host_cipher_key->type == STSE_AES_128_KT) ? STSE_AES_128_KEY_SIZE : STSE_AES_256_KEY_SIZE,
                                       STSE_AES_KEY_USAGE_CIPHER,
                                       host_cipher_key_index);
+    memset(host_cipher_key->key, 0, sizeof(host_cipher_key->key));
 
     return ret;
 }
@@ -1547,6 +1553,9 @@ stse_ReturnCode_t stse_establish_symmetric_key(
         STSE_AES_256_KEY_SIZE,
         STSE_AES_KEY_USAGE_GENERIC_SECRET,
         &confirmation_key_index);
+
+    memset(okm_buffer, 0, STSE_AES_256_KEY_SIZE);
+
     if (ret != STSE_OK) {
         return ret;
     }
@@ -1792,6 +1801,9 @@ stse_ReturnCode_t stse_establish_symmetric_key_authenticated(
         STSE_AES_256_KEY_SIZE,
         STSE_AES_KEY_USAGE_GENERIC_SECRET,
         &confirmation_key_index);
+
+    memset(okm_buffer, 0, STSE_AES_256_KEY_SIZE);
+
     if (ret != STSE_OK) {
         return ret;
     }
