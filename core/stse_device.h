@@ -58,8 +58,13 @@ typedef enum stse_device_t {
 #endif          /* STSE_CONF_STSAFE_L_SUPPORT */
 } stse_device_t;
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 #define STSE_DEVICE_STSAFEA_FAMILY_INDEX STSAFE_A100
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
+
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
 #define STSE_DEVICE_STSAFEL_FAMILY_INDEX STSAFE_L010
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
 typedef struct stse_perso_info_t {
     PLAT_UI32 cmd_encryption_status;

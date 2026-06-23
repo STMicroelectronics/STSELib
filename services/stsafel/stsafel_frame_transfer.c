@@ -41,7 +41,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
         return STSE_SERVICE_INVALID_PARAMETER;
     }
     /*- Verify Device type */
-    if (pSTSE->device_type >= (STSAFE_L010 + STSAFEL_PRODUCT_COUNT)) {
+    if (pSTSE->device_type >= (STSE_DEVICE_STSAFEL_FAMILY_INDEX + STSAFEL_PRODUCT_COUNT)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
     /*- Verify Frame length */
@@ -53,7 +53,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
         return STSE_SERVICE_INVALID_FRAME;
     }
     /*- Verify Frame overflow */
-    if (pFrame->length > stsafel_maximum_frame_length[pSTSE->device_type - STSAFE_L010]) {
+    if (pFrame->length > stsafel_maximum_frame_length[pSTSE->device_type - STSE_DEVICE_STSAFEL_FAMILY_INDEX]) {
         return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
     /*- Compute frame crc */
@@ -142,7 +142,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
     /* - Verify Device type */
-    if (pSTSE->device_type >= (STSAFE_L010 + STSAFEL_PRODUCT_COUNT)) {
+    if (pSTSE->device_type >= (STSE_DEVICE_STSAFEL_FAMILY_INDEX + STSAFEL_PRODUCT_COUNT)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 
@@ -182,7 +182,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE;
 
     /*- Verify Frame overflow */
-    if (pFrame->length > stsafel_maximum_frame_length[pSTSE->device_type - STSAFE_L010]) {
+    if (pFrame->length > stsafel_maximum_frame_length[pSTSE->device_type - STSE_DEVICE_STSAFEL_FAMILY_INDEX]) {
         return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 
