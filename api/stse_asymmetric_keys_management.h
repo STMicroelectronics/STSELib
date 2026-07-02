@@ -80,7 +80,8 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
 /**
  * \brief 		Generate an ECDHE key pair
  * \details 	This API request STSE to generate an ECDHE key pair.
- * If the slot is already seeded, it will be overwritten with the new key
+ * If the slot is already seeded, it will be overwritten with the new key.
+ * Note that the slot 0 can't be reprovisionned.
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	key_type 		Key type to generate
  * \param[out] 	pPublic_key 	Public key of the generated key pair
@@ -95,7 +96,8 @@ stse_ReturnCode_t stse_generate_ECDHE_key_pair(
 /**
  * \brief 		Generate an ECC key pair
  * \details     This API requests the STSE to generate an ECC key pair in the private key table.
- * If the slot is already seeded, it will be overwritten with the new key
+ * If the slot is already seeded, it will be overwritten with the new key.
+ * Note that the slot 0 can't be reprovisionned.
  * \param[in] 	pSTSE 			Pointer to STSE Handler
  * \param[in] 	slot_number 	Private key table slot used to generate the key pair
  * \param[in] 	key_type 		Key pair type
