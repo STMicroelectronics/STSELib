@@ -27,6 +27,10 @@
 /* Exported functions --------------------------------------------------------*/
 stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
     stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+    PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE];
+    PLAT_UI16 mask_number;
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
     /* - Check STSAFE handler initialization */
     if (pSTSE == NULL) {
@@ -96,7 +100,27 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE) {
         stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
 
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
-        ret = stsafea_perso_info_update(pSTSE);
+		ret = stsafea_query_mask_id(pSTSE, mask_id);
+	    if (ret != STSE_OK) {
+	        return ret;
+	    }
+
+	    mask_number = (mask_id[STSAFEA_MASK_ID_SIZE - 2] << 8) + mask_id[STSAFEA_MASK_ID_SIZE - 1];
+	    if (mask_number >= 0x6000) {
+	    	pSTSE->device_type = STSAFE_A120;
+	    }
+	    else if (mask_number >= 0x4600) {
+	    	pSTSE->device_type = STSAFE_A110;
+	    }
+	    else if (mask_number >= 0x4000) {
+	    	pSTSE->device_type = STSAFE_A100;
+	    }
+	    else
+	    {
+	    	return (STSE_SERVICE_INCOMPATIBLE_DEVICE_TYPE);
+	    }
+
+	    ret = stsafea_perso_info_update(pSTSE);
 #endif /* STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS */
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     }
