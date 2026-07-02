@@ -74,6 +74,8 @@
 #define STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_SLOT 0x4C                   /*!< Generic public key slot subject-tag */
 #define STSAFEA_SUBJECT_TAG_GENERIC_PUBLIC_KEY_CONFIGURATION_FLAGS 0x4D    /*!< Generic public key configuration flags subject-tag */
 
+#define STSAFEA_MASK_ID_SIZE    3	/*!< Mask identification size */
+
 /*!
  * \enum stsafea_life_cycle_state_t
  * STSAFEA Life cycle state type
@@ -134,15 +136,26 @@ stse_ReturnCode_t stsafea_put_i2c_parameters(
     stsafea_i2c_parameters_t *pI2c_parameters);
 
 /**
- * \brief 		STSAFEA put life cycle service
- * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSE	 			Pointer to STSE Handler
- * \param[out] 	pLife_cycle_state 	Life cycle state
+ * \brief 		STSAFEA query I2C parameters service
+ * \details 	This service format and send/receive the query I2C parameters command/response
+ * \param[in] 	pSTSE	 					Pointer to STSE Handler
+ * \param[out] 	pI2c_parameters 			I2C parameters
  * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stsafea_query_i2c_parameters(
     stse_Handler_t *pSTSE,
     stsafea_i2c_parameters_t *pI2c_parameters);
+
+/**
+ * \brief 		STSAFEA query mask identification service
+ * \details 	This service format and send/receive the mask identification command/response
+ * \param[in] 	pSTSE	 			Pointer to STSE Handler
+ * \param[out] 	mask_id		 		Mask identification (3 bytes)
+ * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stsafea_query_mask_id(
+    stse_Handler_t *pSTSE,
+	PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE]);
 
 /** \}*/
 
