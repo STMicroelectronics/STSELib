@@ -19,7 +19,7 @@ pipeline {
                 }
             }
         }
-        stage('Checkout STSELib ) {
+        stage('Checkout STSELib') {
             steps {
                 script {
                     dir("${BUILD_ID}/Middleware/STSELib")
