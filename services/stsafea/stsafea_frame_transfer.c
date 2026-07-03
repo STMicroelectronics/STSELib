@@ -219,7 +219,20 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFra
         /* ====================================================== */
         /* ====== compute CRC for response without payload ====== */
 
-        computed_crc = stse_platform_Crc16_Calculate(&received_header, STSE_RSP_FRAME_HEADER_SIZE);
+        stse_crc16_context_t crc_ctx;
+        ret = stse_platform_Crc16_ContextInit(&crc_ctx);
+        if (ret == STSE_OK) {
+            computed_crc = stse_platform_Crc16_Accumulate(&received_header, STSE_RSP_FRAME_HEADER_SIZE, &crc_ctx);
+
+            stse_platform_Crc16_ContextRelease(&crc_ctx);
+
+            /* - Verify CRC */
+            if (computed_crc != ((received_crc[0] << 8) + received_crc[1])) {
+                ret = STSE_SERVICE_FRAME_CRC_ERROR;
+            } else {
+                ret = (stse_ReturnCode_t)(received_header & STSE_STSAFEA_RSP_STATUS_MASK);
+            }
+        }
 
 #ifdef STSE_FRAME_DEBUG_LOG
         stse_platform_printf("\n\r STSAFE Frame <  (%d-byte) : { 0x%02X } { 0x%02X 0x%02X }\n\r",
@@ -228,13 +241,6 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFra
                              received_crc[0],
                              received_crc[1]);
 #endif /* STSE_FRAME_DEBUG_LOG */
-
-        /* - Verify CRC */
-        if (computed_crc != ((received_crc[0] << 8) + received_crc[1])) {
-            return (STSE_SERVICE_FRAME_CRC_ERROR);
-        }
-
-        ret = (stse_ReturnCode_t)(received_header & STSE_STSAFEA_RSP_STATUS_MASK);
     } else {
         /* ======================================================= */
         /* ====== Format the frame to handle CRC and filler ====== */
