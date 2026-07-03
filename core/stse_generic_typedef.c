@@ -112,10 +112,6 @@ const stse_ecc_info_t stse_ecc_info_table[] =
 };
 #endif
 
-#if defined(STSE_CONF_ECC_NIST_P_256) || defined(STSE_CONF_ECC_NIST_P_384) || defined(STSE_CONF_ECC_NIST_P_521) ||                \
-    defined(STSE_CONF_ECC_BRAINPOOL_P_256) || defined(STSE_CONF_ECC_BRAINPOOL_P_384) || defined(STSE_CONF_ECC_BRAINPOOL_P_512) || \
-    defined(STSE_CONF_ECC_CURVE_25519) || defined(STSE_CONF_ECC_EDWARD_25519)
-
 stse_ecc_key_type_t stse_get_ecc_key_type_from_curve_id(const stsafea_ecc_curve_id_t curve_id[static 1]) {
     stse_ecc_key_type_t key_type = (stse_ecc_key_type_t)0;
 
@@ -132,6 +128,5 @@ stse_ecc_key_type_t stse_get_ecc_key_type_from_curve_id(const stsafea_ecc_curve_
     }
 
     return key_type;
-}
 
 #endif
