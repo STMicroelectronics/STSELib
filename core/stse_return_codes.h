@@ -66,6 +66,7 @@ enum stse_ReturnCode_t {
     STSE_PLATFORM_SERVICES_INIT_ERROR = 0x0101, /*!< STSE Host platform service initialization error */
     STSE_PLATFORM_CRYPTO_INIT_ERROR,            /*!< STSE Host cryptographic service initialization error */
     STSE_PLATFORM_INVALID_PARAMETER,            /*!< Error detected on the STSE HW Bus */
+    STSE_PLATFORM_UNEXPECTED_ERROR,             /*!< STSE Host platform encouter an unexpected error */
     STSE_PLATFORM_BUS_ERR,
     STSE_PLATFORM_BUFFER_ERR,           /*!< STSE Host platform Communication bus buffer overflow */
     STSE_PLATFORM_BUS_ARBITRATION_LOST, /*!< STSE Host platform Communication bus Arbitration Lost */
