@@ -23,8 +23,10 @@ pipeline {
             steps {
                 script {
                     dir("${BUILD_ID}/Middleware/STSELib")
-                    bat "git fetch origin +refs/pull/%CHANGE_ID%/head:pr-%CHANGE_ID%"
-                    bat "git checkout pr-%CHANGE_ID%"
+                    {
+                        bat "git fetch origin +refs/pull/%CHANGE_ID%/head:pr-%CHANGE_ID%"
+                        bat "git checkout pr-%CHANGE_ID%"
+                    }
                 }
             }
         }
