@@ -116,28 +116,22 @@ const stse_ecc_info_t stse_ecc_info_table[] =
     defined(STSE_CONF_ECC_BRAINPOOL_P_256) || defined(STSE_CONF_ECC_BRAINPOOL_P_384) || defined(STSE_CONF_ECC_BRAINPOOL_P_512) || \
     defined(STSE_CONF_ECC_CURVE_25519) || defined(STSE_CONF_ECC_EDWARD_25519)
 
-stse_ReturnCode_t stse_get_ecc_key_type_from_curve_id(
-    PLAT_UI8 curve_id_length,
-    const PLAT_UI8 *pCurve_id_value,
-    stse_ecc_key_type_t *pKey_type) {
-    stse_ReturnCode_t ret = STSE_OK;
-    stse_ecc_key_type_t key_type;
+stse_ecc_key_type_t stse_get_ecc_key_type_from_curve_id(const stsafea_ecc_curve_id_t curve_id[static 1]) {
+    stse_ecc_key_type_t key_type = (stse_ecc_key_type_t)0;
 
-    for (key_type = (stse_ecc_key_type_t)0; (PLAT_I8)key_type < (PLAT_I8)STSE_ECC_KT_INVALID;) {
-        PLAT_UI8 info_curve_id_length = stse_ecc_info_table[key_type].curve_id_total_length - STSE_ECC_GENERIC_LENGTH_SIZE;
-        if (curve_id_length == info_curve_id_length) {
-            if (memcmp(stse_ecc_info_table[key_type].curve_id.value,
-                       pCurve_id_value,
-                       info_curve_id_length) == 0) {
-                break;
-            }
+    // Compare slot curve ID against each known curve ID
+    while (key_type < STSE_ECC_KT_INVALID) {
+        /* The curve id is compared byte-for-byte with memcmp. This is valid because
+         * stsafea_ecc_curve_id_t is a packed struct (PLAT_PACKED_STRUCT): its `length` and `value`
+         * fields sit contiguously with no padding, so the first curve_id_total_length bytes are
+         * exactly the curve-id byte sequence, with no padding bytes to cause a spurious mismatch. */
+        if (memcmp(&(stse_ecc_info_table[key_type].curve_id), curve_id, stse_ecc_info_table[key_type].curve_id_total_length) == 0) {
+            break;
         }
         key_type++;
     }
 
-    *pKey_type = key_type;
-
-    return ret;
+    return key_type;
 }
 
 #endif

@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Platform AES API change** — all platform AES cryptographic functions now reference keys by secure storage index (`PLAT_UI32 key_idx`) instead of raw key pointer and length (`PLAT_UI8 *pKey, PLAT_UI16 key_length`). Affected functions: `stse_platform_aes_cmac_init`, `stse_platform_aes_cmac_compute`, `stse_platform_aes_cmac_verify`, `stse_platform_aes_cbc_enc`, `stse_platform_aes_cbc_dec`, `stse_platform_aes_ecb_enc`
 - **Renamed** `stsafea_open_host_session` to `stsafea_open_host_session_from_idx` — signature updated to accept key indices (`PLAT_UI32 host_MAC_key_idx`, `PLAT_UI32 host_cypher_key_idx`) instead of raw key pointers
 - **printf() calls replaced** with `stse_platform_printf()` in all library code to abstract away standard I/O and allow platform-specific implementations for logging and output
+- **API change** — `stse_get_ecc_key_type_from_curve_id` now returns the resolved `stse_ecc_key_type_t` directly (or `STSE_ECC_KT_INVALID` if unknown) and takes a single packed `stsafea_ecc_curve_id_t` pointer, replacing the previous `PLAT_UI8 curve_id_length`, `const PLAT_UI8 *pCurve_id_value` and `stse_ecc_key_type_t *pKey_type` parameters
 
 ### Added
 
