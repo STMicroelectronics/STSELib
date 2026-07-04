@@ -17,6 +17,7 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include <stddef.h>
+#include <stdint.h>
 
 #include "api/stse_device_authentication.h"
 #include "api/stse_ecc.h"
@@ -24,6 +25,7 @@
 #include "certificate/stse_certificate.h"
 #include "certificate/stse_certificate_crypto.h"
 #include "certificate/stse_certificate_subparsing.h"
+#include "certificate/stse_certificate_types.h"
 
 #define STSE_CERTIFICATE_SIZE_OFFSET_BYTES 2U
 #define STSE_CERTIFICATE_SIZE_LENGTH 2U
@@ -57,7 +59,7 @@ stse_ReturnCode_t stse_get_device_id(stse_Handle_t *pSTSE, PLAT_UI8 certificate_
 
 stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 *pCertificate_size) {
     volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
-    PLAT_UI8 certificate_size_ui8[2];
+    PLAT_UI8 tlv_header[4];
 
     /* - Check stsafe handler initialization */
     if (pSTSE == NULL) {
@@ -69,19 +71,69 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI
     }
 
     ret = stse_data_storage_read_data_zone(
-        pSTSE,                              /* STSE handler */
-        certificate_zone,                   /* Certificate zone */
-        STSE_CERTIFICATE_SIZE_OFFSET_BYTES, /* 2 bytes offset */
-        certificate_size_ui8,               /* Returned certificate size */
-        STSE_CERTIFICATE_SIZE_LENGTH,       /* Certificate size length 2 bytes */
-        0,                                  /* No maximum chunk size (No chunk at all) */
-        STSE_NO_PROT);                      /* No protection */
+        pSTSE,              /* STSE handler */
+        certificate_zone,   /* Certificate zone */
+        0,                  /* No offset */
+        tlv_header,         /* Returned TLV header (tag + length bytes) */
+        sizeof(tlv_header), /* TLV header length 4 bytes */
+        0,                  /* No maximum chunk size (No chunk at all) */
+        STSE_NO_PROT);      /* No protection */
 
     if (ret != STSE_OK) {
         return ret;
     }
 
-    *pCertificate_size = (((uint16_t)certificate_size_ui8[0]) << 8) + ((uint16_t)certificate_size_ui8[1]) + 4U;
+    if (tlv_header[0] != TAG_SEQUENCE) {
+        /* Invalid X.509 DER certificate: the TAG is not SEQUENCE (0x30) */
+        return STSE_CERT_UNEXPECTED_SEQUENCE;
+    }
+
+    if (tlv_header[1] == 0x80) {
+        /* Invalid X.509 DER certificate: the indefinite length is not allowed in DER (it would also
+         * decode to len_of_len == 0, clashing with the short-form case below) */
+        return STSE_CERT_INVALID_CERTIFICATE;
+    }
+
+    /* The second byte encodes the Value length: below 0x80 it is the length itself (short form, no
+     * extra length bytes); otherwise bit 7 flags the long form and the low 7 bits tell how many of
+     * the following bytes encode the length (e.g. 0x82 means the next 2) */
+    PLAT_UI8 len_of_len = (tlv_header[1] < 0x80) ? 0 : (tlv_header[1] & ~0x80);
+
+    /* Decode the Value length and the smallest length the used encoding is allowed to carry:
+     * a certificate cannot be empty and DER requires the minimal length encoding */
+    PLAT_UI16 min_size;
+    switch (len_of_len) {
+        case 0:
+            *pCertificate_size = tlv_header[1];
+            min_size = 1;     // 1 byte
+            break;
+        case 1:
+            *pCertificate_size = tlv_header[2];
+            min_size = 0x80;  // 128 bytes
+            break;
+        case 2:
+            *pCertificate_size = (tlv_header[2] << 8) | tlv_header[3];
+            min_size = 0x100; // 256 bytes
+            break;
+        default:
+            /* Unsupported X.509 DER certificate: a length field longer than 2 bytes means a
+             * certificate larger than 65535 bytes, beyond what *pCertificate_size can represent */
+            return STSE_CERT_INVALID_CERTIFICATE;
+    }
+
+    if (*pCertificate_size < min_size) {
+        /* Invalid X.509 DER certificate: the length is zero or not minimally encoded */
+        return STSE_CERT_INVALID_CERTIFICATE;
+    }
+
+    /* Size of the Tag+Length field: tag byte + first length byte + extra length bytes.
+     * The parsed length covers the Value only, so add this to get the whole size */
+    PLAT_UI8 tl_len = 2 + len_of_len;
+    if (*pCertificate_size > UINT16_MAX - tl_len) {
+        /* Invalid X.509 DER certificate: the total size overflows 16 bits */
+        return STSE_CERT_INVALID_CERTIFICATE;
+    }
+    *pCertificate_size += tl_len;
 
     return STSE_OK;
 }
