@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - `stse_get_device_certificate_size()` now decodes the X.509 DER TLV header instead of assuming a fixed 2-byte length field, correctly sizing certificates that use the short form or a 1-byte long-form length. Invalid or corrupted certificates are now detected and rejected (non-`SEQUENCE` tag, forbidden indefinite length, non-minimal or zero length, sizes exceeding the 16-bit output) returning `STSE_CERT_UNEXPECTED_SEQUENCE` / `STSE_CERT_INVALID_CERTIFICATE` instead of a wrong size.
+- `stse_device_authenticate()` now reuses `stse_get_device_certificate_size()` to determine the certificate size instead of duplicating the inline 2-byte length computation, so it benefits from the corrected DER TLV parsing and the malformed-certificate validation.
 
 ### Security
 - AES keys are now securely stored in platform secure storage and referenced by index, eliminating the need to handle raw key material in application memory and enhancing overall security.

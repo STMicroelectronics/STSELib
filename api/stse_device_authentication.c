@@ -27,8 +27,6 @@
 #include "certificate/stse_certificate_subparsing.h"
 #include "certificate/stse_certificate_types.h"
 
-#define STSE_CERTIFICATE_SIZE_OFFSET_BYTES 2U
-#define STSE_CERTIFICATE_SIZE_LENGTH 2U
 #define STSE_CERTIFICATE_OFFSET_BYTES 0U
 #define STSE_CERTIFICATE_DEVICE_ID_OFFSET 15U
 #define STSE_CERTIFICATE_DEVICE_ID_SIZE 11U
@@ -174,7 +172,6 @@ stse_ReturnCode_t stse_device_authenticate(
     stse_ReturnCode_t ret;
     stse_certificate_t leaf_certificate;
     PLAT_UI16 certificate_size;
-    PLAT_UI8 certificate_size_ui8[2];
 
     if (pSTSE == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
@@ -184,20 +181,11 @@ stse_ReturnCode_t stse_device_authenticate(
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    ret = stse_data_storage_read_data_zone(
-        pSTSE,
-        certificate_zone,
-        STSE_CERTIFICATE_SIZE_OFFSET_BYTES, /* 2 bytes offset */
-        certificate_size_ui8,               /* Returned certificate size */
-        STSE_CERTIFICATE_SIZE_LENGTH,       /* Certificate size length 2 bytes */
-        0,                                  /* No maximum chunk size (No chunk at all) */
-        STSE_NO_PROT);                      /* No protection */
+    ret = stse_get_device_certificate_size(pSTSE, certificate_zone, &certificate_size);
 
     if (ret != STSE_OK) {
         return ret;
     }
-
-    certificate_size = (((uint16_t)certificate_size_ui8[0]) << 8) + ((uint16_t)certificate_size_ui8[1]) + 4U;
 
     PLAT_UI8 certificate[certificate_size];
 
