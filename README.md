@@ -62,12 +62,10 @@ Reference implementation for most common STSE applicative use case can be found 
 Following applicative project can be used as reference for STSELib integration and usage.
 
 - STSAFE-A
-    - [stsafe-a-sdk](https://github.com/STMicroelectronics/STSAFE-A120-sdk)
+    - [stsafe-a-sdk](https://github.com/STMicroelectronics/stsafe-a-sdk)
     - [wolfssl-examples](https://github.com/wolfSSL/wolfssl-examples/tree/master/stsafe) developed and maintained by [WolfSSL](https://www.wolfssl.com/)
     - [Zephyr_st-stsafe-a1xx](https://github.com/catie-aq/zephyr_st-stsafe-a1xx) developed and maintained by [CATIE](https://www.catie.fr/language/en/home/)
 
 
 - STSAFE-L
-    - [STSAFE-L_echo](https://github.com/STMicroelectronics/STSAFE-L_echo)
-    - [STSAFE-L_device_authentication](https://github.com/STMicroelectronics/STSAFE-L_device_authentication)
-    - [STSAFE-L_secure_data_storage](https://github.com/STMicroelectronics/STSAFE-L_secure_data_storage)
+    - [STSAFE-l-sdk](https://github.com/STMicroelectronics/stsafe-l-sdk)
