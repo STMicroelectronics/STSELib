@@ -21,11 +21,14 @@ pipeline {
         }
         stage('Checkout STSELib') {
             steps {
-                script {
-                    dir("${BUILD_ID}/Middleware/STSELib")
-                    {
-                        bat "git fetch origin +refs/pull/%CHANGE_ID%/head:pr-%CHANGE_ID%"
-                        bat "git checkout pr-%CHANGE_ID%"
+                dir("${BUILD_ID}/Middleware/STSELib") {
+                    script {
+                        if (params.STSELIB_PR?.trim()) {
+                            bat "git fetch origin +refs/pull/%STSELIB_PR%/head:pr-%STSELIB_PR%"
+                            bat "git checkout pr-%STSELIB_PR%"
+                        } else {
+                            echo "No STSELIB_PR provided, keeping submodule revision"
+                        }
                     }
                 }
             }
