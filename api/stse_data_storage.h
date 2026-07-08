@@ -106,7 +106,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
     stse_Handle_t *pSTSE,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
-    PLAT_UI8 *pBuffer,
+    const PLAT_UI8 *pBuffer,
     PLAT_UI16 length,
     stse_zone_update_atomicity_t atomicity,
     stse_cmd_protection_t protection);
