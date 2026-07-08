@@ -211,7 +211,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI32 zone_index,
                                            stsafea_update_option_t option,
                                            PLAT_UI16 offset,
-                                           PLAT_UI8 *data,
+                                           const PLAT_UI8 *data,
                                            PLAT_UI32 data_length,
                                            stse_cmd_protection_t protection);
 

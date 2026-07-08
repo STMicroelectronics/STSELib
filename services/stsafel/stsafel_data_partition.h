@@ -99,7 +99,7 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI8 zone_index,
                                            stsafel_update_option_t option,
                                            PLAT_UI16 offset,
-                                           PLAT_UI8 *pData,
+                                           const PLAT_UI8 *pData,
                                            PLAT_UI16 data_length,
                                            stse_cmd_protection_t protection);
 

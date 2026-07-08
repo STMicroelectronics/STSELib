@@ -345,7 +345,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI32 zone_index,
                                            stsafea_update_option_t option,
                                            PLAT_UI16 offset,
-                                           PLAT_UI8 *pData,
+                                           const PLAT_UI8 *pData,
                                            PLAT_UI32 data_length,
                                            stse_cmd_protection_t protection) {
 
@@ -376,7 +376,7 @@ stse_ReturnCode_t stsafea_update_data_zone(stse_Handle_t *pSTSE,
     stse_frame_element_allocate_push(&CmdFrame, eOption, STSAFEA_ZONE_ACCESS_OPTION_SIZE, (PLAT_UI8 *)&option);
     stse_frame_element_allocate_push(&CmdFrame, eZoneIndex, STSAFEA_ZONE_INDEX_SIZE, (PLAT_UI8 *)&zone_index);
     stse_frame_element_allocate_push(&CmdFrame, eOffset, STSAFEA_ZONE_OFFSET_SIZE, (PLAT_UI8 *)&offset);
-    stse_frame_element_allocate_push(&CmdFrame, eData, data_length, pData);
+    stse_frame_element_allocate_push(&CmdFrame, eData, data_length, (PLAT_UI8 *)pData);
 
     if (data_length >= stsafea_maximum_frame_length[pSTSE->device_type]) {
         return STSE_SERVICE_FRAME_SIZE_ERROR;

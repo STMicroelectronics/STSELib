@@ -69,7 +69,7 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handle_t *pSTSE,
                                            PLAT_UI8 zone_index,
                                            stsafel_update_option_t option,
                                            PLAT_UI16 offset,
-                                           PLAT_UI8 *pData,
+                                           const PLAT_UI8 *pData,
                                            PLAT_UI16 data_length,
                                            stse_cmd_protection_t protection) {
     PLAT_UI8 cmd_header = STSAFEL_CMD_UPDATE;
@@ -89,7 +89,7 @@ stse_ReturnCode_t stsafel_update_data_zone(stse_Handle_t *pSTSE,
     stse_frame_element_allocate_push(&CmdFrame, eUpdate_option, sizeof(stsafel_update_option_t), (PLAT_UI8 *)&option);
     stse_frame_element_allocate_push(&CmdFrame, eZone_index, 1, &zone_index);
     stse_frame_element_allocate_push(&CmdFrame, eOffset, 2, (PLAT_UI8 *)&offset);
-    stse_frame_element_allocate_push(&CmdFrame, eData, data_length, pData);
+    stse_frame_element_allocate_push(&CmdFrame, eData, data_length, (PLAT_UI8 *)pData);
 
     /*- Create Rsp frame and populate elements */
     stse_frame_allocate(RspFrame);
