@@ -27,7 +27,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
     !defined(STSE_CONF_ECC_CURVE_25519) && !defined(STSE_CONF_ECC_EDWARD_25519)
     {0};
 #else
-    {
+{
 #ifdef STSE_CONF_ECC_NIST_P_256
         [STSE_ECC_KT_NIST_P_256] = {/* NIST P 256 */
                                     .curve_id_total_length = (STSE_NIST_P_256_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -38,7 +38,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                     .private_key_size = (STSE_NIST_P_256_PRIVATE_KEY_SIZE),
                                     .shared_secret_size = (STSE_NIST_P_256_X_COORDINATE_VALUE_SIZE),
                                     .signature_size = (STSE_NIST_P_256_SIGNATURE_R_VALUE_SIZE + STSE_NIST_P_256_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_NIST_P_256 */
 #ifdef STSE_CONF_ECC_NIST_P_384
         [STSE_ECC_KT_NIST_P_384] = {/* NIST P_384 */
                                     .curve_id_total_length = (STSE_NIST_P_384_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -48,7 +48,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                     .private_key_size = (STSE_NIST_P_384_PRIVATE_KEY_SIZE),
                                     .shared_secret_size = (STSE_NIST_P_384_X_COORDINATE_VALUE_SIZE),
                                     .signature_size = (STSE_NIST_P_384_SIGNATURE_R_VALUE_SIZE + STSE_NIST_P_384_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_NIST_P_384 */
 #ifdef STSE_CONF_ECC_NIST_P_521
         [STSE_ECC_KT_NIST_P_521] = {/* NIST P 521 */
                                     .curve_id_total_length = (STSE_NIST_P_521_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -58,7 +58,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                     .private_key_size = (STSE_NIST_P_521_PRIVATE_KEY_SIZE),
                                     .shared_secret_size = (STSE_NIST_P_521_X_COORDINATE_VALUE_SIZE),
                                     .signature_size = (STSE_NIST_P_521_SIGNATURE_R_VALUE_SIZE + STSE_NIST_P_521_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_NIST_P_521 */
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_256
         [STSE_ECC_KT_BP_P_256] = {/* BRAINPOOL P 256 */
                                   .curve_id_total_length = (STSE_BRAINPOOL_P_256_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -68,7 +68,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                   .private_key_size = (STSE_BRAINPOOL_P_256_PRIVATE_KEY_SIZE),
                                   .shared_secret_size = (STSE_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE),
                                   .signature_size = (STSE_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE + STSE_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_BRAINPOOL_P_256 */
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_384
         [STSE_ECC_KT_BP_P_384] = {/* BRAINPOOL P 384 */
                                   .curve_id_total_length = (STSE_BRAINPOOL_P_384_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -78,7 +78,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                   .private_key_size = (STSE_BRAINPOOL_P_384_PRIVATE_KEY_SIZE),
                                   .shared_secret_size = (STSE_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE),
                                   .signature_size = (STSE_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE + STSE_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_BRAINPOOL_P_384 */
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_512
         [STSE_ECC_KT_BP_P_512] = {/* BRAINPOOL P 512 */
                                   .curve_id_total_length = (STSE_BRAINPOOL_P_512_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -88,7 +88,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                   .private_key_size = (STSE_BRAINPOOL_P_512_PRIVATE_KEY_SIZE),
                                   .shared_secret_size = (STSE_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE),
                                   .signature_size = (STSE_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE + STSE_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_BRAINPOOL_P_512 */
 #ifdef STSE_CONF_ECC_CURVE_25519
         [STSE_ECC_KT_CURVE25519] = {/* X25519 */
                                     .curve_id_total_length = (STSE_X25519_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -98,7 +98,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                     .private_key_size = STSE_X25519_PRIVATE_KEY_SIZE,
                                     .shared_secret_size = STSE_X25519_SHARED_SECRET_VALUE_SIZE,
                                     .signature_size = 0},
-#endif
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 #ifdef STSE_CONF_ECC_EDWARD_25519
         [STSE_ECC_KT_ED25519] = {/* ED25519 */
                                  .curve_id_total_length = (STSE_ED25519_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),
@@ -108,9 +108,13 @@ const stse_ecc_info_t stse_ecc_info_table[] =
                                  .private_key_size = STSE_ED25519_PRIVATE_KEY_SIZE,
                                  .shared_secret_size = 0,
                                  .signature_size = (STSE_ED25519_SIGNATURE_R_VALUE_SIZE + STSE_ED25519_SIGNATURE_S_VALUE_SIZE)},
-#endif
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
 };
 #endif
+
+#if defined(STSE_CONF_ECC_NIST_P_256) || defined(STSE_CONF_ECC_NIST_P_384) || defined(STSE_CONF_ECC_NIST_P_521) ||                \
+    defined(STSE_CONF_ECC_BRAINPOOL_P_256) || defined(STSE_CONF_ECC_BRAINPOOL_P_384) || defined(STSE_CONF_ECC_BRAINPOOL_P_512) || \
+    defined(STSE_CONF_ECC_CURVE_25519) || defined(STSE_CONF_ECC_EDWARD_25519)
 
 stse_ecc_key_type_t stse_get_ecc_key_type_from_curve_id(const stsafea_ecc_curve_id_t curve_id[static 1]) {
     stse_ecc_key_type_t key_type = (stse_ecc_key_type_t)0;
@@ -128,5 +132,5 @@ stse_ecc_key_type_t stse_get_ecc_key_type_from_curve_id(const stsafea_ecc_curve_
     }
 
     return key_type;
-
+}
 #endif
