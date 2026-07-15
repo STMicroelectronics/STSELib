@@ -1,6 +1,23 @@
 # Release Note
 
-## v1.1.8 (Latest)
+## v1.1.9 (Latest)
+
+### Improvements 
+
+- [doc] add link to stsafe-l-sdk in readme
+- [admin] add jenkinsfile for CI/CD
+- [api] add handle's device type setup using mask identification query
+- [services] add mask identification query
+- [api] add documentation for generate key behaviour
+
+### Bug Fixes
+
+- [services] remove comma typo
+- [services] use STSAFE family index
+- [doc] fix random_size doxygen tag from [in,out] to [in]
+- [api] fix index overflow and incorrect chunk increment in stse_generate_random
+
+## v1.1.8
 
 ### SW Dependency fix   
 
