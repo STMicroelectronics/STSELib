@@ -22,12 +22,63 @@
 
 #include "services/stsafel/stsafel_frame_transfer.h"
 #include "services/stsafel/stsafel_timings.h"
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+#include <pthread.h>
+#include <time.h>
+#endif
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
 const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT] = {
     STSAFEL_MAX_FRAME_LENGTH_L010, /*!< STSAFE-L Maximum command length (bytes) */
 };
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+static pthread_mutex_t stsafel_device_use_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+static stse_ReturnCode_t stsafel_guard_enter(void) {
+#if defined(STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS) && (STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS > 0)
+#define STSAFEL_DEVICE_LOCK_TIMEOUT_MS STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS
+#elif defined(STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS) && (STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS > 0)
+#define STSAFEL_DEVICE_LOCK_TIMEOUT_MS STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS
+#endif
+
+#if defined(STSAFEL_DEVICE_LOCK_TIMEOUT_MS)
+    struct timespec abs_timeout;
+
+    if (clock_gettime(CLOCK_REALTIME, &abs_timeout) != 0) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+
+    abs_timeout.tv_sec += (time_t)(STSAFEL_DEVICE_LOCK_TIMEOUT_MS / 1000U);
+    abs_timeout.tv_nsec += (long)(STSAFEL_DEVICE_LOCK_TIMEOUT_MS % 1000U) * 1000000L;
+    if (abs_timeout.tv_nsec >= 1000000000L) {
+        abs_timeout.tv_sec += 1;
+        abs_timeout.tv_nsec -= 1000000000L;
+    }
+
+    if (pthread_mutex_timedlock(&stsafel_device_use_mutex, &abs_timeout) != 0) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+#else
+    if (pthread_mutex_lock(&stsafel_device_use_mutex) != 0) {
+        return STSE_PLATFORM_BUS_ACK_ERROR;
+    }
+#endif
+
+#if defined(STSAFEL_DEVICE_LOCK_TIMEOUT_MS)
+#undef STSAFEL_DEVICE_LOCK_TIMEOUT_MS
+#endif
+
+    return STSE_OK;
+}
+
+static void stsafel_guard_exit(PLAT_UI8 guard_entered) {
+    if (guard_entered != 0) {
+        (void)pthread_mutex_unlock(&stsafel_device_use_mutex);
+    }
+}
+#endif
 
 stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pFrame) {
     stse_ReturnCode_t ret = STSE_PLATFORM_BUS_ACK_ERROR;
@@ -484,6 +535,18 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
                                              stse_frame_t *pRspFrame,
                                              PLAT_UI16 inter_frame_delay) {
     stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    PLAT_UI8 guard_entered = 0;
+#endif
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    if (pSTSE != NULL) {
+        if (stsafel_guard_enter() != STSE_OK) {
+            return STSE_PLATFORM_BUS_ACK_ERROR;
+        }
+        guard_entered = 1;
+    }
+#endif
 
 #ifdef STSE_USE_RSP_POLLING
     (void)inter_frame_delay;
@@ -516,6 +579,10 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
             break;
         }
     }
+
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+    stsafel_guard_exit(guard_entered);
+#endif
 
     return ret;
 }

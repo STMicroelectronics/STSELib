@@ -544,6 +544,23 @@ stse_ReturnCode_t stse_platform_i2c_receive_stop(
     PLAT_UI8 *pElement,
     PLAT_UI16 element_size);
 
+#if defined(__linux__) && defined(STSE_CONF_USE_I2C)
+
+/*!
+ * \brief      Enter STSAFE device usage guard for session start (Linux I2C build)
+ * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise
+ * \note       Thread-local; a session should call this once upon opening and hold lock until close
+ */
+stse_ReturnCode_t stsafea_device_session_guard_enter(void);
+
+/*!
+ * \brief      Exit STSAFE device usage guard for session end (Linux I2C build)
+ * \note       Thread-local; releases semaphore if this thread's session is closing
+ */
+void stsafea_device_session_guard_exit(void);
+
+#endif /* defined(__linux__) && defined(STSE_CONF_USE_I2C) */
+
 #endif /* defined(STSE_CONF_USE_I2C) || defined(STSE_CONF_STSAFE_A_SUPPORT) */
 
 #if defined(STSE_CONF_USE_ST1WIRE)

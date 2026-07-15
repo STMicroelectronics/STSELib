@@ -116,6 +116,7 @@ extern "C" {
 #define STSE_MAX_POLLING_RETRY 			100
 #define STSE_FIRST_POLLING_INTERVAL		10
 #define STSE_POLLING_RETRY_INTERVAL		10
+/* #define STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS 200 */
 //#define STSE_FRAME_DEBUG_LOG
 
 #ifdef __cplusplus
@@ -166,4 +167,21 @@ The following table lits all parametters
 | STSE_MAX_POLLING_RETRY | Max polling retry definition (see section below) | STSAFE-A / STSAFE-L
 | STSE_FIRST_POLLING_INTERVAL | First polling delay definition in ms (see section below) | STSAFE-A / STSAFE-L
 | STSE_POLLING_RETRY_INTERVAL | Polling retry interval definition in ms (see section below) | STSAFE-A / STSAFE-L
+| STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS | Timeout (ms) used by Linux secure-element guard_enter. If undefined or 0, guard_enter blocks until available | STSAFE-A / STSAFE-L 
+| STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS | Backward-compatible alias for STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS | STSAFE-A / STSAFE-L
 | STSE_FRAME_DEBUG_LOG | Enable HOST<->STSE communication logs | STSAFE-A / STSAFE-L
+
+## Thread safety and concurrent access
+
+For Linux builds, STSELib provides a thread-safe secure-element usage guard in services.
+
+- The guard protects access to the external STSAFE device.
+- Transfer paths use `guard_enter` / `guard_exit` around each transfer.
+- For STSAFE-A host sessions, session open enters the guard once and keeps ownership for the full session lifetime; transfer-level guard release is ignored while a session is active on the same thread.
+- Session close exits the guard.
+
+Configuration guidance in `stse_conf.h`:
+
+- Define `STSE_CONF_STSAFE_DEVICE_LOCK_TIMEOUT_MS` to limit guard acquisition wait time.
+- Leave it undefined (or set to 0) for blocking behavior.
+- The legacy name `STSE_CONF_I2C_TRANSACTION_LOCK_TIMEOUT_MS` remains accepted for compatibility.
