@@ -167,3 +167,4 @@ The following table lits all parametters
 | STSE_FIRST_POLLING_INTERVAL | First polling delay definition in ms (see section below) | STSAFE-A / STSAFE-L
 | STSE_POLLING_RETRY_INTERVAL | Polling retry interval definition in ms (see section below) | STSAFE-A / STSAFE-L
 | STSE_FRAME_DEBUG_LOG | Enable HOST<->STSE communication logs | STSAFE-A / STSAFE-L
+| STSE_CONF_PKCS11_SUPPORT | Enable the PKCS#11 v2.40 Cryptoki provider layer (sal/pkcs11/) | STSAFE-A
