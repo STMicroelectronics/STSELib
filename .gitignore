@@ -17,3 +17,9 @@ __docbook
 *.xml
 *.pu
 _codeql_detected_source_root
+*.orig
+complexity_report.txt
+format_report.txt
+quality_report.html
+spell_report.txt
+style_report.txt
