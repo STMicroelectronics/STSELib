@@ -464,7 +464,7 @@ static stse_ReturnCode_t stse_KEK_wrap(
     ret = stse_platform_nist_kw_encrypt(
         pPayload, payload_length,
         working_kek, STSAFEA_KEK_KEY_SIZE,
-        pEnvelope, NULL);
+        pEnvelope, &envelope_length);
 
     memset(working_kek, 0, STSAFEA_KEK_KEY_SIZE);
 
