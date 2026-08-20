@@ -30,6 +30,7 @@ stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
     PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE];
     PLAT_UI16 mask_number;
+    PLAT_UI8 st_number[STSAFEA_ST_NUMBER_SIZE];
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
     /* - Check STSAFE handler initialization */
@@ -102,7 +103,7 @@ stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg) {
     if (pSTSE->device_type != STSAFE_L010) {
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifndef STSE_CONF_USE_STATIC_PERSONALIZATION_INFORMATIONS
-        ret = stsafea_query_mask_id(pSTSE, mask_id);
+        ret = stsafea_query_mask_id_st_number(pSTSE, mask_id, st_number);
         if (ret != STSE_OK) {
             return ret;
         }
