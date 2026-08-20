@@ -183,7 +183,7 @@ stse_ReturnCode_t stse_aes_ccm_encrypt_finish(
  * \param[in]	pNonce							Buffer containing the nonce
  * \param[in]	associated_data_length			Length of the associated data
  * \param[in]	pAssociated_data				Buffer containing associated data
- * \param[in]	message_length					Length of the message to encrypt
+ * \param[in]	message_length					Length of the original message (before encryption)
  * \param[in]	pEncrypted_message				Buffer containing the message to decrypt
  * \param[in]	pEncrypted_authentication_tag	Buffer containing the encrypted authentication tag
  * \param[out]	pVerification_result			Verification result flag
