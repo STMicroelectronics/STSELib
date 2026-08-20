@@ -171,7 +171,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
     }
     stse_frame_element_allocate_push(&CmdFrame, eMessage_length, STSAFEA_GENERIC_LENGTH_SIZE, (PLAT_UI8 *)&message_length);
     stse_frame_element_allocate(ePlaintext_message, message_length, pPlaintext_message);
-    if (associated_data_length != 0) {
+    if (message_length != 0) {
         stse_frame_push_element(&CmdFrame, &ePlaintext_message);
     }
 
@@ -227,7 +227,13 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pNonce == NULL) || (pAssociated_data_chunk == NULL && associated_data_chunk_length != 0) || (pAssociated_data_chunk != NULL && associated_data_chunk_length == 0) || (pPlaintext_message_chunk == NULL && message_chunk_length != 0) || (pPlaintext_message_chunk != NULL && message_chunk_length == 0) || (pEncrypted_message_chunk == NULL && message_chunk_length != 0) || (pEncrypted_message_chunk != NULL && message_chunk_length == 0)) {
+    if ((pNonce == NULL) ||
+        (pAssociated_data_chunk == NULL && associated_data_chunk_length != 0) ||
+        (pAssociated_data_chunk != NULL && associated_data_chunk_length == 0) ||
+        (pPlaintext_message_chunk == NULL && message_chunk_length != 0) ||
+        (pPlaintext_message_chunk != NULL && message_chunk_length == 0) ||
+        (pEncrypted_message_chunk == NULL && message_chunk_length != 0) ||
+        (pEncrypted_message_chunk != NULL && message_chunk_length == 0)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -334,7 +340,16 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pNonce == NULL) || (pAssociated_data == NULL && associated_data_length != 0) || (pAssociated_data != NULL && associated_data_length == 0) || (pEncrypted_message == NULL && message_length != 0) || (pEncrypted_message != NULL && message_length == 0) || (pPlaintext_message == NULL && message_length != 0) || (pPlaintext_message != NULL && message_length == 0) || (pEncrypted_authentication_tag == NULL && authentication_tag_length != 0) || (pEncrypted_authentication_tag != NULL && authentication_tag_length == 0) || (pVerification_result == NULL)) {
+    if ((pNonce == NULL) ||
+        (pAssociated_data == NULL && associated_data_length != 0) ||
+        (pAssociated_data != NULL && associated_data_length == 0) ||
+        (pEncrypted_message == NULL && message_length != 0) ||
+        (pEncrypted_message != NULL && message_length == 0) ||
+        (pPlaintext_message == NULL && message_length != 0) ||
+        (pPlaintext_message != NULL && message_length == 0) ||
+        (pEncrypted_authentication_tag == NULL && authentication_tag_length != 0) ||
+        (pEncrypted_authentication_tag != NULL && authentication_tag_length == 0) ||
+        (pVerification_result == NULL)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -385,7 +400,13 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pNonce == NULL) || (pAssociated_data_chunk == NULL && associated_data_chunk_length != 0) || (pAssociated_data_chunk != NULL && associated_data_chunk_length == 0) || (pEncrypted_message_chunk == NULL && message_chunk_length != 0) || (pEncrypted_message_chunk != NULL && message_chunk_length == 0) || (pPlaintext_message_chunk == NULL && message_chunk_length != 0) || (pPlaintext_message_chunk != NULL && message_chunk_length == 0)) {
+    if ((pNonce == NULL) ||
+        (pAssociated_data_chunk == NULL && associated_data_chunk_length != 0) ||
+        (pAssociated_data_chunk != NULL && associated_data_chunk_length == 0) ||
+        (pEncrypted_message_chunk == NULL && message_chunk_length != 0) ||
+        (pEncrypted_message_chunk != NULL && message_chunk_length == 0) ||
+        (pPlaintext_message_chunk == NULL && message_chunk_length != 0) ||
+        (pPlaintext_message_chunk != NULL && message_chunk_length == 0)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 
@@ -476,7 +497,14 @@ stse_ReturnCode_t stsafea_aes_gcm_encrypt(
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
-    if ((pIV == NULL || IV_length == 0) || (pAssociated_data == NULL && pPlaintext_message == NULL) || (pAssociated_data == NULL && associated_data_length != 0) || (pAssociated_data != NULL && associated_data_length == 0) || (pPlaintext_message == NULL && message_length != 0) || (pPlaintext_message != NULL && message_length == 0) || (pEncrypted_message == NULL && pPlaintext_message != NULL) || (pAuthentication_tag == NULL)) {
+    if ((pIV == NULL || IV_length == 0) ||
+        (pAssociated_data == NULL && pPlaintext_message == NULL) ||
+        (pAssociated_data == NULL && associated_data_length != 0) ||
+        (pAssociated_data != NULL && associated_data_length == 0) ||
+        (pPlaintext_message == NULL && message_length != 0) ||
+        (pPlaintext_message != NULL && message_length == 0) ||
+        (pEncrypted_message == NULL && pPlaintext_message != NULL) ||
+        (pAuthentication_tag == NULL)) {
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
 

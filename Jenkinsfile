@@ -14,7 +14,7 @@ pipeline {
                     {
                         bat 'git clone %GIT_REPO% .'
                         bat 'git checkout main'
-                        bat 'git submodule update --init'  
+                        bat 'git submodule update --init'
                     }
                 }
             }
@@ -97,7 +97,7 @@ pipeline {
                         for /d %%D in ("STSELib\\doc\\resources\\*") do (
                             if /i not "%%~nxD"=="__html" if /i not "%%~nxD"=="Pictures" rmdir /s /q "%%D"
                         )
-                        
+
                         REM Remove all files except those in __html and Pictures
                         for %%F in ("STSELib\\doc\\resources\\*") do (
                             if /i not "%%~nxF"=="__html" if /i not "%%~nxF"=="Pictures" del /q "%%F"
@@ -108,7 +108,7 @@ pipeline {
                         REM Remove the resources@tmp folder
                         if exist "STSELib\\doc\\resources@tmp" rmdir /s /q "STSELib\\doc\\resources@tmp"
                     '''
-                    // Create the documentation release package 
+                    // Create the documentation release package
                     bat """
                         powershell -Command "Compress-Archive -Path 'STSELib\\doc\\*' -DestinationPath 'STSELib_nightly_${BUILD_ID}_${DATE}_documentation.zip' -Force"
                     """
