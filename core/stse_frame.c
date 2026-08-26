@@ -143,7 +143,7 @@ void stse_frame_pop_element(stse_frame_t *pFrame) {
         /* Select first Frame Element*/
         pCurrent_element = pFrame->first_element;
         /* Parse Frame until previous to last element */
-        while (pCurrent_element->next != pFrame->last_element) {
+        while (pCurrent_element->next != pFrame->last_element && pCurrent_element->next->next != NULL) {
             pCurrent_element = pCurrent_element->next;
         }
         /* Remove references/link to the last element */
