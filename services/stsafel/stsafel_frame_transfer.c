@@ -84,7 +84,7 @@ stse_ReturnCode_t stsafel_frame_transmit(stse_Handler_t *pSTSE, stse_frame_t *pF
 
         if (ret == STSE_OK) {
             pCurrent_element = pFrame->first_element;
-            while (pCurrent_element != pFrame->last_element) {
+            while (pCurrent_element != pFrame->last_element && pCurrent_element != NULL) {
                 ret = pSTSE->io.BusSendContinue(
                     pSTSE->io.busID,
                     pSTSE->io.Devaddr,
@@ -284,7 +284,7 @@ stse_ReturnCode_t stsafel_i2c_frame_receive(stse_Handler_t *pSTSE, stse_frame_t 
 
     /* - Perform frame element reception and populate local RSP Frame */
     pCurrent_element = pFrame->first_element->next;
-    while (pCurrent_element != pFrame->last_element) {
+    while (pCurrent_element != pFrame->last_element && pCurrent_element != NULL) {
         if (received_length < pCurrent_element->length) {
             pCurrent_element->length = received_length;
         }
@@ -423,7 +423,7 @@ stse_ReturnCode_t stsafel_st1wire_frame_receive(stse_Handler_t *pSTSE, stse_fram
 
     /* - Perform frame element reception and populate local RSP Frame */
     pCurrent_element = pFrame->first_element->next;
-    while (pCurrent_element != pFrame->last_element) {
+    while (pCurrent_element != pFrame->last_element && pCurrent_element != NULL) {
         if (received_length < pCurrent_element->length) {
             pCurrent_element->length = received_length;
         }
