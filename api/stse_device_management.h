@@ -76,8 +76,8 @@ stse_ReturnCode_t stse_device_reset(stse_Handle_t *pSTSE);
 /**
  * \brief 		Put target device in hibernate mode
  * \details 	This function call hibernate service to put the device in hibernate
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \param[in]	wake_up_mode 		Event to wake up from,
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in]	wake_up_mode 		Event to wake up from (only significant with STSAFE-A devices),
  * 									listed in enum \ref stse_hibernate_wake_up_mode_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
@@ -103,7 +103,7 @@ stse_ReturnCode_t stse_device_power_off(stse_Handle_t *pSTSE);
 /**
  * \brief 		Send echo command
  * \details 	This function call send service to send an echo command
- * \param[in]  	pSTSE 			Pointer to STSE Handler
+ * \param[in]  	pSTSE 				Pointer to STSE Handler
  * \param[in]  	pIn 				Pointer to data buffer to be sent
  * \param[out] 	pOut 				Pointer to received data buffer
  * \param[in]  	size 				Size in bytes of pIn buffer
@@ -126,7 +126,7 @@ stse_ReturnCode_t stse_device_lock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PL
 /**
  * \brief 		Unlock target device
  * \details 	This function unlock the target device using the password in argument
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	pPassword 			Pointer to the password buffer
  * \param[in]	password_length 	Length of the password buffer in bytes
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
@@ -138,7 +138,7 @@ stse_ReturnCode_t stse_device_unlock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, 
  * \brief 		Return the record count of command access conditions
  * \details 	This function query the access conditions
  * 				of the target device command set and return the number of records
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[out] 	record_count 		Command authorization records count
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	Please refer to stse_device_get_command_AC()
@@ -149,7 +149,7 @@ stse_ReturnCode_t stse_device_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *
  * \brief 		Return the command access conditions and change right
  * \details 	This function query the access conditions
  * 				of the target device command set
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in] 	record_count 		Command authorization records count
  * \param[out] 	pChange_rights 		Pointer to change rights structure of the commands AC and host encrytpion flag
  * \param[out] 	pRecord_table 		Command authorization records table
