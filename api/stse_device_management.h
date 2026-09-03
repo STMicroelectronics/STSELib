@@ -55,11 +55,39 @@ typedef enum stse_low_power_mode_t {
 /* Exported Functions  ------------------------------------------------------------*/
 
 /**
+ * \brief 		Initialize & setup communication bus
+ * \details 	This function setup & initialize the communication bus
+ * \param[in] 	io			Pointer to STSE Input/Output type
+ * \param[in]   pArg		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
+stse_ReturnCode_t stse_init_bus(stse_io_t *io, void *pArg);
+
+/**
+ * \brief 		Initialize platform
+ * \details 	This function initialize platform layer (RNG, delay, power, crc16, crypto)
+ * \param[in]   pArg		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_init.dox
+ */
+stse_ReturnCode_t stse_init_platform(void *pArg);
+
+/**
+ * \brief 		Start target device initialization
+ * \details 	This function power on the STSE, setup the STSE device type (stse_device_t) & setup perso information (stse_perso_info_t)
+ * \param[in] 	pSTSE 		Pointer to STSE Handler
+ * \param[in]   pArg 		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	\include{doc} stse_init.dox
+ */
+stse_ReturnCode_t stse_init_device(stse_Handle_t *pSTSE, void *pArg);
+
+/**
  * \brief 		Initialize target device
  * \details 	This function call the handler initialization function from core layer
  *          	to initialize STSE handler in argument
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \param[in]   pArg Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
+ * \param[in] 	pSTSE 		Pointer to STSE Handler
+ * \param[in]   pArg 		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \details 	\include{doc} stse_init.dox
  */

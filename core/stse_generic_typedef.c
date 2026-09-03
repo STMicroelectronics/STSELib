@@ -27,7 +27,7 @@ const stse_ecc_info_t stse_ecc_info_table[] =
     !defined(STSE_CONF_ECC_CURVE_25519) && !defined(STSE_CONF_ECC_EDWARD_25519)
     {0};
 #else
-{
+    {
 #ifdef STSE_CONF_ECC_NIST_P_256
         [STSE_ECC_KT_NIST_P_256] = {/* NIST P 256 */
                                     .curve_id_total_length = (STSE_NIST_P_256_ID_VALUE_SIZE + STSE_ECC_CURVE_ID_LENGTH_SIZE),

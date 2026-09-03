@@ -101,22 +101,22 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI
      * a certificate cannot be empty and DER requires the minimal length encoding */
     PLAT_UI16 min_size;
     switch (len_of_len) {
-        case 0:
-            *pCertificate_size = tlv_header[1];
-            min_size = 1;     // 1 byte
-            break;
-        case 1:
-            *pCertificate_size = tlv_header[2];
-            min_size = 0x80;  // 128 bytes
-            break;
-        case 2:
-            *pCertificate_size = (tlv_header[2] << 8) | tlv_header[3];
-            min_size = 0x100; // 256 bytes
-            break;
-        default:
-            /* Unsupported X.509 DER certificate: a length field longer than 2 bytes means a
+    case 0:
+        *pCertificate_size = tlv_header[1];
+        min_size = 1; // 1 byte
+        break;
+    case 1:
+        *pCertificate_size = tlv_header[2];
+        min_size = 0x80; // 128 bytes
+        break;
+    case 2:
+        *pCertificate_size = (tlv_header[2] << 8) | tlv_header[3];
+        min_size = 0x100; // 256 bytes
+        break;
+    default:
+        /* Unsupported X.509 DER certificate: a length field longer than 2 bytes means a
              * certificate larger than 65535 bytes, beyond what *pCertificate_size can represent */
-            return STSE_CERT_INVALID_CERTIFICATE;
+        return STSE_CERT_INVALID_CERTIFICATE;
     }
 
     if (*pCertificate_size < min_size) {
