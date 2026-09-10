@@ -44,13 +44,12 @@
  */
 
 /*!
- * \enum stse_low_power_mode_t
+ * \typedef stse_low_power_mode_t
  * STSAFEA Low power mode type
  */
-typedef enum stse_low_power_mode_t {
-    STSE_LPM_NONE = 0,    /*!< No low power mode */
-    STSE_LPM_STANDBY = 2, /*!< Standby power mode */
-} stse_low_power_mode_t;
+typedef PLAT_UI8 stse_low_power_mode_t;
+#define STSE_LPM_NONE ((stse_zone_ac_change_indicator_t)0)    /*!< No low power mode */
+#define STSE_LPM_STANDBY ((stse_zone_ac_change_indicator_t)2) /*!< Standby power mode */
 
 /* Exported Functions  ------------------------------------------------------------*/
 
@@ -106,7 +105,7 @@ stse_ReturnCode_t stse_device_reset(stse_Handle_t *pSTSE);
  * \details 	This function call hibernate service to put the device in hibernate
  * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in]	wake_up_mode 		Event to wake up from (only significant with STSAFE-A devices),
- * 									listed in enum \ref stse_hibernate_wake_up_mode_t
+ * 									listed in type \ref stse_hibernate_wake_up_mode_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  */
 stse_ReturnCode_t stse_device_enter_hibernate(stse_Handle_t *pSTSE, stse_hibernate_wake_up_mode_t wake_up_mode);

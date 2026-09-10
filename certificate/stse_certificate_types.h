@@ -29,71 +29,66 @@
  */
 
 /** \brief Definitions of X509 TAGs */
-typedef enum {
-    TAG_BOOLEAN = 0x01,         /*!< x509 tag for BOOLEAN */
-    TAG_INTEGER,                /*!< x509 tag for INTEGER */
-    TAG_BITSTRING,              /*!< x509 tag for BITSTRING */
-    TAG_OCTETSTRING,            /*!< x509 tag for OCTETSTRING */
-    TAG_NULL,                   /*!< x509 tag for NULL */
-    TAG_OBJECT_IDENTIFIER,      /*!< x509 tag for OBJECT_IDENTIFIER */
-    TAG_ObjectDescriptor,       /*!< x509 tag for ObjectDescriptor */
-    TAG_ENUMERATED = 0x0A,      /*!< x509 tag for ENUMERATED */
-    TAG_UTF8String = 0x0C,      /*!< x509 tag for UTF8String */
-    TAG_PrintableString = 0x13, /*!< x509 tag for PrintableString */
-    TAG_IA5String = 0x16,       /*!< x509 tag for IA5String */
-    TAG_UTCTime,                /*!< x509 tag for UTCTime */
-    TAG_GeneralizedTime,        /*!< x509 tag for GeneralizedTime */
-    TAG_SEQUENCE = 0x30,        /*!< x509 tag for SEQUENCE */
-    TAG_SET,                    /*!< x509 tag for SET */
-    TAG_x509VERSION = 0xA0,     /*!< x509 tag for x509VERSION */
-    TAG_issuerUniqueID,         /*!< x509 tag for issuerUniqueID */
-    TAG_subjectUniqueID,        /*!< x509 tag for subjectUniqueID */
-    TAG_extensions,             /*!< x509 tag for extensions */
-} stse_certificate_tag_t;
+typedef PLAT_UI8 stse_certificate_tag_t;
+#define TAG_BOOLEAN ((stse_certificate_tag_t)0x01U)           /*!< x509 tag for BOOLEAN */
+#define TAG_INTEGER ((stse_certificate_tag_t)0x02U)           /*!< x509 tag for INTEGER */
+#define TAG_BITSTRING ((stse_certificate_tag_t)0x03U)         /*!< x509 tag for BITSTRING */
+#define TAG_OCTETSTRING ((stse_certificate_tag_t)0x04U)       /*!< x509 tag for OCTETSTRING */
+#define TAG_NULL ((stse_certificate_tag_t)0x05U)              /*!< x509 tag for NULL */
+#define TAG_OBJECT_IDENTIFIER ((stse_certificate_tag_t)0x06U) /*!< x509 tag for OBJECT_IDENTIFIER */
+#define TAG_ObjectDescriptor ((stse_certificate_tag_t)0x07U)  /*!< x509 tag for ObjectDescriptor */
+#define TAG_ENUMERATED ((stse_certificate_tag_t)0x0AU)        /*!< x509 tag for ENUMERATED */
+#define TAG_UTF8String ((stse_certificate_tag_t)0x0CU)        /*!< x509 tag for UTF8String */
+#define TAG_PrintableString ((stse_certificate_tag_t)0x13U)   /*!< x509 tag for PrintableString */
+#define TAG_IA5String ((stse_certificate_tag_t)0x16U)         /*!< x509 tag for IA5String */
+#define TAG_UTCTime ((stse_certificate_tag_t)0x17U)           /*!< x509 tag for UTCTime */
+#define TAG_GeneralizedTime ((stse_certificate_tag_t)0x18U)   /*!< x509 tag for GeneralizedTime */
+#define TAG_SEQUENCE ((stse_certificate_tag_t)0x30U)          /*!< x509 tag for SEQUENCE */
+#define TAG_SET ((stse_certificate_tag_t)0x31U)               /*!< x509 tag for SET */
+#define TAG_x509VERSION ((stse_certificate_tag_t)0xA0U)       /*!< x509 tag for x509VERSION */
+#define TAG_issuerUniqueID ((stse_certificate_tag_t)0xA1U)    /*!< x509 tag for issuerUniqueID */
+#define TAG_subjectUniqueID ((stse_certificate_tag_t)0xA2U)   /*!< x509 tag for subjectUniqueID */
+#define TAG_extensions ((stse_certificate_tag_t)0xA3U)        /*!< x509 tag for extensions */
 
 /** \brief Definitions of available signature algorithms */
-typedef enum {
-    SIG_ECDSA_SHA1 = 0, /*!< ECDSA with SHA1 algorithm */
-    SIG_ECDSA_SHA224,   /*!< ECDSA with SHA224 algorithm */
-    SIG_ECDSA_SHA256,   /*!< ECDSA with SHA256 algorithm */
-    SIG_ECDSA_SHA384,   /*!< ECDSA with SHA384 algorithm */
-    SIG_ECDSA_SHA512,   /*!< ECDSA with SHA512 algorithm */
-    SIG_EDDSA_ED25519,  /*!< EDDSA with ED25519 algorithm */
-} stse_certificate_signature_algorithms_t;
+typedef PLAT_UI8 stse_certificate_signature_algorithms_t;
+#define SIG_ECDSA_SHA1 ((stse_certificate_signature_algorithms_t)0U)    /*!< ECDSA with SHA1 algorithm */
+#define SIG_ECDSA_SHA224 ((stse_certificate_signature_algorithms_t)1U)  /*!< ECDSA with SHA224 algorithm */
+#define SIG_ECDSA_SHA256 ((stse_certificate_signature_algorithms_t)2U)  /*!< ECDSA with SHA256 algorithm */
+#define SIG_ECDSA_SHA384 ((stse_certificate_signature_algorithms_t)3U)  /*!< ECDSA with SHA384 algorithm */
+#define SIG_ECDSA_SHA512 ((stse_certificate_signature_algorithms_t)4U)  /*!< ECDSA with SHA512 algorithm */
+#define SIG_EDDSA_ED25519 ((stse_certificate_signature_algorithms_t)5U) /*!< EDDSA with ED25519 algorithm */
 
 /** \brief Definitions of supported Name Attributes */
-typedef enum {
-    ATTR_CN = 3,   /*!< CommonName */
-    ATTR_SN = 5,   /*!< SerialNumber */
-    ATTR_C = 6,    /*!< Country */
-    ATTR_LN = 7,   /*!< LocalityName */
-    ATTR_SOPN = 8, /*!< stateOrProvinceName */
-    ATTR_ON = 10,  /*!< Organization Name */
-    ATTR_OUN = 11, /*!< Organization Unit Name */
-    ATTR_UID = 45, /*!< UniqueIdentifier */
-    ATTR_DN = 49,  /*!< DistinguishedName */
-} stse_certificate_name_attributes_t;
+typedef PLAT_UI8 stse_certificate_name_attributes_t;
+#define ATTR_CN ((stse_certificate_name_attributes_t)3U)   /*!< CommonName */
+#define ATTR_SN ((stse_certificate_name_attributes_t)5U)   /*!< SerialNumber */
+#define ATTR_C ((stse_certificate_name_attributes_t)6U)    /*!< Country */
+#define ATTR_LN ((stse_certificate_name_attributes_t)7U)   /*!< LocalityName */
+#define ATTR_SOPN ((stse_certificate_name_attributes_t)8U) /*!< stateOrProvinceName */
+#define ATTR_ON ((stse_certificate_name_attributes_t)10U)  /*!< Organization Name */
+#define ATTR_OUN ((stse_certificate_name_attributes_t)11U) /*!< Organization Unit Name */
+#define ATTR_UID ((stse_certificate_name_attributes_t)45U) /*!< UniqueIdentifier */
+#define ATTR_DN ((stse_certificate_name_attributes_t)49U)  /*!< DistinguishedName */
 
 /** \brief Definitions of supported Elliptic Curve Names */
-typedef enum {
-    EC_P256 = 0, /*!< NIST P-256 */
-    EC_P384,     /*!< NIST P-384 */
-    EC_P521,     /*!< NIST P-521 */
-    EC_bp256r1,  /*!< brainpoolP256r1 */
-    EC_bp256t1,  /*!< brainpoolP256t1 */
-    EC_bp384r1,  /*!< brainpoolP384r1 */
-    EC_bp384t1,  /*!< brainpoolP384t1 */
-    EC_bp512r1,  /*!< brainpoolP512r1 */
-    EC_bp512t1,  /*!< brainpoolP512t1 */
-    EC_Ed25519,  /*!< Ed25519 */
-} stse_certificate_elliptic_curves_t;
+typedef PLAT_UI8 stse_certificate_elliptic_curves_t;
+#define EC_P256 ((stse_certificate_elliptic_curves_t)0U)    /*!< NIST P-256 */
+#define EC_P384 ((stse_certificate_elliptic_curves_t)1U)    /*!< NIST P-384 */
+#define EC_P521 ((stse_certificate_elliptic_curves_t)2U)    /*!< NIST P-521 */
+#define EC_bp256r1 ((stse_certificate_elliptic_curves_t)3U) /*!< brainpoolP256r1 */
+#define EC_bp256t1 ((stse_certificate_elliptic_curves_t)4U) /*!< brainpoolP256t1 */
+#define EC_bp384r1 ((stse_certificate_elliptic_curves_t)5U) /*!< brainpoolP384r1 */
+#define EC_bp384t1 ((stse_certificate_elliptic_curves_t)6U) /*!< brainpoolP384t1 */
+#define EC_bp512r1 ((stse_certificate_elliptic_curves_t)7U) /*!< brainpoolP512r1 */
+#define EC_bp512t1 ((stse_certificate_elliptic_curves_t)8U) /*!< brainpoolP512t1 */
+#define EC_Ed25519 ((stse_certificate_elliptic_curves_t)9U) /*!< Ed25519 */
 
 /** \brief Definitions of supported Extensions types */
-typedef enum {
-    EXTENSION_KU = 15,  /*!< KeyUsage */
-    EXTENSION_BC = 19,  /*!< BasicContrains */
-    EXTENSION_EKU = 37, /*!< extKeyUsage */
-} stse_certificate_extensions_type_t;
+typedef PLAT_UI8 stse_certificate_extensions_type_t;
+#define EXTENSION_KU ((stse_certificate_extensions_type_t)15U)  /*!< KeyUsage */
+#define EXTENSION_BC ((stse_certificate_extensions_type_t)19U)  /*!< BasicContrains */
+#define EXTENSION_EKU ((stse_certificate_extensions_type_t)37U) /*!< extKeyUsage */
 
 /** \brief Structure used to keep SignatureAlgorithm OIDs */
 struct SignatureAlgorithmOID_st {

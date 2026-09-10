@@ -55,49 +55,44 @@
 #define STSAFEA_KT_SYMMETRIC_KEY 0x12
 #define STSAFEA_KT_CONFIRMATION_KEY 0x13
 
-/*! STSAFE-A Key slots enumeration */
-typedef enum stsafea_symmetric_key_slot_t {
-    STSAFEA_STATIC_PRIVATE_KEY_SLOT_0 = 0x00, /*!< static private key slot 0 */
-    STSAFEA_STATIC_PRIVATE_KEY_SLOT_1,        /*!< static private key slot 1 */
-    STSAFEA_STATIC_PRIVATE_KEY_SLOT_2,        /*!< static private key slot 2 */
-    STSAFEA_STATIC_PRIVATE_KEY_SLOT_3,        /*!< static private key slot 3 */
-    STSAFEA_STATIC_PRIVATE_KEY_SLOT_4,        /*!< static private key slot 4 */
-    STSAFEA_EAP_PERIPHERAL_KEY_SLOTS = 0x80,  /*!< Enhanced Authentication Protocol peripheral key slots */
-    STSAFEA_EAP_COMPANION_SLOT,               /*!< Enhanced Authentication Protocol companion key slots */
-    STSAFEA_EAP_KEY_CONFIRMATION,             /*!< Enhanced Authentication Protocol key confirmation */
-    STSAFEA_EPHEMERAL_KEY_SLOT = 0xFF         /*!< Ephemeral key slot 4 */
-} stsafea_symmetric_key_slot_t;
+/*! STSAFE-A Key slots */
+typedef PLAT_UI8 stsafea_symmetric_key_slot_t;
+#define STSAFEA_STATIC_PRIVATE_KEY_SLOT_0 ((stsafea_symmetric_key_slot_t)0x00) /*!< static private key slot 0 */
+#define STSAFEA_STATIC_PRIVATE_KEY_SLOT_1 ((stsafea_symmetric_key_slot_t)0x01) /*!< static private key slot 1 */
+#define STSAFEA_STATIC_PRIVATE_KEY_SLOT_2 ((stsafea_symmetric_key_slot_t)0x02) /*!< static private key slot 2 */
+#define STSAFEA_STATIC_PRIVATE_KEY_SLOT_3 ((stsafea_symmetric_key_slot_t)0x03) /*!< static private key slot 3 */
+#define STSAFEA_STATIC_PRIVATE_KEY_SLOT_4 ((stsafea_symmetric_key_slot_t)0x04) /*!< static private key slot 4 */
+#define STSAFEA_EAP_PERIPHERAL_KEY_SLOTS ((stsafea_symmetric_key_slot_t)0x80)  /*!< Enhanced Authentication Protocol peripheral key slots */
+#define STSAFEA_EAP_COMPANION_SLOT ((stsafea_symmetric_key_slot_t)0x81)        /*!< Enhanced Authentication Protocol companion key slots */
+#define STSAFEA_EAP_KEY_CONFIRMATION ((stsafea_symmetric_key_slot_t)0x82)      /*!< Enhanced Authentication Protocol key confirmation */
+#define STSAFEA_EPHEMERAL_KEY_SLOT ((stsafea_symmetric_key_slot_t)0xFF)        /*!< Ephemeral key slot */
 
 /*! STSAFE-A symmetric key type */
-typedef enum stsafea_symmetric_key_t {
-    STSAFEA_SYMMETRIC_KEY_TYPE_AES_128 = 0x00, /*!< AES 128 symmetric Key type */
-    STSAFEA_SYMMETRIC_KEY_TYPE_AES_256,        /*!< AES 256 symmetric Key type */
-    STSAFEA_SYMMETRIC_KEY_TYPE_GENERIC_SECRET  /*!< Variable-length keys (from 16 to 32 bytes) */
-} stsafea_symmetric_key_t;
+typedef PLAT_UI8 stsafea_symmetric_key_t;
+#define STSAFEA_SYMMETRIC_KEY_TYPE_AES_128 ((stsafea_symmetric_key_t)0x00)        /*!< AES 128 symmetric Key type */
+#define STSAFEA_SYMMETRIC_KEY_TYPE_AES_256 ((stsafea_symmetric_key_t)0x01)        /*!< AES 256 symmetric Key type */
+#define STSAFEA_SYMMETRIC_KEY_TYPE_GENERIC_SECRET ((stsafea_symmetric_key_t)0x02) /*!< Variable-length keys (from 16 to 32 bytes) */
 
 /*! STSAFE-A symmetric key operation mode type */
-typedef enum stsafea_symmetric_key_operation_mode_t {
-    STSAFEA_KEY_OPERATION_MODE_CCM = 0x00, /*!< AES-CCM mode  */
-    STSAFEA_KEY_OPERATION_MODE_CMAC,       /*!< AES-CMAC mode */
-    STSAFEA_KEY_OPERATION_MODE_ECB,        /*!< AES-ECB mode  */
-    STSAFEA_KEY_OPERATION_MODE_GCM,        /*!< AES-GCM mode  */
-    STSAFEA_KEY_OPERATION_MODE_HKDF,       /*!< AES-HKDF mode */
-    STSAFEA_KEY_OPERATION_MODE_HMAC        /*!< AES-HMAC mode */
-} stsafea_symmetric_key_operation_mode_t;
+typedef PLAT_UI8 stsafea_symmetric_key_operation_mode_t;
+#define STSAFEA_KEY_OPERATION_MODE_CCM ((stsafea_symmetric_key_operation_mode_t)0x00)  /*!< AES-CCM mode  */
+#define STSAFEA_KEY_OPERATION_MODE_CMAC ((stsafea_symmetric_key_operation_mode_t)0x01) /*!< AES-CMAC mode */
+#define STSAFEA_KEY_OPERATION_MODE_ECB ((stsafea_symmetric_key_operation_mode_t)0x02)  /*!< AES-ECB mode  */
+#define STSAFEA_KEY_OPERATION_MODE_GCM ((stsafea_symmetric_key_operation_mode_t)0x03)  /*!< AES-GCM mode  */
+#define STSAFEA_KEY_OPERATION_MODE_HKDF ((stsafea_symmetric_key_operation_mode_t)0x04) /*!< AES-HKDF mode */
+#define STSAFEA_KEY_OPERATION_MODE_HMAC ((stsafea_symmetric_key_operation_mode_t)0x05) /*!< AES-HMAC mode */
 
 /*! STSAFE-A Symmetric key operation type */
-typedef enum stsafea_symmetric_key_information_length_t {
-    STSAFEA_KEY_INFORMATION_LENGTH_ECB = STSAFEA_SYMMETRIC_KEY_INFORMATION_BASE_LENGTH, /*!< AES-ECB mode */
-    STSAFEA_KEY_INFORMATION_LENGTH_CMAC,                                                /*!< AES-CMAC mode */
-    STSAFEA_KEY_INFORMATION_LENGTH_CCM                                                  /*!< AES-CCM mode */
-} stsafea_symmetric_key_information_length_t;
+typedef PLAT_UI8 stsafea_symmetric_key_information_length_t;
+#define STSAFEA_KEY_INFORMATION_LENGTH_ECB ((stsafea_symmetric_key_information_length_t)STSAFEA_SYMMETRIC_KEY_INFORMATION_BASE_LENGTH)      /*!< AES-ECB mode */
+#define STSAFEA_KEY_INFORMATION_LENGTH_CMAC ((stsafea_symmetric_key_information_length_t)STSAFEA_SYMMETRIC_KEY_INFORMATION_BASE_LENGTH + 1) /*!< AES-CMAC mode */
+#define STSAFEA_KEY_INFORMATION_LENGTH_CCM ((stsafea_symmetric_key_information_length_t)STSAFEA_SYMMETRIC_KEY_INFORMATION_BASE_LENGTH + 2)  /*!< AES-CCM mode */
 
 /*! STSAFE-A Symmetric key slot lock indicator */
-typedef enum stsafea_symmetric_key_lock_indicator_t {
-    STSAFEA_SYMMETRIC_KEY_LOCK_INDICATOR_UNLOCKED = 0b00,
-    STSAFEA_SYMMETRIC_KEY_LOCK_INDICATOR_LOCKED,
-    STSAFEA_SYMMETRIC_KEY_LOCK_INDICATOR_ERASABLE
-} stsafea_symmetric_key_lock_indicator_t;
+typedef PLAT_UI8 stsafea_symmetric_key_lock_indicator_t;
+#define STSAFEA_SYMMETRIC_KEY_LOCK_INDICATOR_UNLOCKED ((stsafea_symmetric_key_lock_indicator_t)0b00)
+#define STSAFEA_SYMMETRIC_KEY_LOCK_INDICATOR_LOCKED ((stsafea_symmetric_key_lock_indicator_t)0b01)
+#define STSAFEA_SYMMETRIC_KEY_LOCK_INDICATOR_ERASABLE ((stsafea_symmetric_key_lock_indicator_t)0b10)
 
 /*******************************************************************************
  * Key slots information structures
