@@ -42,23 +42,22 @@
 #define STSAFEL_MAX_FRAME_LENGTH_L010 750U
 
 /*!
- * \enum stsafel_cmd_code_t
+ * \typedef stsafel_cmd_code_t
  * \brief STSAFE-L command type
  */
-typedef enum stsafel_cmd_code_t {
-    STSAFEL_CMD_ECHO = 0x00U,               /*!< STSAFE-L010 general purpose "Echo" command code */
-    STSAFEL_CMD_RESET,                      /*!< STSAFE-L010 general purpose "Reset" command code */
-    STSAFEL_CMD_HIBERNATE,                  /*!< STSAFE-L010 general purpose "Reset" command code */
-    STSAFEL_CMD_GET_DATA,                   /*!< STSAFE-L010 general purpose "Get data" command code */
-    STSAFEL_CMD_GET_PUBLIC_KEY_CERTIFICATE, /*!< STSAFE-L010 general purpose "Get Public key certificate" command code */
-    STSAFEL_CMD_DECREMENT,                  /*!< STSAFE-L010 data partition "Decrement" command code */
-    STSAFEL_CMD_READ,                       /*!< STSAFE-L010 data partition "Read" command code */
-    STSAFEL_CMD_UPDATE,                     /*!< STSAFE-L010 data partition "Update" command code */
-    STSAFEL_CMD_GENERATE_SIGNATURE = 0x11U, /*!< STSAFE-L010 "Generate Signature" command code */
-    STSAFEL_CMD_PUT_DATA,                   /*!< STSAFE-L010 "Put Data" command code */
-    STSAFEL_CMD_INCREMENT = 0x16U,          /*!< STSAFE-L010 "Regenerate" command code */
-    STSAFEL_CMD_REPEAT = 0x3EU,             /*!< STSAFE-L010 "Repeat" command code */
-} stsafel_cmd_code_t;
+typedef PLAT_UI8 stsafel_cmd_code_t;
+#define STSAFEL_CMD_ECHO ((stsafel_cmd_code_t)0x00U)                       /*!< STSAFE-L010 general purpose "Echo" command code */
+#define STSAFEL_CMD_RESET ((stsafel_cmd_code_t)0x01U)                      /*!< STSAFE-L010 general purpose "Reset" command code */
+#define STSAFEL_CMD_HIBERNATE ((stsafel_cmd_code_t)0x02U)                  /*!< STSAFE-L010 general purpose "Reset" command code */
+#define STSAFEL_CMD_GET_DATA ((stsafel_cmd_code_t)0x03U)                   /*!< STSAFE-L010 general purpose "Get data" command code */
+#define STSAFEL_CMD_GET_PUBLIC_KEY_CERTIFICATE ((stsafel_cmd_code_t)0x04U) /*!< STSAFE-L010 general purpose "Get Public key certificate" command code */
+#define STSAFEL_CMD_DECREMENT ((stsafel_cmd_code_t)0x05U)                  /*!< STSAFE-L010 data partition "Decrement" command code */
+#define STSAFEL_CMD_READ ((stsafel_cmd_code_t)0x06U)                       /*!< STSAFE-L010 data partition "Read" command code */
+#define STSAFEL_CMD_UPDATE ((stsafel_cmd_code_t)0x07U)                     /*!< STSAFE-L010 data partition "Update" command code */
+#define STSAFEL_CMD_GENERATE_SIGNATURE ((stsafel_cmd_code_t)0x11U)         /*!< STSAFE-L010 "Generate Signature" command code */
+#define STSAFEL_CMD_PUT_DATA ((stsafel_cmd_code_t)0x12U)                   /*!< STSAFE-L010 "Put Data" command code */
+#define STSAFEL_CMD_INCREMENT ((stsafel_cmd_code_t)0x16U)                  /*!< STSAFE-L010 "Regenerate" command code */
+#define STSAFEL_CMD_REPEAT ((stsafel_cmd_code_t)0x3EU)                     /*!< STSAFE-L010 "Repeat" command code */
 
 /** \}*/
 /** \}*/

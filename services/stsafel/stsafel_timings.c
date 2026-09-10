@@ -64,7 +64,7 @@ inline PLAT_UI16 stsafel_cmd_exec_duration(
         CommandCode += 1 + STSAFEL_CMD_INCREMENT - STSAFEL_CMD_REPEAT;
     }
 
-    return stsafel_cmd_timings[pSTSE->device_type - STSE_DEVICE_STSAFEL_FAMILY_INDEX][CommandCode];
+    return stsafel_cmd_timings[pSTSE->device_type - STSAFE_L010][CommandCode];
 }
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */

@@ -43,7 +43,7 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handle_t *pSTSE, stse_frame_t *pFr
         return STSE_SERVICE_INVALID_PARAMETER;
     }
     /*- Verify Device type */
-    if (pSTSE->device_type >= (STSE_DEVICE_STSAFEA_FAMILY_INDEX + STSAFEA_PRODUCT_COUNT)) {
+    if (pSTSE->device_type >= (STSAFE_A100 + STSAFEA_PRODUCT_COUNT)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
     /*- Verify Frame length */
@@ -55,7 +55,7 @@ stse_ReturnCode_t stsafea_frame_transmit(stse_Handle_t *pSTSE, stse_frame_t *pFr
         return STSE_SERVICE_INVALID_FRAME;
     }
     /*- Verify Frame overflow */
-    if (pFrame->length > stsafea_maximum_frame_length[pSTSE->device_type - STSE_DEVICE_STSAFEA_FAMILY_INDEX]) {
+    if (pFrame->length > stsafea_maximum_frame_length[pSTSE->device_type - STSAFE_A100]) {
         return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
     /*- Compute frame crc */
@@ -143,7 +143,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFra
         return (STSE_SERVICE_INVALID_PARAMETER);
     }
     /* - Verify Device type */
-    if (pSTSE->device_type >= (STSE_DEVICE_STSAFEA_FAMILY_INDEX + STSAFEA_PRODUCT_COUNT)) {
+    if (pSTSE->device_type >= (STSAFE_A100 + STSAFEA_PRODUCT_COUNT)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 
@@ -205,7 +205,7 @@ stse_ReturnCode_t stsafea_frame_receive(stse_Handle_t *pSTSE, stse_frame_t *pFra
     received_length = ((length_value[0] << 8) + length_value[1]) - STSE_FRAME_CRC_SIZE + STSE_RSP_FRAME_HEADER_SIZE;
 
     /*- Verify Frame overflow */
-    if (received_length > stsafea_maximum_frame_length[pSTSE->device_type - STSE_DEVICE_STSAFEA_FAMILY_INDEX]) {
+    if (received_length > stsafea_maximum_frame_length[pSTSE->device_type - STSAFE_A100]) {
         return STSE_SERVICE_FRAME_SIZE_ERROR;
     }
 

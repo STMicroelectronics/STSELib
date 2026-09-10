@@ -78,20 +78,19 @@
 #define STSAFEA_ST_NUMBER_SIZE 9 /*!< ST number size */
 
 /*!
- * \enum stsafea_life_cycle_state_t
+ * \typedef stsafea_life_cycle_state_t
  * STSAFEA Life cycle state type
  */
-typedef enum stsafea_life_cycle_state_t {
-    STSAFEA_LCS_BORN = 0x01,                  /*!< STSAFEA in born life-cycle state */
-    STSAFEA_LCS_PATCHING = 0x02,              /*!< STSAFEA in patching life-cycle state */
-    STSAFEA_LCS_OPERATIONAL = 0x03,           /*!< STSAFEA in operational life-cycle state */
-    STSAFEA_LCS_TERMINATED = 0x04,            /*!< STSAFEA in terminated life-cycle state */
-    STSAFEA_LCS_BORN_AND_LOCKED = 0x81,       /*!< STSAFEA in born+lock life-cycle state */
-    STSAFEA_LCS_OPERATIONAL_AND_LOCKED = 0x83 /*!< STSAFEA in operational+lock life-cycle state */
-} stsafea_life_cycle_state_t;
+typedef PLAT_UI8 stsafea_life_cycle_state_t;
+#define STSAFEA_LCS_BORN ((stsafea_life_cycle_state_t)0x01)                   /*!< STSAFEA in born life-cycle state */
+#define STSAFEA_LCS_PATCHING ((stsafea_life_cycle_state_t)0x02)               /*!< STSAFEA in patching life-cycle state */
+#define STSAFEA_LCS_OPERATIONAL ((stsafea_life_cycle_state_t)0x03)            /*!< STSAFEA in operational life-cycle state */
+#define STSAFEA_LCS_TERMINATED ((stsafea_life_cycle_state_t)0x04)             /*!< STSAFEA in terminated life-cycle state */
+#define STSAFEA_LCS_BORN_AND_LOCKED ((stsafea_life_cycle_state_t)0x81)        /*!< STSAFEA in born+lock life-cycle state */
+#define STSAFEA_LCS_OPERATIONAL_AND_LOCKED ((stsafea_life_cycle_state_t)0x83) /*!< STSAFEA in operational+lock life-cycle state */
 
 /*!
- * \enum stsafea_i2c_parameters_t
+ * \struct stsafea_i2c_parameters_t
  * STSAFEA I2C parameters type
  */
 typedef struct

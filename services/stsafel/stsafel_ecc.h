@@ -39,7 +39,7 @@
  * \brief 		Generate ECC signature over a challenge
  * \details 	This service format and send generate signature command
  * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	key_type 			\ref stse_ecc_key_type_t enum key type to use
+ * \param[in] 	key_type 			\ref stse_ecc_key_type_t key type to use
  * \param[in] 	challenge_length 	Challenge length
  * \param[in] 	pChallenge 			Challenge to be signed
  * \param[out]	pSignature			Signature output buffer

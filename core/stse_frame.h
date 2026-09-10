@@ -51,10 +51,9 @@ struct stse_frame_element_t {
     stse_frame_element_t *next;
 };
 
-typedef enum {
-    STSAFE_FRAME_PLAINTEXT = 0,
-    STSAFE_FRAME_ENCRYPT
-} stse_frame_encrypt_flag_t;
+typedef PLAT_UI8 stse_frame_encrypt_flag_t;
+#define STSAFE_FRAME_PLAINTEXT ((stse_frame_encrypt_flag_t)0)
+#define STSAFE_FRAME_ENCRYPT ((stse_frame_encrypt_flag_t)1)
 
 #define stse_frame_allocate(frame) stse_frame_t frame = {0};
 

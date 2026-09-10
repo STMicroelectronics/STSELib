@@ -39,32 +39,23 @@ typedef struct stse_Handle_t stse_Handle_t;
 /*
  * \brief STSE Session_type type
  */
-typedef enum {
-    STSE_HOST_SESSION,        /*!< Host session */
-    STSE_VOLATILE_KEK_SESSION /*!< Volatile KEK session */
-} stse_session_type_t;
+typedef PLAT_UI8 stse_session_type_t;
+#define STSE_HOST_SESSION ((stse_session_type_t)0x00)         /*!< Host session */
+#define STSE_VOLATILE_KEK_SESSION ((stse_session_type_t)0x01) /*!< Volatile KEK session */
 
 /*
  * \details STMicroelectronics Secure Element device type
  */
-typedef enum stse_device_t {
+typedef PLAT_UI8 stse_device_t;
+/* !!!! Shall be incremental */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
-    STSAFE_A100, /*!< STSAFE-A100 target device */
-    STSAFE_A110, /*!< STSAFE-A110 target device */
-    STSAFE_A120, /*!< STSAFE-A120 target device */
-#endif           /* STSE_CONF_STSAFE_A_SUPPORT */
+#define STSAFE_A100 ((stse_device_t)0) /*!< STSAFE-A100 target device */
+#define STSAFE_A110 ((stse_device_t)1) /*!< STSAFE-A110 target device */
+#define STSAFE_A120 ((stse_device_t)2) /*!< STSAFE-A120 target device */
+#endif                                 /* STSE_CONF_STSAFE_A_SUPPORT */
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
-    STSAFE_L010 /*!< STSAFE-L010 target device */
-#endif          /* STSE_CONF_STSAFE_L_SUPPORT */
-} stse_device_t;
-
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-#define STSE_DEVICE_STSAFEA_FAMILY_INDEX STSAFE_A100
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-#define STSE_DEVICE_STSAFEL_FAMILY_INDEX STSAFE_L010
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
+#define STSAFE_L010 ((stse_device_t)3) /*!< STSAFE-L010 target device */
+#endif                                 /* STSE_CONF_STSAFE_L_SUPPORT */
 
 typedef struct stse_perso_info_t {
     PLAT_UI32 cmd_encryption_status;
@@ -78,15 +69,14 @@ typedef struct stse_perso_info_t {
 /*
  * \details STSE Bus type
  */
-typedef enum stse_bus {
+typedef PLAT_UI8 stse_bus_t;
 #if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
     (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
-    STSE_BUS_TYPE_I2C, /*!< I2C bus */
-#endif                 /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && STSE_CONF_USE_I2C) */
+#define STSE_BUS_TYPE_I2C ((stse_bus_t)0x00) /*!< I2C bus */
+#endif                                       /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && STSE_CONF_USE_I2C) */
 #ifdef STSE_CONF_USE_ST1WIRE
-    STSE_BUS_TYPE_ST1WIRE /*!< ST1Wire bus */
-#endif                    /* STSE_CONF_USE_ST1WIRE */
-} stse_bus_t;
+#define STSE_BUS_TYPE_ST1WIRE ((stse_bus_t)0x01) /*!< ST1Wire bus */
+#endif                                           /* STSE_CONF_USE_ST1WIRE */
 
 /*
  * \struct stse_io_t

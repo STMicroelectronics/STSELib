@@ -39,18 +39,17 @@
 #define STSAFEL_TRACEABILITY_RESERVED_LENGTH 8U
 #define STSAFEL_DATA_CONFIGURATION_IDENTIFIER_LENGTH 8U
 
-typedef enum stsafel_device_info_tag_t {
-    STSAFEL_INFO_TRACEABILITY_DATA = 0x00,
-    STSAFEL_INFO_UNIQUE_IDENTIFIER,
-    STSAFEL_INFO_LIFE_CYCLE_STATE,
-    STSAFEL_INFO_KILL_COMMAND_CONFIGURATION,
-    STSAFEL_INFO_SWITCH_PROTOCOL_FLAG,
-    STSAFEL_INFO_ZONE_META_DATA_V1,
-    STSAFEL_INFO_ZONE_META_DATA_V2,
-    STSAFEL_INFO_STAGE_1_DATA_CONFIGURATION_IDENTIFIER = 0x0C,
-    STSAFEL_INFO_STAGE_2_DATA_CONFIGURATION_IDENTIFIER,
-    STSAFEL_INFO_STAGE_3_DATA_CONFIGURATION_IDENTIFIER
-} stsafel_device_info_tag_t;
+typedef PLAT_UI8 stsafel_device_info_tag_t;
+#define STSAFEL_INFO_TRACEABILITY_DATA ((stsafel_device_info_tag_t)0x00)
+#define STSAFEL_INFO_UNIQUE_IDENTIFIER ((stsafel_device_info_tag_t)0x01)
+#define STSAFEL_INFO_LIFE_CYCLE_STATE ((stsafel_device_info_tag_t)0x02)
+#define STSAFEL_INFO_KILL_COMMAND_CONFIGURATION ((stsafel_device_info_tag_t)0x03)
+#define STSAFEL_INFO_SWITCH_PROTOCOL_FLAG ((stsafel_device_info_tag_t)0x04)
+#define STSAFEL_INFO_ZONE_META_DATA_V1 ((stsafel_device_info_tag_t)0x05)
+#define STSAFEL_INFO_ZONE_META_DATA_V2 ((stsafel_device_info_tag_t)0x06)
+#define STSAFEL_INFO_STAGE_1_DATA_CONFIGURATION_IDENTIFIER ((stsafel_device_info_tag_t)0x0C)
+#define STSAFEL_INFO_STAGE_2_DATA_CONFIGURATION_IDENTIFIER ((stsafel_device_info_tag_t)0x0D)
+#define STSAFEL_INFO_STAGE_3_DATA_CONFIGURATION_IDENTIFIER ((stsafel_device_info_tag_t)0x0E)
 
 typedef struct /*!< Device traceability info */
 {

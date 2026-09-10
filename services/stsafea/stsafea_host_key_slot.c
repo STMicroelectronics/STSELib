@@ -216,7 +216,7 @@ stse_ReturnCode_t stsafea_host_secure_channel_keys_provisioning(
     stse_frame_allocate(CmdFrame);
     stse_frame_element_allocate_push(&CmdFrame, eCmd_header, STSAFEA_EXT_HEADER_SIZE, cmd_header);
     stse_frame_element_allocate_push(&CmdFrame, ePadding, 3, pPadding);
-    stse_frame_element_allocate_push(&CmdFrame, eKey_type, 1, (PLAT_UI8 *)host_mac_key->type);
+    stse_frame_element_allocate_push(&CmdFrame, eKey_type, 1, &(host_mac_key->type));
     stse_frame_element_allocate_push(&CmdFrame, e_host_mac_key, host_keys_length, host_mac_key->key);
     stse_frame_element_allocate_push(&CmdFrame, e_host_cipher_key, host_keys_length, host_cipher_key->key);
 

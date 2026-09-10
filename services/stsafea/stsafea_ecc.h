@@ -36,10 +36,9 @@
  *  @{
  */
 
-typedef enum {
-    STSAFEA_ALGORITHM_ID_KEK_UNWRAPPING = 0x01,
-    STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY
-} stsafea_host_kdf_algo_id_t;
+typedef PLAT_UI8 stsafea_host_kdf_algo_id_t;
+#define STSAFEA_ALGORITHM_ID_KEK_UNWRAPPING ((stsafea_host_kdf_algo_id_t)0x01)
+#define STSAFEA_ALGORITHM_ID_ESTABLISH_SYM_KEY ((stsafea_host_kdf_algo_id_t)0x02)
 
 /**
  * \brief 		Start volatile KEK session

@@ -60,76 +60,74 @@
 #define STSAFEA_MAX_EXT_CMD_COUNT 29U
 
 /*!
- * \enum stsafea_cmd_code_t
+ * \typedef stsafea_cmd_code_t
  * \brief STSAFE-A command type
  */
-typedef enum stsafea_cmd_code_t {
-    STSAFEA_CMD_ECHO = 0,               /*!< STSAFEA Echo command code */
-    STSAFEA_CMD_RESET,                  /*!< STSAFEA Reset command code*/
-    STSAFEA_CMD_GENERATE_RANDOM,        /*!< STSAFEA Generate Random command code*/
-    STSAFEA_CMD_START_SESSION,          /*!< STSAFEA Start Session command code*/
-    STSAFEA_CMD_DECREMENT,              /*!< STSAFEA Decrement zone counter command code*/
-    STSAFEA_CMD_READ,                   /*!< STSAFEA Read zone command code*/
-    STSAFEA_CMD_UPDATE,                 /*!< STSAFEA Update zone command code*/
-    STSAFEA_CMD_INCREMENT,              /*!< STSAFEA Increment zone counter command code*/
-    STSAFEA_CMD_DERIVE_LORA_KEY,        /*!< STSAFEA Derive LORA key command code*/
-    STSAFEA_CMD_GENERATE_MAC,           /*!< STSAFEA Generate MAC command code*/
-    STSAFEA_CMD_VERIFY_MAC,             /*!< STSAFEA Verify MAC command code*/
-    STSAFEA_CMD_UNWRAP_ISSUER_ENVELOPE, /*!< STSAFEA Unwrap issuer envelope command code*/
-    STSAFEA_CMD_DELETE,                 /*!< STSAFEA Delete MAC command code*/
-    STSAFEA_CMD_HIBERNATE,              /*!< STSAFEA Hibernate command code*/
-    STSAFEA_CMD_WRAP_LOCAL_ENVELOPE,    /*!< STSAFEA Wrap Local Envelope command code*/
-    STSAFEA_CMD_UNWRAP_LOCAL_ENVELOPE,  /*!< STSAFEA Unwrap Local Envelope command code*/
-    STSAFEA_CMD_PUT_ATTRIBUTE,          /*!< STSAFEA Put attribute command code*/
-    STSAFEA_CMD_GENERATE_KEY,           /*!< STSAFEA Generate key command code*/
-    STSAFEA_CMD_PUT_KEY,                /*!< STSAFEA Put key command code*/
-    STSAFEA_CMD_CONFIGURE,              /*!< STSAFEA Configure command code*/
-    STSAFEA_CMD_QUERY,                  /*!< STSAFEA Query command code*/
-    STSAFEA_CMD_GET_SIGNATURE,          /*!< STSAFEA Get Signature command code*/
-    STSAFEA_CMD_GENERATE_SIGNATURE,     /*!< STSAFEA Generate Signature command code*/
-    STSAFEA_CMD_VERIFY_SIGNATURE,       /*!< STSAFEA Verify Signature command code*/
-    STSAFEA_CMD_ESTABLISH_KEY,          /*!< STSAFEA Establish Key command code*/
-    STSAFEA_CMD_STANDBY,                /*!< STSAFEA Standby command code*/
-    STSAFEA_CMD_VERIFY_PASSWORD,        /*!< STSAFEA Verify Password command code*/
-    STSAFEA_CMD_ENCRYPT,                /*!< STSAFEA Encrypt command code*/
-    STSAFEA_CMD_DECRYPT,                /*!< STSAFEA Decrypt command code*/
-    STSAFEA_CMD_INVALID,
-    STSAFEA_CHUNK_PREFIX = 0x1EU,
-    STSAFEA_EXTENDED_COMMAND_PREFIX = 0x1FU
-} stsafea_cmd_code_t;
+typedef PLAT_UI8 stsafea_cmd_code_t;
+#define STSAFEA_CMD_ECHO ((stsafea_cmd_code_t)0x00U)                   /*!< STSAFEA Echo command code */
+#define STSAFEA_CMD_RESET ((stsafea_cmd_code_t)0x01U)                  /*!< STSAFEA Reset command code*/
+#define STSAFEA_CMD_GENERATE_RANDOM ((stsafea_cmd_code_t)0x02U)        /*!< STSAFEA Generate Random command code*/
+#define STSAFEA_CMD_START_SESSION ((stsafea_cmd_code_t)0x03U)          /*!< STSAFEA Start Session command code*/
+#define STSAFEA_CMD_DECREMENT ((stsafea_cmd_code_t)0x04U)              /*!< STSAFEA Decrement zone counter command code*/
+#define STSAFEA_CMD_READ ((stsafea_cmd_code_t)0x05U)                   /*!< STSAFEA Read zone command code*/
+#define STSAFEA_CMD_UPDATE ((stsafea_cmd_code_t)0x06U)                 /*!< STSAFEA Update zone command code*/
+#define STSAFEA_CMD_INCREMENT ((stsafea_cmd_code_t)0x07U)              /*!< STSAFEA Increment zone counter command code*/
+#define STSAFEA_CMD_DERIVE_LORA_KEY ((stsafea_cmd_code_t)0x08U)        /*!< STSAFEA Derive LORA key command code*/
+#define STSAFEA_CMD_GENERATE_MAC ((stsafea_cmd_code_t)0x09U)           /*!< STSAFEA Generate MAC command code*/
+#define STSAFEA_CMD_VERIFY_MAC ((stsafea_cmd_code_t)0x0AU)             /*!< STSAFEA Verify MAC command code*/
+#define STSAFEA_CMD_UNWRAP_ISSUER_ENVELOPE ((stsafea_cmd_code_t)0x0BU) /*!< STSAFEA Unwrap issuer envelope command code*/
+#define STSAFEA_CMD_DELETE ((stsafea_cmd_code_t)0x0CU)                 /*!< STSAFEA Delete MAC command code*/
+#define STSAFEA_CMD_HIBERNATE ((stsafea_cmd_code_t)0x0DU)              /*!< STSAFEA Hibernate command code*/
+#define STSAFEA_CMD_WRAP_LOCAL_ENVELOPE ((stsafea_cmd_code_t)0x0EU)    /*!< STSAFEA Wrap Local Envelope command code*/
+#define STSAFEA_CMD_UNWRAP_LOCAL_ENVELOPE ((stsafea_cmd_code_t)0x0FU)  /*!< STSAFEA Unwrap Local Envelope command code*/
+#define STSAFEA_CMD_PUT_ATTRIBUTE ((stsafea_cmd_code_t)0x10U)          /*!< STSAFEA Put attribute command code*/
+#define STSAFEA_CMD_GENERATE_KEY ((stsafea_cmd_code_t)0x11U)           /*!< STSAFEA Generate key command code*/
+#define STSAFEA_CMD_PUT_KEY ((stsafea_cmd_code_t)0x12U)                /*!< STSAFEA Put key command code*/
+#define STSAFEA_CMD_CONFIGURE ((stsafea_cmd_code_t)0x13U)              /*!< STSAFEA Configure command code*/
+#define STSAFEA_CMD_QUERY ((stsafea_cmd_code_t)0x14U)                  /*!< STSAFEA Query command code*/
+#define STSAFEA_CMD_GET_SIGNATURE ((stsafea_cmd_code_t)0x15U)          /*!< STSAFEA Get Signature command code*/
+#define STSAFEA_CMD_GENERATE_SIGNATURE ((stsafea_cmd_code_t)0x16U)     /*!< STSAFEA Generate Signature command code*/
+#define STSAFEA_CMD_VERIFY_SIGNATURE ((stsafea_cmd_code_t)0x17U)       /*!< STSAFEA Verify Signature command code*/
+#define STSAFEA_CMD_ESTABLISH_KEY ((stsafea_cmd_code_t)0x18U)          /*!< STSAFEA Establish Key command code*/
+#define STSAFEA_CMD_STANDBY ((stsafea_cmd_code_t)0x19U)                /*!< STSAFEA Standby command code*/
+#define STSAFEA_CMD_VERIFY_PASSWORD ((stsafea_cmd_code_t)0x1AU)        /*!< STSAFEA Verify Password command code*/
+#define STSAFEA_CMD_ENCRYPT ((stsafea_cmd_code_t)0x1BU)                /*!< STSAFEA Encrypt command code*/
+#define STSAFEA_CMD_DECRYPT ((stsafea_cmd_code_t)0x1CU)                /*!< STSAFEA Decrypt command code*/
+#define STSAFEA_CMD_INVALID ((stsafea_cmd_code_t)0x1DU)
+#define STSAFEA_CHUNK_PREFIX ((stsafea_cmd_code_t)0x1EU)
+#define STSAFEA_EXTENDED_COMMAND_PREFIX ((stsafea_cmd_code_t)0x1FU)
 
 /*!
- * \enum stsafea_extended_cmd_code_t
+ * \typedef stsafea_extended_cmd_code_t
  * \brief STSAFEA-A extended command type
  */
-typedef enum stsafea_extended_cmd_code_t {
-    STSAFEA_EXTENDED_CMD_START_HASH = 0x00U,            /*!< STSAFE-A Start hash extended command code */
-    STSAFEA_EXTENDED_CMD_PROCESS_HASH,                  /*!< STSAFE-A Process hash extended command code */
-    STSAFEA_EXTENDED_CMD_FINISH_HASH,                   /*!< STSAFE-A Finish hash extended command code */
-    STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION,    /*!< STSAFE-A Start volatile KEK extended command code */
-    STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS,      /*!< STSAFE-A Establish symmetric keys extended command code */
-    STSAFEA_EXTENDED_CMD_CONFIRM_SYMMETRIC_KEYS,        /*!< STSAFE-A confirm symmetric keys extended command code */
-    STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION,     /*!< STSAFE-A Stop volatile KEK extended command code */
-    STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_PLAINTEXT,   /*!< STSAFE-A Plaintext write host key v2  extended command code */
-    STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_WRAPPED,     /*!< STSAFE-A Wrapped write host key v2 extended command code */
-    STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_WRAPPED,   /*!< STSAFE-A Write symmetric key extended command code */
-    STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY,              /*!< STSAFE-A Write public key extended command code */
-    STSAFEA_EXTENDED_CMD_GENERATE_ECDHE,                /*!< STSAFE-A Generate ECDHE extended command code */
-    STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE = 14,       /*!< STSAFE-A Generate challenge command code */
-    STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE,       /*!< STSAFE-A Verify entity signature command code */
-    STSAFEA_EXTENDED_CMD_DERIVE_KEYS,                   /*!< STSAFE-A Derive keys command code */
-    STSAFEA_EXTENDED_CMD_START_ENCRYPT,                 /*!< STSAFE-A Start encrypt command code */
-    STSAFEA_EXTENDED_CMD_PROCESS_ENCRYPT,               /*!< STSAFE-A Process encrypt command code */
-    STSAFEA_EXTENDED_CMD_FINISH_ENCRYPT,                /*!< STSAFE-A Finish encrypt command code */
-    STSAFEA_EXTENDED_CMD_START_DECRYPT,                 /*!< STSAFE-A Start decrypt command code */
-    STSAFEA_EXTENDED_CMD_PROCESS_DECRYPT,               /*!< STSAFE-A Process decrypt command code */
-    STSAFEA_EXTENDED_CMD_FINISH_DECRYPT,                /*!< STSAFE-A Finish decrypt command code */
-    STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_PLAINTEXT, /*!< STSAFE-A Write symmetric key paintext command code */
-    STSAFEA_EXTENDED_CMD_ESTABLISH_HOST_KEY_V2,         /*!< STSAFE-A Establish host key V2 command code */
-    STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT,      /*!< STSAFE-A Erase symmetric key slot command code */
-    STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY,         /*!< STSAFE-A Decompress command code */
-    STSAFEA_EXTENDED_CMD_INVALID
-} stsafea_extended_cmd_code_t;
+typedef PLAT_UI8 stsafea_extended_cmd_code_t;
+#define STSAFEA_EXTENDED_CMD_START_HASH ((stsafea_extended_cmd_code_t)0x00U)                    /*!< STSAFE-A Start hash extended command code */
+#define STSAFEA_EXTENDED_CMD_PROCESS_HASH ((stsafea_extended_cmd_code_t)0x01U)                  /*!< STSAFE-A Process hash extended command code */
+#define STSAFEA_EXTENDED_CMD_FINISH_HASH ((stsafea_extended_cmd_code_t)0x02U)                   /*!< STSAFE-A Finish hash extended command code */
+#define STSAFEA_EXTENDED_CMD_START_VOLATILE_KEK_SESSION ((stsafea_extended_cmd_code_t)0x03U)    /*!< STSAFE-A Start volatile KEK extended command code */
+#define STSAFEA_EXTENDED_CMD_ESTABLISH_SYMMETRIC_KEYS ((stsafea_extended_cmd_code_t)0x04U)      /*!< STSAFE-A Establish symmetric keys extended command code */
+#define STSAFEA_EXTENDED_CMD_CONFIRM_SYMMETRIC_KEYS ((stsafea_extended_cmd_code_t)0x05U)        /*!< STSAFE-A confirm symmetric keys extended command code */
+#define STSAFEA_EXTENDED_CMD_STOP_VOLATILE_KEK_SESSION ((stsafea_extended_cmd_code_t)0x06U)     /*!< STSAFE-A Stop volatile KEK extended command code */
+#define STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_PLAINTEXT ((stsafea_extended_cmd_code_t)0x07U)   /*!< STSAFE-A Plaintext write host key v2  extended command code */
+#define STSAFEA_EXTENDED_CMD_WRITE_HOST_KEY_V2_WRAPPED ((stsafea_extended_cmd_code_t)0x08U)     /*!< STSAFE-A Wrapped write host key v2 extended command code */
+#define STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_WRAPPED ((stsafea_extended_cmd_code_t)0x09U)   /*!< STSAFE-A Write symmetric key extended command code */
+#define STSAFEA_EXTENDED_CMD_WRITE_PUBLIC_KEY ((stsafea_extended_cmd_code_t)0x0AU)              /*!< STSAFE-A Write public key extended command code */
+#define STSAFEA_EXTENDED_CMD_GENERATE_ECDHE ((stsafea_extended_cmd_code_t)0x0BU)                /*!< STSAFE-A Generate ECDHE extended command code */
+#define STSAFEA_EXTENDED_CMD_GENERATE_CHALLENGE ((stsafea_extended_cmd_code_t)0x0EU)            /*!< STSAFE-A Generate challenge command code */
+#define STSAFEA_EXTENDED_CMD_VERIFY_ENTITY_SIGNATURE ((stsafea_extended_cmd_code_t)0x0FU)       /*!< STSAFE-A Verify entity signature command code */
+#define STSAFEA_EXTENDED_CMD_DERIVE_KEYS ((stsafea_extended_cmd_code_t)0x10U)                   /*!< STSAFE-A Derive keys command code */
+#define STSAFEA_EXTENDED_CMD_START_ENCRYPT ((stsafea_extended_cmd_code_t)0x11U)                 /*!< STSAFE-A Start encrypt command code */
+#define STSAFEA_EXTENDED_CMD_PROCESS_ENCRYPT ((stsafea_extended_cmd_code_t)0x12U)               /*!< STSAFE-A Process encrypt command code */
+#define STSAFEA_EXTENDED_CMD_FINISH_ENCRYPT ((stsafea_extended_cmd_code_t)0x13U)                /*!< STSAFE-A Finish encrypt command code */
+#define STSAFEA_EXTENDED_CMD_START_DECRYPT ((stsafea_extended_cmd_code_t)0x14U)                 /*!< STSAFE-A Start decrypt command code */
+#define STSAFEA_EXTENDED_CMD_PROCESS_DECRYPT ((stsafea_extended_cmd_code_t)0x15U)               /*!< STSAFE-A Process decrypt command code */
+#define STSAFEA_EXTENDED_CMD_FINISH_DECRYPT ((stsafea_extended_cmd_code_t)0x16U)                /*!< STSAFE-A Finish decrypt command code */
+#define STSAFEA_EXTENDED_CMD_WRITE_SYMMETRIC_KEY_PLAINTEXT ((stsafea_extended_cmd_code_t)0x17U) /*!< STSAFE-A Write symmetric key paintext command code */
+#define STSAFEA_EXTENDED_CMD_ESTABLISH_HOST_KEY_V2 ((stsafea_extended_cmd_code_t)0x18U)         /*!< STSAFE-A Establish host key V2 command code */
+#define STSAFEA_EXTENDED_CMD_ERASE_SYMMETRIC_KEY_SLOT ((stsafea_extended_cmd_code_t)0x19U)      /*!< STSAFE-A Erase symmetric key slot command code */
+#define STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY ((stsafea_extended_cmd_code_t)0x1AU)         /*!< STSAFE-A Decompress command code */
+#define STSAFEA_EXTENDED_CMD_INVALID ((stsafea_extended_cmd_code_t)0x1FU)
 
 stse_ReturnCode_t stsafea_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count);
 

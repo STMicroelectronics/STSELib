@@ -106,22 +106,20 @@ typedef enum stse_ecc_key_type_t {
  * \enum stse_aes_key_type_t
  * \brief STSE AES key type
  */
-typedef enum stse_aes_key_type_t {
-    STSE_AES_128_KT = 0x00,
-    STSE_AES_256_KT,
-    STSE_AES_INVALID_KT
-} stse_aes_key_type_t;
+typedef PLAT_UI8 stse_aes_key_type_t;
+#define STSE_AES_128_KT ((stse_aes_key_type_t)0)
+#define STSE_AES_256_KT ((stse_aes_key_type_t)1)
+#define STSE_AES_INVALID_KT ((stse_aes_key_type_t)2)
 
 /*!
  * \enum stse_aes_key_usage_t
  * \brief STSE AES key usage
  */
-typedef enum stse_aes_key_usage_t {
-    STSE_AES_KEY_USAGE_MAC = 0,        /**< Key used for host MAC operations */
-    STSE_AES_KEY_USAGE_CIPHER,         /**< Key used for host cipher operations */
-    STSE_AES_KEY_USAGE_GENERIC_SECRET, /**< Generic secret: AES key with variable-length keys (from 16 to 32 bytes) */
-    STSE_AES_KEY_USAGE_INVALID
-} stse_aes_key_usage_t;
+typedef PLAT_UI8 stse_aes_key_usage_t;
+#define STSE_AES_KEY_USAGE_MAC ((stse_aes_key_type_t)0)            /**< Key used for host MAC operations */
+#define STSE_AES_KEY_USAGE_CIPHER ((stse_aes_key_type_t)1)         /**< Key used for host cipher operations */
+#define STSE_AES_KEY_USAGE_GENERIC_SECRET ((stse_aes_key_type_t)2) /**< Generic secret: AES key with variable-length keys (from 16 to 32 bytes) */
+#define STSE_AES_KEY_USAGE_INVALID ((stse_aes_key_type_t)3)
 
 /*!
  * \enum stse_hash_algorithm_t
@@ -156,25 +154,23 @@ typedef enum stse_hash_algorithm_t {
 } stse_hash_algorithm_t;
 
 /*!
- * \enum stse_hibernate_wake_up_mode_t
+ * \type stse_hibernate_wake_up_mode_t
  * \brief STSE hibernate wake up mode (STSAFE-A only)
  */
-typedef enum {
-    STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET = 0x01, /*!< Wake up from hibernate after I2C start condition or after reset. */
-    STSAFEA_HIBERNATE_WAKEUP_RESET_ONLY = 0x02    /*!< Wake up from hibernate after reset only. */
-} stse_hibernate_wake_up_mode_t;
+typedef PLAT_UI8 stse_hibernate_wake_up_mode_t;
+#define STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET ((stse_hibernate_wake_up_mode_t)0x01) /*!< Wake up from hibernate after I2C start condition or after reset. */
+#define STSAFEA_HIBERNATE_WAKEUP_RESET_ONLY ((stse_hibernate_wake_up_mode_t)0x02)   /*!< Wake up from hibernate after reset only. */
 
 /*!
- * \enum stse_cmd_protection_t
- * \brief STSE Command Protection enumeration
+ * \typedef stse_cmd_protection_t
+ * \brief STSE Command Protection values
  */
-typedef enum stse_cmd_protection_t {
-    STSE_NO_PROT = 0,       /*!< No command / response payload protection */
-    STSE_HOST_C_MAC_R_MAC,  /*!< Authenticated command and response using HOST MAC Key */
-    STSE_HOST_C_WRAP,       /*!< Encrypted and authenticated command using HOST MAC and cipher Keys*/
-    STSE_HOST_R_WRAP,       /*!< Encrypted and authenticated response using HOST MAC and cipher Keys*/
-    STSE_HOST_C_WRAP_R_WRAP /*!< Encrypted and authenticated command and response using HOST MAC and cipher Keys*/
-} stse_cmd_protection_t;
+typedef PLAT_UI8 stse_cmd_protection_t;
+#define STSE_NO_PROT ((stse_cmd_protection_t)0)            /*!< No command / response payload protection */
+#define STSE_HOST_C_MAC_R_MAC ((stse_cmd_protection_t)1)   /*!< Authenticated command and response using HOST MAC Key */
+#define STSE_HOST_C_WRAP ((stse_cmd_protection_t)2)        /*!< Encrypted and authenticated command using HOST MAC and cipher Keys*/
+#define STSE_HOST_R_WRAP ((stse_cmd_protection_t)3)        /*!< Encrypted and authenticated response using HOST MAC and cipher Keys*/
+#define STSE_HOST_C_WRAP_R_WRAP ((stse_cmd_protection_t)4) /*!< Encrypted and authenticated command and response using HOST MAC and cipher Keys*/
 
 /*!
  * \struct stse_aes_key_t
@@ -198,17 +194,16 @@ typedef struct stse_cmd_authorization_CR_t {
 } stse_cmd_authorization_CR_t;
 
 /*!
- * \enum stse_cmd_access_conditions_t
- * \brief STSE commands access conditions enumeration
+ * \typedef stse_cmd_access_conditions_t
+ * \brief STSE commands access conditions values
  */
-typedef enum stse_cmd_access_conditions_t {
-    STSE_CMD_AC_NEVER = 0,    /*!< NEVER */
-    STSE_CMD_AC_FREE,         /*!< FREE */
-    STSE_CMD_AC_ADMIN,        /*!< ADMIN */
-    STSE_CMD_AC_HOST,         /*!< HOST */
-    STSE_CMD_AC_ADMIN_OR_PWD, /*!< ADMIN or PASSWORD */
-    STSE_CMD_AC_ADMIN_OR_HOST /*!< ADMIN or HOST */
-} stse_cmd_access_conditions_t;
+typedef PLAT_UI8 stse_cmd_access_conditions_t;
+#define STSE_CMD_AC_NEVER ((stse_cmd_access_conditions_t)0)         /*!< NEVER */
+#define STSE_CMD_AC_FREE ((stse_cmd_access_conditions_t)1)          /*!< FREE */
+#define STSE_CMD_AC_ADMIN ((stse_cmd_access_conditions_t)2)         /*!< ADMIN */
+#define STSE_CMD_AC_HOST ((stse_cmd_access_conditions_t)3)          /*!< HOST */
+#define STSE_CMD_AC_ADMIN_OR_PWD ((stse_cmd_access_conditions_t)4)  /*!< ADMIN or PASSWORD */
+#define STSE_CMD_AC_ADMIN_OR_HOST ((stse_cmd_access_conditions_t)5) /*!< ADMIN or HOST */
 
 /*!
  * \struct stse_cmd_authorization_record_t
@@ -226,42 +221,38 @@ typedef struct stse_cmd_authorization_record_t {
 } stse_cmd_authorization_record_t;
 
 /**
- * \enum stse_zone_update_atomicity_t
- * \brief STSE Update command atomicity enumeration
+ * \typedef stse_zone_update_atomicity_t
+ * \brief STSE Update command atomicity values
  */
-typedef enum stse_zone_update_atomicity_t {
-    STSE_NON_ATOMIC_ACCESS = 0, /*!< Non Atomic Access*/
-    STSE_ATOMIC_ACCESS          /*!< Atomic Access*/
-} stse_zone_update_atomicity_t;
+typedef PLAT_UI8 stse_zone_update_atomicity_t;
+#define STSE_NON_ATOMIC_ACCESS ((stse_zone_update_atomicity_t)0) /*!< Non Atomic Access*/
+#define STSE_ATOMIC_ACCESS ((stse_zone_update_atomicity_t)1)     /*!< Atomic Access*/
 
 /**
- * \enum stse_zone_ac_t
- * \brief STSE data storage access condition enumeration
+ * \typedef stse_zone_ac_t
+ * \brief STSE data storage access condition values
  */
-typedef enum stse_zone_ac_t {
-    STSE_AC_ALWAYS = 0,        /*!< Zone/counter access always granted */
-    STSE_AC_HOST,              /*!< Zone/counter access granted on Host C-MAC validation */
-    STSE_AC_AUTH_AND_HOST = 6, /*!< Zone/counter access granted on true Authentic entity status (verify entity signature) + Host C-MAC validation */
-    STSE_AC_NEVER = 7          /*!< Zone/counter access never granted */
-} stse_zone_ac_t;
+typedef PLAT_UI8 stse_zone_ac_t;
+#define STSE_AC_ALWAYS ((stse_zone_ac_t)0)        /*!< Zone/counter access always granted */
+#define STSE_AC_HOST ((stse_zone_ac_t)1)          /*!< Zone/counter access granted on Host C-MAC validation */
+#define STSE_AC_AUTH_AND_HOST ((stse_zone_ac_t)6) /*!< Zone/counter access granted on true Authentic entity status (verify entity signature) + Host C-MAC validation */
+#define STSE_AC_NEVER ((stse_zone_ac_t)7)         /*!< Zone/counter access never granted */
 
 /**
- * \enum stse_zone_ac_change_indicator_t
+ * \typedef stse_zone_ac_change_indicator_t
  * \brief STSE data storage access condition change indicator
  */
-typedef enum stse_zone_ac_change_indicator_t {
-    STSE_AC_IGNORE = 0, /*!< Ignore access condition change */
-    STSE_AC_CHANGE      /*!< Request access condition change */
-} stse_zone_ac_change_indicator_t;
+typedef PLAT_UI8 stse_zone_ac_change_indicator_t;
+#define STSE_AC_IGNORE ((stse_zone_ac_change_indicator_t)0) /*!< Ignore access condition change */
+#define STSE_AC_CHANGE ((stse_zone_ac_change_indicator_t)1) /*!< Request access condition change */
 
 /**
- * \enum stse_ac_change_right_t
- * \brief STSE data storage access condition change right enumeration
+ * \typedef stse_ac_change_right_t
+ * \brief STSE data storage access condition change right values
  */
-typedef enum stse_ac_change_right_t {
-    STSE_ACCR_DISABLED = 0, /*!< Change the AC is forbidden */
-    STSE_ACCR_ENABLE        /*!< Change the AC is authorized */
-} stse_ac_change_right_t;
+typedef PLAT_UI8 stse_ac_change_right_t;
+#define STSE_ACCR_DISABLED ((stse_ac_change_right_t)0) /*!< Change the AC is forbidden */
+#define STSE_ACCR_ENABLE ((stse_ac_change_right_t)1)   /*!< Change the AC is authorized */
 
 #define STSE_ECC_GENERIC_LENGTH_SIZE 2U
 #define STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID 0x04

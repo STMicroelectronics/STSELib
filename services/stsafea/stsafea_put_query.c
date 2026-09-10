@@ -95,7 +95,7 @@ stse_ReturnCode_t stsafea_put_i2c_parameters(
     }
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type >= STSE_DEVICE_STSAFEL_FAMILY_INDEX) {
+    if (pSTSE->device_type >= STSAFE_L010) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 #endif

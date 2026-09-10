@@ -71,7 +71,7 @@ stse_ReturnCode_t stse_data_storage_get_partitioning_table(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_read_zone.dox
@@ -97,7 +97,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_update_zone.dox
@@ -124,7 +124,7 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_decrement_counter.dox
@@ -152,7 +152,7 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_read_counter.dox
@@ -177,7 +177,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_change_read_access_condition.dox
@@ -203,7 +203,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details \include{doc} stse_data_storage_change_update_access_condition.dox
@@ -233,7 +233,7 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handle_t
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
  * \note - A target STSE handler must be initialized using the \ref stse_init routine prior to execute this API function
  * \note - If command response protection is required an active session between Host/Companion and STSE must be open
- * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t enum):
+ * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
  * \details 	\include{doc} stse_data_storage_change_decrement_access_condition.dox
