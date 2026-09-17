@@ -1,47 +1,49 @@
-/******************************************************************************
- * \file	stselib.h
- * \brief   STSecureElement Library header file
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * "h2""center"&copy; COPYRIGHT 2022 STMicroelectronics"/center""/h2"
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************/
+/**
+  ******************************************************************************
+  * @file    stselib.h
+  * @author  CS Application Team
+  * @brief   STSecureElement Library header file
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSELIB_H
 #define STSELIB_H
 
 /*!
- *  \defgroup 	stse_certificate STSE Certificate parser
- *  \brief		SE device certificate parser
- *  \details  	The STSE Certificate parser is the entry point for the upper system application layer.
- *  			It provides high level certificate parsing functions to the application layer.
- *
- *  \defgroup 	stse_api STSE API layer
- *  \brief		Common API set for STMicroelectronics brand protection secure elements
- *  \details  	The STSE API layer is the entry point for the upper system application layer.
- *  			It provides high level functions allowing seamless implementation of advanced authentication
- *  			, SE cryptographic processing  and device life cycle monitoring at applicative level  .
- *
- *  \defgroup 	stse_services STSE Services layer
- *  \brief		Secure Element specific services Layer
- *  \details  	The Services layer provide set of functions that format all commands supported \n
- *  			by a specific secure element from STMicroelectronics Brand Protection portfolio
- *
- *  \defgroup 	stse_core STSE Core layer
- *  \brief		Frame protocol , hardware abstraction and cryptographic abstraction layer
- *  \details  	The Core layer provide SE frame management services and abstraction to specific HW
- *              and cryptographic platforms required by the STSE library to operate on specific HOST
- */
+  *  \defgroup   stse_certificate STSE Certificate parser
+  *  \brief    SE device certificate parser
+  *  \details    The STSE Certificate parser is the entry point for the upper system application layer.
+  *        It provides high level certificate parsing functions to the application layer.
+  *
+  *  \defgroup   stse_api STSE API layer
+  *  \brief    Common API set for STMicroelectronics brand protection secure elements
+  *  \details    The STSE API layer is the entry point for the upper system application layer.
+  *        It provides high level functions allowing seamless implementation of advanced authentication
+  *        , SE cryptographic processing  and device life cycle monitoring at applicative level  .
+  *
+  *  \defgroup   stse_services STSE Services layer
+  *  \brief    Secure Element specific services Layer
+  *  \details    The Services layer provide set of functions that format all commands supported \n
+  *        by a specific secure element from STMicroelectronics Brand Protection portfolio
+  *
+  *  \defgroup   stse_core STSE Core layer
+  *  \brief    Frame protocol , hardware abstraction and cryptographic abstraction layer
+  *  \details    The Core layer provide SE frame management services and abstraction to specific HW
+  *              and cryptographic platforms required by the STSE library to operate on specific HOST
+  */
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* defined(__cplusplus) */
 
 /* Includes ------------------------------------------------------------------*/
 #include "api/stse_aes.h"
@@ -91,5 +93,9 @@ extern "C" {
 #include "services/stsafel/stsafel_timings.h"
 #include "stse_conf.h"
 #include "stse_platform_generic.h"
+
+#ifdef __cplusplus
+}
+#endif /* defined(__cplusplus) */
 
 #endif /* STSELIB_H */

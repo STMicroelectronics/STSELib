@@ -1,26 +1,27 @@
-/******************************************************************************
- * \file	stsafea_timings.h
- * \brief   STSAFE-A timings definition (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafea_timings.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A timings definition (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFE_TIMINGS_H
 #define STSAFE_TIMINGS_H
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* defined(__cplusplus) */
 
 #include "core/stse_device.h"
 #include "core/stse_platform.h"

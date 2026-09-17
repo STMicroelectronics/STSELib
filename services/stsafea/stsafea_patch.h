@@ -1,20 +1,20 @@
-/*!
- ******************************************************************************
- * \file	stsafea_patch.c
- * \brief   STSAFE-A services for patch (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafea_patch.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A services for patch (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFE_PATCH_H
 #define STSAFE_PATCH_H
@@ -27,49 +27,57 @@
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* defined(__cplusplus) */
+
 /*! \defgroup stsafea_patch STSAFE-A patch management
  *  \ingroup stsafea_services
  *  @{
  */
 
 /**
- * \brief 		STSAFEA Get patch update command counter service
- * \details 	This service format and send/receive the get patch update command/response
- * \param[in] 	pSTSE 	Pointer to STSE Handler
- * \param[out] 	pCounter 	Patch update command counter
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     STSAFEA Get patch update command counter service
+  * \details   This service format and send/receive the get patch update command/response
+  * \param[in]   pSTSE   Pointer to STSE Handler
+  * \param[out]  pCounter  Patch update command counter
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_get_patch_update_command_counter(
-    stse_Handler_t *pSTSE,
-    PLAT_UI8 pCounter);
+  stse_Handler_t *pSTSE,
+  PLAT_UI8 pCounter);
 
 /**
- * \brief 		STSAFEA Start patch service
- * \details 	This service format and send/receive the patch start command/response
- * \param[in] 	pSTSE 	Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     STSAFEA Start patch service
+  * \details   This service format and send/receive the patch start command/response
+  * \param[in]   pSTSE   Pointer to STSE Handler
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_patch_start(
-    stse_Handler_t *pSTSE);
+  stse_Handler_t *pSTSE);
 
 /**
- * \brief 		STSAFEA Update Patch service
- * \details 	This service format and send/receive the patch update command/response
- * \param[in] 	pSTSE 	Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     STSAFEA Update Patch service
+  * \details   This service format and send/receive the patch update command/response
+  * \param[in]   pSTSE   Pointer to STSE Handler
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_patch_update(
-    stse_Handler_t *pSTSE);
+  stse_Handler_t *pSTSE);
 
 /**
- * \brief 		STSAFEA Finalize Patch service
- * \details 	This service format and send/receive the patch finalize command/response
- * \param[in] 	pSTSE 	Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     STSAFEA Finalize Patch service
+  * \details   This service format and send/receive the patch finalize command/response
+  * \param[in]   pSTSE   Pointer to STSE Handler
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_patch_finalize(
-    stse_Handler_t *pSTSE);
+  stse_Handler_t *pSTSE);
 
 /** \}*/
+#ifdef __cplusplus
+}
+#endif /* defined(__cplusplus) */
+
 
 #endif /* STSAFE_PATCH_H */
