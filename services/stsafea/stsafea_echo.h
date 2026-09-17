@@ -1,20 +1,20 @@
-/*!
- ******************************************************************************
- * \file	stsafea_echo.h
- * \brief   STSAFE-A services for echo (source)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafea_echo.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A services for echo (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFEA_ECHO_H
 #define STSAFEA_ECHO_H
@@ -27,30 +27,38 @@
 #include "services/stsafea/stsafea_commands.h"
 #include "services/stsafea/stsafea_timings.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* defined(__cplusplus) */
+
 /*! \defgroup stsafea_echo STSAFE-A Echo
  *  \ingroup stsafea_services
  *  @{
  */
 
 /**
- * \brief 		Send an echo to target device
- * \details 	This service format and send the echo command
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \param[in]	message				Message buffer to send the echo command
- * \param[in]	echoed_message		Message buffer to receive the echo response
- * \param[in]	message_size		Size of the echo message<br>
- * message_size maximum value (in bytes):
- * - STSAFE-A100 : STSAFEA_MAX_FRAME_LENGTH_A100 - 2
- * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 2
- * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 2
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     Send an echo to target device
+  * \details   This service format and send the echo command
+  * \param[in]   pSTSE       Pointer to STSE Handler
+  * \param[in] message       Message buffer to send the echo command
+  * \param[in] echoed_message    Message buffer to receive the echo response
+  * \param[in] message_size    Size of the echo message<br>
+  * message_size maximum value (in bytes):
+  * - STSAFE-A100 : STSAFEA_MAX_FRAME_LENGTH_A100 - 2
+  * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 2
+  * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 2
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_echo(
-    stse_Handler_t *pSTSE,
-    PLAT_UI8 *message,
-    PLAT_UI8 *echoed_message,
-    PLAT_UI16 message_size);
+  stse_Handler_t *pSTSE,
+  PLAT_UI8 *message,
+  PLAT_UI8 *echoed_message,
+  PLAT_UI16 message_size);
 
 /** \}*/
+#ifdef __cplusplus
+}
+#endif /* defined(__cplusplus) */
+
 
 #endif /*STSAFEA_ECHO_H*/
