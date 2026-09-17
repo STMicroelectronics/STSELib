@@ -1,23 +1,27 @@
-/*!
- ******************************************************************************
- * \file	stse_util.h
- * \brief   STSELib api for util macros (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_util.h
+  * @author  CS Application Team
+  * @brief   STSELib api for util macros (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFE_UTIL_H
 #define STSAFE_UTIL_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* defined(__cplusplus) */
 
 #define UI16_B0(ui16) ((ui16) & 0x00FF)
 #define UI16_B1(ui16) (((ui16) & 0xFF00) >> 8)
@@ -38,5 +42,9 @@
 #define UI32_B1_SET(ui8) ((ui8) << 8)
 #define UI32_B2_SET(ui8) ((ui8) << 16)
 #define UI32_B3_SET(ui8) ((ui8) << 24)
+#ifdef __cplusplus
+}
+#endif /* defined(__cplusplus) */
+
 
 #endif /*STSAFE_UTIL_H*/

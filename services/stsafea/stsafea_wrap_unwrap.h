@@ -1,20 +1,20 @@
-/*!
- ******************************************************************************
- * \file	stsafea_hash.h
- * \brief   STSAFE-A services for wrap & unwrap (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafea_wrap_unwrap.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A services for wrap & unwrap (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFEA_WRAP_UNWRAP_H
 #define STSAFEA_WRAP_UNWRAP_H
@@ -28,49 +28,57 @@
 #include "services/stsafea/stsafea_sessions.h"
 #include "services/stsafea/stsafea_timings.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif /* defined(__cplusplus) */
+
 /*! \defgroup stsafea_wrap STSAFE-A Wrap/Un-wrap
  *  \ingroup stsafea_services
  *  \{
  */
 
 /**
- * \brief 		STSAFEA wrap service
- * \details 	This service format and send STSAFEA wrap command/response to target STSE
- * \param[in]	pSTSE					Pointer to target SE handler
- * \param[in]	wrap_key_slot			Wrap key slot
- * \param[in] 	pPayload				Pointer to the payload buffer to be wrapped
- * \param[in]	payload_size			size of the payload buffer
- * \param[out] 	pWrapped_Payload		Pointer to the wrapped payload buffer
- * \param[in]	wrapped_payload_size	size of the wrapped payload buffer
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     STSAFEA wrap service
+  * \details   This service format and send STSAFEA wrap command/response to target STSE
+  * \param[in] pSTSE         Pointer to target SE handler
+  * \param[in] wrap_key_slot     Wrap key slot
+  * \param[in]   pPayload        Pointer to the payload buffer to be wrapped
+  * \param[in] payload_size      size of the payload buffer
+  * \param[out]  pWrapped_Payload    Pointer to the wrapped payload buffer
+  * \param[in] wrapped_payload_size  size of the wrapped payload buffer
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_wrap_payload(
-    stse_Handler_t *pSTSE,
-    PLAT_UI8 wrap_key_slot,
-    PLAT_UI8 *pPayload,
-    PLAT_UI16 payload_size,
-    PLAT_UI8 *pWrapped_Payload,
-    PLAT_UI16 wrapped_payload_size);
+  stse_Handler_t *pSTSE,
+  PLAT_UI8 wrap_key_slot,
+  PLAT_UI8 *pPayload,
+  PLAT_UI16 payload_size,
+  PLAT_UI8 *pWrapped_Payload,
+  PLAT_UI16 wrapped_payload_size);
 
 /**
- * \brief 		STSAFEA un-wrap service
- * \details 	This service format and send STSAFEA un-wrap command/response to target STSE
- * \param[in]	pSTSE					Pointer to target SE handler
- * \param[in]	wrap_key_slot			wrap key slot
- * \param[in]	pWrapped_Payload		Pointer to the wrapped payload buffer to be un-wrapped
- * \param[in]	wrapped_payload_size	Size of the wrapped payload buffer
- * \param[out]	pPayload				Pointer to the plain text payload buffer
- * \param[in]	payload_size			Size of the payload buffer
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
+  * \brief     STSAFEA un-wrap service
+  * \details   This service format and send STSAFEA un-wrap command/response to target STSE
+  * \param[in] pSTSE         Pointer to target SE handler
+  * \param[in] wrap_key_slot     wrap key slot
+  * \param[in] pWrapped_Payload    Pointer to the wrapped payload buffer to be un-wrapped
+  * \param[in] wrapped_payload_size  Size of the wrapped payload buffer
+  * \param[out]  pPayload        Pointer to the plain text payload buffer
+  * \param[in] payload_size      Size of the payload buffer
+  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
 stse_ReturnCode_t stsafea_unwrap_payload(
-    stse_Handler_t *pSTSE,
-    PLAT_UI8 wrap_key_slot,
-    PLAT_UI8 *pWrapped_Payload,
-    PLAT_UI16 wrapped_payload_size,
-    PLAT_UI8 *pPayload,
-    PLAT_UI16 payload_size);
+  stse_Handler_t *pSTSE,
+  PLAT_UI8 wrap_key_slot,
+  PLAT_UI8 *pWrapped_Payload,
+  PLAT_UI16 wrapped_payload_size,
+  PLAT_UI8 *pPayload,
+  PLAT_UI16 payload_size);
 
 /** \}*/
+#ifdef __cplusplus
+}
+#endif /* defined(__cplusplus) */
+
 
 #endif /*STSAFEA_WRAP_UNWRAP_H*/

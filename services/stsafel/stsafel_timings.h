@@ -1,26 +1,27 @@
-/******************************************************************************
- * \file	stsafel_timings.h
- * \brief   STSAFE-L timings definition (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2024 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafel_timings.h
+  * @author  CS Application Team
+  * @brief   STSAFE-L timings definition (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2017 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFEL_TIMINGS_H
 #define STSAFEL_TIMINGS_H
 
 #ifdef __cplusplus
 extern "C" {
-#endif
+#endif /* defined(__cplusplus) */
 
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
@@ -40,15 +41,15 @@ extern const PLAT_UI16 stsafel_boot_time[STSAFEL_PRODUCT_COUNT];
 extern const PLAT_UI16 stsafel_wakeup_time[STSAFEL_PRODUCT_COUNT];
 
 /**
- * \brief 		Get the command execution timing
- * \details 	Get the command execution timing
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	command_code 		Command code
- * \return PLAT_UI16 : specific command execution time
- */
+  * \brief     Get the command execution timing
+  * \details   Get the command execution timing
+  * \param[in]   pSTSE         Pointer to STSE Handler
+  * \param[in]   command_code    Command code
+  * \return PLAT_UI16 : specific command execution time
+  */
 PLAT_UI16 stsafel_cmd_exec_duration(
-    stse_Handler_t *pSTSE,
-    stsafel_cmd_code_t command_code);
+  stse_Handler_t *pSTSE,
+  stsafel_cmd_code_t command_code);
 
 /** @}*/
 
