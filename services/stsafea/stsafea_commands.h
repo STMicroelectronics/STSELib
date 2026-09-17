@@ -129,7 +129,16 @@ typedef PLAT_UI8 stsafea_extended_cmd_code_t;
 #define STSAFEA_EXTENDED_CMD_DECOMPRESS_PUBLIC_KEY ((stsafea_extended_cmd_code_t)0x1AU)         /*!< STSAFE-A Decompress command code */
 #define STSAFEA_EXTENDED_CMD_INVALID ((stsafea_extended_cmd_code_t)0x1FU)
 
-stse_ReturnCode_t stsafea_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count);
+/**
+ * \brief 		Return the command count with command access conditions update capability
+ * \details 	This function query the number of command authorization records
+ * 				of the target device command set and return the number of records
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[out] 	pCommand_count 		Command authorization records count
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \details 	Please refer to stse_device_get_command_AC()
+ */
+stse_ReturnCode_t stsafea_get_command_authorization_records_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count);
 
 /**
  * \brief 		Get command access control table

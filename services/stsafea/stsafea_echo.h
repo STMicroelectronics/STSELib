@@ -33,9 +33,9 @@
  */
 
 /**
- * \brief 		Send an echo to target device
+ * \brief 		Send an echo to STSAFE-A device
  * \details 	This service format and send the echo command
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
  * \param[in]	message				Message buffer to send the echo command
  * \param[in]	echoed_message		Message buffer to receive the echo response
  * \param[in]	message_size		Size of the echo message<br>

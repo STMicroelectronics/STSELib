@@ -53,27 +53,6 @@ stse_ReturnCode_t stse_derive_key(
     PLAT_UI16 key_length);
 
 /**
- * @brief Simplest HKDF derivation using a context with explicit length.
- * \details Derives a key from a master slot using the provided context.
- * Uses a default empty salt.
- * \param[in]   pSTSE        Pointer to STSE Handler.
- * \param[in]   master_slot  Slot containing the master key.
- * \param[in]   pContext     Context/Info data.
- * \param[in]   context_len  Length of the context data.
- * \param[out]  pOutput_key  Buffer for the derived key.
- * \param[in]   key_length   Desired derived key length.
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	\include{doc} stse_derive_key_simple.dox
- */
-stse_ReturnCode_t stse_derive_key_simple(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 master_slot,
-    PLAT_UI8 *pContext,
-    PLAT_UI16 context_len,
-    PLAT_UI8 *pOutput_key,
-    PLAT_UI16 key_length);
-
-/**
  * @brief Perform HKDF-Extract only and store PRK in a slot.
  * \details Creates a session/context-specific PRK inside the secure element.
  * This PRK can be used for subsequent Expand operations.

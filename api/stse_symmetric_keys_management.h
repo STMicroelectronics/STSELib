@@ -148,17 +148,6 @@ stse_ReturnCode_t stse_establish_host_secure_channel_keys_authenticated(
     PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Get symmetric key slot count
- * \details 	Get the number of slot in symmetric key table
- * \param[in] 	pSTSE 			 		Pointer to STSE Handler
- * \param[out] 	pSymmetric_key_slot_count	Number of slot in symmetric key table
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_get_symmetric_key_slots_count(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pSymmetric_key_slot_count);
-
-/**
  * \brief 		Get one symmetric key slot info
  * \details 	Get the informations of one slot in symmetric key table
  * \param[in] 	pSTSE 					Pointer to STSE Handler
@@ -170,59 +159,6 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
     stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
     stsafea_symmetric_key_slot_information_t *pSymmetric_key_slot_info);
-
-/**
- * \brief 		Get symmetric key slot info
- * \details 	Get the informations of all slot of symmetric key table
- * \param[in] 	pSTSE 			 			Pointer to STSE Handler
- * \param[in]	total_slot_count			Target Device total symmetric key slots number
- * \param[out] 	symmetric_key_table_info	Buffer to store the information structure list for all slots
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_get_symmetric_key_table_info(
-    stse_Handle_t *pSTSE,
-    PLAT_UI16 total_slot_count,
-    stsafea_symmetric_key_slot_information_t *symmetric_key_table_info);
-
-/**
- * \brief 		Get symmetric key slot provisioning control fields
- * \details 	Get symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	slot_number			Slot number of the slot to query
- * \param[out] 	pCtrl_fields		Output structure for the provisioning control fields of the target slot
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 slot_number,
-    stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
-
-/**
- * \brief 		Set symmetric key slot provisioning control fields
- * \details 	Set symmetric key slot provisioning control fields
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	slot_number			Slot number of the slot to query
- * \param[in] 	pCtrl_fields		Input structure for the provisioning control fields of the target slot
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 slot_number,
-    stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields);
-
-/**
- * \brief 		Write symmetric key plaintext in stsafe symmetric key table
- * \details 	This API Write a symmetric key in stsafe symmetric key table
- * \param[in] 	pSTSE 			 	 Pointer to STSE Handler
- * \param[in] 	pKey 				 Key material to write in STSE
- * \param[in] 	pSymmetric_key_info	 Key information used to populate the symmetric key table
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	\include{doc} stse_write_symmetric_key_plaintext.dox
- */
-stse_ReturnCode_t stse_write_symmetric_key_plaintext(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pKey,
-    stsafea_generic_key_information_t *pSymmetric_key_info);
 
 /**
  * \brief 		Write symmetric key wrapped in stsafe symmetric key table

@@ -35,10 +35,12 @@ extern "C" {
  *  @{
  */
 
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 extern const PLAT_UI16 stsafea_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_CMD_COUNT];
 extern const PLAT_UI16 stsafea_extended_cmd_timings[STSAFEA_PRODUCT_COUNT][STSAFEA_MAX_EXT_CMD_COUNT];
 extern const PLAT_UI16 stsafea_boot_time[STSAFEA_PRODUCT_COUNT];
 extern const PLAT_UI16 stsafea_wakeup_time[STSAFEA_PRODUCT_COUNT];
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
 
 /** @}*/
 

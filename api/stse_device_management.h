@@ -16,8 +16,8 @@
  *
  ******************************************************************************
  */
-#ifndef STSAFE_SE_MANAGEMENT_H
-#define STSAFE_SE_MANAGEMENT_H
+#ifndef STSE_MANAGEMENT_H
+#define STSE_MANAGEMENT_H
 
 /* Includes ------------------------------------------------------------------*/
 
@@ -93,24 +93,6 @@ stse_ReturnCode_t stse_init_device(stse_Handle_t *pSTSE, void *pArg);
 stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg);
 
 /**
- * \brief 		Reset target device
- * \details 	This function call reset service to reset the device
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_device_reset(stse_Handle_t *pSTSE);
-
-/**
- * \brief 		Put target device in hibernate mode
- * \details 	This function call hibernate service to put the device in hibernate
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in]	wake_up_mode 		Event to wake up from (only significant with STSAFE-A devices),
- * 									listed in type \ref stse_hibernate_wake_up_mode_t
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_device_enter_hibernate(stse_Handle_t *pSTSE, stse_hibernate_wake_up_mode_t wake_up_mode);
-
-/**
  * \brief 		Power-on target device
  * \details 	This function power-on the target device
  * \param[in] 	pSTSE 			Pointer to STSE Handler
@@ -126,18 +108,6 @@ stse_ReturnCode_t stse_device_power_on(stse_Handle_t *pSTSE);
  * \details 	Please refer to stse_device_power_on()
  */
 stse_ReturnCode_t stse_device_power_off(stse_Handle_t *pSTSE);
-
-/**
- * \brief 		Send echo command
- * \details 	This function call send service to send an echo command
- * \param[in]  	pSTSE 				Pointer to STSE Handler
- * \param[in]  	pIn 				Pointer to data buffer to be sent
- * \param[out] 	pOut 				Pointer to received data buffer
- * \param[in]  	size 				Size in bytes of pIn buffer
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	\include{doc} stse_device_echo.dox
- */
-stse_ReturnCode_t stse_device_echo(stse_Handle_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI8 *pOut, PLAT_UI16 size);
 
 /**
  * \brief 		Lock target device
@@ -161,60 +131,6 @@ stse_ReturnCode_t stse_device_lock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PL
  */
 stse_ReturnCode_t stse_device_unlock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
 
-/**
- * \brief 		Return the record count of command access conditions
- * \details 	This function query the access conditions
- * 				of the target device command set and return the number of records
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[out] 	record_count 		Command authorization records count
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	Please refer to stse_device_get_command_AC()
- */
-stse_ReturnCode_t stse_device_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *record_count);
-
-/**
- * \brief 		Return the command access conditions and change right
- * \details 	This function query the access conditions
- * 				of the target device command set
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	record_count 		Command authorization records count
- * \param[out] 	pChange_rights 		Pointer to change rights structure of the commands AC and host encrytpion flag
- * \param[out] 	pRecord_table 		Command authorization records table
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details 	\include{doc} stse_device_get_command_AC.dox
- */
-stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handle_t *pSTSE,
-                                                     PLAT_UI8 record_count,
-                                                     stse_cmd_authorization_CR_t *pChange_rights,
-                                                     stse_cmd_authorization_record_t *pRecord_table);
-
-/**
- * \brief 		Return the command access conditions and change right
- * \details 	This function query the access conditions of the target device command set
- * \param[in] 	pSTSE 					Pointer to STSE Handler
- * \param[out] 	pLife_cycle_state 		Pointer to \ref stsafea_life_cycle_state_t variable to be updated
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handle_t *pSTSE,
-                                                   stsafea_life_cycle_state_t *pLife_cycle_state);
-
-/**
- * \brief 		STSE put I2C parameters API
- * \details 	This API format and send/receive the put I2C parameters command/response
- * \param[in] 	pSTSE 						Pointer to STSE Handler
- * \param[in] 	i2c_address 				I2C address (Max 0x7F)
- * \param[in] 	low_power_mode 				Low power mode (0: none, otherwise standby)
- * \param[in] 	idle_bus_time_to_standby 	For standby, period of time without any command processing and with I2C bus idle until the chip enters standby mode. Coded in 50ms steps, starting from 50ms as floor value (0: 50ms, 1: 100ms, ..., 31: 1600ms)
- * \param[in] 	i2c_lock_parameters 		Lock I2C configuration defined by other parameters (0: none, otherwise lock)
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_put_i2c_parameters(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 i2c_address,
-    stse_low_power_mode_t low_power_mode,
-    PLAT_UI8 idle_bus_time_to_standby,
-    PLAT_UI8 i2c_lock_parameters);
-
 /** \}*/
 
-#endif /* STSE_SE_MANAGEMENT_H */
+#endif /* STSE_MANAGEMENT_H */

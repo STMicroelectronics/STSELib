@@ -159,35 +159,6 @@ stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg) {
     return ret;
 }
 
-stse_ReturnCode_t stse_device_enter_hibernate(stse_Handle_t *pSTSE,
-                                              stse_hibernate_wake_up_mode_t wake_up_mode) {
-    stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-
-    /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    switch (pSTSE->device_type) {
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    case STSAFE_L010:
-        ret = stsafel_hibernate(pSTSE);
-        break;
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    case STSAFE_A100:
-    case STSAFE_A110:
-        ret = stsafea_hibernate(pSTSE, wake_up_mode);
-        break;
-    case STSAFE_A120:
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-    default:
-        break;
-    }
-
-    return ret;
-}
-
 stse_ReturnCode_t stse_device_power_on(stse_Handle_t *pSTSE) {
     /* - Check STSE handler initialization */
     if (pSTSE == NULL) {
@@ -236,28 +207,6 @@ stse_ReturnCode_t stse_device_power_off(stse_Handle_t *pSTSE) {
     /* - Power-Off the device */
     pSTSE->io.PowerLineOff(pSTSE->io.busID, pSTSE->io.Devaddr);
     return (STSE_OK);
-}
-
-stse_ReturnCode_t stse_device_echo(stse_Handle_t *pSTSE, PLAT_UI8 *pIn, PLAT_UI8 *pOut, PLAT_UI16 size) {
-    /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    switch (pSTSE->device_type) {
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    case STSAFE_L010:
-        return stsafel_echo(pSTSE, pIn, pOut, size);
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    case STSAFE_A100:
-    case STSAFE_A110:
-    case STSAFE_A120:
-        return stsafea_echo(pSTSE, pIn, pOut, size);
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-    default:
-        return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-    }
 }
 
 stse_ReturnCode_t stse_device_lock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length) {
@@ -344,126 +293,6 @@ stse_ReturnCode_t stse_device_unlock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, 
     ret = stsafea_put_life_cyle_state(pSTSE, STSAFEA_LCS_OPERATIONAL);
 
     return ret;
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_device_reset(stse_Handle_t *pSTSE) {
-    stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-
-    /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    switch (pSTSE->device_type) {
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    case STSAFE_L010:
-        ret = stsafel_reset(pSTSE);
-        break;
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    case STSAFE_A100:
-    case STSAFE_A110:
-    case STSAFE_A120:
-        ret = stsafea_reset(pSTSE);
-        break;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-    default:
-        break;
-    }
-
-    return ret;
-}
-
-stse_ReturnCode_t stse_device_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *pRecord_count) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type == STSAFE_L010) {
-        return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-    }
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-
-    return stsafea_get_command_count(pSTSE, pRecord_count);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_device_get_command_AC_records(stse_Handle_t *pSTSE,
-                                                     PLAT_UI8 record_count,
-                                                     stse_cmd_authorization_CR_t *pChange_rights,
-                                                     stse_cmd_authorization_record_t *pRecord_table) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type == STSAFE_L010) {
-        return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-    }
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-
-    return stsafea_get_command_AC_table(pSTSE, record_count, pChange_rights, pRecord_table);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_device_get_life_cycle_state(stse_Handle_t *pSTSE,
-                                                   stsafea_life_cycle_state_t *pLife_cycle_state) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type == STSAFE_L010) {
-        return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-    }
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-
-    return stsafea_query_life_cycle_state(pSTSE, pLife_cycle_state);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_put_i2c_parameters(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 i2c_address,
-    stse_low_power_mode_t low_power_mode,
-    PLAT_UI8 idle_bus_time_to_standby,
-    PLAT_UI8 i2c_lock_parameters) {
-
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-
-    if (pSTSE == NULL) {
-        return STSE_API_HANDLER_NOT_INITIALISED;
-    }
-
-    if (i2c_address > I2C_ADDR_MAX || idle_bus_time_to_standby > IDLE_BUS_DELAY_MAX) {
-        return STSE_API_INVALID_PARAMETER;
-    }
-
-    /*Create new I2C parameters structure */
-    stsafea_i2c_parameters_t i2c_param = {0};
-    i2c_param.i2c_address = i2c_address;
-    i2c_param.idle_bus_time_to_standby = idle_bus_time_to_standby;
-    i2c_param.low_power_mode = low_power_mode;
-    i2c_param.i2c_paramers_lock = i2c_lock_parameters;
-
-    /*- Update I2C parameters*/
-    return stsafea_put_i2c_parameters(pSTSE, &i2c_param);
 #else
     return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */

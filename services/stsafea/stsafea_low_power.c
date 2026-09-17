@@ -24,6 +24,14 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
+/**
+ * \brief 		Put STSAFE-A device in hibernate mode
+ * \details 	This function call hibernate service to put the device in hibernate
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in]	wake_up_mode 		Event to wake up from (only significant with STSAFE-A devices),
+ * 									listed in type \ref stse_hibernate_wake_up_mode_t
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafea_hibernate(stse_Handle_t *pSTSE,
                                     stse_hibernate_wake_up_mode_t wake_up_mode)
 

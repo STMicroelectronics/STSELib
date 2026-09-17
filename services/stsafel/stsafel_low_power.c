@@ -26,6 +26,12 @@
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
+/**
+ * \brief 		Put STSAFE-L device in hibernate mode
+ * \details 	This function call hibernate service to put the device in hibernate
+ * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ */
 stse_ReturnCode_t stsafel_hibernate(stse_Handle_t *pSTSE) {
     PLAT_UI8 cmd_header = STSAFEL_CMD_HIBERNATE;
     PLAT_UI8 rsp_header;
