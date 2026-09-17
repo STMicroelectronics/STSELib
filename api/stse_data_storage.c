@@ -20,46 +20,6 @@
 #include "api/stse_data_storage.h"
 #include <string.h>
 
-stse_ReturnCode_t stse_data_storage_get_total_partition_count(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *total_partition_count) {
-
-    stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type != STSAFE_L010) {
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-        ret = stsafea_get_total_partition_count(pSTSE, total_partition_count);
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    }
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-
-    return ret;
-}
-
-stse_ReturnCode_t stse_data_storage_get_partitioning_table(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 total_partition_count,
-    stsafea_data_partition_record_t *pPartitioning_table,
-    PLAT_UI16 partitioning_table_size) {
-
-    stse_ReturnCode_t ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type != STSAFE_L010) {
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-        ret = stsafea_get_data_partitions_configuration(pSTSE, total_partition_count, pPartitioning_table, partitioning_table_size);
-#ifdef STSE_CONF_STSAFE_L_SUPPORT
-    }
-#endif /* STSE_CONF_STSAFE_L_SUPPORT */
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-
-    return ret;
-}
-
 stse_ReturnCode_t stse_data_storage_read_data_zone(
     stse_Handle_t *pSTSE,
     PLAT_UI32 zone,

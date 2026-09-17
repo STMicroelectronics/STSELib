@@ -31,34 +31,6 @@
  *  @{
  */
 
-/**
- * \brief       Get the total partition count from the target STSE device
- * \details This API functions use the STSE get service to report the total partition count from the target STSE device
- * \param[in]   pSTSE                   Pointer to target STSE handler
- * \param[out]  pTotal_partition_count  Pointer to total partition count applicative variable
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details \include{doc} stse_data_storage_get_total_partition_count.dox
- */
-stse_ReturnCode_t stse_data_storage_get_total_partition_count(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pTotal_partition_count);
-
-/**
- * \brief       Get the partition table from the target STSE device
- * \details This API functions use the STSE get service to report the total partition count from the target STSE device
- * \param[in]   pSTSE                   Pointer to target STSE handler
- * \param[in]   total_partition_count   Total partition count
- * \param[out]  pPartitioning_table     Pointer to the partition table buffer
- * \param[in]   partitioning_table_size Size (in bytes) of the partition table (@p pPartitioning_table) to be received
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details \include{doc} stse_data_storage_get_partitioning_table.dox
- */
-stse_ReturnCode_t stse_data_storage_get_partitioning_table(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 total_partition_count,
-    stsafea_data_partition_record_t *pPartitioning_table,
-    PLAT_UI16 partitioning_table_size);
-
 /*!
  * \brief       Read one memory zone of the STSE device
  * \param[in]   pSTSE           Pointer to target STSE handler

@@ -43,30 +43,6 @@ stse_ReturnCode_t stse_get_ecc_key_slots_count(
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
-stse_ReturnCode_t stse_get_ecc_key_table_info(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 private_key_slot_count,
-    PLAT_UI16 *pGlobal_usage_limit,
-    stsafea_private_key_slot_information_t *private_key_table_info) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    stse_ReturnCode_t ret;
-
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    if (private_key_table_info == NULL) {
-        return (STSE_API_INVALID_PARAMETER);
-    }
-
-    ret = stsafea_query_private_key_table(pSTSE, private_key_slot_count, pGlobal_usage_limit, private_key_table_info);
-
-    return ret;
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
 stse_ReturnCode_t stse_get_ecc_key_slot_info(
     stse_Handle_t *pSTSE,
     PLAT_UI8 private_key_slot_number,
@@ -106,78 +82,6 @@ stse_ReturnCode_t stse_get_ecc_key_slot_info(
     if (slot_info_index == private_key_slot_count) {
         return (STSE_API_KEY_NOT_FOUND);
     }
-
-    return ret;
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_generate_ECDHE_key_pair(
-    stse_Handle_t *pSTSE,
-    stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pPublic_key) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    stse_ReturnCode_t ret;
-
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    if (pPublic_key == NULL) {
-        return (STSE_API_INVALID_PARAMETER);
-    }
-
-    ret = stsafea_generate_ECDHE_key_pair(pSTSE, key_type, pPublic_key);
-
-    return ret;
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_generate_ecc_key_pair(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 slot_number,
-    stse_ecc_key_type_t key_type,
-    PLAT_UI16 usage_limit,
-    PLAT_UI8 *pPublic_key) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    stse_ReturnCode_t ret;
-
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    if (pPublic_key == NULL) {
-        return (STSE_API_INVALID_PARAMETER);
-    }
-
-    ret = stsafea_generate_ecc_key_pair(pSTSE, slot_number, key_type, usage_limit, pPublic_key);
-
-    return ret;
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_write_generic_ecc_public_key(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 slot_number,
-    stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pPublic_key) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    stse_ReturnCode_t ret;
-
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    if (pPublic_key == NULL) {
-        return (STSE_API_INVALID_PARAMETER);
-    }
-
-    ret = stsafea_write_generic_ecc_public_key(pSTSE, slot_number, key_type, pPublic_key);
 
     return ret;
 #else

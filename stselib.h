@@ -44,14 +44,11 @@ extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "api/stse_aes.h"
 #include "api/stse_asymmetric_keys_management.h"
 #include "api/stse_data_storage.h"
 #include "api/stse_device_authentication.h"
 #include "api/stse_device_management.h"
-#include "api/stse_ecc.h"
 #include "api/stse_hash.h"
-#include "api/stse_mac.h"
 #include "api/stse_random.h"
 #include "api/stse_symmetric_keys_management.h"
 #include "certificate/stse_certificate.h"
@@ -60,6 +57,7 @@ extern "C" {
 #include "core/stse_platform.h"
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
 #include "services/stsafea/stsafea_aes.h"
 #include "services/stsafea/stsafea_asymmetric_key_slots.h"
 #include "services/stsafea/stsafea_commands.h"
@@ -81,6 +79,8 @@ extern "C" {
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 #include "services/stsafea/stsafea_timings.h"
 #include "services/stsafea/stsafea_wrap_unwrap.h"
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
 #include "services/stsafel/stsafel_commands.h"
 #include "services/stsafel/stsafel_data_partition.h"
 #include "services/stsafel/stsafel_device_info.h"
@@ -89,6 +89,7 @@ extern "C" {
 #include "services/stsafel/stsafel_low_power.h"
 #include "services/stsafel/stsafel_reset.h"
 #include "services/stsafel/stsafel_timings.h"
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #include "stse_conf.h"
 #include "stse_platform_generic.h"
 

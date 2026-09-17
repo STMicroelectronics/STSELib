@@ -380,6 +380,7 @@ static stse_ReturnCode_t stse_start_volatile_KEK_session_authenticated(
     defined(STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED) || \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) ||          \
     defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
+
 static stse_ReturnCode_t stse_stop_volatile_KEK_session(stse_Handle_t *pSTSE, stse_session_t *pSession) {
     stse_ReturnCode_t ret;
 
@@ -771,6 +772,7 @@ stse_ReturnCode_t stse_host_secure_channel_keys_provisioning_wrapped_authenticat
 #endif /* STSE_CONF_USE_HOST_KEY_PROVISIONING_WRAPPED_AUTHENTICATED */
 
 #ifdef STSE_CONF_USE_HOST_KEY_ESTABLISHMENT
+
 stse_ReturnCode_t stse_establish_host_secure_channel_keys(
     stse_Handle_t *pSTSE,
     stse_ecc_key_type_t ecdh_key_type,
@@ -1168,20 +1170,6 @@ stse_ReturnCode_t stse_establish_host_secure_channel_keys_authenticated(
 
    ------------------------------------------------------------------------------------------ */
 
-stse_ReturnCode_t stse_get_symmetric_key_slots_count(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pSymmetric_key_slot_count) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    return stsafea_query_symmetric_key_slots_count(pSTSE, pSymmetric_key_slot_count);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
 stse_ReturnCode_t stse_get_symmetric_key_slot_info(
     stse_Handle_t *pSTSE,
     PLAT_UI8 slot_number,
@@ -1217,68 +1205,6 @@ stse_ReturnCode_t stse_get_symmetric_key_slot_info(
            sizeof(stsafea_symmetric_key_slot_information_t));
 
     return STSE_OK;
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_get_symmetric_key_table_info(
-    stse_Handle_t *pSTSE,
-    PLAT_UI16 total_slot_count,
-    stsafea_symmetric_key_slot_information_t *pSymmetric_key_table_info) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    return stsafea_query_symmetric_key_table(pSTSE, total_slot_count, pSymmetric_key_table_info);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_get_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 slot_number,
-    stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    return stsafea_query_symmetric_key_slot_provisioning_ctrl_fields(pSTSE, slot_number, pCtrl_fields);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_set_symmetric_key_slot_provisioning_ctrl_fields(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 slot_number,
-    stsafea_symmetric_key_slot_provisioning_ctrl_fields_t *pCtrl_fields) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    return stsafea_put_symmetric_key_slot_provisioning_ctrl_fields(pSTSE, slot_number, pCtrl_fields);
-#else
-    return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
-#endif /* STSE_CONF_STSAFE_A_SUPPORT */
-}
-
-stse_ReturnCode_t stse_write_symmetric_key_plaintext(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pKey,
-    stsafea_generic_key_information_t *pSymmetric_key_info) {
-#ifdef STSE_CONF_STSAFE_A_SUPPORT
-    /* - Check stsafe handler initialization */
-    if (pSTSE == NULL) {
-        return (STSE_API_HANDLER_NOT_INITIALISED);
-    }
-
-    /* - Write the plaintext key */
-    return stsafea_write_symmetric_key_plaintext(pSTSE, pKey, pSymmetric_key_info);
 #else
     return STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */

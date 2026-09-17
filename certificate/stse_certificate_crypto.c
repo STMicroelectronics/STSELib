@@ -19,7 +19,6 @@
 #include <stddef.h>
 #include <string.h>
 
-#include "api/stse_ecc.h"
 #include "api/stse_hash.h"
 #include "certificate/stse_certificate_crypto.h"
 

@@ -35,9 +35,11 @@ extern "C" {
  *  @{
  */
 
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
 extern const PLAT_UI16 stsafel_cmd_timings[STSAFEL_PRODUCT_COUNT][STSAFEL_MAX_CMD_COUNT];
 extern const PLAT_UI16 stsafel_boot_time[STSAFEL_PRODUCT_COUNT];
 extern const PLAT_UI16 stsafel_wakeup_time[STSAFEL_PRODUCT_COUNT];
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
 /**
  * \brief 		Get the command execution timing

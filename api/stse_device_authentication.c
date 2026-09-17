@@ -20,7 +20,6 @@
 #include <stdint.h>
 
 #include "api/stse_device_authentication.h"
-#include "api/stse_ecc.h"
 
 #include "certificate/stse_certificate.h"
 #include "certificate/stse_certificate_crypto.h"
@@ -236,13 +235,17 @@ stse_ReturnCode_t stse_device_authenticate(
     }
 
     /* - Get target SE challenge signature */
-    ret = stse_ecc_generate_signature(
-        pSTSE,                /* STSE handler */
-        priv_key_slot_number, /* Slot number */
-        key_type,             /* Key type */
-        challenge,            /* Random number to sign */
-        challenge_size,       /* random number size in bytes */
-        signature);           /* returned signature */
+    ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+    if (pSTSE->device_type >= STSAFE_L010 && pSTSE->device_type < STSAFE_L010 + STSAFEL_PRODUCT_COUNT) {
+        ret = stsafel_ecc_generate_signature(pSTSE, key_type, challenge, challenge_size, signature);
+    }
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
+#ifdef STSE_CONF_STSAFE_A_SUPPORT
+    if (pSTSE->device_type >= STSAFE_A100 && pSTSE->device_type < STSAFE_A100 + STSAFEA_PRODUCT_COUNT) {
+        ret = stsafea_ecc_generate_signature(pSTSE, priv_key_slot_number, key_type, challenge, challenge_size, signature);
+    }
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
     if (ret != STSE_OK) {
         return ret;
     }

@@ -77,25 +77,6 @@ stse_ReturnCode_t stse_derive_key(
         &output);
 }
 
-stse_ReturnCode_t stse_derive_key_simple(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 master_slot,
-    PLAT_UI8 *pContext,
-    PLAT_UI16 context_len,
-    PLAT_UI8 *pOutput_key,
-    PLAT_UI16 key_length) {
-    /* Directly call the main function with NULL salt */
-    return stse_derive_key(
-        pSTSE,
-        master_slot,
-        NULL, /* No salt */
-        0,    /* Salt length 0 */
-        pContext,
-        context_len,
-        pOutput_key,
-        key_length);
-}
-
 stse_ReturnCode_t stse_derive_key_extract(
     stse_Handle_t *pSTSE,
     PLAT_UI8 master_slot,

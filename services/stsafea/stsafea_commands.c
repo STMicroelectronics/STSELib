@@ -26,7 +26,7 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-stse_ReturnCode_t stsafea_get_command_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count) {
+stse_ReturnCode_t stsafea_get_command_authorization_records_count(stse_Handle_t *pSTSE, PLAT_UI8 *pCommand_count) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_COMMAND_AUTHORIZATION_CONFIG;
     PLAT_UI8 rsp_header;
@@ -122,7 +122,7 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handle_t *pSTSE) {
     pSTSE->perso_info.cmd_AC_status = 0x5555555555555555;
     pSTSE->perso_info.ext_cmd_AC_status = 0x5555555555555555;
 
-    ret = stsafea_get_command_count(pSTSE, &total_command_count);
+    ret = stsafea_get_command_authorization_records_count(pSTSE, &total_command_count);
     if (ret != STSE_OK) {
         return ret;
     }

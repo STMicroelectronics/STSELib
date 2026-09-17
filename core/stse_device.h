@@ -49,11 +49,13 @@ typedef PLAT_UI8 stse_session_type_t;
 typedef PLAT_UI8 stse_device_t;
 /* !!!! Shall be incremental */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
+#define STSAFEA_PRODUCT_COUNT 3U
 #define STSAFE_A100 ((stse_device_t)0) /*!< STSAFE-A100 target device */
 #define STSAFE_A110 ((stse_device_t)1) /*!< STSAFE-A110 target device */
 #define STSAFE_A120 ((stse_device_t)2) /*!< STSAFE-A120 target device */
 #endif                                 /* STSE_CONF_STSAFE_A_SUPPORT */
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
+#define STSAFEL_PRODUCT_COUNT 1U
 #define STSAFE_L010 ((stse_device_t)3) /*!< STSAFE-L010 target device */
 #endif                                 /* STSE_CONF_STSAFE_L_SUPPORT */
 

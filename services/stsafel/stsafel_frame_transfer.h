@@ -29,9 +29,9 @@
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
 
-#define STSAFEL_PRODUCT_COUNT 1U
-
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
 extern const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT];
+#endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
 /**
  * \brief 			Transmit frame from target STSAFE-Lxxx
