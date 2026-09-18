@@ -569,8 +569,12 @@ stse_ReturnCode_t stsafea_session_encrypted_transfer(stse_session_t *pSession,
     if (rsp_encryption_flag == 1) {
         padding = 16;
         PLAT_UI16 plaintext_payload_size = pRspFrame->length - pRspFrame->first_element->length;
-        if ((plaintext_payload_size % 16) != 0) {
-            padding = 16 - (plaintext_payload_size % 16);
+        if (plaintext_payload_size != 0) {
+	    if ((plaintext_payload_size % 16) != 0) {
+                padding = 16 - (plaintext_payload_size % 16);
+            }
+        } else {
+            padding = 0;
         }
         encrypted_rsp_payload_size = plaintext_payload_size + padding;
     }
