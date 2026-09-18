@@ -249,7 +249,7 @@ stse_ReturnCode_t stsafea_aes_ccm_decrypt_start(
     PLAT_UI16 Nonce_length,
     PLAT_UI8 *pNonce,
     PLAT_UI16 total_associated_data_length,
-    PLAT_UI16 total_ciphertext_length,
+    PLAT_UI32 total_ciphertext_length,
     PLAT_UI16 associated_data_chunk_length,
     PLAT_UI8 *pAssociated_data_chunk,
     PLAT_UI16 message_chunk_length,
