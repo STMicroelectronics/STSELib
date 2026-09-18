@@ -31,3 +31,5 @@ For more details on each layer, please refer to the "Modules Documentation" sect
 \subpage stse_services
 
 \subpage stse_core
+
+\subpage pkcs11_sal
