@@ -214,12 +214,12 @@ stse_ReturnCode_t stse_device_power_on(stse_Handler_t *pSTSE)
     case STSAFE_A100:
     case STSAFE_A110:
     case STSAFE_A120:
-      stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type]);
+      stse_platform_Delay_ms(stsafea_boot_time[pSTSE->device_type - STSAFE_A100]);
       break;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     case STSAFE_L010:
-      stse_platform_Delay_ms(stsafel_boot_time[pSTSE->device_type]);
+      stse_platform_Delay_ms(stsafel_boot_time[pSTSE->device_type - STSAFE_L010]);
       break;
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
     default:
