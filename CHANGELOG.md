@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Platform AES API change** — all platform AES cryptographic functions now reference keys by secure storage index (`PLAT_UI32 key_idx`) instead of raw key pointer and length (`PLAT_UI8 *pKey, PLAT_UI16 key_length`). Affected functions: `stse_platform_aes_cmac_init`, `stse_platform_aes_cmac_compute`, `stse_platform_aes_cmac_verify`, `stse_platform_aes_cbc_enc`, `stse_platform_aes_cbc_dec`, `stse_platform_aes_ecb_enc`
 - **Renamed** `stsafea_open_host_session` to `stsafea_open_host_session_from_idx` — signature updated to accept key indices (`PLAT_UI32 host_MAC_key_idx`, `PLAT_UI32 host_cypher_key_idx`) instead of raw key pointers
 - **printf() calls replaced** with `stse_platform_printf()` in all library code to abstract away standard I/O and allow platform-specific implementations for logging and output
+- **Platform CRC API change** — introduces a context (`stse_crc16_context_t *`) parameter to make the CRC PAL APIs multi-context-safe. Affected functions: `stse_platform_Crc16_Accumulate` (PR [#90](https://github.com/STMicroelectronics/STSELib/pull/90))
 - **API change** — `stse_get_ecc_key_type_from_curve_id` now returns the resolved `stse_ecc_key_type_t` directly (or `STSE_ECC_KT_INVALID` if unknown) and takes a single packed `stsafea_ecc_curve_id_t` pointer, replacing the previous `PLAT_UI8 curve_id_length`, `const PLAT_UI8 *pCurve_id_value` and `stse_ecc_key_type_t *pKey_type` parameters
 
 ### Added
@@ -32,8 +33,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `stse_platform_store_aes_key()` — new platform function to store an AES key into platform secure storage and retrieve its index
 - `stse_platform_delete_aes_key()` — new platform function to delete an AES key from platform secure storage by index
 - `stse_platform_printf()` — new platform function for formatted output, replacing all direct calls to `printf()` in the library with this abstraction to allow platform-specific implementations and avoid direct use of standard I/O in library code
+- `stse_platform_Crc16_ContextInit()` — new platform function to initialize a CRC16 context
+- `stse_platform_Crc16_ContextRelease()` — new platform function to release a CRC16 context
 
 ### Changed
+- `stse_platform_Crc16_Accumulate()` — Now it takes `stse_crc16_context_t *crc16_context` as param
 
 ### Deprecated
 
@@ -43,6 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `stsafea_aes_128_host_keys_t` type.
 - `stsafea_aes_256_host_keys_t` type.
 - `stsafea_host_keys_t` type.
+- `stse_platform_Crc16_Calculate()` — Now replaced by `stse_platform_Crc16_ContextInit()` which doesn't calculate a CRC16 but initialize the CRC context which will be used to calculate the CRC via `stse_platform_Crc16_Accumulate()`.
 
 ### Fixed
 - `stse_get_device_certificate_size()` now decodes the X.509 DER TLV header instead of assuming a fixed 2-byte length field, correctly sizing certificates that use the short form or a 1-byte long-form length. Invalid or corrupted certificates are now detected and rejected (non-`SEQUENCE` tag, forbidden indefinite length, non-minimal or zero length, sizes exceeding the 16-bit output) returning `STSE_CERT_UNEXPECTED_SEQUENCE` / `STSE_CERT_INVALID_CERTIFICATE` instead of a wrong size.
