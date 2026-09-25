@@ -57,7 +57,7 @@ typedef enum stsafel_device_info_tag_t
   STSAFEL_INFO_STAGE_3_DATA_CONFIGURATION_IDENTIFIER
 } stsafel_device_info_tag_t;
 
-typedef struct /*!< Device traceability info */
+typedef struct stsafel_device_traceability_t /*!< Device traceability info */
 {
   struct
   {

@@ -180,6 +180,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
   stse_frame_element_t *pElement;
   PLAT_UI16 i = 0;
 
+
   /* - Verify parameters */
   if ((pSession == NULL)
       || (pFrame == NULL)
@@ -189,6 +190,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
   {
     return (STSE_SERVICE_INVALID_PARAMETER);
   }
+
 
   /* Output encrypted payload buffer must be pre-sized by caller. */
 
