@@ -1,6 +1,24 @@
 # Release Note
 
-## v1.1.9 (Latest)
+## v1.1.10 (Latest)
+
+### Improvements 
+
+- [all] cleanup for cubeMX integration
+- [admin] add software security level classification file
+
+### Bug Fixes
+
+- [services] Do not use padding for zero-length encrypted frames
+- [services] Use correct ciphertext length for AES CCM decryption
+- [api] fix potential issue on delay applied after power on
+- [services] fix potential infinite loop when transmitting or filling frame elements
+- [core] fix potential infinite loop when pop frame elements
+- [docs][api] update api 'stse_device_enter_hibernate' description
+- [services][api] fix GCM & CCM issue
+- [api] fix hard fault error on stse_KEK_wrap execution  
+
+## v1.1.9 
 
 ### Improvements 
 
