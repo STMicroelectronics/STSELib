@@ -130,7 +130,7 @@ struct EllipticCurveOID_st
 };
 
 /** \brief typedef for the attribute */
-typedef struct attribute_st
+typedef struct stse_cert_attribute_t
 {
   PLAT_I32 type;       /*!< type of attribute (corresponding to OID) */
   PLAT_I32 strFormat;  /*!< format of the string */
@@ -147,7 +147,7 @@ struct ExtensionOID_st
 };
 
 /** \brief typedef for the extension */
-typedef struct extension_st
+typedef struct stse_cert_extension_t
 {
   PLAT_I32 type;         /*!< type of extension (corresponding to OID) */
   PLAT_I32 critical;     /*!< critical */
@@ -156,7 +156,7 @@ typedef struct extension_st
 } stse_cert_extension_t;
 
 /** \brief typedef for the structure keeping the validity */
-typedef struct validity_st
+typedef struct stse_cert_validity_t
 {
   PLAT_UI8 seconds; /*!< seconds (range 0 to 59) */
   PLAT_UI8 minutes; /*!< minutes (range 0 to 59) */
@@ -184,7 +184,7 @@ typedef struct stse_cert_signature_t
 } stse_cert_signature_t;
 
 /** \brief internal structure used to keep the values parsed from the x509 */
-struct stse_internal_certificate
+typedef struct stse_certificate_t
 {
   const PLAT_UI8 *pPubKey_point_representation_id; /*!< 0x04: Uncompressed key, 0x02 or 0x03: Compressed key */
   const PLAT_UI8 *tbs;                             /*!<  Pointer to tcs field */
@@ -226,10 +226,7 @@ struct stse_internal_certificate
                                      */
   PLAT_I32 SignatureAlgorithm;                     /*!<  SignatureAlgorithm */
   stse_cert_signature_t Sign;                      /*!<  Contain the struct \ref stse_cert_signature_t */
-};
-
-/** \brief typedef for the stse_certificate_t */
-typedef struct stse_internal_certificate stse_certificate_t;
+} stse_certificate_t;
 
 /* Exported Macros */
 

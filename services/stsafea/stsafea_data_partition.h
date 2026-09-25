@@ -68,34 +68,32 @@ PLAT_UI8 filler : STSE_3BIT_LEN;                                     /*!< Must b
   * \struct stsafea_update_option_t
   * \brief STSAFE Update service options
   */
-typedef struct stsafea_update_option_TypeDef
+typedef struct PLAT_PACKED_STRUCT stsafea_update_option_t
 {
 stse_zone_ac_t new_update_ac : STSE_3BIT_LEN;                        /*!< Access condition */
 stse_ac_change_right_t new_update_ac_change_right : STSE_1BIT_LEN;   /*!< Access condition change right */
 stse_zone_ac_change_indicator_t change_ac_indicator : STSE_1BIT_LEN; /*!< Access condition change indicator */
 PLAT_UI8 filler : STSE_2BIT_LEN;                                     /*!< Must be 0b0 */
 stse_zone_update_atomicity_t atomicity : STSE_1BIT_LEN;              /*!< Atomicity */
-} stsafea_update_option_TypeDef PLAT_PACKED_STRUCT;
-typedef stsafea_update_option_TypeDef stsafea_update_option_t;
+} stsafea_update_option_t;
 
 /**
   * \struct stsafea_decrement_option_t
   * \brief STSAFE decrement service options
   */
-typedef struct stsafea_decrement_option_TypeDef
+typedef struct PLAT_PACKED_STRUCT stsafea_decrement_option_t
 {
 stse_zone_ac_t new_decrement_ac : STSE_3BIT_LEN;                      /*!< Access condition */
 stse_ac_change_right_t new_decrement_ac_change_right : STSE_1BIT_LEN; /*!< Access condition change right */
 stse_zone_ac_change_indicator_t change_ac_indicator : STSE_1BIT_LEN;  /*!< Access condition change indicator */
 PLAT_UI8 filler : STSE_3BIT_LEN;                                      /*!< Must be 0b0 */
-} stsafea_decrement_option_TypeDef PLAT_PACKED_STRUCT;
-typedef stsafea_decrement_option_TypeDef stsafea_decrement_option_t;
+} stsafea_decrement_option_t;
 
 /**
   * \struct stsafea_data_partition_record_t
   * \brief STSAFE data partition record typedef
   */
-typedef struct
+typedef struct stsafea_data_partition_record_t
 {
   PLAT_UI8 index;
   PLAT_UI8 zone_type; /* 0x00 = simple region, 0x01 = counter region

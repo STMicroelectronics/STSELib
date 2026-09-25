@@ -333,6 +333,7 @@ stse_ReturnCode_t stse_derive_key_expand_multiple(
 
   /* Note: HKDF typically uses same info for all keys in one expand operation
    * For different contexts per key, you'd call expand multiple times
+    */
   info.length = (pContexts != NULL && pContext_lens != NULL) ? pContext_lens[0] : 0;
   info.data = (pContexts != NULL) ? pContexts[0] : NULL;
 
@@ -363,9 +364,9 @@ stse_ReturnCode_t stse_derive_key_expand_multiple(
            okm_map,
            num_keys,
            &output);
-  }
+}
 
-  stse_ReturnCode_t stse_derive_key_from_ikm(
+stse_ReturnCode_t stse_derive_key_from_ikm(
   stse_Handler_t *pSTSE,
   PLAT_UI8 *pIkm,
   PLAT_UI16 ikm_length,
@@ -375,7 +376,7 @@ stse_ReturnCode_t stse_derive_key_expand_multiple(
   PLAT_UI16 context_len,
   PLAT_UI8 *pOutput_key,
   PLAT_UI16 key_length)
-  {
+{
   stsafea_hkdf_input_key_t input_key = {0};
   stsafea_hkdf_salt_t salt = {0};
   stsafea_hkdf_info_t info = {0};
@@ -425,6 +426,6 @@ stse_ReturnCode_t stse_derive_key_expand_multiple(
            &okm_map,
            1,
            &output);
-  }
+}
 
-  #endif /* STSE_CONF_STSAFE_A_SUPPORT */
+#endif /* STSE_CONF_STSAFE_A_SUPPORT */
