@@ -6,6 +6,9 @@ pipeline {
         GIT_REPO = 'git@github.st.com:STInternal-CS-Authentication/STSELib_Validation.git'
         DATE = java.time.LocalDate.now()
     }
+    parameters {
+        string(name: 'STSELIB_PR', defaultValue: '', description: 'STSELib pull request number to test')
+    }
     stages {
         stage('Clone repository') {
             steps {
@@ -23,11 +26,12 @@ pipeline {
             steps {
                 dir("${BUILD_ID}/Middleware/STSELib") {
                     script {
-                        if (params.STSELIB_PR?.trim()) {
-                            bat "git fetch origin +refs/pull/%STSELIB_PR%/head:pr-%STSELIB_PR%"
-                            bat "git checkout pr-%STSELIB_PR%"
+                        def prNumber = env.CHANGE_ID?.trim() ?: params.STSELIB_PR?.trim()
+                        if (prNumber) {
+                            bat "git fetch origin +refs/pull/${prNumber}/head:pr-${prNumber}"
+                            bat "git checkout pr-${prNumber}"
                         } else {
-                            echo "No STSELIB_PR provided, keeping submodule revision"
+                            echo "No CHANGE_ID or STSELIB_PR provided, keeping submodule revision"
                         }
                     }
                 }
