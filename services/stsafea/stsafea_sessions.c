@@ -184,7 +184,7 @@ stse_ReturnCode_t stsafea_session_frame_encrypt(stse_session_t *pSession,
   if ((pSession == NULL)
       || (pFrame == NULL)
       || (pEnc_payload_element == NULL)
-      (pEnc_payload_element->length < (pFrame->length - pFrame->first_element->length + (16 -
+      || (pEnc_payload_element->length < (pFrame->length - pFrame->first_element->length + (16 -
                                        (pFrame->length - pFrame->first_element->length) % 16))))
   {
     return (STSE_SERVICE_INVALID_PARAMETER);
