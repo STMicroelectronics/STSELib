@@ -595,14 +595,13 @@ typedef enum stse_ac_change_right_t
   STSE_ED25519_SHARED_SECRET_LENGTH_SIZE \
   +STSE_ED25519_SHARED_SECRET_VALUE_SIZE
 
-typedef struct stsafea_ecc_curve_id_TypeDef
+typedef struct PLAT_PACKED_STRUCT stsafea_ecc_curve_id_t
 {
   PLAT_UI8 length[STSE_ECC_CURVE_ID_LENGTH_SIZE];
   PLAT_UI8 value[STSE_ECC_CURVE_ID_VALUE_MAX_SIZE];
-} stsafea_ecc_curve_id_TypeDef PLAT_PACKED_STRUCT;
-typedef stsafea_ecc_curve_id_TypeDef stsafea_ecc_curve_id_t;
+} stsafea_ecc_curve_id_t;
 
-typedef struct
+typedef struct stse_ecc_info_t
 {
   PLAT_UI16 curve_id_total_length;
   stsafea_ecc_curve_id_t curve_id;

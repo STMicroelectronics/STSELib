@@ -67,26 +67,26 @@ typedef enum
   STSAFEA_AES_INVALID_HOST_KEY
 } stsafea_host_key_type_t;
 
-typedef struct
+typedef struct stsafea_host_key_slot_t
 {
   PLAT_UI8 key_presence_flag;
   PLAT_UI8 cmac_sequence_counter[3];
 } stsafea_host_key_slot_t;
 
-typedef struct
+typedef struct stsafea_host_key_slot_v2_t
 {
   PLAT_UI8 key_presence_flag;
   PLAT_UI8 key_type;
   PLAT_UI8 cmac_sequence_counter[4];
 } stsafea_host_key_slot_v2_t;
 
-typedef struct
+typedef struct stsafea_aes_128_host_keys_t
 {
   PLAT_UI8 host_mac_key[STSAFEA_HOST_AES_128_MAC_KEY_SIZE];
   PLAT_UI8 host_cipher_key[STSAFEA_HOST_AES_128_CIPHER_KEY_SIZE];
 } stsafea_aes_128_host_keys_t;
 
-typedef struct
+typedef struct stsafea_aes_256_host_keys_t
 {
   PLAT_UI8 host_mac_key[STSAFEA_HOST_AES_256_MAC_KEY_SIZE];
   PLAT_UI8 host_cipher_key[STSAFEA_HOST_AES_256_CIPHER_KEY_SIZE];
@@ -98,7 +98,7 @@ typedef union
   stsafea_aes_256_host_keys_t aes_256_key;
 } stsafea_host_keys_t;
 
-typedef struct
+typedef struct stsafea_host_key_provisioning_ctrl_fields_t
 {
 PLAT_UI8 wrapped_anonymous : STSE_1BIT_LEN;
 PLAT_UI8 plaintext : STSE_1BIT_LEN;

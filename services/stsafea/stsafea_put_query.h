@@ -107,7 +107,7 @@ typedef enum stsafea_life_cycle_state_t
  * \enum stsafea_i2c_parameters_t
  * STSAFEA I2C parameters type
  */
-typedef struct
+typedef struct stsafea_i2c_parameters_t
 {
 PLAT_UI8 filler : STSE_1BIT_LEN;
 PLAT_UI8 i2c_address : STSE_7BIT_LEN;              /*!< I2C address (Max 0x7F) */

@@ -82,23 +82,21 @@ extern "C" {
  * \struct  stsafea_hash_algorithm_identifier_t
  * \brief   STSAFEA Hash identifier structure
  */
-typedef struct stsafea_hash_algorithm_identifier_TypeDef
+typedef struct PLAT_PACKED_STRUCT stsafea_hash_algorithm_identifier_t
 {
   PLAT_UI8 length[STSAFEA_HASH_ALGO_ID_LENGTH_SIZE];
   PLAT_UI8 value[STSAFEA_HASH_ALGO_ID_VALUE_SIZE];
-} stsafea_hash_algorithm_identifier_TypeDef PLAT_PACKED_STRUCT;
-typedef stsafea_hash_algorithm_identifier_TypeDef stsafea_hash_algorithm_identifier_t;
+} stsafea_hash_algorithm_identifier_t;
 
 /*!
  * \struct  stsafea_hash_info_t
 * \brief   STSAFEA Hash information structure
  */
-typedef struct stsafea_hash_info_TypeDef
+typedef struct PLAT_PACKED_STRUCT stsafea_hash_info_t
 {
   PLAT_UI16 length;
   stsafea_hash_algorithm_identifier_t id;
-} stsafea_hash_info_TypeDef PLAT_PACKED_STRUCT;
-typedef stsafea_hash_info_TypeDef stsafea_hash_info_t;
+} stsafea_hash_info_t;
 
 extern const stsafea_hash_info_t stsafea_hash_info_table[];
 

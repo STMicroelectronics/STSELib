@@ -68,7 +68,7 @@ typedef enum stse_device_t
 #define STSE_DEVICE_STSAFEL_FAMILY_INDEX STSAFE_L010
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 
-typedef struct stse_perso_info_TypeDef
+typedef struct PLAT_PACKED_STRUCT stse_perso_info_t
 {
   PLAT_UI32 cmd_encryption_status;
   PLAT_UI32 rsp_encryption_status;
@@ -76,8 +76,7 @@ typedef struct stse_perso_info_TypeDef
   PLAT_UI32 ext_rsp_encryption_status;
   PLAT_UI64 cmd_AC_status;
   PLAT_UI64 ext_cmd_AC_status;
-} stse_perso_info_TypeDef PLAT_PACKED_STRUCT;
-typedef stse_perso_info_TypeDef stse_perso_info_t;
+} stse_perso_info_t;
 
 /*
  * \details STSE Bus type
@@ -97,7 +96,7 @@ typedef enum stse_bus
  * \struct stse_io_t
  * \brief STSE Input/Output type
  */
-typedef struct stse_io_TypeDef
+typedef struct PLAT_PACKED_STRUCT stse_io_t
 {
   stse_ReturnCode_t (*BusRecvStart)(
     PLAT_UI8,  /* busID */
@@ -158,15 +157,14 @@ typedef struct stse_io_TypeDef
   PLAT_UI8 Devaddr;   /*<\var stse_io_t::Devaddr Device address */
   PLAT_UI16 BusSpeed; /*<\var stse_io_t::BusSpeed Bus speed */
   stse_bus_t BusType; /*<\var stse_io_t::BusType Bus type */
-} stse_io_TypeDef PLAT_PACKED_STRUCT;
-typedef stse_io_TypeDef stse_io_t;
+} stse_io_t;
 
 typedef struct stse_session_t stse_session_t;
 
 /*
      * \brief STSE Session type
      */
-struct stse_session_t
+struct PLAT_PACKED_STRUCT stse_session_t
 {
   stse_session_type_t type;
   union
@@ -186,7 +184,7 @@ struct stse_session_t
       PLAT_UI8 working_kek_counter;
     } kek;
   } context;
-} PLAT_PACKED_STRUCT;
+};
 
 /*!
  * \typedef stse_Handler_t
@@ -195,14 +193,14 @@ struct stse_session_t
  *        Pointer to a specific stsafe_Handler is the main parameters of all STSE middleware API functions. \n
  *        A specific STSE target Handler must be initialized using the "stsafe_init" API function
  */
-struct stse_Handler_t
+struct PLAT_PACKED_STRUCT stse_Handler_t
 {
   stse_device_t device_type;
   stse_perso_info_t perso_info;
   stse_session_t *pActive_host_session;
   stse_session_t *pActive_other_session;
   stse_io_t io;
-} PLAT_PACKED_STRUCT;
+};
 
 /* Exported variables --------------------------------------------------------*/
 
