@@ -23,26 +23,32 @@
 #include "core/stse_frame.h"
 
 stse_ReturnCode_t stse_frame_crc16_compute(stse_frame_t *pFrame, PLAT_UI16 *pCrc) {
+    stse_ReturnCode_t ret;
     stse_frame_element_t *pCurrent_element;
+    stse_crc16_context_t crc_ctx;
 
     if (pFrame == NULL || pCrc == NULL) {
         return STSE_CORE_INCONSISTENT_FRAME;
     }
 
-    pCurrent_element = pFrame->first_element;
-    *pCrc = stse_platform_Crc16_Calculate(pCurrent_element->pData, pCurrent_element->length);
-    pCurrent_element = pCurrent_element->next;
-    while (pCurrent_element != NULL) {
-        if (pCurrent_element->length != 0) {
-            if (pCurrent_element->pData == NULL) {
-                return STSE_CORE_INCONSISTENT_FRAME;
+    ret = stse_platform_Crc16_ContextInit(&crc_ctx);
+    if (ret == STSE_OK) {
+        pCurrent_element = pFrame->first_element;
+        while (pCurrent_element != NULL) {
+            if (pCurrent_element->length != 0) {
+                if (pCurrent_element->pData == NULL) {
+                    ret = STSE_CORE_INCONSISTENT_FRAME;
+                    break;
+                }
+                *pCrc = stse_platform_Crc16_Accumulate(pCurrent_element->pData, pCurrent_element->length, &crc_ctx);
             }
-            *pCrc = stse_platform_Crc16_Accumulate(pCurrent_element->pData, pCurrent_element->length);
+            pCurrent_element = pCurrent_element->next;
         }
-        pCurrent_element = pCurrent_element->next;
+
+        stse_platform_Crc16_ContextRelease(&crc_ctx);
     }
 
-    return STSE_OK;
+    return ret;
 }
 
 void stse_frame_element_swap_byte_order(stse_frame_element_t *pElement) {
