@@ -66,11 +66,12 @@ class DoxygenAwesomeInteractiveToc {
     static update() {
         let active = null
         DoxygenAwesomeInteractiveToc.headers.forEach((header) => {
-            if (!header.node || !header.headerNode) {
+            const node = header.node
+            const headerNode = header.headerNode
+            if (node === null || node === undefined || headerNode === null || headerNode === undefined) {
                 return
             }
-            const node = header.node
-            let position = header.headerNode.getBoundingClientRect().top
+            let position = headerNode.getBoundingClientRect().top
             node.classList.remove("active")
             node.classList.remove("aboveActive")
             if(position < DoxygenAwesomeInteractiveToc.topOffset) {
