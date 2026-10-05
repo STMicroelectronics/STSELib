@@ -1,5 +1,7 @@
 # STMicroelectronics Secure Element Library (STSELib)
 
+![STSELib](doc/resources/Pictures/STSELib.png)
+
 **STSELib** is a modular, portable middleware providing a high-level C API for embedded developers. It abstracts command/response frame serialization, cryptographic token management, secure transaction sequencing, and physical bus operations required for authentication, brand protection, and secure data storage using STMicroelectronics secure elements (**STSAFE-A** and **STSAFE-L** series).
 
 The library enables turnkey integration of one or multiple secure elements across diverse host MCU and MPU ecosystems.
@@ -7,6 +9,8 @@ The library enables turnkey integration of one or multiple secure elements acros
 ## Architecture Overview
 
 STSELib is designed around three decoupled software layers, offering varying levels of abstraction depending on system requirements:
+
+![STSELib Architecture](doc/resources/Pictures/STSELib_arch.png)
 
 * **Application Programming Interface (API) Layer**  
   The primary entry point for embedded applications. It provides ready-to-use, high-level functions covering standard secure element operations (e.g., asymmetric authentication, key establishment, secure counter management).
