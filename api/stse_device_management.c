@@ -79,11 +79,6 @@ stse_ReturnCode_t stse_init(stse_Handler_t *pSTSE)
       return (STSE_API_INVALID_PARAMETER);
   }
 
-  if (ret != STSE_OK)
-  {
-    return ret;
-  }
-
   /* - Initialize Host platform */
   ret = stse_platform_generate_random_init();
   if (ret != STSE_OK)

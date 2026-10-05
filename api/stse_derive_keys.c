@@ -283,6 +283,7 @@ stse_ReturnCode_t stse_derive_key_to_slot(
   okm_map.symmkey.key_info = pKey_info;
 
   /* Setup output structure */
+  derived_key_out.symmkey.slot_number = 0;
   output.derived_keys = &derived_key_out;
 
   /* Perform HKDF to slot */
