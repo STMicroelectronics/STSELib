@@ -64,18 +64,24 @@ class DoxygenAwesomeInteractiveToc {
     }
 
     static update() {
-        let active = DoxygenAwesomeInteractiveToc.headers[0]?.node
+        let active = null
         DoxygenAwesomeInteractiveToc.headers.forEach((header) => {
+            if (!header.node || !header.headerNode) {
+                return
+            }
+            const node = header.node
             let position = header.headerNode.getBoundingClientRect().top
-            header.node.classList.remove("active")
-            header.node.classList.remove("aboveActive")
+            node.classList.remove("active")
+            node.classList.remove("aboveActive")
             if(position < DoxygenAwesomeInteractiveToc.topOffset) {
-                active = header.node
-                active?.classList.add("aboveActive")
+                active = node
+                node.classList.add("aboveActive")
             }
         })
-        active?.classList.add("active")
-        active?.classList.remove("aboveActive")
+        if (active !== null) {
+            active.classList.add("active")
+            active.classList.remove("aboveActive")
+        }
     }
 
     static throttle(func, delay) {
