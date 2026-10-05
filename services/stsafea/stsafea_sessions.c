@@ -291,6 +291,12 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
   PLAT_UI16 i = 0;
   PLAT_UI16 encrypted_payload_len;
 
+  if ((pSession == NULL) || (pFrame == NULL) || (pFrame->first_element == NULL)
+      || (pSession->context.host.pSTSE == NULL) || (pSession->context.host.pHost_cypher_key == NULL))
+  {
+    return STSE_SERVICE_SESSION_ERROR;
+  }
+
   /* Decrypt path mirrors encryption path with inverse subject selection. */
 
   pElement = pFrame->first_element->next;
@@ -301,23 +307,41 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
   }
 
   /* Total length of the encrypted part of the frame */
+  if (pFrame->length < pFrame->first_element->length)
+  {
+    return STSE_SERVICE_INVALID_FRAME;
+  }
   encrypted_payload_len = pFrame->length - pFrame->first_element->length;
+  if (encrypted_payload_len == 0)
+  {
+    return STSE_OK;
+  }
 
   /* Variable-length stack buffer mirrors encrypted payload byte count. */
 
   /* Fill decrypt buffer with encrypted payload content */
   /* Concatenate payload elements before CBC decrypt operation. */
   PLAT_UI8 decrypt_buffer[encrypted_payload_len];
+  memset(decrypt_buffer, 0, sizeof(decrypt_buffer));
 
   while (pElement != NULL)
   {
     if (pElement->length != 0)
     {
+      if ((pElement->pData == NULL) || (i > encrypted_payload_len)
+          || (pElement->length > encrypted_payload_len - i))
+      {
+        return STSE_SERVICE_INVALID_FRAME;
+      }
       /* Skip zero-length elements but keep traversal for frame consistency. */
       memcpy(decrypt_buffer + i, pElement->pData, pElement->length);
       i += pElement->length;
     }
     pElement = pElement->next;
+  }
+  if (i != encrypted_payload_len)
+  {
+    return STSE_SERVICE_INVALID_FRAME;
   }
 
   /* - Prepare Plain text info for AES IV */
@@ -388,11 +412,19 @@ static stse_ReturnCode_t stsafea_session_frame_decrypt(stse_session_t *pSession,
   i = 0;
   while (pElement != NULL)
   {
-    /* Scatter decrypted flat buffer back to per-element payload slices. */
-    memcpy(pElement->pData,
-           decrypt_buffer + i,
-           pElement->length);
-    i += pElement->length;
+    if (pElement->length != 0)
+    {
+      if ((pElement->pData == NULL) || (i > encrypted_payload_len)
+          || (pElement->length > encrypted_payload_len - i))
+      {
+        return STSE_SERVICE_INVALID_FRAME;
+      }
+      /* Scatter decrypted flat buffer back to per-element payload slices. */
+      memcpy(pElement->pData,
+             decrypt_buffer + i,
+             pElement->length);
+      i += pElement->length;
+    }
     pElement = pElement->next;
   }
 
@@ -407,21 +439,25 @@ static stse_ReturnCode_t stsafea_session_frame_c_mac_compute(stse_session_t *pSe
    * host-session authentication framing.
    */
   PLAT_UI8 aes_cmac_block[STSAFEA_HOST_AES_BLOCK_SIZE];
-  PLAT_UI8 mac_output_length;
+  PLAT_UI8 mac_output_length = 0;
   PLAT_UI8 mac_type = 0x00;
   stse_frame_element_t *pElement;
   PLAT_UI8 aes_block_idx = 0;
   PLAT_UI16 i;
-  PLAT_UI16 cmd_payload_length = pCmd_frame->length - pCmd_frame->first_element->length;
+  PLAT_UI16 cmd_payload_length;
 
   /* cmd_payload_length is serialized in big-endian before MAC streaming. */
   stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
 
-  if ((pSession == NULL) || (pCmd_frame == NULL) || (pMAC == NULL))
+  if ((pSession == NULL) || (pCmd_frame == NULL) || (pMAC == NULL)
+      || (pCmd_frame->first_element == NULL) || (pCmd_frame->first_element->pData == NULL)
+      || (pCmd_frame->length < pCmd_frame->first_element->length)
+      || (pSession->context.host.pSTSE == NULL) || (pSession->context.host.pHost_MAC_key == NULL))
   {
     /* Authentication requires session context, command frame, and output MAC. */
     return STSE_SERVICE_SESSION_ERROR;
   }
+  cmd_payload_length = pCmd_frame->length - pCmd_frame->first_element->length;
 
   /*- create C-MAC Frame : [0x00] [CMD HEADER] [CMD PAYLOAD LENGTH] [CMD PAYLOAD] */
   STSE_FRAME_ALLOCATE(c_mac_frame);
@@ -545,20 +581,30 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify(stse_session_t *pSes
    */
   stse_ReturnCode_t ret = STSE_SERVICE_INVALID_PARAMETER;
   PLAT_UI8 aes_cmac_block[STSAFEA_HOST_AES_BLOCK_SIZE];
-  PLAT_UI16 cmd_payload_length = pCmd_frame->length - pCmd_frame->first_element->length;
+  PLAT_UI16 cmd_payload_length;
   PLAT_UI8 aes_block_idx = 0;
   PLAT_UI16 i;
   PLAT_UI8 mac_type = 0x80;
   stse_frame_element_t *pElement;
 
-  if ((pSession == NULL) || (pCmd_frame == NULL) || (pRsp_frame == NULL))
+  if ((pSession == NULL) || (pCmd_frame == NULL) || (pRsp_frame == NULL) || (pMAC == NULL)
+      || (pCmd_frame->first_element == NULL) || (pCmd_frame->first_element->pData == NULL)
+      || (pRsp_frame->first_element == NULL) || (pRsp_frame->first_element->pData == NULL)
+      || (pCmd_frame->length < pCmd_frame->first_element->length)
+      || (pRsp_frame->length < pRsp_frame->first_element->length)
+      || (pSession->context.host.pSTSE == NULL) || (pSession->context.host.pHost_MAC_key == NULL))
   {
     /* Verification cannot proceed without both command and response contexts. */
     return STSE_SERVICE_SESSION_ERROR;
   }
+  cmd_payload_length = pCmd_frame->length - pCmd_frame->first_element->length;
 
   if (*(pCmd_frame->first_element->pData) & STSAFEA_PROT_RSP_MSK)
   {
+    if (pRsp_frame->element_count < 2)
+    {
+      return STSE_SERVICE_SESSION_ERROR;
+    }
 
     /* RMAC verification is only required when command requested protected response. */
 
@@ -629,7 +675,7 @@ static stse_ReturnCode_t stsafea_session_frame_r_mac_verify(stse_session_t *pSes
       (PLAT_UI8 *)&cmd_payload_length);
     stse_frame_element_swap_byte_order(&eCMD_Length);
 
-    if (pCmd_frame->first_element->next->length == 0)
+    if ((pCmd_frame->first_element->next != NULL) && (pCmd_frame->first_element->next->length == 0))
     {
       /* Skip empty payload placeholder element when command payload is absent. */
       eCMD_Length.next = pCmd_frame->first_element->next->next;

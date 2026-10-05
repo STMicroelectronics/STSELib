@@ -272,8 +272,8 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
 
   PLAT_UI8 rsp_header;
   /* Alternate buffers keep API tolerant when caller omits counter outputs. */
-  PLAT_UI8 alt_counter_presence;
-  PLAT_UI8 alt_counter[STSAFEA_COUNTER_VALUE_SIZE];
+  PLAT_UI8 alt_counter_presence = 0;
+  PLAT_UI8 alt_counter[STSAFEA_COUNTER_VALUE_SIZE] = {0};
 
   /* - Check stsafe handler initialization */
   if (pSTSE == NULL)
@@ -345,7 +345,7 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
                                &RspFrame);
 
   /* Counter bytes are meaningful only when device reports counter presence. */
-  if (*pCounter_presence != 0)
+  if (eCounter_presence.pData[0] != 0)
   {
     stse_frame_element_swap_byte_order(&eCounter);
   }
