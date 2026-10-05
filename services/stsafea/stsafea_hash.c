@@ -203,7 +203,11 @@ stse_ReturnCode_t stsafea_finish_hash(
   if (ret == STSE_OK)
   {
     *pDigest_size = ARRAY_2B_SWAP_TO_UI16(digest_size_array);
-    *pDigest_size = expected_digest_size;
+    if (*pDigest_size != expected_digest_size)
+    {
+      *pDigest_size = 0;
+      return STSE_SERVICE_INVALID_FRAME;
+    }
   }
   else
   {
