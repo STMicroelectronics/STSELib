@@ -1,6 +1,18 @@
 # Release Note
 
-## v1.1.10 (Latest)
+## v1.1.11 (Latest)
+
+### Improvements
+- [doc] rework library readme.md 
+
+### Bug Fixes
+- [doc] fix missing guard in doxygen-awesome TOC nodes
+- [api] initialize derivation key structure
+- [api] remove deadcode in stse_init routine
+- [service] add hash expected digest_size verification   
+- [service] harden stsafea & stsafel frame and session handling
+
+## v1.1.10
 
 ### Improvements 
 
