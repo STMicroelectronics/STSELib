@@ -70,7 +70,7 @@ Integration examples and reference platform bindings can be found across the rep
 | [**X-CUBE-STSE01**](https://www.st.com/en/embedded-software/x-cube-stse01.html) | STSAFE-A & STSAFE-L series | STM32Cube (HAL / LL) | STM32 MCUs | [STMicroelectronics](https://www.st.com/) |
 | [**stsafe-a-sdk**](https://github.com/STMicroelectronics/STSAFE-A120-sdk) | STSAFE-A series | Bare-metal, Portable ANSI C | Generic MCUs / STM32 | [STMicroelectronics](https://www.st.com/) |
 | [**stsafe-l-sdk**](https://github.com/STMicroelectronics/stsafe-l-sdk) | STSAFE-L series | Bare-metal, Portable ANSI C | Generic MCUs / STM32 | [STMicroelectronics](https://www.st.com/) |
-| [**stse-linux**](https://github.com/STMicroelectronics/stse-linux) | STSAFE-A series | Linux (User-space / PKCS#11) | Linux MPUs (STM32MP1, etc.) | [STMicroelectronics](https://www.st.com/) |
+| [**stse-linux**](https://github.com/STMicroelectronics/stse-linux) | STSAFE-A series | Linux (User-space / PKCS#11 / OpenSSL) | Linux MPUs (STM32MP1, etc.) | [STMicroelectronics](https://www.st.com/) |
 | [**wolfssl-examples**](https://github.com/wolfSSL/wolfssl-examples/tree/master/stsafe) | STSAFE-A series | wolfSSL / wolfCrypt | Embedded MCUs | [wolfSSL](https://www.wolfssl.com/) |
 | [**Zephyr_st-stsafe-a1xx**](https://github.com/catie-aq/zephyr_st-stsafe-a1xx) | STSAFE-A series | Zephyr RTOS | Zephyr-supported MCUs | [CATIE](https://www.catie.fr/language/en/home/) |
 
