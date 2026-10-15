@@ -24,27 +24,27 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
 	PLAT_UI8 associated_data[]      = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 	PLAT_UI8 associated_data_length = 8;
 	PLAT_UI8 plaintext[]          	= {0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F,
 								  	   0x10, 0x11, 0x12, 0x13, 0x14, 0x15, 0x16, 0x17,
 									   0x18, 0x19, 0x1A, 0x1B, 0x1C, 0x1D, 0x1E, 0x1F};
-	PLAT_UI8 plaintextLength    	= 24;
+	PLAT_UI8 plaintext_length    	= 24;
 	PLAT_UI8 nonce[]              	= {0x00, 0x00, 0x00, 0x04, 0x03, 0x02, 0x01, 0xA0,
 							   	   	   0xA1, 0xA2, 0xA3, 0xA4, 0xA5};
-	PLAT_UI8 macLength          	= 8;
-	PLAT_UI8 mac[macLength];
-	PLAT_UI8 ciphertext[plaintextLength];
+	PLAT_UI8 mac_length          	= 8;
+	PLAT_UI8 mac[mac_length];
+	PLAT_UI8 ciphertext[plaintext_length];
 
 	ret = stse_aes_ccm_encrypt(
-			pStse_handler,
+			p_stse_handler,
 			slot_number,
-			macLength,
+			mac_length,
 			nonce,
 			associated_data_length,
 			associated_data,
-			plaintextLength,
+			plaintext_length,
 			plaintext,
 			ciphertext,
 			mac,

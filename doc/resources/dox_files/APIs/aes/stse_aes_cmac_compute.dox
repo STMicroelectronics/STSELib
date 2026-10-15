@@ -24,12 +24,12 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
 	PLAT_UI8 mac_size = 8;
 	PLAT_UI8 mac[mac_size];
 	PLAT_UI8 message[] 	   = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 
-	ret = stse_aes_cmac_compute(pStse_handler,
+	ret = stse_aes_cmac_compute(p_stse_handler,
 		slot_number,
 		mac,
 		mac_size,

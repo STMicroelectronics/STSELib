@@ -14,16 +14,16 @@ HOST <- STSE : echoed message
 \code{.c}
 int main (void)
 {
-    stsafe_ReturnCode_t stsafe_ret;
+    stsafe_return_code_t stsafe_ret;
 
     PLAT_UI16 echo_length = 4;
     PLAT_UI8  echo_send_buffer[echo_length] = {0x00, 0x11, 0x22, 0x33};
 	PLAT_UI8  echo_recv_buffer[echo_length];
 
     stsafe_allocate_handler(stsafe_handler);
-	stsafe_handler.io.BusType = STSE_BUS_TYPE_I2C;
-	stsafe_handler.io.busID = 3;
-	stsafe_handler.io.Devaddr = 0x20;
+	stsafe_handler.io.bus_type = STSE_BUS_TYPE_I2C;
+	stsafe_handler.io.bus_id = 3;
+	stsafe_handler.io.devaddr = 0x20;
     stsafe_ret = stsafe_init(&stsafe_handler);
 
     stsafe_ret = stsafe_se_echo(&stsafe_handler,

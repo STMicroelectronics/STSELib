@@ -42,7 +42,7 @@
 - [services/stsafea] fix stsafea generic key HKDF structure
 - [services/stsafea] Add STSAFEA_PRODUCT_COUNT for code harmonization
 - [api/core/service] Verify frame overflow at frame transfer layer
-- [core/wolfssl] add wolfCrypt crypto platform support
+- [core/wolfssl] add wolf_crypt crypto platform support
 - [services] Include timings declaration
 - [api/services/core] Align return core with SW layer
 - [core] platform cleanup of timeout functions
@@ -56,7 +56,7 @@
 - [doc] Add doc building steps to ReadMe.md
 
 ## v1.1.6
-- [api] Fix stse_put_I2C_parametters warning when compiling without STSE_CONF_STSAFE_A_SUPPORT config
+- [api] Fix stse_put_i2_c_parametters warning when compiling without STSE_CONF_STSAFE_A_SUPPORT config
 - [service] Add active host session management in stsafea_close_host_session
 
 ## v1.1.5
@@ -162,7 +162,7 @@
 - [core] Simplify I2C platform
 - [core] Add SE return status when debug log activated
 - [core] Fix command timing table
-- [core] Fix stse_perso_info_t::ext_cmd_AC_status size
+- [core] Fix stse_perso_info_t::ext_cmd_ac_status size
 
 ## v1.0.1
 - [all] code cleanup for MISRA C compliancy

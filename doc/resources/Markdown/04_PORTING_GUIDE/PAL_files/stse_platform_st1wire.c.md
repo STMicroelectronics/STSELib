@@ -6,7 +6,7 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Initializes the ST1Wire bus.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
+  - `bus_id`: Identifier for the ST1Wire bus.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_SERVICES_INIT_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that initializes the ST1Wire bus.
@@ -15,8 +15,8 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Wakes up the ST1Wire device.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
 - **Return Value**: Returns `STSE_OK` on success.
 
@@ -26,10 +26,10 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Starts an ST1Wire send operation.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
-  - `FrameLength`: Length of the ST1Wire frame.
+  - `frame_length`: Length of the ST1Wire frame.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUFFER_ERR` on buffer overflow.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that starts an ST1Wire send operation.
@@ -38,10 +38,10 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Continues an ST1Wire send operation.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
-  - `pData`: Pointer to the data to send.
+  - `p_data`: Pointer to the data to send.
   - `data_size`: Size of the data to send.
 - **Return Value**: Returns `STSE_OK` on success.
 
@@ -51,10 +51,10 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Stops an ST1Wire send operation.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
-  - `pData`: Pointer to the data to send.
+  - `p_data`: Pointer to the data to send.
   - `data_size`: Size of the data to send.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUS_ACK_ERROR` on failure.
 
@@ -64,10 +64,10 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Starts an ST1Wire receive operation.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
-  - `frameLength`: Length of the ST1Wire frame.
+  - `frame_length`: Length of the ST1Wire frame.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUS_ACK_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that starts an ST1Wire receive operation.
@@ -76,10 +76,10 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Continues an ST1Wire receive operation.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
-  - `pData`: Pointer to the data buffer.
+  - `p_data`: Pointer to the data buffer.
   - `data_size`: Size of the data to receive.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUFFER_ERR` on buffer overflow.
 
@@ -89,10 +89,10 @@ The `stse_platform_st1wire.c` file provides ST1Wire communication functions for 
 
 - **Purpose**: Stops an ST1Wire receive operation.
 - **Parameters**:
-  - `busID`: Identifier for the ST1Wire bus.
-  - `devAddr`: ST1Wire device address.
+  - `bus_id`: Identifier for the ST1Wire bus.
+  - `dev_addr`: ST1Wire device address.
   - `speed`: ST1Wire bus speed.
-  - `pData`: Pointer to the data buffer.
+  - `p_data`: Pointer to the data buffer.
   - `data_size`: Size of the data to receive.
 - **Return Value**: Returns `STSE_OK` on success.
 
@@ -131,13 +131,13 @@ static volatile PLAT_UI16 st1wire_frame_offset;
 
 /**
  * \brief   Initializes the ST1Wire bus.
- * \param   busID Identifier for the ST1Wire bus.
+ * \param   bus_id Identifier for the ST1Wire bus.
  * \return  STSE_OK on success, STSE_PLATFORM_SERVICES_INIT_ERROR on failure.
  */
-stse_ReturnCode_t stse_platform_st1wire_init (PLAT_UI8 busID)
+stse_return_code_t stse_platform_st1wire_init (PLAT_UI8 bus_id)
 {
-    st1wire_ReturnCode_t ret;
-    (void) busID;
+    st1wire_return_code_t ret;
+    (void) bus_id;
 
     ret = st1wire_init();
     if (ret == ST1WIRE_OK )
@@ -150,48 +150,48 @@ stse_ReturnCode_t stse_platform_st1wire_init (PLAT_UI8 busID)
 
 /**
  * \brief   Wakes up the ST1Wire device.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_st1wire_wake (PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_wake (PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed)
 {
-    (void) devAddr;
+    (void) dev_addr;
     (void) speed;
 
-    st1wire_platform_wake(busID);
+    st1wire_platform_wake(bus_id);
 
     return (STSE_OK);
 }
 
 /**
  * \brief   Starts an ST1Wire send operation.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
- * \param   FrameLength Length of the ST1Wire frame.
+ * \param   frame_length Length of the ST1Wire frame.
  * \return  STSE_OK on success, STSE_PLATFORM_BUFFER_ERR on buffer overflow.
  */
-stse_ReturnCode_t stse_platform_st1wire_send_start (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_send_start (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI16 FrameLength)
+        PLAT_UI16 frame_length)
 {
-    (void)busID;
-    (void)devAddr;
+    (void)bus_id;
+    (void)dev_addr;
     (void)speed;
 
     /* - Check buffer overflow */
-    if (FrameLength > sizeof(st1wire_buffer)/sizeof(st1wire_buffer[0]))
+    if (frame_length > sizeof(st1wire_buffer)/sizeof(st1wire_buffer[0]))
     {
         return STSE_PLATFORM_BUFFER_ERR;
     }
 
-    st1wire_frame_size = FrameLength;
+    st1wire_frame_size = frame_length;
     st1wire_frame_offset = 0;
 
     return STSE_OK;
@@ -199,33 +199,33 @@ stse_ReturnCode_t stse_platform_st1wire_send_start (
 
 /**
  * \brief   Continues an ST1Wire send operation.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
- * \param   pData Pointer to the data to send.
+ * \param   p_data Pointer to the data to send.
  * \param   data_size Size of the data to send.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_st1wire_send_continue (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_send_continue (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
-    (void)busID;
-    (void)devAddr;
+    (void)bus_id;
+    (void)dev_addr;
     (void)speed;
 
     if(data_size != 0)
     {
-        if(pData == NULL)
+        if(p_data == NULL)
         {
             memset((st1wire_buffer + st1wire_frame_offset),0x00,data_size);
         }
         else
         {
-            memcpy((st1wire_buffer + st1wire_frame_offset),pData,data_size);
+            memcpy((st1wire_buffer + st1wire_frame_offset),p_data,data_size);
         }
         st1wire_frame_offset += data_size;
     }
@@ -235,35 +235,35 @@ stse_ReturnCode_t stse_platform_st1wire_send_continue (
 
 /**
  * \brief   Stops an ST1Wire send operation.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
- * \param   pData Pointer to the data to send.
+ * \param   p_data Pointer to the data to send.
  * \param   data_size Size of the data to send.
  * \return  STSE_OK on success, STSE_PLATFORM_BUS_ACK_ERROR on failure.
  */
-stse_ReturnCode_t stse_platform_st1wire_send_stop (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_send_stop (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
-    stse_ReturnCode_t ret;
+    stse_return_code_t ret;
 
     ret =  stse_platform_st1wire_send_continue (
-            busID,
-            devAddr,
+            bus_id,
+            dev_addr,
             speed,
-            pData,
+            p_data,
             data_size);
 
     /* - Send ST1Wire frame buffer */
     if (ret == STSE_OK)
     {
-        ret = (stse_ReturnCode_t)st1wire_SendFrame(
-                busID,
-                devAddr,
+        ret = (stse_return_code_t)st1wire_send_frame(
+                bus_id,
+                dev_addr,
                 speed,
                 st1wire_buffer,
                 st1wire_frame_size);
@@ -279,30 +279,30 @@ stse_ReturnCode_t stse_platform_st1wire_send_stop (
 
 /**
  * \brief   Starts an ST1Wire receive operation.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
- * \param   frameLength Length of the ST1Wire frame.
+ * \param   frame_length Length of the ST1Wire frame.
  * \return  STSE_OK on success, STSE_PLATFORM_BUS_ACK_ERROR on failure.
  */
-stse_ReturnCode_t stse_platform_st1wire_receive_start (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_receive_start (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI16 frameLength)
+        PLAT_UI16 frame_length)
 {
     PLAT_I8 ret = 0;
 
     /* Check read buffer overflow */
-    if(frameLength > STSE_PLATFORM_ST1WIRE_BUFFER_LENGTH)
+    if(frame_length > STSE_PLATFORM_ST1WIRE_BUFFER_LENGTH)
     {
         return STSE_PLATFORM_BUFFER_ERR;
     }
 
     /* - Read full Frame */
-    ret = st1wire_ReceiveFrame(
-            busID,
-            devAddr,
+    ret = st1wire_receive_frame(
+            bus_id,
+            dev_addr,
             speed,
             st1wire_buffer,
             &st1wire_frame_size
@@ -321,25 +321,25 @@ stse_ReturnCode_t stse_platform_st1wire_receive_start (
 
 /**
  * \brief   Continues an ST1Wire receive operation.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
- * \param   pData Pointer to the data buffer.
+ * \param   p_data Pointer to the data buffer.
  * \param   data_size Size of the data to receive.
  * \return  STSE_OK on success, STSE_PLATFORM_BUFFER_ERR on buffer overflow.
  */
-stse_ReturnCode_t stse_platform_st1wire_receive_continue (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_receive_continue (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
-    (void)busID;
-    (void)devAddr;
+    (void)bus_id;
+    (void)dev_addr;
     (void)speed;
 
-    if (pData != NULL)
+    if (p_data != NULL)
     {
         /* Check read overflow */
         if((st1wire_frame_size - st1wire_frame_offset) < data_size)
@@ -348,7 +348,7 @@ stse_ReturnCode_t stse_platform_st1wire_receive_continue (
         }
 
         /* Copy buffer content */
-        memcpy(pData,(st1wire_buffer + st1wire_frame_offset),data_size);
+        memcpy(p_data,(st1wire_buffer + st1wire_frame_offset),data_size);
     }
 
     st1wire_frame_offset += data_size;
@@ -358,22 +358,22 @@ stse_ReturnCode_t stse_platform_st1wire_receive_continue (
 
 /**
  * \brief   Stops an ST1Wire receive operation.
- * \param   busID Identifier for the ST1Wire bus.
- * \param   devAddr ST1Wire device address.
+ * \param   bus_id Identifier for the ST1Wire bus.
+ * \param   dev_addr ST1Wire device address.
  * \param   speed ST1Wire bus speed.
- * \param   pData Pointer to the data buffer.
+ * \param   p_data Pointer to the data buffer.
  * \param   data_size Size of the data to receive.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_st1wire_receive_stop (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_st1wire_receive_stop (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
     /*- Copy last element*/
-    stse_platform_st1wire_receive_continue(busID, devAddr, speed, pData, data_size);
+    stse_platform_st1wire_receive_continue(bus_id, dev_addr, speed, p_data, data_size);
 
     st1wire_frame_offset = 0;
 

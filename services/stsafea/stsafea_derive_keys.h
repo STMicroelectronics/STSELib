@@ -53,22 +53,22 @@ typedef struct stsafe_output_key_description_information_t {
             PLAT_UI8 auth_tag_length;             /*!< Authentication tag length (0, 4, 8, 16) */
             PLAT_UI8 counter_offset_in_nonce : 7; /*!< Counter offset in nonce (0-9) */
             PLAT_UI8 counter_presence : 1;        /*!< Counter presence indicator */
-        } CCM;
+        } ccm;
         struct {
-            PLAT_UI8 min_MAC_length; /*!< Minimum MAC verification length */
-        } CMAC;
+            PLAT_UI8 min_mac_length; /*!< Minimum MAC verification length */
+        } cmac;
         struct {
             PLAT_UI8 auth_tag_length; /*!< Authentication tag length (4, 8, 12-16) */
-        } GCM;
+        } gcm;
         struct {
             PLAT_UI8 allow_derived_key_to_host : 1; /*!< Flag: Allow derived keys to be returned to host */
             PLAT_UI8 filler : 7;                    /*!< Reserved (0b) */
             PLAT_UI8 generic_secret_key_length;     /*!< Key length (Generic Secret type only) */
-        } HKDF;
+        } hkdf;
         struct {
-            PLAT_UI8 min_MAC_length;            /*!< Minimum MAC verification length */
+            PLAT_UI8 min_mac_length;            /*!< Minimum MAC verification length */
             PLAT_UI8 generic_secret_key_length; /*!< Key length (Generic Secret type only) */
-        } HMAC;
+        } hmac;
     };
 } stsafe_output_key_description_information_t;
 
@@ -153,24 +153,24 @@ typedef struct stsafea_hkdf_output_t {
  *
  *
  *
- * @param[in]  pSTSE        Pointer to STSE Handler.
- * @param[in]  pInput_key   Configuration for the input key (IKM).
+ * @param[in]  p_stse        Pointer to STSE Handler.
+ * @param[in]  p_input_key   Configuration for the input key (IKM).
  * - Can be raw bytes provided in the command.
  * - Can be an existing key in a symmetric slot.
  * @param[in]  extract_flag 1 to perform HKDF-Extract, 0 to skip.
  * @param[in]  expand_flag  1 to perform HKDF-Expand, 0 to skip.
- * @param[in]  pSalt        Salt configuration (Required if extract_flag=1, ignored otherwise).
+ * @param[in]  p_salt        Salt configuration (Required if extract_flag=1, ignored otherwise).
  * If length is 0, a default salt of HashLen zeros is used.
- * @param[in]  pInfo        Context/Application specific info (Optional for Expand).
+ * @param[in]  p_info        Context/Application specific info (Optional for Expand).
  * Can be NULL or length 0 if no info is needed.
- * @param[in]  pOkm_map     Array of output key descriptors defining destination and attributes.
+ * @param[in]  p_okm_map     Array of output key descriptors defining destination and attributes.
  * (Required if expand_flag=1).
  * @param[in]  okm_count    Number of keys to derive (1 to 32).
- * @param[out] pOutput      Pointer to the output structure.
- * - **Extract-only**: <code>pOutput->prk_slot</code> will contain the slot number where the PRK was stored.
- * - **Expand**: <code>pOutput->derived_keys</code> array is populated.
+ * @param[out] p_output      Pointer to the output structure.
+ * - **Extract-only**: <code>p_output->prk_slot</code> will contain the slot number where the PRK was stored.
+ * - **Expand**: <code>p_output->derived_keys</code> array is populated.
  *
- * @return @ref STSE_OK on success ; @ref stse_ReturnCode_t error code otherwise
+ * @return @ref STSE_OK on success ; @ref stse_return_code_t error code otherwise
  *
  * @note **Operation Modes:**
  * | Mode | Extract | Expand | Description |
@@ -181,7 +181,7 @@ typedef struct stsafea_hkdf_output_t {
  *
  * @note **Memory Management:**
  * For keys returned to the host ( <code>STSAFEA_KEY_SOURCE_RESPONSE</code>), the caller **must pre-allocate** buffers
- * in <code>pOutput->derived_keys[i].response.data</code> before calling this function.
+ * in <code>p_output->derived_keys[i].response.data</code> before calling this function.
  *
  * @warning **Slot Selection Logic:**
  * When deriving to a slot, the device automatically selects the destination:
@@ -198,16 +198,16 @@ typedef struct stsafea_hkdf_output_t {
  * @see stse_hkdf_derive_key_simple
  * @see stse_hkdf_derive_session_keys
  */
-stse_ReturnCode_t stsafea_derive_keys(
-    stse_Handle_t *pSTSE,
-    stsafea_hkdf_input_key_t *pInput_key,
+stse_return_code_t stsafea_derive_keys(
+    stse_handle_t *p_stse,
+    stsafea_hkdf_input_key_t *p_input_key,
     PLAT_UI8 extract_flag,
     PLAT_UI8 expand_flag,
-    stsafea_hkdf_salt_t *pSalt,
-    stsafea_hkdf_info_t *pInfo,
-    stsafea_hkdf_okm_description_t *pOkm_map,
+    stsafea_hkdf_salt_t *p_salt,
+    stsafea_hkdf_info_t *p_info,
+    stsafea_hkdf_okm_description_t *p_okm_map,
     PLAT_UI8 okm_count,
-    stsafea_hkdf_output_t *pOutput);
+    stsafea_hkdf_output_t *p_output);
 
 #endif /* STSAFEA_DERIVE_KEYS_H */
 

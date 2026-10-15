@@ -45,9 +45,9 @@ typedef PLAT_UI8 stse_certificate_tag_t;
 #define TAG_GeneralizedTime ((stse_certificate_tag_t)0x18U)   /*!< x509 tag for GeneralizedTime */
 #define TAG_SEQUENCE ((stse_certificate_tag_t)0x30U)          /*!< x509 tag for SEQUENCE */
 #define TAG_SET ((stse_certificate_tag_t)0x31U)               /*!< x509 tag for SET */
-#define TAG_x509VERSION ((stse_certificate_tag_t)0xA0U)       /*!< x509 tag for x509VERSION */
-#define TAG_issuerUniqueID ((stse_certificate_tag_t)0xA1U)    /*!< x509 tag for issuerUniqueID */
-#define TAG_subjectUniqueID ((stse_certificate_tag_t)0xA2U)   /*!< x509 tag for subjectUniqueID */
+#define TAG_x509VERSION ((stse_certificate_tag_t)0xA0U)       /*!< x509 tag for x509_version */
+#define TAG_issuerUniqueID ((stse_certificate_tag_t)0xA1U)    /*!< x509 tag for issuer_unique_id */
+#define TAG_subjectUniqueID ((stse_certificate_tag_t)0xA2U)   /*!< x509 tag for subject_unique_id */
 #define TAG_extensions ((stse_certificate_tag_t)0xA3U)        /*!< x509 tag for extensions */
 
 /** \brief Definitions of available signature algorithms */
@@ -65,7 +65,7 @@ typedef PLAT_UI8 stse_certificate_name_attributes_t;
 #define ATTR_SN ((stse_certificate_name_attributes_t)5U)   /*!< SerialNumber */
 #define ATTR_C ((stse_certificate_name_attributes_t)6U)    /*!< Country */
 #define ATTR_LN ((stse_certificate_name_attributes_t)7U)   /*!< LocalityName */
-#define ATTR_SOPN ((stse_certificate_name_attributes_t)8U) /*!< stateOrProvinceName */
+#define ATTR_SOPN ((stse_certificate_name_attributes_t)8U) /*!< state_or_province_name */
 #define ATTR_ON ((stse_certificate_name_attributes_t)10U)  /*!< Organization Name */
 #define ATTR_OUN ((stse_certificate_name_attributes_t)11U) /*!< Organization Unit Name */
 #define ATTR_UID ((stse_certificate_name_attributes_t)45U) /*!< UniqueIdentifier */
@@ -76,36 +76,36 @@ typedef PLAT_UI8 stse_certificate_elliptic_curves_t;
 #define EC_P256 ((stse_certificate_elliptic_curves_t)0U)    /*!< NIST P-256 */
 #define EC_P384 ((stse_certificate_elliptic_curves_t)1U)    /*!< NIST P-384 */
 #define EC_P521 ((stse_certificate_elliptic_curves_t)2U)    /*!< NIST P-521 */
-#define EC_bp256r1 ((stse_certificate_elliptic_curves_t)3U) /*!< brainpoolP256r1 */
-#define EC_bp256t1 ((stse_certificate_elliptic_curves_t)4U) /*!< brainpoolP256t1 */
-#define EC_bp384r1 ((stse_certificate_elliptic_curves_t)5U) /*!< brainpoolP384r1 */
-#define EC_bp384t1 ((stse_certificate_elliptic_curves_t)6U) /*!< brainpoolP384t1 */
-#define EC_bp512r1 ((stse_certificate_elliptic_curves_t)7U) /*!< brainpoolP512r1 */
-#define EC_bp512t1 ((stse_certificate_elliptic_curves_t)8U) /*!< brainpoolP512t1 */
+#define EC_bp256r1 ((stse_certificate_elliptic_curves_t)3U) /*!< brainpool_p256r1 */
+#define EC_bp256t1 ((stse_certificate_elliptic_curves_t)4U) /*!< brainpool_p256t1 */
+#define EC_bp384r1 ((stse_certificate_elliptic_curves_t)5U) /*!< brainpool_p384r1 */
+#define EC_bp384t1 ((stse_certificate_elliptic_curves_t)6U) /*!< brainpool_p384t1 */
+#define EC_bp512r1 ((stse_certificate_elliptic_curves_t)7U) /*!< brainpool_p512r1 */
+#define EC_bp512t1 ((stse_certificate_elliptic_curves_t)8U) /*!< brainpool_p512t1 */
 #define EC_Ed25519 ((stse_certificate_elliptic_curves_t)9U) /*!< Ed25519 */
 
 /** \brief Definitions of supported Extensions types */
 typedef PLAT_UI8 stse_certificate_extensions_type_t;
 #define EXTENSION_KU ((stse_certificate_extensions_type_t)15U)  /*!< KeyUsage */
 #define EXTENSION_BC ((stse_certificate_extensions_type_t)19U)  /*!< BasicContrains */
-#define EXTENSION_EKU ((stse_certificate_extensions_type_t)37U) /*!< extKeyUsage */
+#define EXTENSION_EKU ((stse_certificate_extensions_type_t)37U) /*!< ext_key_usage */
 
-/** \brief Structure used to keep SignatureAlgorithm OIDs */
-struct SignatureAlgorithmOID_st {
+/** \brief Structure used to keep signature_algorithm OIDs */
+struct signature_algorithm_oid_st {
     PLAT_I32 len;    /*!< size of the encoded OID */
     PLAT_I32 type;   /*!< type of OID */
     PLAT_UI8 oid[8]; /*!< encoded OID */
 };
 
 /** \brief Structure used to keep Name Attribute OIDs */
-struct AttributeOID_st {
+struct attribute_oid_st {
     PLAT_I32 len;    /*!< size of the encoded OID */
     PLAT_I32 type;   /*!< type of OID */
     PLAT_UI8 oid[3]; /*!< encoded OID */
 };
 
 /** \brief Structure used to keep named Elliptic Curve OIDs */
-struct EllipticCurveOID_st {
+struct elliptic_curve_oid_st {
     PLAT_I32 len;    /*!< size of the encoded OID */
     PLAT_I32 type;   /*!< type of OID */
     PLAT_UI8 oid[9]; /*!< encoded OID */
@@ -114,13 +114,13 @@ struct EllipticCurveOID_st {
 /** \brief typedef for the attribute */
 typedef struct attribute_st {
     PLAT_I32 type;       /*!< type of attribute (corresponding to OID) */
-    PLAT_I32 strFormat;  /*!< format of the string */
+    PLAT_I32 str_format;  /*!< format of the string */
     const PLAT_UI8 *str; /*!< pointer to the string of the attribute */
-    PLAT_I32 strSize;    /*!< size of the string */
+    PLAT_I32 str_size;    /*!< size of the string */
 } stse_cert_attribute_t;
 
 /** \brief Structure used to keep Name Attribute OIDs */
-struct ExtensionOID_st {
+struct extension_oid_st {
     PLAT_I32 len;    /*!< size of the encoded OID */
     PLAT_I32 type;   /*!< type of OID */
     PLAT_UI8 oid[5]; /*!< encoded OID */
@@ -131,7 +131,7 @@ typedef struct extension_st {
     PLAT_I32 type;         /*!< type of extension (corresponding to OID) */
     PLAT_I32 critical;     /*!< critical */
     const PLAT_UI8 *value; /*!< pointer to the value hold by the extension (this is an octet string)  */
-    PLAT_I32 valueSize;    /*!< size of the string */
+    PLAT_I32 value_size;    /*!< size of the string */
 } stse_cert_extension_t;
 
 /** \brief typedef for the structure keeping the validity */
@@ -146,61 +146,61 @@ typedef struct validity_st {
 
 /** \brief typedef for the structure keeping the Ellipitc Curve Public Key */
 typedef struct stse_cert_public_key_t {
-    const PLAT_UI8 *pX; /*!<  Pointer to X Coordinate */
-    const PLAT_UI8 *pY; /*!<  Pointer to Y Coordiante */
+    const PLAT_UI8 *p_x; /*!<  Pointer to X Coordinate */
+    const PLAT_UI8 *p_y; /*!<  Pointer to Y Coordiante */
     PLAT_I32 fsize;     /*!< Size of the field in bytes */
 } stse_cert_public_key_t;
 
 /** \brief typedef for the structure keeping the ECDSA Signature */
 typedef struct stse_cert_signature_t {
-    const PLAT_UI8 *pR; /*!< Pointer to r */
-    PLAT_I32 rSize;     /*!< size to r */
-    const PLAT_UI8 *pS; /*!<  Pointer to s*/
-    PLAT_I32 sSize;     /*!< size to s */
+    const PLAT_UI8 *p_r; /*!< Pointer to r */
+    PLAT_I32 r_size;     /*!< size to r */
+    const PLAT_UI8 *p_s; /*!<  Pointer to s*/
+    PLAT_I32 s_size;     /*!< size to s */
 } stse_cert_signature_t;
 
 /** \brief internal structure used to keep the values parsed from the x509 */
 struct stse_internal_certificate {
-    const PLAT_UI8 *pPubKey_point_representation_id; /*!< 0x04: Uncompressed key, 0x02 or 0x03: Compressed key */
+    const PLAT_UI8 *p_pub_key_point_representation_id; /*!< 0x04: Uncompressed key, 0x02 or 0x03: Compressed key */
     const PLAT_UI8 *tbs;                             /*!<  Pointer to tcs field */
-    PLAT_I32 tbsSize;                                /*!<  Size of tcs */
-    PLAT_I32 x509Version;                            /*!<  x509 Version */
-    const PLAT_UI8 *serialNumber;                    /*!<  Pointer to SerialNumber*/
-    PLAT_I32 serialNumberSize;                       /*!<  Size of SerialNumber */
+    PLAT_I32 tbs_size;                                /*!<  Size of tcs */
+    PLAT_I32 x509_version;                            /*!<  x509 Version */
+    const PLAT_UI8 *serial_number;                    /*!<  Pointer to SerialNumber*/
+    PLAT_I32 serial_number_size;                       /*!<  Size of SerialNumber */
     PLAT_I32 signature;                              /*!<  Signature (algorithm) but from tcs */
     const PLAT_UI8 *issuer;                          /*!<  Pointer to Issuer */
-    PLAT_I32 issuerSize;                             /*!<  Size of Issuer */
+    PLAT_I32 issuer_size;                             /*!<  Size of Issuer */
     const PLAT_UI8 *validity;                        /*!<  Pointer to Validity */
-    PLAT_I32 validitySize;                           /*!<  Size of Validity */
+    PLAT_I32 validity_size;                           /*!<  Size of Validity */
     const PLAT_UI8 *subject;                         /*!<  Pointer to subject */
-    PLAT_I32 subjectSize;                            /*!<  Size of Subject */
-    PLAT_I32 EllipticCurve;                          /*!<  Identifies the Elliptic Curve */
-    stse_cert_public_key_t PubKey;                   /*!<  Contain the struct \ref stse_cert_public_key_t */
+    PLAT_I32 subject_size;                            /*!<  Size of Subject */
+    PLAT_I32 elliptic_curve;                          /*!<  Identifies the Elliptic Curve */
+    stse_cert_public_key_t pub_key;                   /*!<  Contain the struct \ref stse_cert_public_key_t */
     const PLAT_UI8 *extensions;                      /*!<  Pointer to Extensions */
-    PLAT_I32 extensionsSize;                         /*!<  Size of Extensions */
-    PLAT_UI32 extensionsFlags;                       /*!<  Integer encoding the fields present in the tcs:			\n
+    PLAT_I32 extensions_size;                         /*!<  Size of Extensions */
+    PLAT_UI32 extensions_flags;                       /*!<  Integer encoding the fields present in the tcs:			\n
 									 *	bit 0:   BasicConstraints is present						\n
 									 *  bit 1:   BasicConstraints is critical						\n
 									 *  bit 2:   BasicConstraints indicates this is a CA			\n
-									 *  bit 3: 	 BasicConstraints has a pathLenConstraint			\n
+									 *  bit 3: 	 BasicConstraints has a path_len_constraint			\n
 									 *  bit 4-7: PathLen											\n
-									 *  bit 8: 	 keyUsage is present								\n
-									 *  bit 9: 	 keyUsage is critical								\n
-									 *  bit 15:  keyUsage field decipherOnly						\n
-									 *  bit 16:  keyUsage field digitalSignature					\n
-									 *  bit 17:  keyUsage field contentCommitment/nonRepudiation	\n
-									 *  bit 18:  keyUsage field keyEncipherment						\n
-									 *  bit 19:  keyUsage field dataEncipherment					\n
-									 *  bit 20:  keyUsage field keyAgreement						\n
-									 *  bit 21:  keyUsage field keyCertSign							\n
-									 *  bit 22:  keyUsage field cRLSign								\n
-									 *  bit 23:  keyUsage field encipherOnly						\n
+									 *  bit 8: 	 key_usage is present								\n
+									 *  bit 9: 	 key_usage is critical								\n
+									 *  bit 15:  key_usage field decipher_only						\n
+									 *  bit 16:  key_usage field digital_signature					\n
+									 *  bit 17:  key_usage field content_commitment/non_repudiation	\n
+									 *  bit 18:  key_usage field key_encipherment						\n
+									 *  bit 19:  key_usage field data_encipherment					\n
+									 *  bit 20:  key_usage field key_agreement						\n
+									 *  bit 21:  key_usage field key_cert_sign							\n
+									 *  bit 22:  key_usage field c_rl_sign								\n
+									 *  bit 23:  key_usage field encipher_only						\n
 									 *  bit 24:  ExtendedKeyUsage is present						\n
 									 *  bit 25:  ExtendedKeyUsage is critical						\n
 									 *  bit 27-29: Unused
                               	  	 */
-    PLAT_I32 SignatureAlgorithm;                     /*!<  SignatureAlgorithm */
-    stse_cert_signature_t Sign;                      /*!<  Contain the struct \ref stse_cert_signature_t */
+    PLAT_I32 signature_algorithm;                     /*!<  signature_algorithm */
+    stse_cert_signature_t sign;                      /*!<  Contain the struct \ref stse_cert_signature_t */
 };
 
 /** \brief typedef for the stse_certificate_t */
@@ -223,7 +223,7 @@ typedef struct stse_internal_certificate stse_certificate_t;
 
 /* Exported Variables */
 
-extern stse_Handle_t *stsafe_x509_parser_companion_handler;
+extern stse_handle_t *stsafe_x509_parser_companion_handler;
 
 /** @}*/
 

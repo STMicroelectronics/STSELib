@@ -103,7 +103,7 @@ typedef enum stse_ecc_key_type_t {
 } stse_ecc_key_type_t;
 
 /*!
- * \enum stse_aes_key_type_t
+ * \typedef stse_aes_key_type_t
  * \brief STSE AES key type
  */
 typedef PLAT_UI8 stse_aes_key_type_t;
@@ -112,7 +112,7 @@ typedef PLAT_UI8 stse_aes_key_type_t;
 #define STSE_AES_INVALID_KT ((stse_aes_key_type_t)2)
 
 /*!
- * \enum stse_aes_key_usage_t
+ * \typedef stse_aes_key_usage_t
  * \brief STSE AES key usage
  */
 typedef PLAT_UI8 stse_aes_key_usage_t;
@@ -184,14 +184,14 @@ typedef struct
 } stse_aes_key_t;
 
 /*!
- * \struct stse_cmd_authorization_CR_t
+ * \struct stse_cmd_authorization_cr_t
  * \brief STSE commands authorization change request type
  */
-typedef struct stse_cmd_authorization_CR_t {
-    PLAT_UI8 host_encryption_flag_CR : 1;
-    PLAT_UI8 cmd_AC_CR : 1;
+typedef struct stse_cmd_authorization_cr_t {
+    PLAT_UI8 host_encryption_flag_cr : 1;
+    PLAT_UI8 cmd_ac_cr : 1;
     PLAT_UI8 filler : 6;
-} stse_cmd_authorization_CR_t;
+} stse_cmd_authorization_cr_t;
 
 /*!
  * \typedef stse_cmd_access_conditions_t
@@ -212,7 +212,7 @@ typedef PLAT_UI8 stse_cmd_access_conditions_t;
 typedef struct stse_cmd_authorization_record_t {
     PLAT_UI8 header;
     PLAT_UI8 extended_header;
-    stse_cmd_access_conditions_t command_AC;
+    stse_cmd_access_conditions_t command_ac;
     struct {
         PLAT_UI8 filler : STSE_6BIT_LEN;
         PLAT_UI8 cmd : STSE_1BIT_LEN;

@@ -30,29 +30,29 @@
  * \brief  Verify the signature of a digest with a public key extracted from the certificate
  * \param[in]  cert 			pointer to the parsed x509 certificate containing the public key to be used for the signature verification
  * \param[in]  digest 			the digest of the message to be verified
- * \param[in]  digestSize 		size in bytes of the digest of the message to be verified
- * \param[in]  signatureR 		the R value of the signature to be verified
- * \param[in]  signatureRsize 	the size in bytes of signatureR
- * \param[in]  signatureS 		the S value of the signature to be verified
- * \param[in]  signatureSsize 	the size in bytes of signatureS
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in]  digest_size 		size in bytes of the digest of the message to be verified
+ * \param[in]  signature_r 		the R value of the signature to be verified
+ * \param[in]  signature_rsize 	the size in bytes of signature_r
+ * \param[in]  signature_s 		the S value of the signature to be verified
+ * \param[in]  signature_ssize 	the size in bytes of signature_s
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stse_certificate_verify_signature(
+stse_return_code_t stse_certificate_verify_signature(
     const stse_certificate_t *cert,
     const PLAT_UI8 *digest,
-    PLAT_I32 digestSize,
-    const PLAT_UI8 *signatureR,
-    PLAT_I32 signatureRsize,
-    const PLAT_UI8 *signatureS,
-    PLAT_I32 signatureSsize);
+    PLAT_I32 digest_size,
+    const PLAT_UI8 *signature_r,
+    PLAT_I32 signature_rsize,
+    const PLAT_UI8 *signature_s,
+    PLAT_I32 signature_ssize);
 
 /**
  * \brief  Check whether "parent" signed "child"
  * \param[in]  parent 			pointer to the parsed x509 certificate of the supposed issuer of child
  * \param[in]  child  			pointer to the parsed x509 certificate of the certificated supposedly issued by parent
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stse_certificate_verify_cert_signature(
+stse_return_code_t stse_certificate_verify_cert_signature(
     const stse_certificate_t *parent,
     const stse_certificate_t *child);
 

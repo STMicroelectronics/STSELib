@@ -38,19 +38,19 @@
 /**
  * \brief 		Generate ECC signature over a challenge
  * \details 	This service format and send generate signature command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	p_stse 				Pointer to STSE Handler
  * \param[in] 	key_type 			\ref stse_ecc_key_type_t key type to use
  * \param[in] 	challenge_length 	Challenge length
- * \param[in] 	pChallenge 			Challenge to be signed
- * \param[out]	pSignature			Signature output buffer
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_challenge 			Challenge to be signed
+ * \param[out]	p_signature			Signature output buffer
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_ecc_generate_signature(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafel_ecc_generate_signature(
+    stse_handle_t *p_stse,
     stse_ecc_key_type_t key_type,
-    const PLAT_UI8 *pChallenge,
+    const PLAT_UI8 *p_challenge,
     PLAT_UI16 challenge_length,
-    PLAT_UI8 *pSignature);
+    PLAT_UI8 *p_signature);
 
 /** \}*/
 

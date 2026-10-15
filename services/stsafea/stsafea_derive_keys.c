@@ -23,43 +23,43 @@
 
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
 
-stse_ReturnCode_t stsafea_derive_keys(
-    stse_Handle_t *pSTSE,
-    stsafea_hkdf_input_key_t *pInput_key,
+stse_return_code_t stsafea_derive_keys(
+    stse_handle_t *p_stse,
+    stsafea_hkdf_input_key_t *p_input_key,
     PLAT_UI8 extract_flag,
     PLAT_UI8 expand_flag,
-    stsafea_hkdf_salt_t *pSalt,
-    stsafea_hkdf_info_t *pInfo,
-    stsafea_hkdf_okm_description_t *pOkm_map,
+    stsafea_hkdf_salt_t *p_salt,
+    stsafea_hkdf_info_t *p_info,
+    stsafea_hkdf_okm_description_t *p_okm_map,
     PLAT_UI8 okm_count,
-    stsafea_hkdf_output_t *pOutput) {
-    stse_ReturnCode_t ret;
+    stsafea_hkdf_output_t *p_output) {
+    stse_return_code_t ret;
     PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_DERIVE_KEYS};
     PLAT_UI8 rsp_header;
     PLAT_UI8 hkdf_flags = 0;
     stsafea_hash_algorithm_identifier_t hash_algo = {STSAFEA_HASH_ALGO_ID_LENGTH, STSAFEA_HASH_ALGO_ID_SHA_256};
 
     /* -- Frame Element Declarations -- */
-    stse_frame_element_t eCmdHeader;
+    stse_frame_element_t e_cmd_header;
 
     /* Input Key Elements */
-    stse_frame_element_t eInputSource;
-    stse_frame_element_t eInputMode, eInputLength, eInputValue; /* For Command source */
-    stse_frame_element_t eInputSlot;                            /* For Slot source */
+    stse_frame_element_t e_input_source;
+    stse_frame_element_t e_input_mode, e_input_length, e_input_value; /* For Command source */
+    stse_frame_element_t e_input_slot;                            /* For Slot source */
 
     /* HKDF Param Elements */
-    stse_frame_element_t eHkdfFlags, eHashAlgo;
+    stse_frame_element_t e_hkdf_flags, e_hash_algo;
 
     /* Salt Elements */
-    stse_frame_element_t eSaltSource;
-    stse_frame_element_t eSaltLength, eSaltValue; /* For Command source */
-    stse_frame_element_t eSaltSlot;               /* For Slot source */
+    stse_frame_element_t e_salt_source;
+    stse_frame_element_t e_salt_length, e_salt_value; /* For Command source */
+    stse_frame_element_t e_salt_slot;               /* For Slot source */
 
     /* Info Elements */
-    stse_frame_element_t eInfoLength, eInfoValue;
+    stse_frame_element_t e_info_length, e_info_value;
 
     /* Response Elements */
-    stse_frame_element_t eRspHeader, eRspPrkSlot;
+    stse_frame_element_t e_rsp_header, e_rsp_prk_slot;
 
     /* -- Auxiliary Buffers -- */
     PLAT_UI8 input_len_buf[2];
@@ -67,59 +67,59 @@ stse_ReturnCode_t stsafea_derive_keys(
     PLAT_UI8 info_len_buf[2];
 
     /* 1. Parameter Validation */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }
-    if (pInput_key == NULL || pOutput == NULL) {
+    if (p_input_key == NULL || p_output == NULL) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
-    if (expand_flag && (pOkm_map == NULL || pOutput->derived_keys == NULL)) {
+    if (expand_flag && (p_okm_map == NULL || p_output->derived_keys == NULL)) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 
     /* 2. Loop Arrays & Buffer Allocation */
-    stse_frame_element_t eOkmDescLength[okm_count], eOkmDestination[okm_count];
-    stse_frame_element_t eOkmData1[okm_count], eOkmData2[okm_count];
-    stse_frame_element_t eRspOkmData[okm_count];
+    stse_frame_element_t e_okm_desc_length[okm_count], e_okm_destination[okm_count];
+    stse_frame_element_t e_okm_data1[okm_count], e_okm_data2[okm_count];
+    stse_frame_element_t e_rsp_okm_data[okm_count];
 
     PLAT_UI8 okm_desc_len_buf[okm_count][2];
     PLAT_UI8 okm_key_len_buf[okm_count][2];
 
     /* Initialize Frames */
-    stse_frame_allocate(CmdFrame);
-    stse_frame_allocate(RspFrame);
+    stse_frame_allocate(cmd_frame);
+    stse_frame_allocate(rsp_frame);
 
     /* 3. Build Command Frame */
     /* Header */
-    eCmdHeader.length = STSAFEA_EXT_HEADER_SIZE;
-    eCmdHeader.pData = cmd_header;
-    stse_frame_push_element(&CmdFrame, &eCmdHeader);
+    e_cmd_header.length = STSAFEA_EXT_HEADER_SIZE;
+    e_cmd_header.p_data = cmd_header;
+    stse_frame_push_element(&cmd_frame, &e_cmd_header);
 
     /* -- Input Key -- */
-    eInputSource.length = 1;
-    eInputSource.pData = &pInput_key->source;
-    stse_frame_push_element(&CmdFrame, &eInputSource);
+    e_input_source.length = 1;
+    e_input_source.p_data = &p_input_key->source;
+    stse_frame_push_element(&cmd_frame, &e_input_source);
 
-    if (pInput_key->source == STSAFEA_KEY_SOURCE_COMMAND) {
-        input_len_buf[0] = (PLAT_UI8)(pInput_key->command.length >> 8);
-        input_len_buf[1] = (PLAT_UI8)(pInput_key->command.length);
+    if (p_input_key->source == STSAFEA_KEY_SOURCE_COMMAND) {
+        input_len_buf[0] = (PLAT_UI8)(p_input_key->command.length >> 8);
+        input_len_buf[1] = (PLAT_UI8)(p_input_key->command.length);
 
-        eInputMode.length = 1;
-        eInputMode.pData = (PLAT_UI8 *)&pInput_key->command.mode_of_operation;
+        e_input_mode.length = 1;
+        e_input_mode.p_data = (PLAT_UI8 *)&p_input_key->command.mode_of_operation;
 
-        eInputLength.length = 2;
-        eInputLength.pData = input_len_buf;
+        e_input_length.length = 2;
+        e_input_length.p_data = input_len_buf;
 
-        eInputValue.length = pInput_key->command.length;
-        eInputValue.pData = pInput_key->command.data;
+        e_input_value.length = p_input_key->command.length;
+        e_input_value.p_data = p_input_key->command.data;
 
-        stse_frame_push_element(&CmdFrame, &eInputMode);
-        stse_frame_push_element(&CmdFrame, &eInputLength);
-        stse_frame_push_element(&CmdFrame, &eInputValue);
+        stse_frame_push_element(&cmd_frame, &e_input_mode);
+        stse_frame_push_element(&cmd_frame, &e_input_length);
+        stse_frame_push_element(&cmd_frame, &e_input_value);
     } else {
-        eInputSlot.length = 1;
-        eInputSlot.pData = &pInput_key->symmkey.slot_number;
-        stse_frame_push_element(&CmdFrame, &eInputSlot);
+        e_input_slot.length = 1;
+        e_input_slot.p_data = &p_input_key->symmkey.slot_number;
+        stse_frame_push_element(&cmd_frame, &e_input_slot);
     }
 
     /* -- HKDF Parameters -- */
@@ -128,147 +128,147 @@ stse_ReturnCode_t stsafea_derive_keys(
     if (expand_flag)
         hkdf_flags |= (1 << STSAFEA_HKDF_FLAG_EXPAND_POS);
 
-    eHkdfFlags.length = 1;
-    eHkdfFlags.pData = &hkdf_flags;
+    e_hkdf_flags.length = 1;
+    e_hkdf_flags.p_data = &hkdf_flags;
 
-    eHashAlgo.length = STSAFEA_HASH_ALGO_ID_SIZE;
-    eHashAlgo.pData = (PLAT_UI8 *)&hash_algo;
+    e_hash_algo.length = STSAFEA_HASH_ALGO_ID_SIZE;
+    e_hash_algo.p_data = (PLAT_UI8 *)&hash_algo;
 
-    stse_frame_push_element(&CmdFrame, &eHkdfFlags);
-    stse_frame_push_element(&CmdFrame, &eHashAlgo);
+    stse_frame_push_element(&cmd_frame, &e_hkdf_flags);
+    stse_frame_push_element(&cmd_frame, &e_hash_algo);
 
     /* -- Salt (Conditional) -- */
     if (extract_flag) {
-        if (pSalt == NULL)
+        if (p_salt == NULL)
             return STSE_SERVICE_INVALID_PARAMETER;
 
-        eSaltSource.length = 1;
-        eSaltSource.pData = &pSalt->source;
-        stse_frame_push_element(&CmdFrame, &eSaltSource);
+        e_salt_source.length = 1;
+        e_salt_source.p_data = &p_salt->source;
+        stse_frame_push_element(&cmd_frame, &e_salt_source);
 
-        if (pSalt->source == STSAFEA_KEY_SOURCE_COMMAND) {
-            salt_len_buf[0] = (PLAT_UI8)(pSalt->command.length >> 8);
-            salt_len_buf[1] = (PLAT_UI8)(pSalt->command.length);
+        if (p_salt->source == STSAFEA_KEY_SOURCE_COMMAND) {
+            salt_len_buf[0] = (PLAT_UI8)(p_salt->command.length >> 8);
+            salt_len_buf[1] = (PLAT_UI8)(p_salt->command.length);
 
-            eSaltLength.length = 2;
-            eSaltLength.pData = salt_len_buf;
-            stse_frame_push_element(&CmdFrame, &eSaltLength);
+            e_salt_length.length = 2;
+            e_salt_length.p_data = salt_len_buf;
+            stse_frame_push_element(&cmd_frame, &e_salt_length);
 
-            if (pSalt->command.length > 0 && pSalt->command.data != NULL) {
-                eSaltValue.length = pSalt->command.length;
-                eSaltValue.pData = pSalt->command.data;
-                stse_frame_push_element(&CmdFrame, &eSaltValue);
+            if (p_salt->command.length > 0 && p_salt->command.data != NULL) {
+                e_salt_value.length = p_salt->command.length;
+                e_salt_value.p_data = p_salt->command.data;
+                stse_frame_push_element(&cmd_frame, &e_salt_value);
             }
         } else {
-            eSaltSlot.length = 1;
-            eSaltSlot.pData = &pSalt->symmkey.slot_number;
-            stse_frame_push_element(&CmdFrame, &eSaltSlot);
+            e_salt_slot.length = 1;
+            e_salt_slot.p_data = &p_salt->symmkey.slot_number;
+            stse_frame_push_element(&cmd_frame, &e_salt_slot);
         }
     }
 
     /* -- Info (Conditional) -- */
     if (expand_flag) {
-        PLAT_UI16 info_len = (pInfo != NULL) ? pInfo->length : 0;
+        PLAT_UI16 info_len = (p_info != NULL) ? p_info->length : 0;
         info_len_buf[0] = (PLAT_UI8)(info_len >> 8);
         info_len_buf[1] = (PLAT_UI8)(info_len);
 
-        eInfoLength.length = 2;
-        eInfoLength.pData = info_len_buf;
-        stse_frame_push_element(&CmdFrame, &eInfoLength);
+        e_info_length.length = 2;
+        e_info_length.p_data = info_len_buf;
+        stse_frame_push_element(&cmd_frame, &e_info_length);
 
-        if (info_len > 0 && pInfo != NULL && pInfo->data != NULL) {
-            eInfoValue.length = info_len;
-            eInfoValue.pData = pInfo->data;
-            stse_frame_push_element(&CmdFrame, &eInfoValue);
+        if (info_len > 0 && p_info != NULL && p_info->data != NULL) {
+            e_info_value.length = info_len;
+            e_info_value.p_data = p_info->data;
+            stse_frame_push_element(&cmd_frame, &e_info_value);
         }
     }
 
     /* -- OKM Map (Conditional) -- */
     if (expand_flag) {
         for (int i = 0; i < okm_count; i++) {
-            stsafea_hkdf_okm_description_t *pDesc = &pOkm_map[i];
+            stsafea_hkdf_okm_description_t *p_desc = &p_okm_map[i];
             PLAT_UI16 desc_len;
 
             /* Calculate Lengths and Pointers */
-            if (pDesc->destination == STSAFEA_KEY_SOURCE_RESPONSE) {
+            if (p_desc->destination == STSAFEA_KEY_SOURCE_RESPONSE) {
                 desc_len = 3; /* Dest(1) + KeyLen(2) */
                 okm_desc_len_buf[i][0] = (PLAT_UI8)(desc_len >> 8);
                 okm_desc_len_buf[i][1] = (PLAT_UI8)(desc_len);
 
-                okm_key_len_buf[i][0] = (PLAT_UI8)(pDesc->response.key_length >> 8);
-                okm_key_len_buf[i][1] = (PLAT_UI8)(pDesc->response.key_length);
+                okm_key_len_buf[i][0] = (PLAT_UI8)(p_desc->response.key_length >> 8);
+                okm_key_len_buf[i][1] = (PLAT_UI8)(p_desc->response.key_length);
 
-                eOkmDescLength[i].length = 2;
-                eOkmDescLength[i].pData = okm_desc_len_buf[i];
+                e_okm_desc_length[i].length = 2;
+                e_okm_desc_length[i].p_data = okm_desc_len_buf[i];
 
-                eOkmDestination[i].length = 1;
-                eOkmDestination[i].pData = (PLAT_UI8 *)&pDesc->destination;
+                e_okm_destination[i].length = 1;
+                e_okm_destination[i].p_data = (PLAT_UI8 *)&p_desc->destination;
 
-                eOkmData1[i].length = 2;
-                eOkmData1[i].pData = okm_key_len_buf[i];
+                e_okm_data1[i].length = 2;
+                e_okm_data1[i].p_data = okm_key_len_buf[i];
 
-                eOkmData2[i].length = 0;
-                eOkmData2[i].pData = NULL;
+                e_okm_data2[i].length = 0;
+                e_okm_data2[i].p_data = NULL;
             } else {
-                if (pDesc->symmkey.key_info == NULL)
+                if (p_desc->symmkey.key_info == NULL)
                     return STSE_SERVICE_INVALID_PARAMETER;
 
-                desc_len = 1 + pDesc->symmkey.key_info->info_length;
+                desc_len = 1 + p_desc->symmkey.key_info->info_length;
                 okm_desc_len_buf[i][0] = (PLAT_UI8)(desc_len >> 8);
                 okm_desc_len_buf[i][1] = (PLAT_UI8)(desc_len);
 
-                eOkmDescLength[i].length = 2;
-                eOkmDescLength[i].pData = okm_desc_len_buf[i];
+                e_okm_desc_length[i].length = 2;
+                e_okm_desc_length[i].p_data = okm_desc_len_buf[i];
 
-                eOkmDestination[i].length = 1;
-                eOkmDestination[i].pData = (PLAT_UI8 *)&pDesc->destination;
+                e_okm_destination[i].length = 1;
+                e_okm_destination[i].p_data = (PLAT_UI8 *)&p_desc->destination;
 
-                eOkmData1[i].length = 1;
-                eOkmData1[i].pData = (PLAT_UI8 *)&pDesc->symmkey.key_info->lock_indicator;
+                e_okm_data1[i].length = 1;
+                e_okm_data1[i].p_data = (PLAT_UI8 *)&p_desc->symmkey.key_info->lock_indicator;
 
-                eOkmData2[i].length = (pDesc->symmkey.key_info->info_length > 1) ? (pDesc->symmkey.key_info->info_length - 1) : 0;
-                eOkmData2[i].pData = (eOkmData2[i].length > 0) ? (PLAT_UI8 *)(&pDesc->symmkey.key_info->lock_indicator) + 1 : NULL;
+                e_okm_data2[i].length = (p_desc->symmkey.key_info->info_length > 1) ? (p_desc->symmkey.key_info->info_length - 1) : 0;
+                e_okm_data2[i].p_data = (e_okm_data2[i].length > 0) ? (PLAT_UI8 *)(&p_desc->symmkey.key_info->lock_indicator) + 1 : NULL;
             }
         }
 
         /* Push Elements */
         for (int i = 0; i < okm_count; i++) {
-            stse_frame_push_element(&CmdFrame, &eOkmDescLength[i]);
-            stse_frame_push_element(&CmdFrame, &eOkmDestination[i]);
-            stse_frame_push_element(&CmdFrame, &eOkmData1[i]);
-            if (eOkmData2[i].length > 0) {
-                stse_frame_push_element(&CmdFrame, &eOkmData2[i]);
+            stse_frame_push_element(&cmd_frame, &e_okm_desc_length[i]);
+            stse_frame_push_element(&cmd_frame, &e_okm_destination[i]);
+            stse_frame_push_element(&cmd_frame, &e_okm_data1[i]);
+            if (e_okm_data2[i].length > 0) {
+                stse_frame_push_element(&cmd_frame, &e_okm_data2[i]);
             }
         }
     }
 
     /* 4. Build Response Frame */
-    eRspHeader.length = STSAFEA_HEADER_SIZE;
-    eRspHeader.pData = &rsp_header;
-    stse_frame_push_element(&RspFrame, &eRspHeader);
+    e_rsp_header.length = STSAFEA_HEADER_SIZE;
+    e_rsp_header.p_data = &rsp_header;
+    stse_frame_push_element(&rsp_frame, &e_rsp_header);
 
     if (extract_flag && !expand_flag) {
-        eRspPrkSlot.length = 1;
-        eRspPrkSlot.pData = &pOutput->prk_slot;
-        stse_frame_push_element(&RspFrame, &eRspPrkSlot);
+        e_rsp_prk_slot.length = 1;
+        e_rsp_prk_slot.p_data = &p_output->prk_slot;
+        stse_frame_push_element(&rsp_frame, &e_rsp_prk_slot);
     }
 
     if (expand_flag) {
         for (int i = 0; i < okm_count; i++) {
-            if (pOkm_map[i].destination == STSAFEA_KEY_SOURCE_RESPONSE) {
-                pOutput->derived_keys[i].response.length = pOkm_map[i].response.key_length;
-                eRspOkmData[i].length = pOutput->derived_keys[i].response.length;
-                eRspOkmData[i].pData = pOutput->derived_keys[i].response.data;
+            if (p_okm_map[i].destination == STSAFEA_KEY_SOURCE_RESPONSE) {
+                p_output->derived_keys[i].response.length = p_okm_map[i].response.key_length;
+                e_rsp_okm_data[i].length = p_output->derived_keys[i].response.length;
+                e_rsp_okm_data[i].p_data = p_output->derived_keys[i].response.data;
             } else {
-                eRspOkmData[i].length = 1;
-                eRspOkmData[i].pData = &pOutput->derived_keys[i].symmkey.slot_number;
+                e_rsp_okm_data[i].length = 1;
+                e_rsp_okm_data[i].p_data = &p_output->derived_keys[i].symmkey.slot_number;
             }
-            stse_frame_push_element(&RspFrame, &eRspOkmData[i]);
+            stse_frame_push_element(&rsp_frame, &e_rsp_okm_data[i]);
         }
     }
 
     /* 5. Transfer */
-    ret = stsafea_frame_transfer(pSTSE, &CmdFrame, &RspFrame);
+    ret = stsafea_frame_transfer(p_stse, &cmd_frame, &rsp_frame);
 
     return ret;
 }

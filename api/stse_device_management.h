@@ -57,79 +57,79 @@ typedef PLAT_UI8 stse_low_power_mode_t;
  * \brief 		Initialize & setup communication bus
  * \details 	This function setup & initialize the communication bus
  * \param[in] 	io			Pointer to STSE Input/Output type
- * \param[in]   pArg		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in]   p_arg		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `p_arg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stse_init_bus(stse_io_t *io, void *pArg);
+stse_return_code_t stse_init_bus(stse_io_t *io, void *p_arg);
 
 /**
  * \brief 		Initialize platform
  * \details 	This function initialize platform layer (RNG, delay, power, crc16, crypto)
- * \param[in]   pArg		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in]   p_arg		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `p_arg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  * \details 	\include{doc} stse_init.dox
  */
-stse_ReturnCode_t stse_init_platform(void *pArg);
+stse_return_code_t stse_init_platform(void *p_arg);
 
 /**
  * \brief 		Start target device initialization
  * \details 	This function power on the STSE, setup the STSE device type (stse_device_t) & setup perso information (stse_perso_info_t)
- * \param[in] 	pSTSE 		Pointer to STSE Handler
- * \param[in]   pArg 		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 		Pointer to STSE Handler
+ * \param[in]   p_arg 		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `p_arg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  * \details 	\include{doc} stse_init.dox
  */
-stse_ReturnCode_t stse_init_device(stse_Handle_t *pSTSE, void *pArg);
+stse_return_code_t stse_init_device(stse_handle_t *p_stse, void *p_arg);
 
 /**
  * \brief 		Initialize target device
  * \details 	This function call the handler initialization function from core layer
  *          	to initialize STSE handler in argument
- * \param[in] 	pSTSE 		Pointer to STSE Handler
- * \param[in]   pArg 		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `pArg` parameter
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 		Pointer to STSE Handler
+ * \param[in]   p_arg 		Argument passed as-is to the `stse_platform_xxx_init()` functions through their `p_arg` parameter
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  * \details 	\include{doc} stse_init.dox
  */
-stse_ReturnCode_t stse_init(stse_Handle_t *pSTSE, void *pArg);
+stse_return_code_t stse_init(stse_handle_t *p_stse, void *p_arg);
 
 /**
  * \brief 		Power-on target device
  * \details 	This function power-on the target device
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 			Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stse_device_power_on(stse_Handle_t *pSTSE);
+stse_return_code_t stse_device_power_on(stse_handle_t *p_stse);
 
 /**
  * \brief 		Power-off target device
  * \details 	This function power-off the target device
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 			Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  * \details 	Please refer to stse_device_power_on()
  */
-stse_ReturnCode_t stse_device_power_off(stse_Handle_t *pSTSE);
+stse_return_code_t stse_device_power_off(stse_handle_t *p_stse);
 
 /**
  * \brief 		Lock target device
  * \details 	This function lock the target device using the password in argument
- * \param[in] 	pSTSE 			Pointer to STSE Handler
- * \param[in] 	pPassword 			Pointer to the password buffer
+ * \param[in] 	p_stse 			Pointer to STSE Handler
+ * \param[in] 	p_password 			Pointer to the password buffer
  * \param[in]	password_length 	Length of the password buffer in bytes
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  * \details 	\include{doc} stse_device_lock.dox
  */
-stse_ReturnCode_t stse_device_lock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
+stse_return_code_t stse_device_lock(stse_handle_t *p_stse, PLAT_UI8 *p_password, PLAT_UI8 password_length);
 
 /**
  * \brief 		Unlock target device
  * \details 	This function unlock the target device using the password in argument
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[in] 	pPassword 			Pointer to the password buffer
+ * \param[in] 	p_stse 				Pointer to STSE Handler
+ * \param[in] 	p_password 			Pointer to the password buffer
  * \param[in]	password_length 	Length of the password buffer in bytes
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  * \details 	\include{doc} stse_device_unlock.dox
  */
-stse_ReturnCode_t stse_device_unlock(stse_Handle_t *pSTSE, PLAT_UI8 *pPassword, PLAT_UI8 password_length);
+stse_return_code_t stse_device_unlock(stse_handle_t *p_stse, PLAT_UI8 *p_password, PLAT_UI8 password_length);
 
 /** \}*/
 

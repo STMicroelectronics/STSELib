@@ -1,7 +1,7 @@
 \b Description
 \n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 @startuml
-	skinparam sequenceMessageAlign center
+	skinparam sequence_message_align center
     Application -> STSELib: key\nkey_info\nkek_ecc_key_type
     activate STSELib
     rnote over STSELib, STSE
@@ -25,7 +25,7 @@
 \n\n
 
 \code{.c}
-	stsafe_ReturnCode_t stsafe_ret;
+	stsafe_return_code_t stsafe_ret;
 
 	/* - ECB 128 bits key and it corresponding info */
 	PLAT_UI8 key_value[STSAFEA_AES_128_KEY_SIZE] = {0x00,0x11,0x22,0x33,0x44,0x55,0x66,0x77,0x88,0x99,0xAA,0xBB,0xCC,0xDD,0xEE,0xFF};
@@ -40,7 +40,7 @@
 	key_info.length[1] = STSAFEA_KEY_INFORMATION_LENGTH_ECB;
 
 	stsafe_ret = stsafe_write_symmetric_key(
-			pSTSE,
+			p_stse,
 			key_value,
 			&key_info,
 			STSAFEA_ECC_KT_NIST_P_256);

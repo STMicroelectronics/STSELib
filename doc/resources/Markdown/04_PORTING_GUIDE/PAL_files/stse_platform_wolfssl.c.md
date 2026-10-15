@@ -1,10 +1,10 @@
-# wolfSSL/wolfCrypt Platform Implementation {#stse_platform_wolfssl}
+# wolf_ssl/wolf_crypt Platform Implementation {#stse_platform_wolfssl}
 
-The `stse_platform_crypto_wolfssl.c` file provides a complete cryptographic platform implementation for the STSecureElement library using wolfSSL/wolfCrypt as the cryptographic provider. This implementation serves as an alternative to the STM32 CMOX library for platforms using wolfSSL.
+The `stse_platform_crypto_wolfssl.c` file provides a complete cryptographic platform implementation for the STSecureElement library using wolf_ssl/wolf_crypt as the cryptographic provider. This implementation serves as an alternative to the STM32 CMOX library for platforms using wolf_ssl.
 
 ## Overview
 
-[wolfSSL](https://www.wolfssl.com/) is a lightweight, portable, C-language-based SSL/TLS library with an embedded cryptographic library (wolfCrypt). This platform implementation enables STSELib integration on any system where wolfSSL is available, including:
+[wolf_ssl](https://www.wolfssl.com/) is a lightweight, portable, C-language-based SSL/TLS library with an embedded cryptographic library (wolf_crypt). This platform implementation enables STSELib integration on any system where wolf_ssl is available, including:
 
 - Linux/POSIX systems
 - Embedded systems (ARM Cortex-M, RISC-V, etc.)
@@ -13,22 +13,22 @@ The `stse_platform_crypto_wolfssl.c` file provides a complete cryptographic plat
 
 ## Features Supported
 
-| Category | Functions | wolfSSL API Used |
+| Category | Functions | wolf_ssl API Used |
 |----------|-----------|------------------|
-| **Hash** | `stse_platform_hash_compute` | `wc_Sha256Hash`, `wc_Sha384Hash` |
-| **AES-ECB** | `stse_platform_aes_ecb_enc` | `wc_AesEncryptDirect` |
-| **AES-CBC** | `stse_platform_aes_cbc_enc`, `stse_platform_aes_cbc_dec` | `wc_AesCbcEncrypt`, `wc_AesCbcDecrypt` |
-| **AES-CMAC** | `stse_platform_aes_cmac_*` | Manual RFC 4493 implementation using `wc_AesCbcEncrypt` |
-| **HMAC/HKDF** | `stse_platform_hmac_sha256_*` | `wc_HmacSetKey`, `wc_HmacUpdate`, `wc_HmacFinal` |
+| **Hash** | `stse_platform_hash_compute` | `wc_sha256_hash`, `wc_sha384_hash` |
+| **AES-ECB** | `stse_platform_aes_ecb_enc` | `wc_aes_encrypt_direct` |
+| **AES-CBC** | `stse_platform_aes_cbc_enc`, `stse_platform_aes_cbc_dec` | `wc_aes_cbc_encrypt`, `wc_aes_cbc_decrypt` |
+| **AES-CMAC** | `stse_platform_aes_cmac_*` | Manual RFC 4493 implementation using `wc_aes_cbc_encrypt` |
+| **HMAC/HKDF** | `stse_platform_hmac_sha256_*` | `wc_hmac_set_key`, `wc_hmac_update`, `wc_hmac_final` |
 | **ECC Verify** | `stse_platform_ecc_verify` | `wc_ecc_verify_hash` |
 | **ECC KeyGen** | `stse_platform_ecc_generate_key_pair` | `wc_ecc_make_key_ex`, `wc_curve25519_make_key`, `wc_ed25519_make_key` |
 | **ECC Sign** | `stse_platform_ecc_sign` | `wc_ecc_sign_hash`, `wc_ed25519_sign_msg` |
 | **ECDH** | `stse_platform_ecc_ecdh` | `wc_ecc_shared_secret`, `wc_curve25519_shared_secret` |
-| **Key Wrap** | `stse_platform_nist_kw_encrypt` | `wc_AesKeyWrap` |
+| **Key Wrap** | `stse_platform_nist_kw_encrypt` | `wc_aes_key_wrap` |
 
 ## ECC Curve Support
 
-| STSE Key Type | wolfSSL Curve ID | Notes |
+| STSE Key Type | wolf_ssl Curve ID | Notes |
 |---------------|------------------|-------|
 | `STSE_ECC_KT_NIST_P_256` | `ECC_SECP256R1` | Default curve |
 | `STSE_ECC_KT_NIST_P_384` | `ECC_SECP384R1` | |
@@ -41,9 +41,9 @@ The `stse_platform_crypto_wolfssl.c` file provides a complete cryptographic plat
 
 ## Configuration
 
-### wolfSSL Build Requirements
+### wolf_ssl Build Requirements
 
-The wolfSSL library must be built with the following features enabled:
+The wolf_ssl library must be built with the following features enabled:
 
 ```bash
 ./configure --enable-ecc --enable-sha384 --enable-sha512 \
@@ -102,11 +102,11 @@ In your `stse_conf.h`, enable the required features:
 
 ### AES-CMAC Implementation
 
-The AES-CMAC implementation follows RFC 4493 using wolfSSL's AES-CBC primitive. Subkeys K1 and K2 are generated according to the specification, and the streaming init/append/finish API is supported for processing data in chunks.
+The AES-CMAC implementation follows RFC 4493 using wolf_ssl's AES-CBC primitive. Subkeys K1 and K2 are generated according to the specification, and the streaming init/append/finish API is supported for processing data in chunks.
 
 ### Signature Format Conversion
 
-STSE uses raw R||S signature format, while wolfSSL uses DER encoding. The implementation handles conversion using:
+STSE uses raw R||S signature format, while wolf_ssl uses DER encoding. The implementation handles conversion using:
 - `wc_ecc_rs_raw_to_sig()` - Convert R||S to DER for verification
 - `wc_ecc_sig_to_rs()` - Convert DER to R||S after signing
 
@@ -120,15 +120,15 @@ Public keys are expected in raw X||Y coordinate format (uncompressed, without th
 #include "stselib.h"
 #include "stse_conf.h"
 
-/* Include wolfSSL with user settings */
+/* Include wolf_ssl with user settings */
 #define WOLFSSL_USER_SETTINGS
 #include "user_settings.h"
 #include <wolfssl/wolfcrypt/settings.h>
 
 int main(void)
 {
-    stse_Handle_t stse_handler;
-    stse_ReturnCode_t ret;
+    stse_handle_t stse_handler;
+    stse_return_code_t ret;
 
     /* Initialize STSE (calls stse_platform_crypto_init internally) */
     ret = stse_init(&stse_handler, STSAFE_A120, 1, 0x20);
@@ -145,18 +145,18 @@ int main(void)
 
 ## File Location
 
-The reference implementation is available in [wolfssl-examples repository](https://github.com/wolfSSL/wolfssl-examples/tree/master/stsafe)
+The reference implementation is available in [wolfssl-examples repository](https://github.com/wolf_ssl/wolfssl-examples/tree/master/stsafe)
 
 Copy this file to your platform directory and include it in your build.
 
 ## License
 
-The wolfSSL platform implementation is provided under the wolfSSL license. wolfSSL is dual-licensed under GPLv2 and a commercial license. For commercial use, please contact wolfSSL Inc.
+The wolf_ssl platform implementation is provided under the wolf_ssl license. wolf_ssl is dual-licensed under GPLv2 and a commercial license. For commercial use, please contact wolf_ssl Inc.
 
 ## References
 
-- [wolfSSL Documentation](https://www.wolfssl.com/documentation/)
-- [wolfSSL GitHub](https://github.com/wolfSSL/wolfssl)
+- [wolf_ssl Documentation](https://www.wolfssl.com/documentation/)
+- [wolf_ssl GitHub](https://github.com/wolf_ssl/wolfssl)
 - [RFC 4493 - AES-CMAC](https://tools.ietf.org/html/rfc4493)
 - [RFC 5869 - HKDF](https://tools.ietf.org/html/rfc5869)
 - [NIST SP 800-38F - Key Wrap](https://csrc.nist.gov/publications/detail/sp/800-38f/final)

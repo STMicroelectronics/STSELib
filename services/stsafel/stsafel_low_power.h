@@ -34,18 +34,18 @@
 /**
  * \brief 		Send hibernate command to target device
  * \details 	This service format and send the hibernate command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 				Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_hibernate(stse_Handle_t *pSTSE);
+stse_return_code_t stsafel_hibernate(stse_handle_t *p_stse);
 
 /**
  * \brief 		Send wakeup command to target device
  * \details 	This service format and send the wakeup command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 				Pointer to STSE Handler
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_wakeup(stse_Handle_t *pSTSE);
+stse_return_code_t stsafel_wakeup(stse_handle_t *p_stse);
 
 /** \}*/
 

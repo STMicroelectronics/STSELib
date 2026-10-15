@@ -20,15 +20,15 @@
 #include "api/stse_data_storage.h"
 #include <string.h>
 
-stse_ReturnCode_t stse_data_storage_read_data_zone(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_read_data_zone(
+    stse_handle_t *p_stse,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
-    PLAT_UI8 *pBuffer,
+    PLAT_UI8 *p_buffer,
     PLAT_UI16 length,
     PLAT_UI16 chunk_size,
     stse_cmd_protection_t protection) {
-    stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+    stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
     PLAT_UI16 remaning_length = length;
     PLAT_UI16 chunk_length = 0;
     PLAT_UI16 chunk_offset = offset;
@@ -38,7 +38,7 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
     } read_option;
 
     /* - Check STSE handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -54,15 +54,15 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
         }
 
         /* - Transfer command/response */
-        switch (pSTSE->device_type) {
+        switch (p_stse->device_type) {
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
         case STSAFE_L010:
             ret = stsafel_read_data_zone(
-                pSTSE,
+                p_stse,
                 zone,
                 read_option.stsafel,
                 chunk_offset,
-                pBuffer + (chunk_offset)-offset,
+                p_buffer + (chunk_offset)-offset,
                 chunk_length,
                 protection);
             break;
@@ -72,11 +72,11 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
         case STSAFE_A110:
         case STSAFE_A120:
             ret = stsafea_read_data_zone(
-                pSTSE,
+                p_stse,
                 zone,
                 read_option.stsafea,
                 chunk_offset,
-                pBuffer + (chunk_offset)-offset,
+                p_buffer + (chunk_offset)-offset,
                 chunk_length,
                 protection);
             break;
@@ -100,38 +100,38 @@ stse_ReturnCode_t stse_data_storage_read_data_zone(
     return ret;
 }
 
-stse_ReturnCode_t stse_data_storage_update_data_zone(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_update_data_zone(
+    stse_handle_t *p_stse,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
-    const PLAT_UI8 *pBuffer,
+    const PLAT_UI8 *p_buffer,
     PLAT_UI16 length,
     stse_zone_update_atomicity_t atomicity,
     stse_cmd_protection_t protection) {
 
-    stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+    stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
     union {
         stsafea_update_option_t stsafea;
         stsafel_update_option_t stsafel;
     } update_option;
 
     /* - Check STSE handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
     /* - Set update option with all zero for both members of the union as they act similarly */
     memset(&update_option, 0, sizeof(update_option));
 
-    switch (pSTSE->device_type) {
+    switch (p_stse->device_type) {
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     case STSAFE_L010:
         ret = stsafel_update_data_zone(
-            pSTSE,
+            p_stse,
             zone,
             update_option.stsafel,
             offset,
-            pBuffer,
+            p_buffer,
             length,
             protection);
         break;
@@ -141,11 +141,11 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
     case STSAFE_A110:
     case STSAFE_A120:
         ret = stsafea_update_data_zone(
-            pSTSE,
+            p_stse,
             zone,
             update_option.stsafea,
             offset,
-            pBuffer,
+            p_buffer,
             length,
             protection);
         break;
@@ -158,39 +158,39 @@ stse_ReturnCode_t stse_data_storage_update_data_zone(
     return ret;
 }
 
-stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_decrement_counter_zone(
+    stse_handle_t *p_stse,
     PLAT_UI32 zone,
     PLAT_UI32 amount,
     PLAT_UI16 offset,
-    PLAT_UI8 *pBuffer,
+    PLAT_UI8 *p_buffer,
     PLAT_UI16 length,
     PLAT_UI32 *new_counter_value,
     stse_cmd_protection_t protection) {
-    stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+    stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
     union {
         stsafea_decrement_option_t stsafea;
         stsafel_decrement_option_t stsafel;
     } decrement_option;
 
     /* - Check STSE handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
     /* - Set decrement option with all zero for both members of the union as they act similarly */
     memset(&decrement_option, 0, sizeof(decrement_option));
 
-    switch (pSTSE->device_type) {
+    switch (p_stse->device_type) {
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
     case STSAFE_L010:
         ret = stsafel_decrement_counter_zone(
-            pSTSE,
+            p_stse,
             zone,
             decrement_option.stsafel,
             amount,
             offset,
-            pBuffer,
+            p_buffer,
             length,
             new_counter_value,
             protection);
@@ -201,12 +201,12 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
     case STSAFE_A110:
     case STSAFE_A120:
         ret = stsafea_decrement_counter_zone(
-            pSTSE,
+            p_stse,
             zone,
             decrement_option.stsafea,
             amount,
             offset,
-            pBuffer,
+            p_buffer,
             length,
             new_counter_value,
             protection);
@@ -220,16 +220,16 @@ stse_ReturnCode_t stse_data_storage_decrement_counter_zone(
     return ret;
 }
 
-stse_ReturnCode_t stse_data_storage_read_counter_zone(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_read_counter_zone(
+    stse_handle_t *p_stse,
     PLAT_UI32 zone,
     PLAT_UI16 offset,
-    PLAT_UI8 *pBuffer,
+    PLAT_UI8 *p_buffer,
     PLAT_UI16 length,
     PLAT_UI16 chunk_size,
-    PLAT_UI32 *pCounter_value,
+    PLAT_UI32 *p_counter_value,
     stse_cmd_protection_t protection) {
-    stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+    stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
     PLAT_UI16 remaning_length = length;
     PLAT_UI16 chunk_length = 0;
     PLAT_UI16 chunk_offset = offset;
@@ -239,7 +239,7 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
     } read_option;
 
     /* - Check STSAFE handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
@@ -254,17 +254,17 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
             chunk_length = remaning_length;
         }
 
-        switch (pSTSE->device_type) {
+        switch (p_stse->device_type) {
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
         case STSAFE_L010:
             ret = stsafel_read_counter_zone(
-                pSTSE,
+                p_stse,
                 zone,
                 read_option.stsafel,
                 chunk_offset,
-                pBuffer + (chunk_offset)-offset,
+                p_buffer + (chunk_offset)-offset,
                 chunk_length,
-                pCounter_value,
+                p_counter_value,
                 protection);
             break;
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
@@ -273,13 +273,13 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
         case STSAFE_A110:
         case STSAFE_A120:
             ret = stsafea_read_counter_zone(
-                pSTSE,
+                p_stse,
                 zone,
                 read_option.stsafea,
                 chunk_offset,
-                pBuffer + (chunk_offset)-offset,
+                p_buffer + (chunk_offset)-offset,
                 chunk_length,
-                pCounter_value,
+                p_counter_value,
                 protection);
             break;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
@@ -295,14 +295,14 @@ stse_ReturnCode_t stse_data_storage_read_counter_zone(
     return ret;
 }
 
-stse_ReturnCode_t stse_data_storage_change_read_access_condition(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_change_read_access_condition(
+    stse_handle_t *p_stse,
     PLAT_UI32 zone,
     stse_zone_ac_t ac,
     stse_ac_change_right_t ac_change_right,
     stse_cmd_protection_t protection) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
-    volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+    volatile stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
 
     stsafea_read_option_t options;
 
@@ -313,7 +313,7 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 
     /*- Read Zone (single access) */
     ret = stsafea_read_data_zone(
-        pSTSE,
+        p_stse,
         zone,
         options,
         0x00,
@@ -328,17 +328,17 @@ stse_ReturnCode_t stse_data_storage_change_read_access_condition(
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
-stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_change_update_access_condition(stse_handle_t *p_stse,
                                                                    PLAT_UI32 zone,
                                                                    stse_zone_ac_t ac,
                                                                    stse_ac_change_right_t ac_change_right,
                                                                    PLAT_UI16 offset,
-                                                                   PLAT_UI8 *pBuffer,
+                                                                   PLAT_UI8 *p_buffer,
                                                                    PLAT_UI16 length,
                                                                    stse_zone_update_atomicity_t atomicity,
                                                                    stse_cmd_protection_t protection) {
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
-    volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+    volatile stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
     stsafea_update_option_t options;
 
     /*- Prepare update options */
@@ -350,11 +350,11 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handle_t
 
     /*- Update zone */
     ret = stsafea_update_data_zone(
-        pSTSE,
+        p_stse,
         zone,
         options,
         offset,
-        pBuffer,
+        p_buffer,
         length,
         protection);
 
@@ -365,13 +365,13 @@ stse_ReturnCode_t stse_data_storage_change_update_access_condition(stse_Handle_t
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
 }
 
-stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handle_t *pSTSE,
+stse_return_code_t stse_data_storage_change_decrement_access_condition(stse_handle_t *p_stse,
                                                                       PLAT_UI32 zone,
                                                                       stse_zone_ac_t ac,
                                                                       stse_ac_change_right_t ac_change_right,
                                                                       PLAT_UI32 amount,
                                                                       PLAT_UI16 offset,
-                                                                      PLAT_UI8 *pBuffer,
+                                                                      PLAT_UI8 *p_buffer,
                                                                       PLAT_UI16 length,
                                                                       PLAT_UI32 *new_counter_value,
                                                                       stse_cmd_protection_t protection) {
@@ -384,16 +384,16 @@ stse_ReturnCode_t stse_data_storage_change_decrement_access_condition(stse_Handl
     options.new_decrement_ac_change_right = ac_change_right;
 
     /* - Check STSE handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    return stsafea_decrement_counter_zone(pSTSE,
+    return stsafea_decrement_counter_zone(p_stse,
                                           zone,
                                           options,
                                           amount,
                                           offset,
-                                          pBuffer,
+                                          p_buffer,
                                           length,
                                           new_counter_value,
                                           protection);

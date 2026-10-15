@@ -22,7 +22,7 @@ Following diagram illustrates the interactions performed between the Host and th
             Initialise cryptographic library dependencies
         end note
 
-        group Cache SE Personalization information (if pPerso_info == NULL )
+        group Cache SE Personalization information (if p_perso_info == NULL )
             HOST -> STSE : Query "Command Authorization Config"
             activate STSE $STSE_ACTIVITY
             return Command Authorization Config
@@ -41,8 +41,8 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t stse_ret = STSE_API_INVALID_PARAMETER;
-	stse_Handle_t stse_handler;
+	stse_return_code_t stse_ret = STSE_API_INVALID_PARAMETER;
+	stse_handle_t stse_handler;
 
     /* - Initialize STSE device handler */
     stse_ret = stse_set_default_handler_value(&stse_handler);

@@ -24,15 +24,15 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
     stse_ecc_key_type_t key_type = STSE_ECC_KT_NIST_P_256;
-	PLAT_UI8 pPrivate_key[stse_ecc_info_table[key_type].private_key_size];
-	PLAT_UI8 pPublic_key[stse_ecc_info_table[key_type].public_key_size];
+	PLAT_UI8 p_private_key[stse_ecc_info_table[key_type].private_key_size];
+	PLAT_UI8 p_public_key[stse_ecc_info_table[key_type].public_key_size];
 
 	ret = stse_platform_ecc_generate_key_pair(
 			key_type,
-			pPrivate_key,
-			pPublic_key);
+			p_private_key,
+			p_public_key);
 
 	if(ret != STSE_OK )
 	{
@@ -40,10 +40,10 @@ Following diagram illustrates the interactions performed between the Host and th
 	}
 
 	ret = stse_write_generic_ecc_public_key(
-			pSTSE,
+			p_stse,
 			0,
 			key_type,
-			pPublic_key);
+			p_public_key);
 
 	if(ret != STSE_OK )
 	{

@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased](https://github.com/STMicroelectronics/STSELib/compare/v1.1.7...HEAD) - v1.2.0
 
 ### Breaking Changes
+- **C identifier naming migration** — C/H identifiers now use lowercase snake_case, including exported functions, typedefs, structure tags/members, and PAL callback members. Downstream applications and PAL implementations must update names to match the revised headers; no compatibility aliases are provided. Renamed exported functions change linker symbols and are binary-incompatible. Examples: `stse_Handle_t` to `stse_handle_t`, `stse_ReturnCode_t` to `stse_return_code_t`, `stse_platform_Crc16_Calculate` to `stse_platform_crc16_calculate`, `stse_platform_Crc16_Accumulate` to `stse_platform_crc16_accumulate`, and `stse_platform_Delay_ms` to `stse_platform_delay_ms`.
 
 - **Renamed** `stse_Handler_t` to `stse_Handle_t` — all references to the handle type must be updated in application code ([31fb0fa](https://github.com/STMicroelectronics/STSELib/commit/31fb0fa9865828d82479e8c40fa3499c68b33fe9))
 - **API renamed** — all STSE host keys management functions must be updated in application code

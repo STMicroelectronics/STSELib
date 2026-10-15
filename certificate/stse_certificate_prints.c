@@ -21,8 +21,8 @@
 #include <inttypes.h>
 #include <string.h>
 
-/** @brief print the extensionsFlags field of a certificate */
-static void printExtensions(PLAT_UI32 extensionsFlags);
+/** @brief print the extensions_flags field of a certificate */
+static void print_extensions(PLAT_UI32 extensions_flags);
 
 void stse_certificate_print_tag(PLAT_I32 tag) {
     switch (tag) {
@@ -238,52 +238,52 @@ void stse_certificate_print_parsed_cert(stse_certificate_t *stse_certificate) {
     //stse_platform_printf("Fields: %08X\n", stse_certificate->fields);
     //stse_platform_printfields(stse_certificate->fields);
 
-    stse_platform_printf("\n\r\t x509 Version: %" PRIi32, stse_certificate->x509Version + 1);
-    if (stse_certificate->serialNumber != NULL && stse_certificate->serialNumberSize > 0)
-        print_buffer("\n\r\tSerialNumber: ", stse_certificate->serialNumber, stse_certificate->serialNumberSize);
-    if (stse_certificate->issuer != NULL && stse_certificate->issuerSize > 0) {
+    stse_platform_printf("\n\r\t x509 Version: %" PRIi32, stse_certificate->x509_version + 1);
+    if (stse_certificate->serial_number != NULL && stse_certificate->serial_number_size > 0)
+        print_buffer("\n\r\t_serial_number: ", stse_certificate->serial_number, stse_certificate->serial_number_size);
+    if (stse_certificate->issuer != NULL && stse_certificate->issuer_size > 0) {
         stse_platform_printf("\n\r\t Issuer:");
-        stse_certificate_print_name(stse_certificate->issuer, stse_certificate->issuerSize);
+        stse_certificate_print_name(stse_certificate->issuer, stse_certificate->issuer_size);
     }
-    if (stse_certificate->subject != NULL && stse_certificate->subjectSize > 0) {
+    if (stse_certificate->subject != NULL && stse_certificate->subject_size > 0) {
         stse_platform_printf("\n\r\t Subject:");
-        stse_certificate_print_name(stse_certificate->subject, stse_certificate->subjectSize);
+        stse_certificate_print_name(stse_certificate->subject, stse_certificate->subject_size);
     }
     stse_certificate_print_validity(stse_certificate->validity);
     stse_platform_printf("\n\r\t SignatureAlgorithm: ");
-    stse_certificate_print_signature_algorithm(stse_certificate->SignatureAlgorithm);
-    stse_platform_printf("\n\r\t tbsSignature: ");
+    stse_certificate_print_signature_algorithm(stse_certificate->signature_algorithm);
+    stse_platform_printf("\n\r\t tbs_signature: ");
     stse_certificate_print_signature_algorithm(stse_certificate->signature);
     stse_platform_printf("\n\r\t EllipticCurve: ");
-    stse_certificate_print_elliptic_curve(stse_certificate->EllipticCurve);
-    stse_platform_printf("\n\r\t Cert PubKey (%s): ", *stse_certificate->pPubKey_point_representation_id == 0x04 ? "Uncompressed" : "Compressed");
-    print_buffer("\n\r\t\t X: ", stse_certificate->PubKey.pX, stse_certificate->PubKey.fsize);
-    if (*stse_certificate->pPubKey_point_representation_id == 0x04) {
-        print_buffer("\n\r\t\t Y: ", stse_certificate->PubKey.pY, stse_certificate->PubKey.fsize);
+    stse_certificate_print_elliptic_curve(stse_certificate->elliptic_curve);
+    stse_platform_printf("\n\r\t Cert PubKey (%s): ", *stse_certificate->p_pub_key_point_representation_id == 0x04 ? "Uncompressed" : "Compressed");
+    print_buffer("\n\r\t\t X: ", stse_certificate->pub_key.p_x, stse_certificate->pub_key.fsize);
+    if (*stse_certificate->p_pub_key_point_representation_id == 0x04) {
+        print_buffer("\n\r\t\t Y: ", stse_certificate->pub_key.p_y, stse_certificate->pub_key.fsize);
     }
     stse_platform_printf("\n\r\t Cert Signature: ");
-    print_buffer("\n\r\t\t r: ", stse_certificate->Sign.pR, stse_certificate->Sign.rSize);
-    print_buffer("\n\r\t\t s :", stse_certificate->Sign.pS, stse_certificate->Sign.sSize);
-    printExtensions(stse_certificate->extensionsFlags);
+    print_buffer("\n\r\t\t r: ", stse_certificate->sign.p_r, stse_certificate->sign.r_size);
+    print_buffer("\n\r\t\t s :", stse_certificate->sign.p_s, stse_certificate->sign.s_size);
+    print_extensions(stse_certificate->extensions_flags);
 }
 
 void stse_certificate_simple_parse_attribute(const PLAT_UI8 *p, stse_cert_attribute_t *attribute_st, const PLAT_UI8 **next_thing) {
     PLAT_I32 total_size, size, parsed, tag;
     const PLAT_UI8 *next = p;
-    tag = stse_certificate_identify_ASN1_TLV(next, &parsed, &total_size, &next);
+    tag = stse_certificate_identify_asn1_tlv(next, &parsed, &total_size, &next);
     total_size += parsed;
     if (tag == TAG_SET) {
-        tag = stse_certificate_identify_ASN1_TLV(next, &parsed, &size, &next);
+        tag = stse_certificate_identify_asn1_tlv(next, &parsed, &size, &next);
         if (tag == TAG_SEQUENCE) {
-            tag = stse_certificate_identify_ASN1_TLV(next, &parsed, &size, &next);
+            tag = stse_certificate_identify_asn1_tlv(next, &parsed, &size, &next);
             if (tag == TAG_OBJECT_IDENTIFIER) {
                 attribute_st->type = stse_certificate_identify_attribute(next, size);
                 if (attribute_st->type != -1) {
                     next += size;
-                    tag = stse_certificate_identify_ASN1_TLV(next, &parsed, &size, &next);
-                    attribute_st->strFormat = tag;
+                    tag = stse_certificate_identify_asn1_tlv(next, &parsed, &size, &next);
+                    attribute_st->str_format = tag;
                     attribute_st->str = next;
-                    attribute_st->strSize = size;
+                    attribute_st->str_size = size;
                 }
             }
         }
@@ -291,95 +291,95 @@ void stse_certificate_simple_parse_attribute(const PLAT_UI8 *p, stse_cert_attrib
     *next_thing = p + total_size;
 }
 
-void stse_certificate_print_name(const PLAT_UI8 *name, PLAT_I32 nameSize) {
+void stse_certificate_print_name(const PLAT_UI8 *name, PLAT_I32 name_size) {
     PLAT_I32 wholesize, tag, parsed;
     const PLAT_UI8 *next;
     stse_cert_attribute_t attribute_st;
-    tag = stse_certificate_identify_ASN1_TLV(name, &parsed, &wholesize, &next);
+    tag = stse_certificate_identify_asn1_tlv(name, &parsed, &wholesize, &next);
     if (tag == TAG_SEQUENCE) {
         /* Here we are inside the name, now loop */
-        while (next < name + nameSize) {
+        while (next < name + name_size) {
             attribute_st.type = -1;
             stse_certificate_simple_parse_attribute(next, &attribute_st, &next);
             stse_platform_printf("\n\r\t\t ");
             stse_certificate_print_attribute(attribute_st.type);
             stse_platform_printf(": ");
             if (attribute_st.type != -1 &&
-                (attribute_st.strFormat == TAG_PrintableString ||
-                 attribute_st.strFormat == TAG_UTF8String)) {
+                (attribute_st.str_format == TAG_PrintableString ||
+                 attribute_st.str_format == TAG_UTF8String)) {
                 PLAT_I32 i;
-                for (i = 0; i < attribute_st.strSize; i++) {
+                for (i = 0; i < attribute_st.str_size; i++) {
                     stse_platform_printf("%c", attribute_st.str[i]);
                 }
-            } else if (attribute_st.type != -1 && attribute_st.strFormat == TAG_BITSTRING) {
-                stse_certificate_print_bit_string(attribute_st.str, attribute_st.strSize);
+            } else if (attribute_st.type != -1 && attribute_st.str_format == TAG_BITSTRING) {
+                stse_certificate_print_bit_string(attribute_st.str, attribute_st.str_size);
             }
         }
     }
 }
 
 void stse_certificate_print_validity(const PLAT_UI8 *validity) {
-    stse_cert_validity_t notBefore_st, notAfter_st;
+    stse_cert_validity_t not_before_st, not_after_st;
     const PLAT_UI8 *next;
-    stse_certificate_parse_validity(validity, &notBefore_st, &notAfter_st, &next);
+    stse_certificate_parse_validity(validity, &not_before_st, &not_after_st, &next);
     stse_platform_printf("\n\r\t Validity:");
-    stse_platform_printf("\n\r\t\t Not Before: %04" PRIu32 "-%02d-%02d %02d:%02d:%02d", notBefore_st.year, notBefore_st.month, notBefore_st.days, notBefore_st.hours, notBefore_st.minutes, notBefore_st.seconds);
-    stse_platform_printf("\n\r\t\t Not After:  %04" PRIu32 "-%02d-%02d %02d:%02d:%02d", notAfter_st.year, notAfter_st.month, notAfter_st.days, notAfter_st.hours, notAfter_st.minutes, notAfter_st.seconds);
+    stse_platform_printf("\n\r\t\t Not Before: %04" PRIu32 "-%02d-%02d %02d:%02d:%02d", not_before_st.year, not_before_st.month, not_before_st.days, not_before_st.hours, not_before_st.minutes, not_before_st.seconds);
+    stse_platform_printf("\n\r\t\t Not After:  %04" PRIu32 "-%02d-%02d %02d:%02d:%02d", not_after_st.year, not_after_st.month, not_after_st.days, not_after_st.hours, not_after_st.minutes, not_after_st.seconds);
 }
 
-static void printExtensions(PLAT_UI32 extensionsFlags) {
+static void print_extensions(PLAT_UI32 extensions_flags) {
     stse_platform_printf("\n\r\t List of Extensions:");
-    if ((extensionsFlags & 1) == 1) {
+    if ((extensions_flags & 1) == 1) {
         stse_platform_printf("\n\r\t\t BasicConstraints: ");
-        if (((extensionsFlags >> 1) & 1) == 1) {
+        if (((extensions_flags >> 1) & 1) == 1) {
             stse_platform_printf("Critical. ");
         }
-        if (((extensionsFlags >> 2) & 1) == 1) {
+        if (((extensions_flags >> 2) & 1) == 1) {
             stse_platform_printf("CA certificate. ");
         } else {
             stse_platform_printf("Not a CA certificate. ");
         }
-        if (((extensionsFlags >> 3) & 1) == 1) {
-            stse_platform_printf("PathSize: %" PRIu32, (extensionsFlags >> 4) & 15);
+        if (((extensions_flags >> 3) & 1) == 1) {
+            stse_platform_printf("PathSize: %" PRIu32, (extensions_flags >> 4) & 15);
         }
     }
-    if (((extensionsFlags >> 8) & 1) == 1) {
+    if (((extensions_flags >> 8) & 1) == 1) {
         stse_platform_printf("\n\r\t\t KeyUsage: ");
-        if (((extensionsFlags >> 9) & 1) == 1) {
+        if (((extensions_flags >> 9) & 1) == 1) {
             stse_platform_printf("Critical. ");
         }
-        if (((extensionsFlags >> (16 + 0)) & 1) == 1) {
-            stse_platform_printf("digitalSignature ");
+        if (((extensions_flags >> (16 + 0)) & 1) == 1) {
+            stse_platform_printf("digital_signature ");
         }
-        if (((extensionsFlags >> (16 + 1)) & 1) == 1) {
-            stse_platform_printf("contentCommitment ");
+        if (((extensions_flags >> (16 + 1)) & 1) == 1) {
+            stse_platform_printf("content_commitment ");
         }
-        if (((extensionsFlags >> (16 + 2)) & 1) == 1) {
-            stse_platform_printf("keyEncipherment ");
+        if (((extensions_flags >> (16 + 2)) & 1) == 1) {
+            stse_platform_printf("key_encipherment ");
         }
-        if (((extensionsFlags >> (16 + 3)) & 1) == 1) {
-            stse_platform_printf("dataEncipherment ");
+        if (((extensions_flags >> (16 + 3)) & 1) == 1) {
+            stse_platform_printf("data_encipherment ");
         }
-        if (((extensionsFlags >> (16 + 4)) & 1) == 1) {
-            stse_platform_printf("keyAgreement ");
+        if (((extensions_flags >> (16 + 4)) & 1) == 1) {
+            stse_platform_printf("key_agreement ");
         }
-        if (((extensionsFlags >> (16 + 5)) & 1) == 1) {
-            stse_platform_printf("keyCertSign ");
+        if (((extensions_flags >> (16 + 5)) & 1) == 1) {
+            stse_platform_printf("key_cert_sign ");
         }
-        if (((extensionsFlags >> (16 + 6)) & 1) == 1) {
-            stse_platform_printf("cRLSign ");
+        if (((extensions_flags >> (16 + 6)) & 1) == 1) {
+            stse_platform_printf("c_rl_sign ");
         }
-        if (((extensionsFlags >> (16 + 7)) & 1) == 1) {
-            stse_platform_printf("encipherOnly ");
+        if (((extensions_flags >> (16 + 7)) & 1) == 1) {
+            stse_platform_printf("encipher_only ");
         }
-        if (((extensionsFlags >> (15)) & 1) == 1) {
-            stse_platform_printf("decipherOnly ");
+        if (((extensions_flags >> (15)) & 1) == 1) {
+            stse_platform_printf("decipher_only ");
         }
     }
 
-    if (((extensionsFlags >> 24) & 1) == 1) {
+    if (((extensions_flags >> 24) & 1) == 1) {
         stse_platform_printf("\n\r\t\t ExtendedKeyUsage: ");
-        if (((extensionsFlags >> 25) & 1) == 1) {
+        if (((extensions_flags >> 25) & 1) == 1) {
             stse_platform_printf("Critical. ");
         }
     }

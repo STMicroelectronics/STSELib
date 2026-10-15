@@ -34,26 +34,26 @@ void stse_certificate_print_attribute(PLAT_I32 type);
 
 /**
  * \brief  		Print the Signature Algorithm
- * \param[in] 	type internal type of SignatureAlgorithm
+ * \param[in] 	type internal type of signature_algorithm
  */
 void stse_certificate_print_signature_algorithm(PLAT_I32 type);
 
 /**
  * \brief  Print the TAG
- * \param[in]	tag tag of ASN.1 TLV  (got from \ref stse_certificate_identify_ASN1_TLV )
+ * \param[in]	tag tag of ASN.1 TLV  (got from \ref stse_certificate_identify_asn1_tlv )
  */
 void stse_certificate_print_tag(PLAT_I32 tag);
 
 /**
  * \brief  		Print the Elliptic Curve Name
- * \param[in]  	type internal type of EllipticCurve
+ * \param[in]  	type internal type of elliptic_curve
  */
 void stse_certificate_print_elliptic_curve(PLAT_I32 type);
 
 /**
  * \brief  Print an INTEGER
- * \param[in]  *value pointer to the value of a INTEGER (got from \ref stse_certificate_identify_ASN1_TLV )
- * \param[in]  size size (in bytes) of the value field of this INTEGER (got from \ref stse_certificate_identify_ASN1_TLV )
+ * \param[in]  *value pointer to the value of a INTEGER (got from \ref stse_certificate_identify_asn1_tlv )
+ * \param[in]  size size (in bytes) of the value field of this INTEGER (got from \ref stse_certificate_identify_asn1_tlv )
  * \retval    0 Success
  * \retval    -1 Failure. The INTEGER is negative, and \
  *                        this implementation doesn't support it
@@ -62,8 +62,8 @@ PLAT_I32 stse_certificate_print_integer(const PLAT_UI8 *value, PLAT_I32 size);
 
 /**
  * \brief  Print a BITSTRING
- * \param[in]  *value pointer to the value of a BITSTRING (got from \ref stse_certificate_identify_ASN1_TLV )
- * \param[in]  size size (in bytes) of the value field of this BITSTRING (got from \ref stse_certificate_identify_ASN1_TLV )
+ * \param[in]  *value pointer to the value of a BITSTRING (got from \ref stse_certificate_identify_asn1_tlv )
+ * \param[in]  size size (in bytes) of the value field of this BITSTRING (got from \ref stse_certificate_identify_asn1_tlv )
  * \retval    0 Success
  * \retval    -1 Failure. The bitstring excludes some of the LSBits of the LSB, which \
  *                        this implementation doesn't support

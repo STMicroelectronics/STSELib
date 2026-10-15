@@ -1,7 +1,7 @@
 \b Description
 \n Following diagram illustrates the interactions performed between the Host and the target STSE device during the API execution
 @startuml
-	skinparam sequenceMessageAlign center
+	skinparam sequence_message_align center
     Application -> STSELib: host_key_type\nhost_keys
     activate STSELib
 alt Device == STSAFE-A120

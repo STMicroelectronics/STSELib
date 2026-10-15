@@ -66,58 +66,58 @@ typedef struct /*!< Device traceability info */
 /**
  * \brief 		Get target device unique identifier
  * \details 	This service format and send the get UID command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
- * \param[out]	pDevice_UID			Device unique identifier
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 				Pointer to STSE Handler
+ * \param[out]	p_device_uid			Device unique identifier
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_get_device_UID(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pDevice_UID);
+stse_return_code_t stsafel_get_device_uid(
+    stse_handle_t *p_stse,
+    PLAT_UI8 *p_device_uid);
 
 /**
  * \brief 		Get target device traceability info
  * \details 	This service format and send the get traceability info command
- * \param[in] 	pSTSE 					Pointer to STSE Handler
- * \param[out]	pDevice_traceability	Device traceability info
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 					Pointer to STSE Handler
+ * \param[out]	p_device_traceability	Device traceability info
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_get_device_traceability(
-    stse_Handle_t *pSTSE,
-    stsafel_device_traceability_t *pDevice_traceability);
+stse_return_code_t stsafel_get_device_traceability(
+    stse_handle_t *p_stse,
+    stsafel_device_traceability_t *p_device_traceability);
 
 /**
  * \brief 		Get target device info
  * \details 	This service format and send the get device info command
- * \param[in] 	pSTSE                       Pointer to STSE Handler
+ * \param[in] 	p_stse                       Pointer to STSE Handler
  * \param[in]	tag                         Tag of the data to get
  * \param[in]	additional_data_length      Additional data length
- * \param[in]	pAdditional_data            Additional data relative to requested info
+ * \param[in]	p_additional_data            Additional data relative to requested info
  * \param[in]	device_info_expected_length	Expected device info length
- * \param[out]	pDevice_info			    Device info output buffer
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[out]	p_device_info			    Device info output buffer
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_get_data(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafel_get_data(
+    stse_handle_t *p_stse,
     stsafel_device_info_tag_t tag,
     PLAT_UI16 additional_data_length,
-    PLAT_UI8 *pAdditional_data,
+    PLAT_UI8 *p_additional_data,
     PLAT_UI16 device_info_expected_length,
-    PLAT_UI8 *pDevice_info);
+    PLAT_UI8 *p_device_info);
 
 /**
  * \brief 		Put target device info
  * \details 	This service format and send the put device info command
- * \param[in] 	pSTSE                       Pointer to STSE Handler
+ * \param[in] 	p_stse                       Pointer to STSE Handler
  * \param[in]	tag                         Tag of the data to put
  * \param[in]	device_info_length	        Device info length
- * \param[in]	pDevice_info			    Device info buffer
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in]	p_device_info			    Device info buffer
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_put_data(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafel_put_data(
+    stse_handle_t *p_stse,
     stsafel_device_info_tag_t tag,
     PLAT_UI16 device_info_length,
-    PLAT_UI8 *pDevice_info);
+    PLAT_UI8 *p_device_info);
 
 /** \}*/
 

@@ -35,10 +35,10 @@
 /**
  * \brief 		Reset STSAFE-A device
  * \details 	This service format and send the reset command
- * \param[in] 	pSTSAFE 	Pointer to STSE Handler
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stsafe 	Pointer to STSE Handler
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_reset(stse_Handle_t *pSTSAFE);
+stse_return_code_t stsafea_reset(stse_handle_t *p_stsafe);
 
 /** \}*/
 

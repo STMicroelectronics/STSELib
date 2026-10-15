@@ -34,19 +34,19 @@
 
 /* Exported functions --------------------------------------------------------*/
 
-stse_ReturnCode_t stse_get_device_id(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI8 *pDevice_id) {
-    volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+stse_return_code_t stse_get_device_id(stse_handle_t *p_stse, PLAT_UI8 certificate_zone, PLAT_UI8 *p_device_id) {
+    volatile stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
 
     /* - Check stsafe handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
     ret = stse_data_storage_read_data_zone(
-        pSTSE,                             /* STSE handler */
+        p_stse,                             /* STSE handler */
         certificate_zone,                  /* Certificate zone */
         STSE_CERTIFICATE_DEVICE_ID_OFFSET, /* X bytes offset */
-        pDevice_id,                        /* Returned certificate size */
+        p_device_id,                        /* Returned certificate size */
         STSE_CERTIFICATE_DEVICE_ID_SIZE,   /* Certificate size length */
         0,                                 /* No maximum chunk size (No chunk at all) */
         STSE_NO_PROT);                     /* No protection */
@@ -54,21 +54,21 @@ stse_ReturnCode_t stse_get_device_id(stse_Handle_t *pSTSE, PLAT_UI8 certificate_
     return ret;
 }
 
-stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 *pCertificate_size) {
-    volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+stse_return_code_t stse_get_device_certificate_size(stse_handle_t *p_stse, PLAT_UI8 certificate_zone, PLAT_UI16 *p_certificate_size) {
+    volatile stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
     PLAT_UI8 tlv_header[4];
 
     /* - Check stsafe handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (pCertificate_size == NULL) {
+    if (p_certificate_size == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
     ret = stse_data_storage_read_data_zone(
-        pSTSE,              /* STSE handler */
+        p_stse,              /* STSE handler */
         certificate_zone,   /* Certificate zone */
         0,                  /* No offset */
         tlv_header,         /* Returned TLV header (tag + length bytes) */
@@ -101,24 +101,24 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI
     PLAT_UI16 min_size;
     switch (len_of_len) {
     case 0:
-        *pCertificate_size = tlv_header[1];
+        *p_certificate_size = tlv_header[1];
         min_size = 1; // 1 byte
         break;
     case 1:
-        *pCertificate_size = tlv_header[2];
+        *p_certificate_size = tlv_header[2];
         min_size = 0x80; // 128 bytes
         break;
     case 2:
-        *pCertificate_size = (tlv_header[2] << 8) | tlv_header[3];
+        *p_certificate_size = (tlv_header[2] << 8) | tlv_header[3];
         min_size = 0x100; // 256 bytes
         break;
     default:
         /* Unsupported X.509 DER certificate: a length field longer than 2 bytes means a
-             * certificate larger than 65535 bytes, beyond what *pCertificate_size can represent */
+             * certificate larger than 65535 bytes, beyond what *p_certificate_size can represent */
         return STSE_CERT_INVALID_CERTIFICATE;
     }
 
-    if (*pCertificate_size < min_size) {
+    if (*p_certificate_size < min_size) {
         /* Invalid X.509 DER certificate: the length is zero or not minimally encoded */
         return STSE_CERT_INVALID_CERTIFICATE;
     }
@@ -126,32 +126,32 @@ stse_ReturnCode_t stse_get_device_certificate_size(stse_Handle_t *pSTSE, PLAT_UI
     /* Size of the Tag+Length field: tag byte + first length byte + extra length bytes.
      * The parsed length covers the Value only, so add this to get the whole size */
     PLAT_UI8 tl_len = 2 + len_of_len;
-    if (*pCertificate_size > UINT16_MAX - tl_len) {
+    if (*p_certificate_size > UINT16_MAX - tl_len) {
         /* Invalid X.509 DER certificate: the total size overflows 16 bits */
         return STSE_CERT_INVALID_CERTIFICATE;
     }
-    *pCertificate_size += tl_len;
+    *p_certificate_size += tl_len;
 
     return STSE_OK;
 }
 
-stse_ReturnCode_t stse_get_device_certificate(stse_Handle_t *pSTSE, PLAT_UI8 certificate_zone, PLAT_UI16 certificate_size, PLAT_UI8 *pCertificate) {
-    volatile stse_ReturnCode_t ret = STSE_API_INVALID_PARAMETER;
+stse_return_code_t stse_get_device_certificate(stse_handle_t *p_stse, PLAT_UI8 certificate_zone, PLAT_UI16 certificate_size, PLAT_UI8 *p_certificate) {
+    volatile stse_return_code_t ret = STSE_API_INVALID_PARAMETER;
 
     /* - Check stsafe handler initialization */
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (pCertificate == NULL) {
+    if (p_certificate == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
     ret = stse_data_storage_read_data_zone(
-        pSTSE,                         /* STSE handler */
+        p_stse,                         /* STSE handler */
         certificate_zone,              /* Certificate zone */
         STSE_CERTIFICATE_OFFSET_BYTES, /* 0 bytes offset */
-        pCertificate,                  /* Returned certificate size */
+        p_certificate,                  /* Returned certificate size */
         certificate_size,              /* Certificate size length */
         253,                           /* Above, it throw a STSE_CORE_FRAME_CRC_ERROR */
         STSE_NO_PROT);                 /* No protection */
@@ -163,24 +163,24 @@ stse_ReturnCode_t stse_get_device_certificate(stse_Handle_t *pSTSE, PLAT_UI8 cer
     return (STSE_OK);
 }
 
-stse_ReturnCode_t stse_device_authenticate(
-    stse_Handle_t *pSTSE,
-    const PLAT_UI8 *pRoot_CA_certificate,
+stse_return_code_t stse_device_authenticate(
+    stse_handle_t *p_stse,
+    const PLAT_UI8 *p_root_ca_certificate,
     PLAT_UI8 certificate_zone,
     PLAT_UI8 priv_key_slot_number) {
-    stse_ReturnCode_t ret;
+    stse_return_code_t ret;
     stse_certificate_t leaf_certificate;
     PLAT_UI16 certificate_size;
 
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_API_HANDLER_NOT_INITIALISED);
     }
 
-    if (pRoot_CA_certificate == NULL) {
+    if (p_root_ca_certificate == NULL) {
         return (STSE_API_INVALID_PARAMETER);
     }
 
-    ret = stse_get_device_certificate_size(pSTSE, certificate_zone, &certificate_size);
+    ret = stse_get_device_certificate_size(p_stse, certificate_zone, &certificate_size);
 
     if (ret != STSE_OK) {
         return ret;
@@ -188,14 +188,14 @@ stse_ReturnCode_t stse_device_authenticate(
 
     PLAT_UI8 certificate[certificate_size];
 
-    ret = stse_get_device_certificate(pSTSE, certificate_zone, certificate_size, certificate);
+    ret = stse_get_device_certificate(p_stse, certificate_zone, certificate_size, certificate);
     if (ret != STSE_OK) {
         return ret;
     }
 
     /* - Parse certificate chain (including Root CA certificate) */
     ret = stse_certificate_parse_chain(
-        (uint8_t *)pRoot_CA_certificate,
+        (uint8_t *)p_root_ca_certificate,
         certificate,
         certificate_size,
         &leaf_certificate);
@@ -214,7 +214,7 @@ stse_ReturnCode_t stse_device_authenticate(
 
     PLAT_UI16 challenge_size;
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type == STSAFE_L010) {
+    if (p_stse->device_type == STSAFE_L010) {
         challenge_size = STSAFEL_ECC_SIGNATURE_CHALLENGE_LENGTH;
     } else {
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
@@ -237,13 +237,13 @@ stse_ReturnCode_t stse_device_authenticate(
     /* - Get target SE challenge signature */
     ret = STSE_API_INCOMPATIBLE_DEVICE_TYPE;
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type >= STSAFE_L010 && pSTSE->device_type < STSAFE_L010 + STSAFEL_PRODUCT_COUNT) {
-        ret = stsafel_ecc_generate_signature(pSTSE, key_type, challenge, challenge_size, signature);
+    if (p_stse->device_type >= STSAFE_L010 && p_stse->device_type < STSAFE_L010 + STSAFEL_PRODUCT_COUNT) {
+        ret = stsafel_ecc_generate_signature(p_stse, key_type, challenge, challenge_size, signature);
     }
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 #ifdef STSE_CONF_STSAFE_A_SUPPORT
-    if (pSTSE->device_type >= STSAFE_A100 && pSTSE->device_type < STSAFE_A100 + STSAFEA_PRODUCT_COUNT) {
-        ret = stsafea_ecc_generate_signature(pSTSE, priv_key_slot_number, key_type, challenge, challenge_size, signature);
+    if (p_stse->device_type >= STSAFE_A100 && p_stse->device_type < STSAFE_A100 + STSAFEA_PRODUCT_COUNT) {
+        ret = stsafea_ecc_generate_signature(p_stse, priv_key_slot_number, key_type, challenge, challenge_size, signature);
     }
 #endif /* STSE_CONF_STSAFE_A_SUPPORT */
     if (ret != STSE_OK) {

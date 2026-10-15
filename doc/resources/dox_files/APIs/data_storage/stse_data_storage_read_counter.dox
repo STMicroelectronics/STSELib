@@ -46,8 +46,8 @@ Following diagram illustrates the interactions performed between the Host and th
 			&stse_handler,	    /* SE handler 	*/
 			0,					/* Zone index 	*/
 			0x0000,				/* Read Offset 	*/
-			readBuffer,			/* *pReadBuffer */
-			sizeof(readBuffer),	/* ReadLength 	*/
+			read_buffer,			/* *p_read_buffer */
+			sizeof(read_buffer),	/* ReadLength 	*/
 			04,					/* chunk size 	*/
 			STSE_NO_PROT
 	);

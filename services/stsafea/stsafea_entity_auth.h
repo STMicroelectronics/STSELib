@@ -35,32 +35,32 @@
 /**
  * \brief 			STSAFEA generate challenge service
  * \details 		This service format and send/receive the generate challenge command/response
- * \param[in]		pSTSE 			Pointer to target STSecureElement device
+ * \param[in]		p_stse 			Pointer to target STSecureElement device
  * \param[in]		challenge_size 	Challenge buffer size (expected STSE_EDDSA_CHALLENGE_SIZE)
- * \param[out]		pChallenge 		Pointer to challenge buffer
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[out]		p_challenge 		Pointer to challenge buffer
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_generate_challenge(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_generate_challenge(
+    stse_handle_t *p_stse,
     PLAT_UI8 challenge_size,
-    PLAT_UI8 *pChallenge);
+    PLAT_UI8 *p_challenge);
 
 /**
  * \brief 			STSAFEA verify entity's signature service
  * \details 		This service format and send/receive the verify entity's signature command/response
- * \param[in]		pSTSE 				Pointer to target STSecureElement device
+ * \param[in]		p_stse 				Pointer to target STSecureElement device
  * \param[in] 		slot_number 		Public key slot value
  * \param[in] 		key_type 			Targeted public key's type stored through STSAFE-A generic public slot
- * \param[out]		pSignature 			Pointer to signature buffer
- * \param[out]		pSignature_validity Pointer to signature validity byte
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[out]		p_signature 			Pointer to signature buffer
+ * \param[out]		p_signature_validity Pointer to signature validity byte
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_verify_entity_signature(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_verify_entity_signature(
+    stse_handle_t *p_stse,
     PLAT_UI8 slot_number,
     stse_ecc_key_type_t key_type,
-    PLAT_UI8 *pSignature,
-    PLAT_UI8 *pSignature_validity);
+    PLAT_UI8 *p_signature,
+    PLAT_UI8 *p_signature_validity);
 
 /** \}*/
 

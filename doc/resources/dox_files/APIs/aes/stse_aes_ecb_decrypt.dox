@@ -24,13 +24,13 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
 	PLAT_UI8 slot_number = 0;
 	PLAT_UI8 ciphertext[] = {0x27, 0x9F, 0xB7, 0x4A, 0x75, 0x72, 0x13, 0x5E,
 						     0x8F, 0x9B, 0x8E, 0xF6, 0xD1, 0xEE, 0xE0, 0x03};
 	PLAT_UI8 output[sizeof(ciphertext)];
 
-	ret = stse_aes_ecb_decrypt(pStse_handler,
+	ret = stse_aes_ecb_decrypt(p_stse_handler,
 		slot_number,
 		sizeof(ciphertext),
 		ciphertext,

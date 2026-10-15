@@ -27,131 +27,131 @@
 #define STSAFEA_SUB_TAG_MASK_ID 0x01
 #define STSAFEA_SUB_TAG_ST_NUMBER 0x02
 
-stse_ReturnCode_t stsafea_put_life_cyle_state(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_put_life_cyle_state(
+    stse_handle_t *p_stse,
     stsafea_life_cycle_state_t life_cycle_state) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_LIFE_CYCLE_STATE;
     PLAT_UI8 rsp_header;
 
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
     /*- Create CMD frame and populate elements */
-    stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eTag, 1, &tag);
-    stse_frame_element_allocate_push(&CmdFrame, eLifeCycleState, 1, (PLAT_UI8 *)&life_cycle_state);
+    stse_frame_allocate(cmd_frame);
+    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&cmd_frame, e_tag, 1, &tag);
+    stse_frame_element_allocate_push(&cmd_frame, e_life_cycle_state, 1, (PLAT_UI8 *)&life_cycle_state);
 
     /*- Create Rsp frame and populate elements*/
-    stse_frame_allocate(RspFrame);
-    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
+    stse_frame_allocate(rsp_frame);
+    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, 1, &rsp_header);
 
     /*- Perform Transfer*/
-    return stsafea_frame_raw_transfer(pSTSE,
-                                      &CmdFrame,
-                                      &RspFrame,
-                                      stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+    return stsafea_frame_raw_transfer(p_stse,
+                                      &cmd_frame,
+                                      &rsp_frame,
+                                      stsafea_cmd_timings[p_stse->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_query_life_cycle_state(
-    stse_Handle_t *pSTSE,
-    stsafea_life_cycle_state_t *pLife_cycle_state) {
+stse_return_code_t stsafea_query_life_cycle_state(
+    stse_handle_t *p_stse,
+    stsafea_life_cycle_state_t *p_life_cycle_state) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_LIFE_CYCLE_STATE;
     PLAT_UI8 rsp_header;
 
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
     /*- Create CMD frame and populate elements */
-    stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eTag, 1, &tag);
+    stse_frame_allocate(cmd_frame);
+    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&cmd_frame, e_tag, 1, &tag);
 
     /*- Create Rsp frame and populate elements*/
-    stse_frame_allocate(RspFrame);
-    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
-    stse_frame_element_allocate_push(&RspFrame, eLife_cycle_state, 1, (PLAT_UI8 *)pLife_cycle_state);
+    stse_frame_allocate(rsp_frame);
+    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, 1, &rsp_header);
+    stse_frame_element_allocate_push(&rsp_frame, e_life_cycle_state, 1, (PLAT_UI8 *)p_life_cycle_state);
 
     /*- Perform Transfer*/
-    return stsafea_frame_raw_transfer(pSTSE,
-                                      &CmdFrame,
-                                      &RspFrame,
-                                      stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+    return stsafea_frame_raw_transfer(p_stse,
+                                      &cmd_frame,
+                                      &rsp_frame,
+                                      stsafea_cmd_timings[p_stse->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_put_i2c_parameters(
-    stse_Handle_t *pSTSE,
-    stsafea_i2c_parameters_t *pI2c_parameters) {
+stse_return_code_t stsafea_put_i2c_parameters(
+    stse_handle_t *p_stse,
+    stsafea_i2c_parameters_t *p_i2c_parameters) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_I2C_PARAMETERS;
     PLAT_UI8 rsp_header;
 
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return STSE_SERVICE_HANDLER_NOT_INITIALISED;
     }
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
-    if (pSTSE->device_type >= STSAFE_L010) {
+    if (p_stse->device_type >= STSAFE_L010) {
         return STSE_SERVICE_INVALID_PARAMETER;
     }
 #endif
 
-    if (pSTSE->device_type == STSAFE_A100 ||
-        pSTSE->device_type == STSAFE_A110) {
-        pI2c_parameters->idle_bus_time_to_standby = 0;
+    if (p_stse->device_type == STSAFE_A100 ||
+        p_stse->device_type == STSAFE_A110) {
+        p_i2c_parameters->idle_bus_time_to_standby = 0;
     }
 
     /*- Create CMD frame and populate elements */
-    stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eTag, 1, &tag);
-    stse_frame_element_allocate_push(&CmdFrame, eI2cParameters, sizeof(stsafea_i2c_parameters_t), (PLAT_UI8 *)pI2c_parameters);
+    stse_frame_allocate(cmd_frame);
+    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&cmd_frame, e_tag, 1, &tag);
+    stse_frame_element_allocate_push(&cmd_frame, e_i2c_parameters, sizeof(stsafea_i2c_parameters_t), (PLAT_UI8 *)p_i2c_parameters);
 
     /*- Create Rsp frame and populate elements*/
-    stse_frame_allocate(RspFrame);
-    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
+    stse_frame_allocate(rsp_frame);
+    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, 1, &rsp_header);
 
     /*- Perform Transfer*/
-    return stsafea_frame_raw_transfer(pSTSE,
-                                      &CmdFrame,
-                                      &RspFrame,
-                                      stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+    return stsafea_frame_raw_transfer(p_stse,
+                                      &cmd_frame,
+                                      &rsp_frame,
+                                      stsafea_cmd_timings[p_stse->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_query_i2c_parameters(
-    stse_Handle_t *pSTSE,
-    stsafea_i2c_parameters_t *pI2c_parameters) {
+stse_return_code_t stsafea_query_i2c_parameters(
+    stse_handle_t *p_stse,
+    stsafea_i2c_parameters_t *p_i2c_parameters) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
     PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_I2C_PARAMETERS;
     PLAT_UI8 rsp_header;
 
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
     /*- Create CMD frame and populate elements */
-    stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eTag, 1, &tag);
+    stse_frame_allocate(cmd_frame);
+    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&cmd_frame, e_tag, 1, &tag);
 
     /*- Create Rsp frame and populate elements*/
-    stse_frame_allocate(RspFrame);
-    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
-    stse_frame_element_allocate_push(&RspFrame, eLife_cycle_state, sizeof(stsafea_i2c_parameters_t), (PLAT_UI8 *)pI2c_parameters);
+    stse_frame_allocate(rsp_frame);
+    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, 1, &rsp_header);
+    stse_frame_element_allocate_push(&rsp_frame, e_life_cycle_state, sizeof(stsafea_i2c_parameters_t), (PLAT_UI8 *)p_i2c_parameters);
 
     /*- Perform Transfer*/
-    return stsafea_frame_raw_transfer(pSTSE,
-                                      &CmdFrame,
-                                      &RspFrame,
-                                      stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+    return stsafea_frame_raw_transfer(p_stse,
+                                      &cmd_frame,
+                                      &rsp_frame,
+                                      stsafea_cmd_timings[p_stse->device_type][cmd_header]);
 }
 
-stse_ReturnCode_t stsafea_query_mask_id_st_number(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_query_mask_id_st_number(
+    stse_handle_t *p_stse,
     PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE],
     PLAT_UI8 st_number[STSAFEA_ST_NUMBER_SIZE]) {
     PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
@@ -159,32 +159,32 @@ stse_ReturnCode_t stsafea_query_mask_id_st_number(
     PLAT_UI8 rsp_header;
     PLAT_UI8 sub_tag_mask_id, sub_tag_mask_id_size;
     PLAT_UI8 sub_tag_st_number, sub_tag_st_number_size;
-    stse_ReturnCode_t ret;
+    stse_return_code_t ret;
 
-    if (pSTSE == NULL) {
+    if (p_stse == NULL) {
         return (STSE_SERVICE_HANDLER_NOT_INITIALISED);
     }
 
     /*- Create CMD frame and populate elements */
-    stse_frame_allocate(CmdFrame);
-    stse_frame_element_allocate_push(&CmdFrame, eCmd_header, 1, &cmd_header);
-    stse_frame_element_allocate_push(&CmdFrame, eTag, 1, &tag);
+    stse_frame_allocate(cmd_frame);
+    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, 1, &cmd_header);
+    stse_frame_element_allocate_push(&cmd_frame, e_tag, 1, &tag);
 
     /*- Create Rsp frame and populate elements*/
-    stse_frame_allocate(RspFrame);
-    stse_frame_element_allocate_push(&RspFrame, eRsp_header, 1, &rsp_header);
-    stse_frame_element_allocate_push(&RspFrame, e_sub_tag_mask_id, 1, &sub_tag_mask_id);
-    stse_frame_element_allocate_push(&RspFrame, e_sub_tag_mask_id_size, 1, &sub_tag_mask_id_size);
-    stse_frame_element_allocate_push(&RspFrame, e_mask_id, STSAFEA_MASK_ID_SIZE, mask_id);
-    stse_frame_element_allocate_push(&RspFrame, e_sub_tag_st_number, 1, &sub_tag_st_number);
-    stse_frame_element_allocate_push(&RspFrame, e_sub_tag_st_number_size, 1, &sub_tag_st_number_size);
-    stse_frame_element_allocate_push(&RspFrame, e_st_number, STSAFEA_ST_NUMBER_SIZE, st_number);
+    stse_frame_allocate(rsp_frame);
+    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, 1, &rsp_header);
+    stse_frame_element_allocate_push(&rsp_frame, e_sub_tag_mask_id, 1, &sub_tag_mask_id);
+    stse_frame_element_allocate_push(&rsp_frame, e_sub_tag_mask_id_size, 1, &sub_tag_mask_id_size);
+    stse_frame_element_allocate_push(&rsp_frame, e_mask_id, STSAFEA_MASK_ID_SIZE, mask_id);
+    stse_frame_element_allocate_push(&rsp_frame, e_sub_tag_st_number, 1, &sub_tag_st_number);
+    stse_frame_element_allocate_push(&rsp_frame, e_sub_tag_st_number_size, 1, &sub_tag_st_number_size);
+    stse_frame_element_allocate_push(&rsp_frame, e_st_number, STSAFEA_ST_NUMBER_SIZE, st_number);
 
     /*- Perform Transfer*/
-    ret = stsafea_frame_raw_transfer(pSTSE,
-                                     &CmdFrame,
-                                     &RspFrame,
-                                     stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+    ret = stsafea_frame_raw_transfer(p_stse,
+                                     &cmd_frame,
+                                     &rsp_frame,
+                                     stsafea_cmd_timings[p_stse->device_type][cmd_header]);
 
     if ((sub_tag_mask_id != STSAFEA_SUB_TAG_MASK_ID) || (sub_tag_mask_id_size != STSAFEA_MASK_ID_SIZE) ||
         (sub_tag_st_number != STSAFEA_SUB_TAG_ST_NUMBER) || (sub_tag_st_number_size != STSAFEA_ST_NUMBER_SIZE)) {

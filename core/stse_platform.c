@@ -29,36 +29,36 @@
  *                STSAFE CRYPTO HAL
  **************************************************************/
 
-__WEAK stse_ReturnCode_t stse_platform_hmac_sha256_compute(PLAT_UI8 *pSalt, PLAT_UI16 salt_length,
-                                                           PLAT_UI8 *pInput_keying_material, PLAT_UI16 input_keying_material_length,
-                                                           PLAT_UI8 *pInfo, PLAT_UI16 info_length,
-                                                           PLAT_UI8 *pOutput_keying_material, PLAT_UI16 output_keying_material_length) {
-    stse_ReturnCode_t retval;
-    PLAT_UI8 pPseudorandom_key[STSAFEA_SHA_256_HASH_SIZE];
+__WEAK stse_return_code_t stse_platform_hmac_sha256_compute(PLAT_UI8 *p_salt, PLAT_UI16 salt_length,
+                                                           PLAT_UI8 *p_input_keying_material, PLAT_UI16 input_keying_material_length,
+                                                           PLAT_UI8 *p_info, PLAT_UI16 info_length,
+                                                           PLAT_UI8 *p_output_keying_material, PLAT_UI16 output_keying_material_length) {
+    stse_return_code_t retval;
+    PLAT_UI8 p_pseudorandom_key[STSAFEA_SHA_256_HASH_SIZE];
 
     /* Extract pseudo-random key from input keying material */
-    retval = stse_platform_hmac_sha256_extract(pSalt,
+    retval = stse_platform_hmac_sha256_extract(p_salt,
                                                salt_length,
-                                               pInput_keying_material,
+                                               p_input_keying_material,
                                                input_keying_material_length,
-                                               pPseudorandom_key,
+                                               p_pseudorandom_key,
                                                STSAFEA_SHA_256_HASH_SIZE);
 
     if (retval != 0) {
-        memset(pPseudorandom_key, 0, STSAFEA_SHA_256_HASH_SIZE);
+        memset(p_pseudorandom_key, 0, STSAFEA_SHA_256_HASH_SIZE);
         return retval;
     }
 
     /* Expand output key from pseudo-random key */
-    retval = stse_platform_hmac_sha256_expand(pPseudorandom_key,
+    retval = stse_platform_hmac_sha256_expand(p_pseudorandom_key,
                                               STSAFEA_SHA_256_HASH_SIZE,
-                                              pInfo,
+                                              p_info,
                                               info_length,
-                                              pOutput_keying_material,
+                                              p_output_keying_material,
                                               output_keying_material_length);
 
     /* Pseudo-random key no more needed, cleanup */
-    memset(pPseudorandom_key, 0, STSAFEA_SHA_256_HASH_SIZE);
+    memset(p_pseudorandom_key, 0, STSAFEA_SHA_256_HASH_SIZE);
 
     return retval;
 }

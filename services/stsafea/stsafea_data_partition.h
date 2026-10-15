@@ -100,31 +100,31 @@ typedef struct {
 /**
  * \brief 			STSAFEA get total partition count service
  * \details 		This service format and send/receive STSAFE-Axxx start hash command/response
- * \param[in]		pSTSE					Pointer to target SE handler
+ * \param[in]		p_stse					Pointer to target SE handler
  * \param[out]		total_partition_count	total partition count in bytes
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_get_total_partition_count(stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_get_total_partition_count(stse_handle_t *p_stse,
                                                     PLAT_UI8 *total_partition_count);
 
 /**
  * \brief 			STSAFEA get data partition configuration service
  * \details 		This service format and send/receive STSAFE-Axxx start hash command/response
- * \param[in]		pSTSE					Pointer to target SE handler
+ * \param[in]		p_stse					Pointer to target SE handler
  * \param[in]		total_partitions_count	Total partition count in bytes
- * \param[in,out]	pRecord_table			Pointer to applicative partition record table
- * \param[in]		record_table_size		Applicative record table (@p pRecord_table) size (in bytes)
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in,out]	p_record_table			Pointer to applicative partition record table
+ * \param[in]		record_table_size		Applicative record table (@p p_record_table) size (in bytes)
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_get_data_partitions_configuration(stse_handle_t *p_stse,
                                                             PLAT_UI8 total_partitions_count,
-                                                            stsafea_data_partition_record_t *pRecord_table,
+                                                            stsafea_data_partition_record_t *p_record_table,
                                                             PLAT_UI16 record_table_size);
 
 /**
  * \brief 		Decrement counter zone
  * \details 	This service formats and sends the decrement counter zone command
- * \param[in] 	pSTSE 					Pointer to STSE Handler
+ * \param[in] 	p_stse 					Pointer to STSE Handler
  * \param[in] 	zone_index				Zone index to decrement
  * \param[in] 	option					Decrement option
  * \param[in] 	amount					Amount to decrement
@@ -137,9 +137,9 @@ stse_ReturnCode_t stsafea_get_data_partitions_configuration(stse_Handle_t *pSTSE
  * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 11
  * \param[out] 	new_counter_value		Pointer to store new counter value
  * \param[in] 	protection				Command protection type
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_decrement_counter_zone(stse_handle_t *p_stse,
                                                  PLAT_UI8 zone_index,
                                                  stsafea_decrement_option_t option,
                                                  PLAT_UI32 amount,
@@ -152,49 +152,49 @@ stse_ReturnCode_t stsafea_decrement_counter_zone(stse_Handle_t *pSTSE,
 /**
  * \brief 		Read counter zone
  * \details 	This service formats and sends the read counter zone command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	p_stse 				Pointer to STSE Handler
  * \param[in] 	zone_index			Zone index to read
  * \param[in] 	read_ac				Read access condition
  * \param[in] 	read_offset			Read offset
- * \param[out] 	pReadBuffer			Pointer to read buffer
+ * \param[out] 	p_read_buffer			Pointer to read buffer
  * \param[in] 	read_length			Read length
- * \param[out] 	pCounter_value		Pointer to store counter value
+ * \param[out] 	p_counter_value		Pointer to store counter value
  * \param[in] 	protection			Command protection type
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_read_counter_zone(stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_read_counter_zone(stse_handle_t *p_stse,
                                             PLAT_UI32 zone_index,
                                             stsafea_read_option_t read_ac,
                                             PLAT_UI16 read_offset,
-                                            PLAT_UI8 *pReadBuffer,
+                                            PLAT_UI8 *p_read_buffer,
                                             PLAT_UI16 read_length,
-                                            PLAT_UI32 *pCounter_value,
+                                            PLAT_UI32 *p_counter_value,
                                             stse_cmd_protection_t protection);
 
 /**
  * \brief 		Read data zone
  * \details 	This service formats and sends the read data zone command
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	p_stse 			Pointer to STSE Handler
  * \param[in] 	zone_index		Zone index to read
  * \param[in] 	read_ac			Read access condition
  * \param[in] 	read_offset		Read offset
- * \param[out] 	pReadBuffer		Pointer to read buffer
+ * \param[out] 	p_read_buffer		Pointer to read buffer
  * \param[in] 	read_length		Read length
  * \param[in] 	protection		Command protection type
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_read_data_zone(stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_read_data_zone(stse_handle_t *p_stse,
                                          PLAT_UI32 zone_index,
                                          stsafea_read_option_t read_ac,
                                          PLAT_UI16 read_offset,
-                                         PLAT_UI8 *pReadBuffer,
+                                         PLAT_UI8 *p_read_buffer,
                                          PLAT_UI16 read_length,
                                          stse_cmd_protection_t protection);
 
 /**
  * \brief 		Update data zone
  * \details 	This service formats and sends the update data zone command
- * \param[in] 	pSTSE 			Pointer to STSE Handler
+ * \param[in] 	p_stse 			Pointer to STSE Handler
  * \param[in] 	zone_index		Zone index to update
  * \param[in] 	option			Update option
  * \param[in] 	offset			Update offset
@@ -205,9 +205,9 @@ stse_ReturnCode_t stsafea_read_data_zone(stse_Handle_t *pSTSE,
  * - STSAFE-A110 : STSAFEA_MAX_FRAME_LENGTH_A110 - 7
  * - STSAFE-A120 : STSAFEA_MAX_FRAME_LENGTH_A120 - 7
  * \param[in] 	protection		Command protection type
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_update_data_zone(stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_update_data_zone(stse_handle_t *p_stse,
                                            PLAT_UI32 zone_index,
                                            stsafea_update_option_t option,
                                            PLAT_UI16 offset,

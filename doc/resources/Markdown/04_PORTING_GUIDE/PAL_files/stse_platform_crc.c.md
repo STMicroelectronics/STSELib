@@ -11,7 +11,7 @@ The stse_platform_crc.c file provides CRC16 functions for the STSecureElement li
 
 <b> Implementation directives :</b> This abstaction function should implement or call a platform function/driver that perform CRC16 calculation process.
 
-## stse_platform_Crc16_Calculate:
+## stse_platform_crc16_calculate:
 
 - Purpose: Calculates the CRC16 checksum for the given buffer.
 - Parameters:
@@ -21,7 +21,7 @@ The stse_platform_crc.c file provides CRC16 functions for the STSecureElement li
 
 <b> Implementation directives :</b> This abstaction function should implement or call a platform function/driver that perform CRC16 calculation process.
 
-## stse_platform_Crc16_Accumulate:
+## stse_platform_crc16_accumulate:
 
 - Purpose: Accumulates the CRC16 checksum for the given buffer.
 - Parameters:
@@ -57,9 +57,9 @@ Please find below an extract
  * \brief   Initializes the CRC16 calculation module.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_crc16_init(void *pArg)
+stse_return_code_t stse_platform_crc16_init(void *p_arg)
 {
-    crc16_Init();
+    crc16_init();
 
     return STSE_OK;
 }
@@ -70,9 +70,9 @@ stse_ReturnCode_t stse_platform_crc16_init(void *pArg)
  * \param   length  Length of the buffer.
  * \return  The calculated CRC16 checksum.
  */
-PLAT_UI16 stse_platform_Crc16_Calculate(PLAT_UI8 *pbuffer, PLAT_UI16 length)
+PLAT_UI16 stse_platform_crc16_calculate(PLAT_UI8 *pbuffer, PLAT_UI16 length)
 {
-    return crc16_Calculate(pbuffer, length);
+    return crc16_calculate(pbuffer, length);
 }
 
 /**
@@ -81,8 +81,8 @@ PLAT_UI16 stse_platform_Crc16_Calculate(PLAT_UI8 *pbuffer, PLAT_UI16 length)
  * \param   length  Length of the buffer.
  * \return  The accumulated CRC16 checksum.
  */
-PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length)
+PLAT_UI16 stse_platform_crc16_accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length)
 {
-    return crc16_Accumulate(pbuffer, length);
+    return crc16_accumulate(pbuffer, length);
 }
 ```

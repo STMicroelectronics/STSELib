@@ -20,35 +20,35 @@
 #include "core/stse_platform.h"
 #include <string.h>
 
-stse_ReturnCode_t stse_set_default_handler_value(stse_Handle_t *pStseHandler) {
-    if (pStseHandler == NULL) {
+stse_return_code_t stse_set_default_handler_value(stse_handle_t *p_stse_handler) {
+    if (p_stse_handler == NULL) {
         return STSE_CORE_HANDLER_NOT_INITIALISED;
     }
 
-    pStseHandler->device_type = (stse_device_t)0;
-    memset(&pStseHandler->perso_info, 0, sizeof(pStseHandler->perso_info));
-    pStseHandler->pActive_host_session = NULL;
-    pStseHandler->pActive_other_session = NULL;
+    p_stse_handler->device_type = (stse_device_t)0;
+    memset(&p_stse_handler->perso_info, 0, sizeof(p_stse_handler->perso_info));
+    p_stse_handler->p_active_host_session = NULL;
+    p_stse_handler->p_active_other_session = NULL;
 #if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
     (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
-    pStseHandler->io.BusRecvStart = stse_platform_i2c_receive_start;
-    pStseHandler->io.BusRecvContinue = stse_platform_i2c_receive_continue;
-    pStseHandler->io.BusRecvStop = stse_platform_i2c_receive_stop;
-    pStseHandler->io.BusSendStart = stse_platform_i2c_send_start;
-    pStseHandler->io.BusSendContinue = stse_platform_i2c_send_continue;
-    pStseHandler->io.BusSendStop = stse_platform_i2c_send_stop;
-    pStseHandler->io.BusWake = stse_platform_i2c_wake;
+    p_stse_handler->io.bus_recv_start = stse_platform_i2c_receive_start;
+    p_stse_handler->io.bus_recv_continue = stse_platform_i2c_receive_continue;
+    p_stse_handler->io.bus_recv_stop = stse_platform_i2c_receive_stop;
+    p_stse_handler->io.bus_send_start = stse_platform_i2c_send_start;
+    p_stse_handler->io.bus_send_continue = stse_platform_i2c_send_continue;
+    p_stse_handler->io.bus_send_stop = stse_platform_i2c_send_stop;
+    p_stse_handler->io.bus_wake = stse_platform_i2c_wake;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && defined(STSE_CONF_USE_I2C) */
-    pStseHandler->io.IOLineGet = NULL;
-    pStseHandler->io.BusRecovery = NULL;
-    pStseHandler->io.PowerLineOff = stse_platform_power_off;
-    pStseHandler->io.PowerLineOn = stse_platform_power_on;
-    pStseHandler->io.busID = 0;
-    pStseHandler->io.Devaddr = 0x20;
-    pStseHandler->io.BusSpeed = 100;
+    p_stse_handler->io.io_line_get = NULL;
+    p_stse_handler->io.bus_recovery = NULL;
+    p_stse_handler->io.power_line_off = stse_platform_power_off;
+    p_stse_handler->io.power_line_on = stse_platform_power_on;
+    p_stse_handler->io.bus_id = 0;
+    p_stse_handler->io.devaddr = 0x20;
+    p_stse_handler->io.bus_speed = 100;
 #if defined(STSE_CONF_STSAFE_A_SUPPORT) || \
     (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
-    pStseHandler->io.BusType = STSE_BUS_TYPE_I2C;
+    p_stse_handler->io.bus_type = STSE_BUS_TYPE_I2C;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT || (STSE_CONF_STSAFE_L_SUPPORT && defined(STSE_CONF_USE_I2C) */
     return STSE_OK;
 }

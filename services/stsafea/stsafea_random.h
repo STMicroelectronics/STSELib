@@ -37,14 +37,14 @@
 /**
  * \brief 			STSAFEA generate random service
  * \details 		This service format and send/receive the generate random command/response
- * \param[in]		pSTSE 			Pointer to target STSecureElement device
- * \param[in,out] 	pRandom 		Pointer to random buffer
+ * \param[in]		p_stse 			Pointer to target STSecureElement device
+ * \param[in,out] 	p_random 		Pointer to random buffer
  * \param[in,out] 	random_size 	Random size
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_generate_random(
-    stse_Handle_t *pSTSE,
-    PLAT_UI8 *pRandom,
+stse_return_code_t stsafea_generate_random(
+    stse_handle_t *p_stse,
+    PLAT_UI8 *p_random,
     PLAT_UI8 random_size);
 
 /** \}*/

@@ -24,26 +24,26 @@
 #include "core/stse_return_codes.h"
 
 /* Public functions ----------------------------------------------------------*/
-void stse_session_erase_context(stse_session_t *pSession) {
+void stse_session_erase_context(stse_session_t *p_session) {
     /* - Check stsafe handler initialization */
-    if (pSession == NULL) {
+    if (p_session == NULL) {
         return;
     }
 
     /*Todo validate correct erase */
-    memset(pSession, 0x00, sizeof(stse_session_t));
+    memset(p_session, 0x00, sizeof(stse_session_t));
 }
 
-stse_ReturnCode_t stse_set_active_session(stse_Handle_t *pSTSE, stse_session_t *pSession) {
-    if (pSTSE == NULL) {
+stse_return_code_t stse_set_active_session(stse_handle_t *p_stse, stse_session_t *p_session) {
+    if (p_stse == NULL) {
         return STSE_CORE_HANDLER_NOT_INITIALISED;
     }
 
-    if (pSession == NULL) {
+    if (p_session == NULL) {
         return STSE_CORE_SESSION_ERROR;
     }
 
-    pSTSE->pActive_host_session = pSession;
+    p_stse->p_active_host_session = p_session;
 
     return (STSE_OK);
 }

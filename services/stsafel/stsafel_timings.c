@@ -48,7 +48,7 @@ const PLAT_UI16 stsafel_wakeup_time[STSAFEL_PRODUCT_COUNT] = {
 };
 
 inline PLAT_UI16 stsafel_cmd_exec_duration(
-    stse_Handle_t *pSTSE,
+    stse_handle_t *p_stse,
     stsafel_cmd_code_t command_code) {
     PLAT_UI8 CommandCode = command_code;
 
@@ -64,7 +64,7 @@ inline PLAT_UI16 stsafel_cmd_exec_duration(
         CommandCode += 1 + STSAFEL_CMD_INCREMENT - STSAFEL_CMD_REPEAT;
     }
 
-    return stsafel_cmd_timings[pSTSE->device_type - STSAFE_L010][CommandCode];
+    return stsafel_cmd_timings[p_stse->device_type - STSAFE_L010][CommandCode];
 }
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */

@@ -38,26 +38,26 @@
 /**
  * \brief 			STSAFEA verify password service
  * \details 		This service format and send/receive the generate random command/response
- * \param[in]		pSTSE					Pointer to target SE handler
- * \param[in]	 	pPassword_buffer 		Pointer to password buffer
+ * \param[in]		p_stse					Pointer to target SE handler
+ * \param[in]	 	p_password_buffer 		Pointer to password buffer
  * \param[in]	 	password_length 		Password length in bytes
- * \param[out]	 	pVerification_status 	Pointer to verification status
- * \param[out]	 	pRemaining_tries 		Pointer to remaining tries
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[out]	 	p_verification_status 	Pointer to verification status
+ * \param[out]	 	p_remaining_tries 		Pointer to remaining tries
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_verify_password(stse_Handle_t *pSTSE,
-                                          PLAT_UI8 *pPassword_buffer,
+stse_return_code_t stsafea_verify_password(stse_handle_t *p_stse,
+                                          PLAT_UI8 *p_password_buffer,
                                           PLAT_UI8 password_length,
-                                          PLAT_UI8 *pVerification_status,
-                                          PLAT_UI8 *pRemaining_tries);
+                                          PLAT_UI8 *p_verification_status,
+                                          PLAT_UI8 *p_remaining_tries);
 
 /**
  * \brief 			STSAFEA delete password service
  * \details 		This service format and send/receive the generate random command/response
- * \param[in]		pSTSE					Pointer to target SE handler
- * \return 			\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in]		p_stse					Pointer to target SE handler
+ * \return 			\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_delete_password(stse_Handle_t *pSTSE);
+stse_return_code_t stsafea_delete_password(stse_handle_t *p_stse);
 
 /** \}*/
 

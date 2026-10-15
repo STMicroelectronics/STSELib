@@ -105,57 +105,57 @@ typedef struct
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSE 				Pointer to STSE Handle
+ * \param[in] 	p_stse 				Pointer to STSE Handle
  * \param[in] 	life_cycle_state 	Life cycle state
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_put_life_cyle_state(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_put_life_cyle_state(
+    stse_handle_t *p_stse,
     stsafea_life_cycle_state_t life_cycle_state);
 
 /**
  * \brief 		STSAFEA put life cycle service
  * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	pSTSE	 			Pointer to STSE Handle
- * \param[out] 	pLife_cycle_state 	Life cycle state
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse	 			Pointer to STSE Handle
+ * \param[out] 	p_life_cycle_state 	Life cycle state
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_query_life_cycle_state(
-    stse_Handle_t *pSTSE,
-    stsafea_life_cycle_state_t *pLife_cycle_state);
+stse_return_code_t stsafea_query_life_cycle_state(
+    stse_handle_t *p_stse,
+    stsafea_life_cycle_state_t *p_life_cycle_state);
 
 /**
  * \brief 		STSAFEA put I2C parameters service
  * \details 	This service format and send/receive the put I2C parameters command/response
- * \param[in] 	pSTSE 						Pointer to STSE Handle
- * \param[in] 	pI2c_parameters 			I2C parameters
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse 						Pointer to STSE Handle
+ * \param[in] 	p_i2c_parameters 			I2C parameters
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_put_i2c_parameters(
-    stse_Handle_t *pSTSE,
-    stsafea_i2c_parameters_t *pI2c_parameters);
+stse_return_code_t stsafea_put_i2c_parameters(
+    stse_handle_t *p_stse,
+    stsafea_i2c_parameters_t *p_i2c_parameters);
 
 /**
  * \brief 		STSAFEA query I2C parameters service
  * \details 	This service format and send/receive the query I2C parameters command/response
- * \param[in] 	pSTSE	 					Pointer to STSE Handle
- * \param[out] 	pI2c_parameters 			I2C parameters
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \param[in] 	p_stse	 					Pointer to STSE Handle
+ * \param[out] 	p_i2c_parameters 			I2C parameters
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_query_i2c_parameters(
-    stse_Handle_t *pSTSE,
-    stsafea_i2c_parameters_t *pI2c_parameters);
+stse_return_code_t stsafea_query_i2c_parameters(
+    stse_handle_t *p_stse,
+    stsafea_i2c_parameters_t *p_i2c_parameters);
 
 /**
  * \brief 		STSAFEA query mask identification & ST number service
  * \details 	This service format and send/receive the mask identification & ST number command/response
- * \param[in] 	pSTSE	 			Pointer to STSE Handle
+ * \param[in] 	p_stse	 			Pointer to STSE Handle
  * \param[out] 	mask_id		 		Mask identification (3 bytes)
  * \param[out] 	st_number		 	ST number (7 bytes)
- * \return 		\ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafea_query_mask_id_st_number(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafea_query_mask_id_st_number(
+    stse_handle_t *p_stse,
     PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE],
     PLAT_UI8 st_number[STSAFEA_ST_NUMBER_SIZE]);
 

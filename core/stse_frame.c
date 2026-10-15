@@ -22,167 +22,167 @@
 
 #include "core/stse_frame.h"
 
-stse_ReturnCode_t stse_frame_crc16_compute(stse_frame_t *pFrame, PLAT_UI16 *pCrc) {
-    stse_frame_element_t *pCurrent_element;
+stse_return_code_t stse_frame_crc16_compute(stse_frame_t *p_frame, PLAT_UI16 *p_crc) {
+    stse_frame_element_t *p_current_element;
 
-    if (pFrame == NULL || pCrc == NULL) {
+    if (p_frame == NULL || p_crc == NULL) {
         return STSE_CORE_INCONSISTENT_FRAME;
     }
 
-    pCurrent_element = pFrame->first_element;
-    *pCrc = stse_platform_Crc16_Calculate(pCurrent_element->pData, pCurrent_element->length);
-    pCurrent_element = pCurrent_element->next;
-    while (pCurrent_element != NULL) {
-        if (pCurrent_element->length != 0) {
-            if (pCurrent_element->pData == NULL) {
+    p_current_element = p_frame->first_element;
+    *p_crc = stse_platform_crc16_calculate(p_current_element->p_data, p_current_element->length);
+    p_current_element = p_current_element->next;
+    while (p_current_element != NULL) {
+        if (p_current_element->length != 0) {
+            if (p_current_element->p_data == NULL) {
                 return STSE_CORE_INCONSISTENT_FRAME;
             }
-            *pCrc = stse_platform_Crc16_Accumulate(pCurrent_element->pData, pCurrent_element->length);
+            *p_crc = stse_platform_crc16_accumulate(p_current_element->p_data, p_current_element->length);
         }
-        pCurrent_element = pCurrent_element->next;
+        p_current_element = p_current_element->next;
     }
 
     return STSE_OK;
 }
 
-void stse_frame_element_swap_byte_order(stse_frame_element_t *pElement) {
+void stse_frame_element_swap_byte_order(stse_frame_element_t *p_element) {
     PLAT_UI8 tmp;
 
-    for (PLAT_UI16 i = 0; i < pElement->length / 2; ++i) {
-        tmp = *(pElement->pData + i);
-        *(pElement->pData + i) = *(pElement->pData + (pElement->length - 1 - i));
-        *(pElement->pData + (pElement->length - 1 - i)) = tmp;
+    for (PLAT_UI16 i = 0; i < p_element->length / 2; ++i) {
+        tmp = *(p_element->p_data + i);
+        *(p_element->p_data + i) = *(p_element->p_data + (p_element->length - 1 - i));
+        *(p_element->p_data + (p_element->length - 1 - i)) = tmp;
     }
 }
 
-void stse_append_frame(stse_frame_t *pFrame1, stse_frame_t *pFrame2) {
+void stse_append_frame(stse_frame_t *p_frame1, stse_frame_t *p_frame2) {
     /* - Set Frame2 first element as last Frame1 element next  */
-    if (pFrame1->first_element == NULL) {
-        pFrame1->first_element = pFrame2->first_element;
+    if (p_frame1->first_element == NULL) {
+        p_frame1->first_element = p_frame2->first_element;
     } else {
-        pFrame1->last_element->next = pFrame2->first_element;
+        p_frame1->last_element->next = p_frame2->first_element;
     }
 
     /* - Position element as last one in the frame*/
-    pFrame1->last_element = pFrame2->last_element;
+    p_frame1->last_element = p_frame2->last_element;
 
     /* - Increment Frame length and frame element count*/
-    pFrame1->element_count += pFrame2->element_count;
-    pFrame1->length += pFrame2->length;
+    p_frame1->element_count += p_frame2->element_count;
+    p_frame1->length += p_frame2->length;
 }
 
-void stse_frame_insert_strap(stse_frame_element_t *pStrap, stse_frame_element_t *pElement_1,
-                             stse_frame_element_t *pElement_2) {
-    /* store previous attachment to Strap pData*/
-    pStrap->pData = (PLAT_UI8 *)pElement_1->next;
+void stse_frame_insert_strap(stse_frame_element_t *p_strap, stse_frame_element_t *p_element_1,
+                             stse_frame_element_t *p_element_2) {
+    /* store previous attachment to Strap p_data*/
+    p_strap->p_data = (PLAT_UI8 *)p_element_1->next;
     /* attach Element one to strap */
-    pElement_1->next = pStrap;
+    p_element_1->next = p_strap;
     /* Attach strap to Element_2 */
-    pStrap->next = pElement_2;
+    p_strap->next = p_element_2;
 }
 
-void stse_frame_unstrap(stse_frame_t *pFrame) {
-    stse_frame_element_t *pElement = pFrame->first_element;
+void stse_frame_unstrap(stse_frame_t *p_frame) {
+    stse_frame_element_t *p_element = p_frame->first_element;
 
-    pFrame->length = 0;
-    pFrame->element_count = 0;
-    while (pElement != NULL) {
-        pFrame->length += pElement->length;
-        pFrame->element_count++;
-        pFrame->last_element = pElement;
-        if ((pElement->next != NULL) && (pElement->next->length == 0) && (pElement->next->pData != NULL)) {
-            pElement->next = (stse_frame_element_t *)pElement->next->pData;
+    p_frame->length = 0;
+    p_frame->element_count = 0;
+    while (p_element != NULL) {
+        p_frame->length += p_element->length;
+        p_frame->element_count++;
+        p_frame->last_element = p_element;
+        if ((p_element->next != NULL) && (p_element->next->length == 0) && (p_element->next->p_data != NULL)) {
+            p_element->next = (stse_frame_element_t *)p_element->next->p_data;
         }
-        pElement = pElement->next;
+        p_element = p_element->next;
     }
 }
 
-void stse_frame_update(stse_frame_t *pFrame) {
-    stse_frame_element_t *pCurrent_element = pFrame->first_element;
+void stse_frame_update(stse_frame_t *p_frame) {
+    stse_frame_element_t *p_current_element = p_frame->first_element;
 
-    pFrame->length = 0;
-    pFrame->element_count = 0;
-    if (pCurrent_element == NULL) {
-        pFrame->first_element = NULL;
-        pFrame->last_element = NULL;
+    p_frame->length = 0;
+    p_frame->element_count = 0;
+    if (p_current_element == NULL) {
+        p_frame->first_element = NULL;
+        p_frame->last_element = NULL;
         return;
     } else {
         do {
-            pFrame->length += pCurrent_element->length;
-            pFrame->element_count++;
-            pFrame->last_element = pCurrent_element;
-            pCurrent_element = pCurrent_element->next;
-        } while (pCurrent_element != NULL);
+            p_frame->length += p_current_element->length;
+            p_frame->element_count++;
+            p_frame->last_element = p_current_element;
+            p_current_element = p_current_element->next;
+        } while (p_current_element != NULL);
     }
 }
 
-void stse_frame_push_element(stse_frame_t *pFrame,
-                             stse_frame_element_t *pElement)
+void stse_frame_push_element(stse_frame_t *p_frame,
+                             stse_frame_element_t *p_element)
 
 {
 
-    if (pFrame->first_element == NULL) {
+    if (p_frame->first_element == NULL) {
         /* - Set Element as first one if Frame is empty */
-        pFrame->first_element = pElement;
+        p_frame->first_element = p_element;
     } else {
         /* - Position element as last one in the frame*/
-        pFrame->last_element->next = pElement;
+        p_frame->last_element->next = p_element;
     }
-    pFrame->last_element = pElement;
-    pElement->next = NULL;
+    p_frame->last_element = p_element;
+    p_element->next = NULL;
 
     /* - Increment Frame length and frame element count*/
-    pFrame->element_count += 1;
-    pFrame->length += pElement->length;
+    p_frame->element_count += 1;
+    p_frame->length += p_element->length;
 }
 
-void stse_frame_pop_element(stse_frame_t *pFrame) {
-    stse_frame_element_t *pCurrent_element;
+void stse_frame_pop_element(stse_frame_t *p_frame) {
+    stse_frame_element_t *p_current_element;
 
-    if (pFrame->element_count > 1) {
+    if (p_frame->element_count > 1) {
         /* Select first Frame Element*/
-        pCurrent_element = pFrame->first_element;
+        p_current_element = p_frame->first_element;
         /* Parse Frame until previous to last element */
-        while (pCurrent_element->next != pFrame->last_element && pCurrent_element->next->next != NULL) {
-            pCurrent_element = pCurrent_element->next;
+        while (p_current_element->next != p_frame->last_element && p_current_element->next->next != NULL) {
+            p_current_element = p_current_element->next;
         }
         /* Remove references/link to the last element */
-        pFrame->length -= pCurrent_element->next->length;
-        pCurrent_element->next = NULL;
-        pFrame->last_element = pCurrent_element;
-        pFrame->element_count--;
+        p_frame->length -= p_current_element->next->length;
+        p_current_element->next = NULL;
+        p_frame->last_element = p_current_element;
+        p_frame->element_count--;
     } else {
-        pFrame->first_element = NULL;
-        pFrame->last_element = NULL;
-        pFrame->element_count = 0;
-        pFrame->length = 0;
+        p_frame->first_element = NULL;
+        p_frame->last_element = NULL;
+        p_frame->element_count = 0;
+        p_frame->length = 0;
     }
 }
 
-void stse_frame_debug_print(stse_frame_t *pFrame) {
-    stse_frame_element_t *pCurrent_element;
+void stse_frame_debug_print(stse_frame_t *p_frame) {
+    stse_frame_element_t *p_current_element;
     PLAT_UI16 data_index;
 
-    if (pFrame->element_count == 0) {
+    if (p_frame->element_count == 0) {
         stse_platform_printf("\n\r (EMPTY)");
         return;
     }
-    pCurrent_element = pFrame->first_element;
-    stse_platform_printf(" (%d-byte) :", pFrame->length);
+    p_current_element = p_frame->first_element;
+    stse_platform_printf(" (%d-byte) :", p_frame->length);
     do {
         stse_platform_printf(" { ");
-        if (pCurrent_element->length == 0) {
+        if (p_current_element->length == 0) {
             stse_platform_printf("S ");
         } else {
-            for (data_index = 0; data_index < pCurrent_element->length; data_index++) {
-                if (pCurrent_element->pData != NULL) {
-                    stse_platform_printf("0x%02X ", pCurrent_element->pData[data_index]);
+            for (data_index = 0; data_index < p_current_element->length; data_index++) {
+                if (p_current_element->p_data != NULL) {
+                    stse_platform_printf("0x%02X ", p_current_element->p_data[data_index]);
                 } else {
                     stse_platform_printf("0x00 ");
                 }
             }
         }
         stse_platform_printf("}");
-        pCurrent_element = pCurrent_element->next;
-    } while (pCurrent_element != NULL);
+        p_current_element = p_current_element->next;
+    } while (p_current_element != NULL);
 }

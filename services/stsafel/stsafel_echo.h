@@ -35,14 +35,14 @@
 /**
  * \brief 		Send an echo to STSAFE-L device
  * \details 	This service format and send the echo command
- * \param[in] 	pSTSE 				Pointer to STSE Handler
+ * \param[in] 	p_stse 				Pointer to STSE Handler
  * \param[in]	message				Message buffer to send the echo command
  * \param[in]	echoed_message		Message buffer to receive the echo response
  * \param[in]	message_size		Size of the echo message
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+ * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
  */
-stse_ReturnCode_t stsafel_echo(
-    stse_Handle_t *pSTSE,
+stse_return_code_t stsafel_echo(
+    stse_handle_t *p_stse,
     PLAT_UI8 *message,
     PLAT_UI8 *echoed_message,
     PLAT_UI16 message_size);

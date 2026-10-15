@@ -24,13 +24,13 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
 	PLAT_UI8 slot_number = 0;
 	PLAT_UI8 message[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07,
 						  0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 	PLAT_UI8 output[sizeof(message)];
 
-	ret = stse_aes_ecb_encrypt(pStse_handler,
+	ret = stse_aes_ecb_encrypt(p_stse_handler,
 		slot_number,
 		sizeof(message),
 		message,

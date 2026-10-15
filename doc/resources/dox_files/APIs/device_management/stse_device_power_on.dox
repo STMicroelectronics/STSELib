@@ -23,7 +23,7 @@ void power_off(void)
 
 int main (void)
 {
-    stsafe_ReturnCode_t stsafe_ret;
+    stsafe_return_code_t stsafe_ret;
 
     /* - Initialize STSE device handler (including SE Power ON/OFF Control) */
     stse_ret = stse_set_default_handler_value(&stse_handler);
@@ -33,8 +33,8 @@ int main (void)
     }
     stse_handler.device_type = STSAFE_A120;
     stse_handler.io.Busaddr = 1;
-	stsafe_handler.io.PowerLineOn  = power_on;
-	stsafe_handler.io.PowerLineOff = power_off;
+	stsafe_handler.io.power_line_on  = power_on;
+	stsafe_handler.io.power_line_off = power_off;
     stse_ret = stse_init(&stse_handler, NULL);
     if (stse_ret != STSE_OK)
     {
@@ -42,15 +42,15 @@ int main (void)
     }
 
     stsafe_se_power_on(&stsafe_handler);
-	stsafe_platform_Delay_ms(500);
+	stsafe_platform_delay_ms(500);
     stsafe_se_power_off(&stsafe_handler);
 }
 \endcode
 
-\sa \ref stsafe_Handler
-\sa \ref stsafe_Handler.io
-\sa \ref stsafe_Handler.io.PowerLineOn
-\sa \ref stsafe_Handler.io.PowerLineOff
-\sa stsafe_platform_Delay_ms()
+\sa \ref stsafe_handler
+\sa \ref stsafe_handler.io
+\sa \ref stsafe_handler.io.power_line_on
+\sa \ref stsafe_handler.io.power_line_off
+\sa stsafe_platform_delay_ms()
 
 <div style="page-break-after: always;"></div>

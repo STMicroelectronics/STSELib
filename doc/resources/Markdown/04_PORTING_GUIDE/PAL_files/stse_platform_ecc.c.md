@@ -7,10 +7,10 @@ The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement li
 - **Purpose**: Verifies an ECC signature.
 - **Parameters**:
   - `key_type`: Type of the ECC key.
-  - `pPubKey`: Pointer to the public key.
-  - `pDigest`: Pointer to the digest.
-  - `digestLen`: Length of the digest.
-  - `pSignature`: Pointer to the signature.
+  - `p_pub_key`: Pointer to the public key.
+  - `p_digest`: Pointer to the digest.
+  - `digest_len`: Length of the digest.
+  - `p_signature`: Pointer to the signature.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_ECC_VERIFY_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that performs ECC signature verification.
@@ -20,8 +20,8 @@ The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement li
 - **Purpose**: Generates an ECC key pair.
 - **Parameters**:
   - `key_type`: Type of the ECC key.
-  - `pPrivKey`: Pointer to the private key.
-  - `pPubKey`: Pointer to the public key.
+  - `p_priv_key`: Pointer to the private key.
+  - `p_pub_key`: Pointer to the public key.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_ECC_GENERATE_KEY_PAIR_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that performs ECC key pair generation.
@@ -31,10 +31,10 @@ The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement li
 - **Purpose**: Signs a digest using ECC.
 - **Parameters**:
   - `key_type`: Type of the ECC key.
-  - `pPrivKey`: Pointer to the private key.
-  - `pDigest`: Pointer to the digest.
-  - `digestLen`: Length of the digest.
-  - `pSignature`: Pointer to the signature.
+  - `p_priv_key`: Pointer to the private key.
+  - `p_digest`: Pointer to the digest.
+  - `digest_len`: Length of the digest.
+  - `p_signature`: Pointer to the signature.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_ECC_SIGN_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that performs ECC signing.
@@ -44,9 +44,9 @@ The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement li
 - **Purpose**: Performs ECDH key exchange.
 - **Parameters**:
   - `key_type`: Type of the ECC key.
-  - `pPubKey`: Pointer to the public key.
-  - `pPrivKey`: Pointer to the private key.
-  - `pSharedSecret`: Pointer to the shared secret.
+  - `p_pub_key`: Pointer to the public key.
+  - `p_priv_key`: Pointer to the private key.
+  - `p_shared_secret`: Pointer to the shared secret.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_ECC_ECDH_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that performs ECDH key exchange.
@@ -55,12 +55,12 @@ The `stse_platform_ecc.c` file provides ecc functions for the STSecureElement li
 
 - **Purpose**: Encrypts data using NIST key wrapping.
 - **Parameters**:
-  - `pPayload`: Pointer to the payload.
+  - `p_payload`: Pointer to the payload.
   - `payload_length`: Length of the payload.
-  - `pKey`: Pointer to the key.
+  - `p_key`: Pointer to the key.
   - `key_length`: Length of the key.
-  - `pOutput`: Pointer to the output buffer.
-  - `pOutput_length`: Pointer to the length of the output buffer.
+  - `p_output`: Pointer to the output buffer.
+  - `p_output_length`: Pointer to the length of the output buffer.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_KEYWRAP_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that performs NIST key wrapping encryption.
@@ -220,15 +220,15 @@ static size_t stse_platform_get_cmox_ecc_sig_len(stse_ecc_key_type_t key_type)
 }
 
 
-stse_ReturnCode_t stse_platform_ecc_verify(
+stse_return_code_t stse_platform_ecc_verify(
 		stse_ecc_key_type_t key_type,
-		const PLAT_UI8 *pPubKey,
-		PLAT_UI8 *pDigest,
-		PLAT_UI16 digestLen,
-		PLAT_UI8 *pSignature)
+		const PLAT_UI8 *p_pub_key,
+		PLAT_UI8 *p_digest,
+		PLAT_UI16 digest_len,
+		PLAT_UI8 *p_signature)
 {
 	cmox_ecc_retval_t retval;
-	PLAT_UI32 faultCheck;
+	PLAT_UI32 fault_check;
 
 	/*- Set ECC context */
 	cmox_ecc_construct(&Ecc_Ctx,			/* ECC context */
@@ -243,13 +243,13 @@ stse_ReturnCode_t stse_platform_ecc_verify(
 		/* - Perform EDDSA verify */
 		retval = cmox_eddsa_verify( &Ecc_Ctx,   					/* ECC context */
 				stse_platform_get_cmox_ecc_impl(key_type),  		/* Curve param */
-				pPubKey, 											/* Public key */
+				p_pub_key, 											/* Public key */
 				stse_platform_get_cmox_ecc_pub_key_len(key_type), 	/* Public key length */
-				pDigest, 											/* Message */
-				digestLen,              							/* Message length */
-				pSignature, 										/* Pointer to signature */
+				p_digest, 											/* Message */
+				digest_len,              							/* Message length */
+				p_signature, 										/* Pointer to signature */
 				stse_platform_get_cmox_ecc_sig_len(key_type),		/* Signature size */
-				&faultCheck											/* Fault check variable */
+				&fault_check											/* Fault check variable */
 		);
 	}
 	else
@@ -258,13 +258,13 @@ stse_ReturnCode_t stse_platform_ecc_verify(
 		/* - Perform ECDSA verify */
 		retval = cmox_ecdsa_verify( &Ecc_Ctx,   					/* ECC context */
 				stse_platform_get_cmox_ecc_impl(key_type),    		/* Curve : SECP256R1 */
-				pPubKey, 											/* Public key */
+				p_pub_key, 											/* Public key */
 				stse_platform_get_cmox_ecc_pub_key_len(key_type), 	/* Public key length */
-				pDigest, 											/* Message */
-				digestLen,              							/* Message length */
-				pSignature, 										/* Pointer to signature */
+				p_digest, 											/* Message */
+				digest_len,              							/* Message length */
+				p_signature, 										/* Pointer to signature */
 				stse_platform_get_cmox_ecc_sig_len(key_type),		/* Signature size */
-				&faultCheck											/* Fault check variable */
+				&fault_check											/* Fault check variable */
 		);
 	}
 
@@ -342,10 +342,10 @@ PLAT_UI8 static_c25519_pub_key[32] = {0x59,0x86,0xA8,0xA3,0x51,0xBB,0x07,0xCA,
 									  0xA1,0xA5,0xE1,0x9A,0xCB,0x57,0x55,0xF6,
 									  0x57,0xF9,0x43,0xE9,0xBC,0x39,0x54,0x0B};
 
-stse_ReturnCode_t stse_platform_ecc_generate_key_pair(
+stse_return_code_t stse_platform_ecc_generate_key_pair(
 		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPrivKey,
-		PLAT_UI8 *pPubKey)
+		PLAT_UI8 *p_priv_key,
+		PLAT_UI8 *p_pub_key)
 {
 	cmox_ecc_retval_t retval;
 
@@ -357,34 +357,34 @@ stse_ReturnCode_t stse_platform_ecc_generate_key_pair(
 	);
 
 	/* Minimum random length equal the private key length */
-	size_t randomLength = stse_platform_get_cmox_ecc_priv_key_len(key_type);
+	size_t random_length = stse_platform_get_cmox_ecc_priv_key_len(key_type);
 	/* Align the random length to modulo 4 */
-	randomLength += 4 - (randomLength&0x3);
+	random_length += 4 - (random_length&0x3);
 	/* Add 32bytes to random length if the key is Curve25519 because it will use the Ed25519 key gen */
 #ifdef STSE_CONF_ECC_CURVE_25519
-	randomLength += ((key_type == STSE_ECC_KT_CURVE25519) ? 32 : 0);
+	random_length += ((key_type == STSE_ECC_KT_CURVE25519) ? 32 : 0);
 #endif
 	/* Retry loop in case the RNG isn't strong enough */
 	do
 	{
 		/* - Generate a random number */
-		PLAT_UI8 randomNumber[randomLength];
-		for(uint8_t i=0; i<randomLength; i+=4)
+		PLAT_UI8 random_number[random_length];
+		for(uint8_t i=0; i<random_length; i+=4)
 		{
-			*((PLAT_UI32*) &randomNumber[i]) = stse_platform_generate_random();
+			*((PLAT_UI32*) &random_number[i]) = stse_platform_generate_random();
 		}
 
 		/*- Generate EdDSA key pair */
 #ifdef STSE_CONF_ECC_EDWARD_25519
 		if(key_type == STSE_ECC_KT_ED25519)
 		{
-			retval = cmox_eddsa_keyGen(&Ecc_Ctx,	/* ECC context */
+			retval = cmox_eddsa_key_gen(&Ecc_Ctx,	/* ECC context */
 					stse_platform_get_cmox_ecc_impl(key_type),	/* Curve param */
-					randomNumber, 					/* Random number */
-					randomLength,					/* Random number length */
-					pPrivKey, 						/* Private key */
+					random_number, 					/* Random number */
+					random_length,					/* Random number length */
+					p_priv_key, 						/* Private key */
 					NULL,							/* Private key length*/
-					pPubKey, 						/* Public key */
+					p_pub_key, 						/* Public key */
 					NULL);							/* Public key length */
 		}
 		else
@@ -392,21 +392,21 @@ stse_ReturnCode_t stse_platform_ecc_generate_key_pair(
 #ifdef STSE_CONF_ECC_CURVE_25519
 		if(key_type == STSE_ECC_KT_CURVE25519)
 		{
-			memcpy(pPrivKey, static_c25519_priv_key, 32);
-			memcpy(pPubKey, static_c25519_pub_key, 32);
+			memcpy(p_priv_key, static_c25519_priv_key, 32);
+			memcpy(p_pub_key, static_c25519_pub_key, 32);
 
 			retval = CMOX_ECC_SUCCESS;
 		}
 		else
 #endif
 		{
-			retval = cmox_ecdsa_keyGen(&Ecc_Ctx,	/* ECC context */
+			retval = cmox_ecdsa_key_gen(&Ecc_Ctx,	/* ECC context */
 					stse_platform_get_cmox_ecc_impl(key_type),	/* Curve param */
-					randomNumber, 					/* Random number */
-					randomLength,					/* Random number length */
-					pPrivKey,						/* Private key */
+					random_number, 					/* Random number */
+					random_length,					/* Random number length */
+					p_priv_key,						/* Private key */
 					NULL,							/* Private key length*/
-					pPubKey, 						/* Public key */
+					p_pub_key, 						/* Public key */
 					NULL);							/* Public key length */
 		}
 	} while(retval == CMOX_ECC_ERR_WRONG_RANDOM);
@@ -429,12 +429,12 @@ stse_ReturnCode_t stse_platform_ecc_generate_key_pair(
 	defined(STSE_CONF_USE_SYMMETRIC_KEY_ESTABLISHMENT_AUTHENTICATED) || \
 	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
-stse_ReturnCode_t stse_platform_ecc_sign(
+stse_return_code_t stse_platform_ecc_sign(
 		stse_ecc_key_type_t key_type,
-		PLAT_UI8 *pPrivKey,
-		PLAT_UI8 *pDigest,
-		PLAT_UI16 digestLen,
-		PLAT_UI8 *pSignature)
+		PLAT_UI8 *p_priv_key,
+		PLAT_UI8 *p_digest,
+		PLAT_UI16 digest_len,
+		PLAT_UI8 *p_signature)
 {
 	cmox_ecc_retval_t retval;
 
@@ -451,11 +451,11 @@ stse_ReturnCode_t stse_platform_ecc_sign(
 		/* - Perform EDDSA sign */
 		retval = cmox_eddsa_sign(&Ecc_Ctx,			/* ECC context */
 				stse_platform_get_cmox_ecc_impl(key_type),    	/* Curve param */
-				pPrivKey,							/* Private key */
+				p_priv_key,							/* Private key */
 				stse_platform_get_cmox_ecc_priv_key_len(key_type),/* Private key length*/
-				pDigest,							/* Message */
-				digestLen,							/* Message length */
-				pSignature,							/* Signature */
+				p_digest,							/* Message */
+				digest_len,							/* Message length */
+				p_signature,							/* Signature */
 				NULL								/* Signature length */
 		);
 	}
@@ -465,23 +465,23 @@ stse_ReturnCode_t stse_platform_ecc_sign(
 		do
 		{
 			/* - Generate a random number */
-			size_t randomLength = stse_platform_get_cmox_ecc_priv_key_len(key_type) + (4-(stse_platform_get_cmox_ecc_priv_key_len(key_type)&0x3));
-			PLAT_UI8 randomNumber[randomLength];
-			for(uint8_t i=0; i<randomLength; i+=4)
+			size_t random_length = stse_platform_get_cmox_ecc_priv_key_len(key_type) + (4-(stse_platform_get_cmox_ecc_priv_key_len(key_type)&0x3));
+			PLAT_UI8 random_number[random_length];
+			for(uint8_t i=0; i<random_length; i+=4)
 			{
-				*((PLAT_UI32*) &randomNumber[i]) = stse_platform_generate_random();
+				*((PLAT_UI32*) &random_number[i]) = stse_platform_generate_random();
 			}
 
 			/* - Perform ECDSA sign */
 			retval = cmox_ecdsa_sign(&Ecc_Ctx,			/* ECC context */
 					stse_platform_get_cmox_ecc_impl(key_type),    	/* Curve param */
-					randomNumber,
+					random_number,
 					stse_platform_get_cmox_ecc_priv_key_len(key_type),
-					pPrivKey,							/* Private key */
+					p_priv_key,							/* Private key */
 					stse_platform_get_cmox_ecc_priv_key_len(key_type),/* Private key length*/
-					pDigest,							/* Message */
-					digestLen,							/* Message length */
-					pSignature,							/* Signature */
+					p_digest,							/* Message */
+					digest_len,							/* Message length */
+					p_signature,							/* Signature */
 					NULL								/* Signature length */
 			);
 		} while(retval == CMOX_ECC_ERR_WRONG_RANDOM);
@@ -508,11 +508,11 @@ stse_ReturnCode_t stse_platform_ecc_sign(
 	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED) || \
 	defined(STSE_CONF_USE_SYMMETRIC_KEY_PROVISIONING_WRAPPED_AUTHENTICATED)
 
-stse_ReturnCode_t stse_platform_ecc_ecdh(
+stse_return_code_t stse_platform_ecc_ecdh(
 		stse_ecc_key_type_t key_type,
-		const PLAT_UI8 *pPubKey,
-		const PLAT_UI8 *pPrivKey,
-		PLAT_UI8       *pSharedSecret)
+		const PLAT_UI8 *p_pub_key,
+		const PLAT_UI8 *p_priv_key,
+		PLAT_UI8       *p_shared_secret)
 {
 	cmox_ecc_retval_t retval;
 
@@ -525,11 +525,11 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(
 
 	retval = cmox_ecdh(&Ecc_Ctx,            		/* ECC context */
 			stse_platform_get_cmox_ecc_impl(key_type),      		/* Curve param */
-			pPrivKey,								/* Private key (local) */
+			p_priv_key,								/* Private key (local) */
 			stse_platform_get_cmox_ecc_priv_key_len(key_type),	/* Private key length*/
-			pPubKey,								/* Public key (remote) */
+			p_pub_key,								/* Public key (remote) */
 			stse_platform_get_cmox_ecc_pub_key_len(key_type), 	/* Public key length */
-			pSharedSecret,							/* Shared secret */
+			p_shared_secret,							/* Shared secret */
 			NULL									/* Shared secret length */
 	);
 
@@ -554,18 +554,18 @@ stse_ReturnCode_t stse_platform_ecc_ecdh(
  #define KEK_WRAP_IV_SIZE 8
  const PLAT_UI8 KEK_WRAP_IV[KEK_WRAP_IV_SIZE] = {0xA6,0xA6,0xA6,0xA6,0xA6,0xA6,0xA6,0xA6};
 
-stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
-												PLAT_UI8 *pKey,		PLAT_UI8 key_length,
-												PLAT_UI8 *pOutput, 	PLAT_UI32 *pOutput_length)
+stse_return_code_t stse_platform_nist_kw_encrypt(PLAT_UI8 *p_payload, PLAT_UI32 payload_length,
+												PLAT_UI8 *p_key,		PLAT_UI8 key_length,
+												PLAT_UI8 *p_output, 	PLAT_UI32 *p_output_length)
 {
 	cmox_cipher_retval_t retval;
 
 	retval = cmox_cipher_encrypt(
 		CMOX_AESSMALL_KEYWRAP_ENC_ALGO,
-		pPayload, payload_length,
-		pKey, 	  key_length,
+		p_payload, payload_length,
+		p_key, 	  key_length,
 		KEK_WRAP_IV, KEK_WRAP_IV_SIZE,
-		pOutput,  (size_t*)pOutput_length);
+		p_output,  (size_t*)p_output_length);
 
 	if (retval != CMOX_CIPHER_SUCCESS)
 	{
