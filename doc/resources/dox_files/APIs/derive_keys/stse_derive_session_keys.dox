@@ -39,7 +39,7 @@ This helper function performs a full session key derivation sequence in three st
     PLAT_UI8 mac_key[16];
 
     stse_ret = stse_derive_session_keys(
-        &stse_handler,
+        &stse_handle,
         STSE_MASTER_KEY_SLOT,
         session_id,
         enc_key, 16,

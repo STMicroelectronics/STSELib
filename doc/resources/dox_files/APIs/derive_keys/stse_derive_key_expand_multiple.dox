@@ -29,7 +29,7 @@ This function uses the HKDF-Expand command to derive multiple keys (up to 32) in
     outputs[1] = key2;
 
     stse_ret = stse_derive_key_expand_multiple(
-        &stse_handler,
+        &stse_handle,
         prk_slot,
         NULL, NULL, /* Use default/no context */
         outputs,

@@ -32,10 +32,10 @@ Following diagram illustrates the interactions performed between the Host and th
     /* - Update Data in Zone 1 (Random Number storage)*/
 
     uint8_t random[100];
-    stse_ret = stse_companion_generate_random(&stse_handler, random, 100);
+    stse_ret = stse_companion_generate_random(&stse_handle, random, 100);
 
     stse_ret = stse_data_storage_change_update_access_condition (
-			&stse_handler,	    /* SE handler */
+			&stse_handle,	    /* SE handler */
             STSE_AC_HOST,       /* new access condition */
             STSE_ACCR_DISABLED  /* new access condition change right */
 			01,					/* Zone index */

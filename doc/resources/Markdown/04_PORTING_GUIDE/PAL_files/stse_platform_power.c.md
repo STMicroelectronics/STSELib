@@ -14,7 +14,7 @@ The `stse_platform_power.c` file provides power control functions for the STSecu
 - **Purpose**: Powers on the secure element device.
 - **Parameters**:
   - `bus`: Identifier for the bus.
-  - `devAddr`: Device address.
+  - `dev_addr`: Device address.
 - **Return Value**: Returns `STSE_OK` on success.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that powers on the device.
@@ -24,7 +24,7 @@ The `stse_platform_power.c` file provides power control functions for the STSecu
 - **Purpose**: Powers off the device.
 - **Parameters**:
   - `bus`: Identifier for the bus.
-  - `devAddr`: Device address.
+  - `dev_addr`: Device address.
 - **Return Value**: Returns `STSE_OK` on success.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that powers off the device.
@@ -57,7 +57,7 @@ Please find below an example of the `stse_platform_power.c` implementation for t
  * \brief   Initializes the power control lines.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_power_init(void *pArg)
+stse_return_code_t stse_platform_power_init(void *p_arg)
 {
     /* -Initialize power line control (PC0  - open-drain) */
     GPIOC->MODER    &=  ~(GPIO_MODER_MODE0_Msk);
@@ -80,13 +80,13 @@ stse_ReturnCode_t stse_platform_power_init(void *pArg)
 /**
  * \brief   Powers on the device.
  * \param   bus Identifier for the bus.
- * \param   devAddr Device address.
+ * \param   dev_addr Device address.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_power_on (PLAT_UI8 bus , PLAT_UI8 devAddr)
+stse_return_code_t stse_platform_power_on (PLAT_UI8 bus , PLAT_UI8 dev_addr)
 {
     (void)bus;
-    (void)devAddr;
+    (void)dev_addr;
 
     /* - Power on all the STSAFE SLOTS */
     GPIOB->ODR &= ~(1 << GPIO_ODR_OD0_Pos);
@@ -99,13 +99,13 @@ stse_ReturnCode_t stse_platform_power_on (PLAT_UI8 bus , PLAT_UI8 devAddr)
 /**
  * \brief   Powers off the device.
  * \param   bus Identifier for the bus.
- * \param   devAddr Device address.
+ * \param   dev_addr Device address.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_power_off (PLAT_UI8 bus , PLAT_UI8 devAddr)
+stse_return_code_t stse_platform_power_off (PLAT_UI8 bus , PLAT_UI8 dev_addr)
 {
     (void)bus;
-    (void)devAddr;
+    (void)dev_addr;
 
     /* - Power-off all the STSAFE SLOTS */
     GPIOB->ODR |= (1 << GPIO_ODR_OD0_Pos);

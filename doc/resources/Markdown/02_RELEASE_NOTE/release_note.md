@@ -162,7 +162,7 @@
 - [core] Simplify I2C platform
 - [core] Add SE return status when debug log activated
 - [core] Fix command timing table
-- [core] Fix stse_perso_info_t::ext_cmd_AC_status size
+- [core] Fix stse_perso_info_t::ext_cmd_ac_status size
 
 ## v1.0.1
 - [all] code cleanup for MISRA C compliancy

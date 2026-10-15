@@ -31,10 +31,10 @@ Following diagram illustrates the interactions performed between the Host and th
     /* - Update Data in Zone 1 (Random Number storage)*/
 
     uint8_t random[100];
-    stse_ret = stse_companion_generate_random(&stse_handler, random, 100);
+    stse_ret = stse_companion_generate_random(&stse_handle, random, 100);
 
     stse_ret = stse_data_storage_update_zone (
-			&stse_handler,	/* SE handler 			*/
+			&stse_handle,	/* SE handler 			*/
 			01,					/* Zone index 			*/
 			0x0000,				/* Update Offset 		*/
 			random,				/* Update input buffer 	*/

@@ -26,7 +26,7 @@ The following diagram illustrates the interactions performed between the Host an
     PLAT_UI8 context[] = "app-context";
 
     stse_ret = stse_derive_key(
-        &stse_handler,
+        &stse_handle,
         STSE_MASTER_KEY_SLOT,
         salt, sizeof(salt),
         context, sizeof(context)-1,

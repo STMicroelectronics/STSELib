@@ -37,10 +37,10 @@ Following diagram illustrates the interactions performed between the Host and th
 
     uint8_t associated_data[10] = {0};
 
-	ret = stse_companion_generate_random(&stse_handler, associated_data, 10);
+	ret = stse_companion_generate_random(&stse_handle, associated_data, 10);
 
     ret = stse_data_storage_change_decrement_access_condition(
-			&stse_handler,          /* SE handler			  */
+			&stse_handle,          /* SE handler			  */
 			0x06,					/* Counter zone index	  */
             STSE_AC_HOST,           /* New access condition   */
             STSE_ACCR_DISABLED      /* New access condition change right */
