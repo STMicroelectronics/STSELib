@@ -33,9 +33,9 @@ Following diagram illustrates the interactions performed between the Host and th
 
     uint8_t associated_data[10] = {0};
 
-	stse_ret = stse_companion_generate_random(&stse_handler, associated_data, 10);
+	stse_ret = stse_companion_generate_random(&stse_handle, associated_data, 10);
 	stse_ret = stse_data_storage_decrement_counter_zone (
-			&stse_handler,				/* SE handler 			    */
+			&stse_handle,				/* SE handler 			    */
 			5,							/* Zone index 			    */
 			1,							/* Amount				    */
 			0x0000,						/* AD Update Offset 		*/

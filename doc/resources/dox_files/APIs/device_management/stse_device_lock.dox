@@ -27,7 +27,7 @@ Following diagram illustrates the interactions performed between the Host and th
 \n\n
 
 \code{.c}
-    stsafe_ReturnCode_t stsafe_ret;
+    stsafe_return_code_t stsafe_ret;
     PLAT_UI8 password[STSAFEA_PASSWORD_LENGTH] = { /* password value set during device personalization*/ };
 
     stsafe_ret = stsafe_se_lock(&stsafe_handler,

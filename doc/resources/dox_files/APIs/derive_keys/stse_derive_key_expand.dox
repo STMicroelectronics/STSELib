@@ -25,7 +25,7 @@ This command performs the HKDF-Expand step only. It takes a previously extracted
 
     /* Assumes prk_slot was populated by a previous extract call */
     stse_ret = stse_derive_key_expand(
-        &stse_handler,
+        &stse_handle,
         prk_slot,
         context, sizeof(context)-1,
         output_key, 16
