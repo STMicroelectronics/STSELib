@@ -51,9 +51,9 @@ The following reference implementations are available for common cryptographic l
 
 The examples above demonstrate implementation using the STM32 Cryptographic Library (CMOX), which is optimized for STM32 microcontrollers.
 
-## wolfSSL/wolfCrypt Library
+## wolf_ssl/wolf_crypt Library
 
-A complete reference implementation using wolfSSL/wolfCrypt is available for platforms where wolfSSL is the cryptographic provider. This implementation supports Linux, RTOS, and bare-metal environments.
+A complete reference implementation using wolf_ssl/wolf_crypt is available for platforms where wolf_ssl is the cryptographic provider. This implementation supports Linux, RTOS, and bare-metal environments.
 
 - @subpage stse_platform_wolfssl
 

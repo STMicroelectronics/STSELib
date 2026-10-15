@@ -28,10 +28,10 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
 	PLAT_UI8 slot_count;
 
-	ret = stse_get_ecc_key_slots_count(pSTSE, &slot_count);
+	ret = stse_get_ecc_key_slots_count(p_stse, &slot_count);
 
 	if(ret != STSE_OK )
 	{

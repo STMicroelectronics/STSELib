@@ -24,7 +24,7 @@ This function derives a key using raw Input Key Material (IKM) provided in the c
     PLAT_UI8 derived_key[32];
 
     stse_ret = stse_derive_key_from_ikm(
-        &stse_handler,
+        &stse_handle,
         raw_ikm, sizeof(raw_ikm),
         NULL, 0, /* No Salt */
         (PLAT_UI8*)"context", 7,

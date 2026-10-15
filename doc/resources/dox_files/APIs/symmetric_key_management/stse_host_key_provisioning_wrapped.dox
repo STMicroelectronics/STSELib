@@ -29,6 +29,6 @@
 \endcode
 
 \sa stsafe_init
-\sa stsafe_start_volatile_KEK_session
+\sa stsafe_start_volatile_kek_session
 
 <div style="page-break-after: always;"></div>

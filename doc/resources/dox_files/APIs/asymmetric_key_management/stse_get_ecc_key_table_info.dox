@@ -28,11 +28,11 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
 	PLAT_UI8 slot_count;
 	PLAT_UI16 global_usage_limit;
 
-	ret = stse_get_ecc_key_slots_count(pSTSE, &slot_count);
+	ret = stse_get_ecc_key_slots_count(p_stse, &slot_count);
 
 	if(ret != STSE_OK )
 	{
@@ -42,7 +42,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	stsafea_private_key_slot_information_t private_key_table_info[slot_count];
 
 	ret = stse_get_ecc_key_table_info(
-			pSTSE,
+			p_stse,
 			slot_count,
 			&global_usage_limit,
 			private_key_table_info);

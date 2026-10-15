@@ -10,7 +10,7 @@ The `stse_platform_delay.c` file provides delay functions for the STSecureElemen
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that initializes the delay mechanisms.
 
-## stse_platform_Delay_ms:
+## stse_platform_delay_ms:
 
 - **Purpose**: Delays execution for a specified number of milliseconds.
 - **Parameters**:
@@ -46,7 +46,7 @@ Please find below an example of the `stse_platform_delay` implementation for the
 #include "Drivers/delay_ms/delay_ms.h"
 #include "Drivers/delay_us/delay_us.h"
 
-stse_ReturnCode_t stse_platform_delay_init(void)
+stse_return_code_t stse_platform_delay_init(void)
 {
     /* Initialize platform Drivers used by PAL */
     delay_ms_init();
@@ -55,7 +55,7 @@ stse_ReturnCode_t stse_platform_delay_init(void)
     return STSE_OK;
 }
 
-void stse_platform_Delay_ms(PLAT_UI32 delay_val)
+void stse_platform_delay_ms(PLAT_UI32 delay_val)
 {
     delay_ms(delay_val);
 }
