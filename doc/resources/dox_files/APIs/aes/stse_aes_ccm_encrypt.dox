@@ -38,7 +38,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	PLAT_UI8 ciphertext[plaintext_length];
 
 	ret = stse_aes_ccm_encrypt(
-			p_stse_handler,
+			p_stse_handle,
 			slot_number,
 			mac_length,
 			nonce,

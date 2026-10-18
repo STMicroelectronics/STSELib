@@ -28,7 +28,7 @@ This function performs HKDF derivation (Extract + Expand) but keeps the resultin
     };
 
     stse_ret = stse_derive_key_to_slot(
-        &stse_handler,
+        &stse_handle,
         STSE_MASTER_KEY_SLOT,
         NULL, 0,
         (PLAT_UI8*)"working-key", 11,

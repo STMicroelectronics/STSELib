@@ -45,7 +45,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	/* ## Authenticate target STSE device */
 
 	stse_ret = stse_device_authenticate(
-			&stse_handler,
+			&stse_handle,
 			ca_selfsigned_cert,
 			certificate_chain,
 			certificate_chain_size,

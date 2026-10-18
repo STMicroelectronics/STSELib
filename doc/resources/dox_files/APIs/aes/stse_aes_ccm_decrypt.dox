@@ -38,7 +38,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	PLAT_UI8 verification_result 	= 0;
 	PLAT_UI8 plaintext[plaintext_length];
 
-	ret = stse_aes_ccm_decrypt(p_stse_handler,
+	ret = stse_aes_ccm_decrypt(p_stse_handle,
 			slot_number,
 			mac_length,
 			nonce,

@@ -30,7 +30,7 @@ Following diagram illustrates the interactions performed between the Host and th
 						  0x08, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0x0F};
 	PLAT_UI8 output[sizeof(message)];
 
-	ret = stse_aes_ecb_encrypt(p_stse_handler,
+	ret = stse_aes_ecb_encrypt(p_stse_handle,
 		slot_number,
 		sizeof(message),
 		message,

@@ -127,11 +127,11 @@ Public keys are expected in raw X||Y coordinate format (uncompressed, without th
 
 int main(void)
 {
-    stse_handle_t stse_handler;
+    stse_handle_t stse_handle;
     stse_return_code_t ret;
 
     /* Initialize STSE (calls stse_platform_crypto_init internally) */
-    ret = stse_init(&stse_handler, STSAFE_A120, 1, 0x20);
+    ret = stse_init(&stse_handle, STSAFE_A120, 1, 0x20);
     if (ret != STSE_OK) {
         return -1;
     }
