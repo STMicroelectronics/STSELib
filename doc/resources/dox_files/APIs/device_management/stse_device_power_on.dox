@@ -26,16 +26,16 @@ int main (void)
     stsafe_return_code_t stsafe_ret;
 
     /* - Initialize STSE device handler (including SE Power ON/OFF Control) */
-    stse_ret = stse_set_default_handler_value(&stse_handler);
+    stse_ret = stse_set_default_handler_value(&stse_handle);
     if (stse_ret != STSE_OK)
     {
         /* Handle Error */
     }
-    stse_handler.device_type = STSAFE_A120;
-    stse_handler.io.Busaddr = 1;
+    stse_handle.device_type = STSAFE_A120;
+    stse_handle.io.Busaddr = 1;
 	stsafe_handler.io.power_line_on  = power_on;
 	stsafe_handler.io.power_line_off = power_off;
-    stse_ret = stse_init(&stse_handler, NULL);
+    stse_ret = stse_init(&stse_handle, NULL);
     if (stse_ret != STSE_OK)
     {
         /* Handle Error */

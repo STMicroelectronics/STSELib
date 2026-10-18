@@ -38,7 +38,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	/* - Read device certificate in Zone 0 */
 
 	stse_ret = stse_data_storage_read_zone (
-			&stse_handler,	/* SE handler 	*/
+			&stse_handle,	/* SE handler 	*/
 			0,					/* Zone index 	*/
 			0x0000,				/* Read Offset 	*/
 			read_buffer,			/* *p_read_buffer */

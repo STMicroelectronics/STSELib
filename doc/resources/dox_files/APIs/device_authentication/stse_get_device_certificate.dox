@@ -25,7 +25,7 @@ Following diagram illustrates the interactions performed between the Host and th
 
 	PLAT_UI16 certificate_size;
 
-	stse_ret = stse_get_device_certificate_size(&stse_handler, &certificate_size);
+	stse_ret = stse_get_device_certificate_size(&stse_handle, &certificate_size);
 	if (stse_ret != STSE_OK)
 	{
 		/* Handle Error */
@@ -33,7 +33,7 @@ Following diagram illustrates the interactions performed between the Host and th
 
 	PLAT_UI8 certificate[certificate_size];
 
-	stse_ret = stse_get_device_certificate(&stse_handler, certificate_size, certificate);
+	stse_ret = stse_get_device_certificate(&stse_handle, certificate_size, certificate);
 	if (stse_ret != STSE_OK)
 	{
 		/* Handle Error */

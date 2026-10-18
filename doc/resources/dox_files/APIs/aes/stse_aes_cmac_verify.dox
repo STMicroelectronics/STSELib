@@ -29,7 +29,7 @@ Following diagram illustrates the interactions performed between the Host and th
 	PLAT_UI8 message[] = {0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07};
 	PLAT_UI8 verification_result = 0;
 
-	ret = stse_aes_cmac_verify(p_stse_handler,
+	ret = stse_aes_cmac_verify(p_stse_handle,
 		slot_number,
 		mac,
 		sizeof(mac),
