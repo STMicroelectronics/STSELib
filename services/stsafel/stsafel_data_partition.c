@@ -1,20 +1,20 @@
-/*!
- ******************************************************************************
- * \file	stsafel_data_partition.c
- * \brief   STSAFE-A services for data partition (source)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2024 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafel_data_partition.c
+  * @author  CS Application Team
+  * @brief   STSAFE-A services for data partition (source)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 /* Includes ------------------------------------------------------------------*/
 #include <stddef.h>
@@ -26,186 +26,239 @@
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
 
 stse_return_code_t stsafel_read_data_zone(stse_handle_t *p_stse,
-                                         PLAT_UI8 zone_index,
-                                         stsafel_read_option_t option,
-                                         PLAT_UI16 offset,
-                                         PLAT_UI8 *p_data,
-                                         PLAT_UI16 data_length,
-                                         stse_cmd_protection_t protection) {
-    PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
-    PLAT_UI8 rsp_header;
+                                          PLAT_UI8 zone_index,
+                                          stsafel_read_option_t option,
+                                          PLAT_UI16 offset,
+                                          PLAT_UI8 *p_data,
+                                          PLAT_UI16 data_length,
+                                          stse_cmd_protection_t protection)
+{
+  PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
+  PLAT_UI8 rsp_header;
 
-    if (p_stse == NULL) {
-        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
-    }
+  /* Check stsafel handler initialization */
+  if (p_stse == NULL)
+  {
+    return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+  }
 
-    if (p_data == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
-    }
+  /* Check service parameters */
+  if (p_data == NULL)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
 
-    /*- Create CMD frame and populate elements */
-    stse_frame_allocate(cmd_frame);
-    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&cmd_frame, e_read_option, sizeof(stsafel_read_option_t), (PLAT_UI8 *)&option);
-    stse_frame_element_allocate_push(&cmd_frame, e_zone_index, 1, &zone_index);
-    stse_frame_element_allocate_push(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
-    stse_frame_element_allocate_push(&cmd_frame, e_data_length, 2, (PLAT_UI8 *)&data_length);
+  /* Prepare READ Frame */
+  STSE_FRAME_ALLOCATE(cmd_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
+  /* [READ OPTION] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_read_option, sizeof(stsafel_read_option_t), (PLAT_UI8 *)&option);
+  /* [ZONE INDEX] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_zone_index, 1, &zone_index);
+  /* [OFFSET] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
+  /* [DATA LENGTH] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_data_length, 2, (PLAT_UI8 *)&data_length);
 
-    /*- Create Rsp frame and populate elements */
-    stse_frame_allocate(rsp_frame);
-    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
-    stse_frame_element_allocate_push(&rsp_frame, e_data, data_length, p_data);
+  /* Prepare READ RSP Frame */
+  STSE_FRAME_ALLOCATE(rsp_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
+  /* [DATA] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_data, data_length, p_data);
 
-    stse_frame_element_swap_byte_order(&e_offset);
-    stse_frame_element_swap_byte_order(&e_data_length);
+  /* Swap length byte order to be compliant with STSAFE-L convention */
+  stse_frame_element_swap_byte_order(&e_offset);
+  stse_frame_element_swap_byte_order(&e_data_length);
 
-    /*- Perform Transfer*/
-    return stsafel_frame_transfer(p_stse,
-                                  &cmd_frame,
-                                  &rsp_frame);
+  return stsafel_frame_transfer(p_stse,
+                                &cmd_frame,
+                                &rsp_frame);
 }
 
 stse_return_code_t stsafel_update_data_zone(stse_handle_t *p_stse,
-                                           PLAT_UI8 zone_index,
-                                           stsafel_update_option_t option,
-                                           PLAT_UI16 offset,
-                                           const PLAT_UI8 *p_data,
-                                           PLAT_UI16 data_length,
-                                           stse_cmd_protection_t protection) {
-    PLAT_UI8 cmd_header = STSAFEL_CMD_UPDATE;
-    PLAT_UI8 rsp_header;
+                                            PLAT_UI8 zone_index,
+                                            stsafel_update_option_t option,
+                                            PLAT_UI16 offset,
+                                            const PLAT_UI8 *p_data,
+                                            PLAT_UI16 data_length,
+                                            stse_cmd_protection_t protection)
+{
+  PLAT_UI8 cmd_header = STSAFEL_CMD_UPDATE;
+  PLAT_UI8 rsp_header;
 
-    if (p_stse == NULL) {
-        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
-    }
+  /* Check stsafel handler initialization */
+  if (p_stse == NULL)
+  {
+    return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+  }
 
-    if (p_data == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
-    }
+  /* Check service parameters */
+  if (p_data == NULL)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
 
-    /*- Create CMD frame and populate elements */
-    stse_frame_allocate(cmd_frame);
-    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&cmd_frame, e_update_option, sizeof(stsafel_update_option_t), (PLAT_UI8 *)&option);
-    stse_frame_element_allocate_push(&cmd_frame, e_zone_index, 1, &zone_index);
-    stse_frame_element_allocate_push(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
-    stse_frame_element_allocate_push(&cmd_frame, e_data, data_length, (PLAT_UI8 *)p_data);
+  /* Prepare UPDATE Frame */
+  STSE_FRAME_ALLOCATE(cmd_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
+  /* [UPDATE OPTION] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_update_option, sizeof(stsafel_update_option_t), (PLAT_UI8 *)&option);
+  /* [ZONE INDEX] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_zone_index, 1, &zone_index);
+  /* [OFFSET] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
+  /* [DATA] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_data, data_length, (PLAT_UI8 *)p_data);
 
-    /*- Create Rsp frame and populate elements */
-    stse_frame_allocate(rsp_frame);
-    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
+  /* Prepare UPDATE RSP Frame */
+  STSE_FRAME_ALLOCATE(rsp_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
 
-    stse_frame_element_swap_byte_order(&e_offset);
+  /* Swap length byte order to be compliant with STSAFE-L convention */
+  stse_frame_element_swap_byte_order(&e_offset);
 
-    /*- Perform Transfer*/
-    /*- Perform Transfer*/
-    return stsafel_frame_transfer(p_stse,
-                                  &cmd_frame,
-                                  &rsp_frame);
+  return stsafel_frame_transfer(p_stse,
+                                &cmd_frame,
+                                &rsp_frame);
 }
 
 stse_return_code_t stsafel_read_counter_zone(stse_handle_t *p_stse,
-                                            PLAT_UI8 zone_index,
-                                            stsafel_read_option_t option,
-                                            PLAT_UI16 offset,
-                                            PLAT_UI8 *p_data,
-                                            PLAT_UI16 data_length,
-                                            PLAT_UI32 *p_counter_value,
-                                            stse_cmd_protection_t protection) {
-    stse_return_code_t ret;
-    PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
-    PLAT_UI8 rsp_header;
-    PLAT_UI8 temp_counter[STSAFEL_COUNTER_VALUE_SIZE];
+                                             PLAT_UI8 zone_index,
+                                             stsafel_read_option_t option,
+                                             PLAT_UI16 offset,
+                                             PLAT_UI8 *p_data,
+                                             PLAT_UI16 data_length,
+                                             PLAT_UI32 *p_counter_value,
+                                             stse_cmd_protection_t protection)
+{
+  stse_return_code_t ret;
+  PLAT_UI8 cmd_header = STSAFEL_CMD_READ;
+  PLAT_UI8 rsp_header;
+  PLAT_UI8 temp_counter[STSAFEL_COUNTER_VALUE_SIZE];
 
-    if (p_stse == NULL) {
-        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
-    }
+  /* Check stsafel handler initialization */
+  if (p_stse == NULL)
+  {
+    return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+  }
 
-    if (p_data == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
-    }
+  /* Check service parameters */
+  if (p_data == NULL)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
 
-    /*- Create CMD frame and populate elements */
-    stse_frame_allocate(cmd_frame);
-    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&cmd_frame, e_read_option, sizeof(stsafel_read_option_t), (PLAT_UI8 *)&option);
-    stse_frame_element_allocate_push(&cmd_frame, e_zone_index, 1, &zone_index);
-    stse_frame_element_allocate_push(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
-    stse_frame_element_allocate_push(&cmd_frame, e_data_length, 2, (PLAT_UI8 *)&data_length);
+  /* Prepare READ Frame */
+  STSE_FRAME_ALLOCATE(cmd_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
+  /* [READ OPTION] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_read_option, sizeof(stsafel_read_option_t), (PLAT_UI8 *)&option);
+  /* [ZONE INDEX] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_zone_index, 1, &zone_index);
+  /* [OFFSET] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
+  /* [DATA LENGTH] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_data_length, 2, (PLAT_UI8 *)&data_length);
 
-    /*- Create Rsp frame and populate elements */
-    stse_frame_allocate(rsp_frame);
-    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
-    stse_frame_element_allocate_push(&rsp_frame, e_counter, STSAFEL_COUNTER_VALUE_SIZE, temp_counter);
-    stse_frame_element_allocate_push(&rsp_frame, e_data, data_length, p_data);
+  /* Prepare READ RSP Frame */
+  STSE_FRAME_ALLOCATE(rsp_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
+  /* [COUNTER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_counter, STSAFEL_COUNTER_VALUE_SIZE, temp_counter);
+  /* [DATA] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_data, data_length, p_data);
 
-    stse_frame_element_swap_byte_order(&e_offset);
-    stse_frame_element_swap_byte_order(&e_data_length);
+  /* Swap length byte order to be compliant with STSAFE-L convention */
+  stse_frame_element_swap_byte_order(&e_offset);
+  stse_frame_element_swap_byte_order(&e_data_length);
 
-    /*- Perform Transfer*/
-    ret = stsafel_frame_transfer(p_stse,
-                                 &cmd_frame,
-                                 &rsp_frame);
+  ret = stsafel_frame_transfer(p_stse,
+                               &cmd_frame,
+                               &rsp_frame);
 
-    if (ret == STSE_OK) {
-        *p_counter_value = ((temp_counter[2]) | (temp_counter[1] << 8) | (temp_counter[0] << 16));
-    }
+  if (ret == STSE_OK)
+  {
+    *p_counter_value = ((temp_counter[2]) | (temp_counter[1] << 8) | (temp_counter[0] << 16));
+  }
 
-    return (ret);
+  return (ret);
 }
 
 stse_return_code_t stsafel_decrement_counter_zone(stse_handle_t *p_stse,
-                                                 PLAT_UI8 zone_index,
-                                                 stsafel_decrement_option_t option,
-                                                 PLAT_UI32 amount,
-                                                 PLAT_UI16 offset,
-                                                 PLAT_UI8 *p_data,
-                                                 PLAT_UI16 data_length,
-                                                 PLAT_UI32 *p_new_counter_value,
-                                                 stse_cmd_protection_t protection) {
-    stse_return_code_t ret;
-    PLAT_UI8 cmd_header = STSAFEL_CMD_DECREMENT;
-    PLAT_UI8 rsp_header;
-    PLAT_UI8 decrement_amount[STSAFEL_COUNTER_VALUE_SIZE] = {
-        ((amount & 0xFF0000) >> 16),
-        ((amount & 0xFF00) >> 8),
-        (amount & 0xFF)};
-    PLAT_UI8 temp_counter[STSAFEL_COUNTER_VALUE_SIZE];
+                                                  PLAT_UI8 zone_index,
+                                                  stsafel_decrement_option_t option,
+                                                  PLAT_UI32 amount,
+                                                  PLAT_UI16 offset,
+                                                  PLAT_UI8 *p_data,
+                                                  PLAT_UI16 data_length,
+                                                  PLAT_UI32 *p_new_counter_value,
+                                                  stse_cmd_protection_t protection)
+{
+  stse_return_code_t ret;
+  PLAT_UI8 cmd_header = STSAFEL_CMD_DECREMENT;
+  PLAT_UI8 rsp_header;
+  PLAT_UI8 decrement_amount[STSAFEL_COUNTER_VALUE_SIZE] =
+  {
+    ((amount & 0xFF0000) >> 16),
+    ((amount & 0xFF00) >> 8),
+    (amount & 0xFF)
+  };
+  PLAT_UI8 temp_counter[STSAFEL_COUNTER_VALUE_SIZE];
 
-    if (p_stse == NULL) {
-        return STSE_SERVICE_HANDLER_NOT_INITIALISED;
-    }
+  /* Check stsafel handler initialization */
+  if (p_stse == NULL)
+  {
+    return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+  }
 
-    if (p_data == NULL) {
-        return STSE_SERVICE_INVALID_PARAMETER;
-    }
+  /* Check service parameters */
+  if (p_data == NULL)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
 
-    /*- Create CMD frame and populate elements */
-    stse_frame_allocate(cmd_frame);
-    stse_frame_element_allocate_push(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
-    stse_frame_element_allocate_push(&cmd_frame, e_decrement_option, sizeof(stsafel_decrement_option_t), (PLAT_UI8 *)&option);
-    stse_frame_element_allocate_push(&cmd_frame, e_zone_index, 1, &zone_index);
-    stse_frame_element_allocate_push(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
-    stse_frame_element_allocate_push(&cmd_frame, e_amount, STSAFEL_COUNTER_VALUE_SIZE, decrement_amount);
-    stse_frame_element_allocate_push(&cmd_frame, e_data, data_length, p_data);
+  /* Prepare DECREMENT Frame */
+  STSE_FRAME_ALLOCATE(cmd_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_cmd_header, STSAFEL_HEADER_SIZE, &cmd_header);
+  /* [DECREMENT OPTION] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_decrement_option, sizeof(stsafel_decrement_option_t),
+                                   (PLAT_UI8 *)&option);
+  /* [ZONE INDEX] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_zone_index, 1, &zone_index);
+  /* [OFFSET] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_offset, 2, (PLAT_UI8 *)&offset);
+  /* [AMOUNT] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_amount, STSAFEL_COUNTER_VALUE_SIZE, decrement_amount);
+  /* [DATA] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&cmd_frame, e_data, data_length, p_data);
 
-    /*- Create Rsp frame and populate elements */
-    stse_frame_allocate(rsp_frame);
-    stse_frame_element_allocate_push(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
-    stse_frame_element_allocate_push(&rsp_frame, e_counter, STSAFEL_COUNTER_VALUE_SIZE, temp_counter);
+  /* Prepare DECREMENT RSP Frame */
+  STSE_FRAME_ALLOCATE(rsp_frame);
+  /* [HEADER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_rsp_header, STSAFEL_HEADER_SIZE, &rsp_header);
+  /* [COUNTER] */
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_counter, STSAFEL_COUNTER_VALUE_SIZE, temp_counter);
 
-    stse_frame_element_swap_byte_order(&e_offset);
+  /* Swap length byte order to be compliant with STSAFE-L convention */
+  stse_frame_element_swap_byte_order(&e_offset);
 
-    /*- Perform Transfer*/
-    ret = stsafel_frame_transfer(p_stse,
-                                 &cmd_frame,
-                                 &rsp_frame);
+  ret = stsafel_frame_transfer(p_stse,
+                               &cmd_frame,
+                               &rsp_frame);
 
-    if (ret == STSE_OK) {
-        *p_new_counter_value = ((temp_counter[2]) | (temp_counter[1] << 8) | (temp_counter[0] << 16));
-    }
+  if (ret == STSE_OK)
+  {
+    *p_new_counter_value = ((temp_counter[2]) | (temp_counter[1] << 8) | (temp_counter[0] << 16));
+  }
 
-    return (ret);
+  return (ret);
 }
 
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */

@@ -1,23 +1,27 @@
-/*!
- ******************************************************************************
- * \file	stse_hash.h
- * \brief   STSE Hash API set (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_hash.h
+  * @author  CS Application Team
+  * @brief   STSE Hash API set (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSE_HASH_H
 #define STSE_HASH_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_hash.h"
@@ -26,41 +30,44 @@
     defined(STSE_CONF_HASH_SHA_256) || defined(STSE_CONF_HASH_SHA_384) || defined(STSE_CONF_HASH_SHA_512) || \
     defined(STSE_CONF_HASH_SHA_3_256) || defined(STSE_CONF_HASH_SHA_3_384) || defined(STSE_CONF_HASH_SHA_3_512)
 
-/** \defgroup 	stse_hash 	STSE Hash
- *  \ingroup 	stse_api
- *  \brief		STSE Hash (SHA2/SHA3) API set
- *  \details  	The Hash API set provides high level functions for Hash features 	\n
- *  			Supported algorithms listed below:									\n
- *  				- SHA256														\n
- *  				- SHA384														\n
- *  				- SHA512														\n
- *  				- SHA3-256														\n
- *  				- SHA3-384														\n
- *  				- SHA3-512
- *  @{
- */
+/** \defgroup   stse_hash   STSE Hash
+  *  \ingroup  stse_api
+  *  \brief    STSE Hash (SHA2/SHA3) API set
+  *  \details    The Hash API set provides high level functions for Hash features  \n
+  *        Supported algorithms listed below:                  \n
+  *          - SHA256                            \n
+  *          - SHA384                            \n
+  *          - SHA512                            \n
+  *          - SHA3-256                            \n
+  *          - SHA3-384                            \n
+  *          - SHA3-512
+  *  @{
+  */
 
 /**
- * \brief 			STSE compute hash API
- * \details 		This API use the STSE to compute a hash in one command
- * \param[in]		p_stse			Pointer to target SE handler
- * \param[in] 		sha_algorithm	\ref stse_hash_algorithm_t SHA algorithm
- * \param[in] 		p_message		Pointer to message buffer
- * \param[in]		message_size	Input message length in bytes
- * \param[out] 		p_digest			Pointer to digest buffer
- * \param[out]		p_digest_size	Digest buffer length in bytes
- * \return \ref stse_return_code_t : STSE_OK on success ; error code otherwise
- */
+  * \brief       STSE compute hash API
+  * \details     This API use the STSE to compute a hash in one command
+  * \param[in]   p_stse      Pointer to target SE handler
+  * \param[in]     sha_algorithm \ref stse_hash_algorithm_t SHA algorithm
+  * \param[in]     p_message   Pointer to message buffer
+  * \param[in]   message_size  Input message length in bytes
+  * \param[out]    p_digest      Pointer to digest buffer
+  * \param[out]    p_digest_size Digest buffer length in bytes
+  * \return \ref stse_return_code_t : STSE_OK on success ; error code otherwise
+  */
 stse_return_code_t stse_compute_hash(
-    stse_handle_t *p_stse,
-    stse_hash_algorithm_t sha_algorithm,
-    PLAT_UI8 *p_message,
-    PLAT_UI16 message_size,
-    PLAT_UI8 *p_digest,
-    PLAT_UI16 *p_digest_size);
+  stse_handle_t *p_stse,
+  stse_hash_algorithm_t sha_algorithm,
+  PLAT_UI8 *p_message,
+  PLAT_UI16 message_size,
+  PLAT_UI8 *p_digest,
+  PLAT_UI16 *p_digest_size);
 
 /** @}*/
 
-#endif
+#endif /* defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) ||                                      \ */
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 #endif /*STSE_HASH_H*/

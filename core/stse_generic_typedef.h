@@ -1,20 +1,20 @@
-/*!
- ******************************************************************************
- * \file	stse_generic_typedef.h
- * \brief   STSELib generic typedefs header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_generic_typedef.h
+  * @author  CS Application Team
+  * @brief   STSELib generic typedefs header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 /*! \defgroup stse_generic_typedef STSE Generic typedefs
 *  \ingroup stse_core
@@ -23,6 +23,10 @@
 
 #ifndef STSE_GENERIC_TYPEDEF_H
 #define STSE_GENERIC_TYPEDEF_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 #include "core/stse_return_codes.h"
 #include "core/stse_util.h"
@@ -62,7 +66,7 @@
 #define STSE_EDDSA_CHALLENGE_SIZE 16U
 #define STSE_COUNTER_VALUE_SIZE 4U
 
-#define STSE_SECURE_CHANNEL_Msk 0x20U     /*!< STSE  Secure channel type bit */
+#define STSE_SECURE_CHANNEL_MSK 0x20U     /*!< STSE  Secure channel type bit */
 #define STSE_SECURE_CHANNEL_HOST 0x20U    /*!< STSE  Host secure channel */
 #define STSE_SECURE_CHANNEL_SESSION 0x00U /*!< STSE  Session secure channel */
 #define STSE_AES_128_KEY_SIZE 16U
@@ -74,32 +78,33 @@
  *
  * \note Do not assign any value to these enumerators, as they are used as indices in the `stse_ecc_info_table` array.
  */
-typedef enum stse_ecc_key_type_t {
+typedef enum stse_ecc_key_type_t
+{
 #ifdef STSE_CONF_ECC_NIST_P_256
-    STSE_ECC_KT_NIST_P_256,
-#endif
+  STSE_ECC_KT_NIST_P_256,
+#endif /* STSE_CONF_ECC_NIST_P_256 */
 #ifdef STSE_CONF_ECC_NIST_P_384
-    STSE_ECC_KT_NIST_P_384,
-#endif
+  STSE_ECC_KT_NIST_P_384,
+#endif /* STSE_CONF_ECC_NIST_P_384 */
 #ifdef STSE_CONF_ECC_NIST_P_521
-    STSE_ECC_KT_NIST_P_521,
-#endif
+  STSE_ECC_KT_NIST_P_521,
+#endif /* STSE_CONF_ECC_NIST_P_521 */
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_256
-    STSE_ECC_KT_BP_P_256,
-#endif
+  STSE_ECC_KT_BP_P_256,
+#endif /* STSE_CONF_ECC_BRAINPOOL_P_256 */
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_384
-    STSE_ECC_KT_BP_P_384,
-#endif
+  STSE_ECC_KT_BP_P_384,
+#endif /* STSE_CONF_ECC_BRAINPOOL_P_384 */
 #ifdef STSE_CONF_ECC_BRAINPOOL_P_512
-    STSE_ECC_KT_BP_P_512,
-#endif
+  STSE_ECC_KT_BP_P_512,
+#endif /* STSE_CONF_ECC_BRAINPOOL_P_512 */
 #ifdef STSE_CONF_ECC_CURVE_25519
-    STSE_ECC_KT_CURVE25519,
-#endif
+  STSE_ECC_KT_CURVE25519,
+#endif /* STSE_CONF_ECC_CURVE_25519 */
 #ifdef STSE_CONF_ECC_EDWARD_25519
-    STSE_ECC_KT_ED25519,
-#endif
-    STSE_ECC_KT_INVALID
+  STSE_ECC_KT_ED25519,
+#endif /* STSE_CONF_ECC_EDWARD_25519 */
+  STSE_ECC_KT_INVALID
 } stse_ecc_key_type_t;
 
 /*!
@@ -118,39 +123,41 @@ typedef PLAT_UI8 stse_aes_key_type_t;
 typedef PLAT_UI8 stse_aes_key_usage_t;
 #define STSE_AES_KEY_USAGE_MAC ((stse_aes_key_type_t)0)            /**< Key used for host MAC operations */
 #define STSE_AES_KEY_USAGE_CIPHER ((stse_aes_key_type_t)1)         /**< Key used for host cipher operations */
-#define STSE_AES_KEY_USAGE_GENERIC_SECRET ((stse_aes_key_type_t)2) /**< Generic secret: AES key with variable-length keys (from 16 to 32 bytes) */
+#define STSE_AES_KEY_USAGE_GENERIC_SECRET ((stse_aes_key_type_t)2) /**< Generic secret: AES key with
+                                                                        variable-length keys (from 16 to 32 bytes) */
 #define STSE_AES_KEY_USAGE_INVALID ((stse_aes_key_type_t)3)
 
 /*!
- * \enum stse_hash_algorithm_t
- * \brief STSE Hash algorithm type
- */
-typedef enum stse_hash_algorithm_t {
+  * \enum stse_hash_algorithm_t
+  * \brief STSE Hash algorithm type
+  */
+typedef enum stse_hash_algorithm_t
+{
 #ifdef STSE_CONF_HASH_SHA_1
-    STSE_SHA_1, /**< SHA-1 algorithm (not supported as service on STSAFE-A120) */
-#endif
+  STSE_SHA_1, /**< SHA-1 algorithm (not supported as service on STSAFE-A120) */
+#endif /* STSE_CONF_HASH_SHA_1 */
 #ifdef STSE_CONF_HASH_SHA_224
-    STSE_SHA_224, /**< SHA-224 algorithm (not supported as service on STSAFE-A120) */
-#endif
+  STSE_SHA_224, /**< SHA-224 algorithm (not supported as service on STSAFE-A120) */
+#endif /* STSE_CONF_HASH_SHA_224 */
 #ifdef STSE_CONF_HASH_SHA_256
-    STSE_SHA_256,
-#endif
+  STSE_SHA_256,
+#endif /* STSE_CONF_HASH_SHA_256 */
 #ifdef STSE_CONF_HASH_SHA_384
-    STSE_SHA_384,
-#endif
+  STSE_SHA_384,
+#endif /* STSE_CONF_HASH_SHA_384 */
 #ifdef STSE_CONF_HASH_SHA_512
-    STSE_SHA_512,
-#endif
+  STSE_SHA_512,
+#endif /* STSE_CONF_HASH_SHA_512 */
 #ifdef STSE_CONF_HASH_SHA_3_256
-    STSE_SHA3_256,
-#endif
+  STSE_SHA3_256,
+#endif /* STSE_CONF_HASH_SHA_3_256 */
 #ifdef STSE_CONF_HASH_SHA_3_384
-    STSE_SHA3_384,
-#endif
+  STSE_SHA3_384,
+#endif /* STSE_CONF_HASH_SHA_3_384 */
 #ifdef STSE_CONF_HASH_SHA_3_512
-    STSE_SHA3_512,
-#endif
-    STSE_SHA_INVALID
+  STSE_SHA3_512,
+#endif /* STSE_CONF_HASH_SHA_3_512 */
+  STSE_SHA_INVALID
 } stse_hash_algorithm_t;
 
 /*!
@@ -158,8 +165,11 @@ typedef enum stse_hash_algorithm_t {
  * \brief STSE hibernate wake up mode (STSAFE-A only)
  */
 typedef PLAT_UI8 stse_hibernate_wake_up_mode_t;
-#define STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET ((stse_hibernate_wake_up_mode_t)0x01) /*!< Wake up from hibernate after I2C start condition or after reset. */
-#define STSAFEA_HIBERNATE_WAKEUP_RESET_ONLY ((stse_hibernate_wake_up_mode_t)0x02)   /*!< Wake up from hibernate after reset only. */
+#define STSAFEA_HIBERNATE_WAKEUP_I2C_OR_RESET ((stse_hibernate_wake_up_mode_t)0x01) /*!< Wake up from hibernate
+                                                                                          after I2C start condition
+                                                                                          or after reset. */
+#define STSAFEA_HIBERNATE_WAKEUP_RESET_ONLY ((stse_hibernate_wake_up_mode_t)0x02)   /*!< Wake up from hibernate
+                                                                                          after reset only. */
 
 /*!
  * \typedef stse_cmd_protection_t
@@ -168,9 +178,12 @@ typedef PLAT_UI8 stse_hibernate_wake_up_mode_t;
 typedef PLAT_UI8 stse_cmd_protection_t;
 #define STSE_NO_PROT ((stse_cmd_protection_t)0)            /*!< No command / response payload protection */
 #define STSE_HOST_C_MAC_R_MAC ((stse_cmd_protection_t)1)   /*!< Authenticated command and response using HOST MAC Key */
-#define STSE_HOST_C_WRAP ((stse_cmd_protection_t)2)        /*!< Encrypted and authenticated command using HOST MAC and cipher Keys*/
-#define STSE_HOST_R_WRAP ((stse_cmd_protection_t)3)        /*!< Encrypted and authenticated response using HOST MAC and cipher Keys*/
-#define STSE_HOST_C_WRAP_R_WRAP ((stse_cmd_protection_t)4) /*!< Encrypted and authenticated command and response using HOST MAC and cipher Keys*/
+#define STSE_HOST_C_WRAP ((stse_cmd_protection_t)2)        /*!< Encrypted and authenticated command using
+                                                                HOST MAC and cipher Keys */
+#define STSE_HOST_R_WRAP ((stse_cmd_protection_t)3)        /*!< Encrypted and authenticated response using
+                                                                HOST MAC and cipher Keys */
+#define STSE_HOST_C_WRAP_R_WRAP ((stse_cmd_protection_t)4) /*!< Encrypted and authenticated command and
+                                                                response using HOST MAC and cipher Keys */
 
 /*!
  * \struct stse_aes_key_t
@@ -178,19 +191,20 @@ typedef PLAT_UI8 stse_cmd_protection_t;
  */
 typedef struct
 {
-    stse_aes_key_type_t type;
-    stse_aes_key_usage_t usage;
-    PLAT_UI8 key[STSE_AES_256_KEY_SIZE];
+  stse_aes_key_type_t type;
+  stse_aes_key_usage_t usage;
+  PLAT_UI8 key[STSE_AES_256_KEY_SIZE];
 } stse_aes_key_t;
 
 /*!
  * \struct stse_cmd_authorization_cr_t
  * \brief STSE commands authorization change request type
  */
-typedef struct stse_cmd_authorization_cr_t {
-    PLAT_UI8 host_encryption_flag_cr : 1;
-    PLAT_UI8 cmd_ac_cr : 1;
-    PLAT_UI8 filler : 6;
+typedef struct stse_cmd_authorization_cr_t
+{
+  PLAT_UI8 host_encryption_flag_cr : 1;
+  PLAT_UI8 cmd_ac_cr : 1;
+  PLAT_UI8 filler : 6;
 } stse_cmd_authorization_cr_t;
 
 /*!
@@ -209,47 +223,50 @@ typedef PLAT_UI8 stse_cmd_access_conditions_t;
  * \struct stse_cmd_authorization_record_t
  * \brief STSE commands authorization records type
  */
-typedef struct stse_cmd_authorization_record_t {
-    PLAT_UI8 header;
-    PLAT_UI8 extended_header;
-    stse_cmd_access_conditions_t command_ac;
-    struct {
-        PLAT_UI8 filler : STSE_6BIT_LEN;
-        PLAT_UI8 cmd : STSE_1BIT_LEN;
-        PLAT_UI8 rsp : STSE_1BIT_LEN;
-    } host_encryption_flags;
+typedef struct stse_cmd_authorization_record_t
+{
+  PLAT_UI8 header;
+  PLAT_UI8 extended_header;
+  stse_cmd_access_conditions_t command_ac;
+  struct
+  {
+PLAT_UI8 filler : STSE_6BIT_LEN;
+PLAT_UI8 cmd : STSE_1BIT_LEN;
+PLAT_UI8 rsp : STSE_1BIT_LEN;
+  } host_encryption_flags;
 } stse_cmd_authorization_record_t;
 
 /**
- * \typedef stse_zone_update_atomicity_t
- * \brief STSE Update command atomicity values
- */
+  * \typedef stse_zone_update_atomicity_t
+  * \brief STSE Update command atomicity values
+  */
 typedef PLAT_UI8 stse_zone_update_atomicity_t;
 #define STSE_NON_ATOMIC_ACCESS ((stse_zone_update_atomicity_t)0) /*!< Non Atomic Access*/
 #define STSE_ATOMIC_ACCESS ((stse_zone_update_atomicity_t)1)     /*!< Atomic Access*/
 
 /**
- * \typedef stse_zone_ac_t
- * \brief STSE data storage access condition values
- */
+  * \typedef stse_zone_ac_t
+  * \brief STSE data storage access condition values
+  */
 typedef PLAT_UI8 stse_zone_ac_t;
 #define STSE_AC_ALWAYS ((stse_zone_ac_t)0)        /*!< Zone/counter access always granted */
 #define STSE_AC_HOST ((stse_zone_ac_t)1)          /*!< Zone/counter access granted on Host C-MAC validation */
-#define STSE_AC_AUTH_AND_HOST ((stse_zone_ac_t)6) /*!< Zone/counter access granted on true Authentic entity status (verify entity signature) + Host C-MAC validation */
+#define STSE_AC_AUTH_AND_HOST ((stse_zone_ac_t)6) /*!< Zone/counter access granted on true Authentic entity status
+                                                       (verify entity signature) + Host C-MAC validation */
 #define STSE_AC_NEVER ((stse_zone_ac_t)7)         /*!< Zone/counter access never granted */
 
 /**
- * \typedef stse_zone_ac_change_indicator_t
- * \brief STSE data storage access condition change indicator
- */
+  * \typedef stse_zone_ac_change_indicator_t
+  * \brief STSE data storage access condition change indicator
+  */
 typedef PLAT_UI8 stse_zone_ac_change_indicator_t;
 #define STSE_AC_IGNORE ((stse_zone_ac_change_indicator_t)0) /*!< Ignore access condition change */
 #define STSE_AC_CHANGE ((stse_zone_ac_change_indicator_t)1) /*!< Request access condition change */
 
 /**
- * \typedef stse_ac_change_right_t
- * \brief STSE data storage access condition change right values
- */
+  * \typedef stse_ac_change_right_t
+  * \brief STSE data storage access condition change right values
+  */
 typedef PLAT_UI8 stse_ac_change_right_t;
 #define STSE_ACCR_DISABLED ((stse_ac_change_right_t)0) /*!< Change the AC is forbidden */
 #define STSE_ACCR_ENABLE ((stse_ac_change_right_t)1)   /*!< Change the AC is authorized */
@@ -262,270 +279,283 @@ typedef PLAT_UI8 stse_ac_change_right_t;
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    NIST-P 256 cryptographic algorithm definitions
+ *                NIST-P 256 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 
 #define STSE_NIST_P_256_ID_LENGTH_SIZE 2U
 #define STSE_NIST_P_256_ID_LENGTH \
-    {0x00, 0x08}
+  {0x00, 0x08}
 #define STSE_NIST_P_256_ID_VALUE_SIZE 8U
 #define STSE_NIST_P_256_ID_VALUE \
-    {0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07}
+  {0x2A, 0x86, 0x48, 0xCE, 0x3D, 0x03, 0x01, 0x07}
 #define STSE_NIST_P_256_ID_SIZE    \
-    STSE_NIST_P_256_ID_LENGTH_SIZE \
-    +STSE_NIST_P_256_ID_VALUE_SIZE
+  STSE_NIST_P_256_ID_LENGTH_SIZE \
+  +STSE_NIST_P_256_ID_VALUE_SIZE
 #define STSE_NIST_P_256_X_COORDINATE_LENGTH_SIZE 2U
 #define STSE_NIST_P_256_X_COORDINATE_VALUE_SIZE 32U
 #define STSE_NIST_P_256_Y_COORDINATE_LENGTH_SIZE 2U
 #define STSE_NIST_P_256_Y_COORDINATE_VALUE_SIZE 32U
 #define STSE_NIST_P_256_PUBLIC_KEY_SIZE              \
-    STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
-    +STSE_NIST_P_256_X_COORDINATE_LENGTH_SIZE + STSE_NIST_P_256_X_COORDINATE_VALUE_SIZE + STSE_NIST_P_256_Y_COORDINATE_LENGTH_SIZE + STSE_NIST_P_256_Y_COORDINATE_VALUE_SIZE
+  STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+  + STSE_NIST_P_256_X_COORDINATE_LENGTH_SIZE + STSE_NIST_P_256_X_COORDINATE_VALUE_SIZE \
+  + STSE_NIST_P_256_Y_COORDINATE_LENGTH_SIZE + STSE_NIST_P_256_Y_COORDINATE_VALUE_SIZE
 #define STSE_NIST_P_256_PRIVATE_KEY_SIZE 32U
 #define STSE_NIST_P_256_SHARED_SECRET_SIZE   \
-    STSE_NIST_P_256_X_COORDINATE_LENGTH_SIZE \
-    +STSE_NIST_P_256_X_COORDINATE_VALUE_SIZE
+  STSE_NIST_P_256_X_COORDINATE_LENGTH_SIZE \
+  +STSE_NIST_P_256_X_COORDINATE_VALUE_SIZE
 #define STSE_NIST_P_256_EPHEMERAL_PUBLIC_KEY_SIZE STSE_NIST_P_256_ID_SIZE + STSE_NIST_P_256_PUBLIC_KEY_SIZE
 #define STSE_NIST_P_256_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_NIST_P_256_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_NIST_P_256_SIGNATURE_R_VALUE_SIZE 32U
 #define STSE_NIST_P_256_SIGNATURE_S_VALUE_SIZE 32U
 #define STSE_NIST_P_256_SIGNATURE_SIZE      \
-    STSE_NIST_P_256_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_NIST_P_256_SIGNATURE_S_LENGTH_SIZE + STSE_NIST_P_256_SIGNATURE_S_VALUE_SIZE + STSE_NIST_P_256_SIGNATURE_R_VALUE_SIZE
+  STSE_NIST_P_256_SIGNATURE_R_LENGTH_SIZE \
+  + STSE_NIST_P_256_SIGNATURE_S_LENGTH_SIZE + STSE_NIST_P_256_SIGNATURE_S_VALUE_SIZE \
+  + STSE_NIST_P_256_SIGNATURE_R_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    NIST-P 384 cryptographic algorithm definitions
+ *                NIST-P 384 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 #define STSE_NIST_P_384_ID_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_ID_LENGTH \
-    {0x00, 0x05}
+  {0x00, 0x05}
 #define STSE_NIST_P_384_ID_VALUE_SIZE 5U
 #define STSE_NIST_P_384_ID_VALUE \
-    {0x2B, 0x81, 0x04, 0x00, 0x22}
+  {0x2B, 0x81, 0x04, 0x00, 0x22}
 #define STSE_NIST_P_384_ID_SIZE    \
-    STSE_NIST_P_384_ID_LENGTH_SIZE \
-    +STSE_NIST_P_384_ID_VALUE_SIZE
+  STSE_NIST_P_384_ID_LENGTH_SIZE \
+  +STSE_NIST_P_384_ID_VALUE_SIZE
 #define STSE_NIST_P_384_X_COORDINATE_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_Y_COORDINATE_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_X_COORDINATE_VALUE_SIZE 48U
 #define STSE_NIST_P_384_Y_COORDINATE_VALUE_SIZE 48U
 #define STSE_NIST_P_384_PUBLIC_KEY_SIZE              \
-    STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
-    +STSE_NIST_P_384_X_COORDINATE_LENGTH_SIZE + STSE_NIST_P_384_Y_COORDINATE_LENGTH_SIZE + STSE_NIST_P_384_X_COORDINATE_VALUE_SIZE + STSE_NIST_P_384_Y_COORDINATE_VALUE_SIZE
+  STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+  + STSE_NIST_P_384_X_COORDINATE_LENGTH_SIZE + STSE_NIST_P_384_Y_COORDINATE_LENGTH_SIZE \
+  + STSE_NIST_P_384_X_COORDINATE_VALUE_SIZE + STSE_NIST_P_384_Y_COORDINATE_VALUE_SIZE
 #define STSE_NIST_P_384_PRIVATE_KEY_SIZE 48U
 #define STSE_NIST_P_384_EPHEMERAL_PUBLIC_KEY_SIZE \
-    STSE_NIST_P_384_ID_SIZE                       \
-    +STSE_NIST_P_384_PUBLIC_KEY_SIZE
+  STSE_NIST_P_384_ID_SIZE                       \
+  +STSE_NIST_P_384_PUBLIC_KEY_SIZE
 #define STSE_NIST_P_384_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_SIGNATURE_R_VALUE_SIZE 48U
 #define STSE_NIST_P_384_SIGNATURE_S_VALUE_SIZE 48U
 #define STSE_NIST_P_384_SIGNATURE_SIZE      \
-    STSE_NIST_P_384_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_NIST_P_384_SIGNATURE_S_LENGTH_SIZE + STSE_NIST_P_384_SIGNATURE_S_VALUE_SIZE + STSE_NIST_P_384_SIGNATURE_R_VALUE_SIZE
+  STSE_NIST_P_384_SIGNATURE_R_LENGTH_SIZE \
+  + STSE_NIST_P_384_SIGNATURE_S_LENGTH_SIZE + STSE_NIST_P_384_SIGNATURE_S_VALUE_SIZE \
+  + STSE_NIST_P_384_SIGNATURE_R_VALUE_SIZE
 #define STSE_NIST_P_384_SHARED_SECRET_LENGTH_SIZE 2U
 #define STSE_NIST_P_384_SHARED_SECRET_SIZE    \
-    STSE_NIST_P_384_SHARED_SECRET_LENGTH_SIZE \
-    +STSE_NIST_P_384_X_COORDINATE_VALUE_SIZE
+  STSE_NIST_P_384_SHARED_SECRET_LENGTH_SIZE \
+  +STSE_NIST_P_384_X_COORDINATE_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    NIST-P 521 cryptographic algorithm definitions
+ *                NIST-P 521 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 #define STSE_NIST_P_521_ID_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_ID_LENGTH \
-    {0x00, 0x05}
+  {0x00, 0x05}
 #define STSE_NIST_P_521_ID_VALUE_SIZE 5U
 #define STSE_NIST_P_521_ID_VALUE \
-    {0x2B, 0x81, 0x04, 0x00, 0x23}
+  {0x2B, 0x81, 0x04, 0x00, 0x23}
 #define STSE_NIST_P_521_ID_SIZE    \
-    STSE_NIST_P_521_ID_LENGTH_SIZE \
-    +STSE_NIST_P_521_ID_VALUE_SIZE
+  STSE_NIST_P_521_ID_LENGTH_SIZE \
+  +STSE_NIST_P_521_ID_VALUE_SIZE
 #define STSE_NIST_P_521_X_COORDINATE_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_Y_COORDINATE_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_X_COORDINATE_VALUE_SIZE 66U
 #define STSE_NIST_P_521_Y_COORDINATE_VALUE_SIZE 66U
 #define STSE_NIST_P_521_PUBLIC_KEY_SIZE              \
-    STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
-    +STSE_NIST_P_521_X_COORDINATE_LENGTH_SIZE + STSE_NIST_P_521_Y_COORDINATE_LENGTH_SIZE + STSE_NIST_P_521_X_COORDINATE_VALUE_SIZE + STSE_NIST_P_521_Y_COORDINATE_VALUE_SIZE
+  STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+  + STSE_NIST_P_521_X_COORDINATE_LENGTH_SIZE + STSE_NIST_P_521_Y_COORDINATE_LENGTH_SIZE \
+  + STSE_NIST_P_521_X_COORDINATE_VALUE_SIZE + STSE_NIST_P_521_Y_COORDINATE_VALUE_SIZE
 #define STSE_NIST_P_521_PRIVATE_KEY_SIZE 66U
 #define STSE_NIST_P_521_EPHEMERAL_PUBLIC_KEY_SIZE 2 + STSE_NIST_P_521_ID_SIZE + STSE_NIST_P_521_PUBLIC_KEY_SIZE
 #define STSE_NIST_P_521_SHARED_SECRET_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_SHARED_SECRET_SIZE    \
-    STSE_NIST_P_521_SHARED_SECRET_LENGTH_SIZE \
-    +STSE_NIST_P_521_X_COORDINATE_VALUE_SIZE
+  STSE_NIST_P_521_SHARED_SECRET_LENGTH_SIZE \
+  +STSE_NIST_P_521_X_COORDINATE_VALUE_SIZE
 #define STSE_NIST_P_521_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_SIGNATURE_R_VALUE_SIZE 66U
 #define STSE_NIST_P_521_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_NIST_P_521_SIGNATURE_S_VALUE_SIZE 66U
 #define STSE_NIST_P_521_SIGNATURE_SIZE      \
-    STSE_NIST_P_521_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_NIST_P_521_SIGNATURE_S_LENGTH_SIZE + STSE_NIST_P_521_SIGNATURE_S_VALUE_SIZE + STSE_NIST_P_521_SIGNATURE_R_VALUE_SIZE
+  STSE_NIST_P_521_SIGNATURE_R_LENGTH_SIZE \
+  + STSE_NIST_P_521_SIGNATURE_S_LENGTH_SIZE + STSE_NIST_P_521_SIGNATURE_S_VALUE_SIZE \
+  + STSE_NIST_P_521_SIGNATURE_R_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    BRAINPOOL-P 256 cryptographic algorithm definitions
+ *                BRAINPOOL-P 256 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 
 #define STSE_BRAINPOOL_P_256_ID_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_256_ID_LENGTH \
-    {0x00, 0x09}
+  {0x00, 0x09}
 #define STSE_BRAINPOOL_P_256_ID_VALUE_SIZE 9U
 #define STSE_BRAINPOOL_P_256_ID_VALUE \
-    {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x07}
+  {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x07}
 #define STSE_BRAINPOOL_P_256_ID_SIZE    \
-    STSE_BRAINPOOL_P_256_ID_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_256_ID_VALUE_SIZE
+  STSE_BRAINPOOL_P_256_ID_LENGTH_SIZE \
+  +STSE_BRAINPOOL_P_256_ID_VALUE_SIZE
 #define STSE_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE 32U
 #define STSE_BRAINPOOL_P_256_Y_COORDINATE_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_256_Y_COORDINATE_VALUE_SIZE 32U
 #define STSE_BRAINPOOL_P_256_PUBLIC_KEY_SIZE         \
-    STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
-    +STSE_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE + STSE_BRAINPOOL_P_256_Y_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_256_Y_COORDINATE_VALUE_SIZE
+  STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+  + STSE_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE \
+  + STSE_BRAINPOOL_P_256_Y_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_256_Y_COORDINATE_VALUE_SIZE
 #define STSE_BRAINPOOL_P_256_PRIVATE_KEY_SIZE 32U
 #define STSE_BRAINPOOL_P_256_SHARED_SECRET_SIZE   \
-    STSE_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE
+  STSE_BRAINPOOL_P_256_X_COORDINATE_LENGTH_SIZE \
+  +STSE_BRAINPOOL_P_256_X_COORDINATE_VALUE_SIZE
 #define STSE_BRAINPOOL_P_256_EPHEMERAL_PUBLIC_KEY_SIZE \
-    STSE_BRAINPOOL_P_256_ID_SIZE                       \
-    +STSE_BRAINPOOL_P_256_PUBLIC_KEY_SIZE
+  STSE_BRAINPOOL_P_256_ID_SIZE                       \
+  +STSE_BRAINPOOL_P_256_PUBLIC_KEY_SIZE
 #define STSE_BRAINPOOL_P_256_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_256_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE 32U
 #define STSE_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE 32U
 #define STSE_BRAINPOOL_P_256_SIGNATURE_SIZE      \
-    STSE_BRAINPOOL_P_256_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_256_SIGNATURE_S_LENGTH_SIZE + STSE_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE + STSE_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE
+  STSE_BRAINPOOL_P_256_SIGNATURE_R_LENGTH_SIZE \
+  + STSE_BRAINPOOL_P_256_SIGNATURE_S_LENGTH_SIZE + STSE_BRAINPOOL_P_256_SIGNATURE_S_VALUE_SIZE \
+  + STSE_BRAINPOOL_P_256_SIGNATURE_R_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    BRAINPOOL-P 384 cryptographic algorithm definitions
+ *                BRAINPOOL-P 384 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 
 #define STSE_BRAINPOOL_P_384_ID_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_ID_LENGTH \
-    {0x00, 0x09}
+  {0x00, 0x09}
 #define STSE_BRAINPOOL_P_384_ID_VALUE_SIZE 9U
 #define STSE_BRAINPOOL_P_384_ID_VALUE \
-    {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0B}
+  {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0B}
 #define STSE_BRAINPOOL_P_384_ID_SIZE    \
-    STSE_BRAINPOOL_P_384_ID_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_384_ID_VALUE_SIZE
+  STSE_BRAINPOOL_P_384_ID_LENGTH_SIZE \
+  +STSE_BRAINPOOL_P_384_ID_VALUE_SIZE
 #define STSE_BRAINPOOL_P_384_X_COORDINATE_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_Y_COORDINATE_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE 48U
 #define STSE_BRAINPOOL_P_384_Y_COORDINATE_VALUE_SIZE 48U
 #define STSE_BRAINPOOL_P_384_PUBLIC_KEY_SIZE         \
-    STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
-    +STSE_BRAINPOOL_P_384_X_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_384_Y_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE + STSE_BRAINPOOL_P_384_Y_COORDINATE_VALUE_SIZE
+  STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+  + STSE_BRAINPOOL_P_384_X_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_384_Y_COORDINATE_LENGTH_SIZE \
+  + STSE_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE + STSE_BRAINPOOL_P_384_Y_COORDINATE_VALUE_SIZE
 
 #define STSE_BRAINPOOL_P_384_PRIVATE_KEY_SIZE 48U
 #define STSE_BRAINPOOL_P_384_EPHEMERAL_PUBLIC_KEY_SIZE \
-    STSE_BRAINPOOL_P_384_ID_SIZE                       \
-    +STSE_BRAINPOOL_P_384_PUBLIC_KEY_SIZE
+  STSE_BRAINPOOL_P_384_ID_SIZE                       \
+  +STSE_BRAINPOOL_P_384_PUBLIC_KEY_SIZE
 #define STSE_BRAINPOOL_P_384_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE 48U
 #define STSE_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE 48U
 #define STSE_BRAINPOOL_P_384_SIGNATURE_SIZE      \
-    STSE_BRAINPOOL_P_384_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_384_SIGNATURE_S_LENGTH_SIZE + STSE_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE + STSE_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE
+  STSE_BRAINPOOL_P_384_SIGNATURE_R_LENGTH_SIZE \
+  + STSE_BRAINPOOL_P_384_SIGNATURE_S_LENGTH_SIZE + STSE_BRAINPOOL_P_384_SIGNATURE_S_VALUE_SIZE \
+  + STSE_BRAINPOOL_P_384_SIGNATURE_R_VALUE_SIZE
 #define STSE_BRAINPOOL_P_384_SHARED_SECRET_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_384_SHARED_SECRET_SIZE    \
-    STSE_BRAINPOOL_P_384_SHARED_SECRET_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE
+  STSE_BRAINPOOL_P_384_SHARED_SECRET_LENGTH_SIZE \
+  +STSE_BRAINPOOL_P_384_X_COORDINATE_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    BRAINPOOL-P 512 cryptographic algorithm definitions
+ *                BRAINPOOL-P 512 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 
 #define STSE_BRAINPOOL_P_512_ID_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_ID_LENGTH \
-    {0x00, 0x09}
+  {0x00, 0x09}
 #define STSE_BRAINPOOL_P_512_ID_VALUE_SIZE 9U
 #define STSE_BRAINPOOL_P_512_ID_VALUE \
-    {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0D}
+  {0x2B, 0x24, 0x03, 0x03, 0x02, 0x08, 0x01, 0x01, 0x0D}
 #define STSE_BRAINPOOL_P_512_ID_SIZE    \
-    STSE_BRAINPOOL_P_512_ID_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_512_ID_VALUE_SIZE
+  STSE_BRAINPOOL_P_512_ID_LENGTH_SIZE \
+  +STSE_BRAINPOOL_P_512_ID_VALUE_SIZE
 #define STSE_BRAINPOOL_P_512_X_COORDINATE_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_Y_COORDINATE_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE 64U
 #define STSE_BRAINPOOL_P_512_Y_COORDINATE_VALUE_SIZE 64U
 #define STSE_BRAINPOOL_P_512_PUBLIC_KEY_SIZE         \
-    STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
-    +STSE_BRAINPOOL_P_512_X_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_512_Y_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE + STSE_BRAINPOOL_P_512_Y_COORDINATE_VALUE_SIZE
+  STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE \
+  + STSE_BRAINPOOL_P_512_X_COORDINATE_LENGTH_SIZE + STSE_BRAINPOOL_P_512_Y_COORDINATE_LENGTH_SIZE \
+  + STSE_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE + STSE_BRAINPOOL_P_512_Y_COORDINATE_VALUE_SIZE
 #define STSE_BRAINPOOL_P_512_PRIVATE_KEY_SIZE 64U
-#define STSE_BRAINPOOL_P_512_EPHEMERAL_PUBLIC_KEY_SIZE 2 + STSE_BRAINPOOL_P_512_ID_SIZE + STSE_BRAINPOOL_P_512_PUBLIC_KEY_SIZE
+#define STSE_BRAINPOOL_P_512_EPHEMERAL_PUBLIC_KEY_SIZE 2\
+  + STSE_BRAINPOOL_P_512_ID_SIZE + STSE_BRAINPOOL_P_512_PUBLIC_KEY_SIZE
 #define STSE_BRAINPOOL_P_512_SHARED_SECRET_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_SHARED_SECRET_SIZE    \
-    STSE_BRAINPOOL_P_512_SHARED_SECRET_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE
+  STSE_BRAINPOOL_P_512_SHARED_SECRET_LENGTH_SIZE \
+  +STSE_BRAINPOOL_P_512_X_COORDINATE_VALUE_SIZE
 #define STSE_BRAINPOOL_P_512_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE 64U
 #define STSE_BRAINPOOL_P_512_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE 64U
 #define STSE_BRAINPOOL_P_512_SIGNATURE_SIZE      \
-    STSE_BRAINPOOL_P_512_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_BRAINPOOL_P_512_SIGNATURE_S_LENGTH_SIZE + STSE_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE + STSE_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE
+  STSE_BRAINPOOL_P_512_SIGNATURE_R_LENGTH_SIZE \
+  + STSE_BRAINPOOL_P_512_SIGNATURE_S_LENGTH_SIZE + STSE_BRAINPOOL_P_512_SIGNATURE_S_VALUE_SIZE \
+  + STSE_BRAINPOOL_P_512_SIGNATURE_R_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    X25519 cryptographic algorithm definitions
+ *                X25519 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
 
 #define STSE_X25519_ID_LENGTH_SIZE 2U
 #define STSE_X25519_ID_LENGTH \
-    {0x00, 0x03}
+  {0x00, 0x03}
 #define STSE_X25519_ID_VALUE_SIZE 3U
 #define STSE_X25519_ID_VALUE \
-    {0x2B, 0x65, 0x6E}
+  {0x2B, 0x65, 0x6E}
 #define STSE_X25519_ID_SIZE    \
-    STSE_X25519_ID_LENGTH_SIZE \
-    +STSE_X25519_ID_VALUE_SIZE
+  STSE_X25519_ID_LENGTH_SIZE \
+  +STSE_X25519_ID_VALUE_SIZE
 #define STSE_X25519_PUBLIC_KEY_LENGTH_SIZE 2U
 #define STSE_X25519_PUBLIC_KEY_VALUE_SIZE 32U
 #define STSE_X25519_PUBLIC_KEY_SIZE    \
-    STSE_X25519_PUBLIC_KEY_LENGTH_SIZE \
-    +STSE_X25519_PUBLIC_KEY_VALUE_SIZE
+  STSE_X25519_PUBLIC_KEY_LENGTH_SIZE \
+  +STSE_X25519_PUBLIC_KEY_VALUE_SIZE
 #define STSE_X25519_PRIVATE_KEY_SIZE 32U
 #define STSE_X25519_EPHEMERAL_PUBLIC_KEY_SIZE \
-    STSE_X25519_ID_SIZE                       \
-    +STSE_X25519_PUBLIC_KEY_SIZE
+  STSE_X25519_ID_SIZE                       \
+  +STSE_X25519_PUBLIC_KEY_SIZE
 #define STSE_X25519_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_X25519_SIGNATURE_R_VALUE_SIZE 32U
 #define STSE_X25519_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_X25519_SIGNATURE_S_VALUE_SIZE 32U
 #define STSE_X25519_SIGNATURE_SIZE      \
-    STSE_X25519_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_X25519_SIGNATURE_R_VALUE_SIZE + STSE_X25519_SIGNATURE_S_LENGTH_SIZE + STSE_X25519_SIGNATURE_S_VALUE_SIZE
+  STSE_X25519_SIGNATURE_R_LENGTH_SIZE \
+  +STSE_X25519_SIGNATURE_R_VALUE_SIZE + STSE_X25519_SIGNATURE_S_LENGTH_SIZE + STSE_X25519_SIGNATURE_S_VALUE_SIZE
 #define STSE_X25519_SHARED_SECRET_LENGTH_SIZE 2U
 #define STSE_X25519_SHARED_SECRET_VALUE_SIZE 32U
 #define STSE_X25519_SHARED_SECRET_SIZE    \
-    STSE_X25519_SHARED_SECRET_LENGTH_SIZE \
-    +STSE_X25519_SHARED_SECRET_VALUE_SIZE
+  STSE_X25519_SHARED_SECRET_LENGTH_SIZE \
+  +STSE_X25519_SHARED_SECRET_VALUE_SIZE
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						    ED25519 cryptographic algorithm definitions
+ *                ED25519 cryptographic algorithm definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
@@ -533,63 +563,68 @@ typedef PLAT_UI8 stse_ac_change_right_t;
 #define STSE_ED25519_ID_SIZE 5U
 #define STSE_ED25519_ID_LENGTH_SIZE 2U
 #define STSE_ED25519_ID_LENGTH \
-    {0x00, 0x03}
+  {0x00, 0x03}
 #define STSE_ED25519_ID_VALUE_SIZE 3U
 #define STSE_ED25519_ID_VALUE \
-    {0x2B, 0x65, 0x70}
+  {0x2B, 0x65, 0x70}
 #define STSE_ED25519_PUBLIC_KEY_LENGTH_SIZE 2U
 #define STSE_ED25519_PUBLIC_KEY_VALUE_SIZE 32U
 #define STSE_ED25519_PUBLIC_KEY_SIZE    \
-    STSE_ED25519_PUBLIC_KEY_LENGTH_SIZE \
-    +STSE_ED25519_PUBLIC_KEY_VALUE_SIZE
+  STSE_ED25519_PUBLIC_KEY_LENGTH_SIZE \
+  +STSE_ED25519_PUBLIC_KEY_VALUE_SIZE
 #define STSE_ED25519_PRIVATE_KEY_SIZE 32U
 #define STSE_ED25519_EPHEMERAL_PUBLIC_KEY_SIZE \
-    STSE_ED25519_ID_SIZE                       \
-    +STSE_ED25519_PUBLIC_KEY_SIZE
+  STSE_ED25519_ID_SIZE                       \
+  +STSE_ED25519_PUBLIC_KEY_SIZE
 #define STSE_ED25519_SIGNATURE_R_LENGTH_SIZE 2U
 #define STSE_ED25519_SIGNATURE_R_VALUE_SIZE 32U
 #define STSE_ED25519_SIGNATURE_S_LENGTH_SIZE 2U
 #define STSE_ED25519_SIGNATURE_S_VALUE_SIZE 32U
 #define STSE_ED25519_SIGNATURE_SIZE      \
-    STSE_ED25519_SIGNATURE_R_LENGTH_SIZE \
-    +STSE_ED25519_SIGNATURE_R_VALUE_SIZE + STSE_ED25519_SIGNATURE_S_LENGTH_SIZE + STSE_ED25519_SIGNATURE_S_VALUE_SIZE
+  STSE_ED25519_SIGNATURE_R_LENGTH_SIZE \
+  +STSE_ED25519_SIGNATURE_R_VALUE_SIZE + STSE_ED25519_SIGNATURE_S_LENGTH_SIZE + STSE_ED25519_SIGNATURE_S_VALUE_SIZE
 #define STSE_ED25519_SHARED_SECRET_LENGTH_SIZE 2U
 #define STSE_ED25519_SHARED_SECRET_VALUE_SIZE 32U
 #define STSE_ED25519_SHARED_SECRET_SIZE    \
-    STSE_ED25519_SHARED_SECRET_LENGTH_SIZE \
-    +STSE_ED25519_SHARED_SECRET_VALUE_SIZE
+  STSE_ED25519_SHARED_SECRET_LENGTH_SIZE \
+  +STSE_ED25519_SHARED_SECRET_VALUE_SIZE
+
+typedef struct PLAT_PACKED_STRUCT stsafea_ecc_curve_id_t
+{
+  PLAT_UI8 length[STSE_ECC_CURVE_ID_LENGTH_SIZE];
+  PLAT_UI8 value[STSE_ECC_CURVE_ID_VALUE_MAX_SIZE];
+} stsafea_ecc_curve_id_t;
 
 typedef struct
 {
-    PLAT_UI8 length[STSE_ECC_CURVE_ID_LENGTH_SIZE];
-    PLAT_UI8 value[STSE_ECC_CURVE_ID_VALUE_MAX_SIZE];
-} PLAT_PACKED_STRUCT stsafea_ecc_curve_id_t;
-
-typedef struct {
-    PLAT_UI16 curve_id_total_length;
-    stsafea_ecc_curve_id_t curve_id;
-    PLAT_UI16 coordinate_or_key_size;
-    PLAT_UI16 public_key_size;
-    union {
-        PLAT_UI16 private_key_size;
-        PLAT_UI16 min_signature_message_size;
-    };
-    PLAT_UI16 shared_secret_size;
-    PLAT_UI16 signature_size;
+  PLAT_UI16 curve_id_total_length;
+  stsafea_ecc_curve_id_t curve_id;
+  PLAT_UI16 coordinate_or_key_size;
+  PLAT_UI16 public_key_size;
+  union
+  {
+    PLAT_UI16 private_key_size;
+    PLAT_UI16 min_signature_message_size;
+  };
+  PLAT_UI16 shared_secret_size;
+  PLAT_UI16 signature_size;
 } stse_ecc_info_t;
 
 extern const stse_ecc_info_t stse_ecc_info_table[];
 
 /**
- * \brief 		Get ECC key type from curve identifier
- * \details 	This function resolves the ECC key type from a given curve identifier by
- * 				comparing it against each entry of \ref stse_ecc_info_table.
- * \param[in]	curve_id	Pointer to the curve identifier (length + value) to resolve
- * \return 		The matching \ref stse_ecc_key_type_t ;
- * 				\ref STSE_ECC_KT_INVALID if the curve identifier is not recognized
- */
+  * \brief     Get ECC key type from curve identifier
+  * \details   This function resolves the ECC key type from a given curve identifier by
+  *        comparing it against each entry of \ref stse_ecc_info_table.
+  * \param[in] curve_id  Pointer to the curve identifier (length + value) to resolve
+  * \return    The matching \ref stse_ecc_key_type_t ;
+  *        \ref STSE_ECC_KT_INVALID if the curve identifier is not recognized
+  */
 stse_ecc_key_type_t stse_get_ecc_key_type_from_curve_id(const stsafea_ecc_curve_id_t curve_id[static 1]);
 
 /** \}*/
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 #endif /* STSE_GENERIC_TYPEDEF_H */

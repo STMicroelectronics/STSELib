@@ -1,23 +1,27 @@
-/*!
- ******************************************************************************
- * \file	stsafea_patch.c
- * \brief   STSAFE-A services for put and query (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafea_put_query.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A services for put and query (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFEA_PUT_QUERY_H
 #define STSAFEA_PUT_QUERY_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 #include "core/stse_device.h"
 #include "core/stse_frame.h"
@@ -29,7 +33,7 @@
 
 /*  ---------------------------------------------------------------------------------------
  *
- *						       QUERY/PUT/GET Subject tags definitions
+ *                   QUERY/PUT/GET Subject tags definitions
  *
  *  ---------------------------------------------------------------------------------------
 */
@@ -95,70 +99,73 @@ typedef PLAT_UI8 stsafea_life_cycle_state_t;
  */
 typedef struct
 {
-    PLAT_UI8 filler : STSE_1BIT_LEN;
-    PLAT_UI8 i2c_address : STSE_7BIT_LEN;              /*!< I2C address (Max 0x7F) */
-    PLAT_UI8 i2c_paramers_lock : STSE_1BIT_LEN;        /*!< Lock I2C configuration defined by other parameters (0: none, 1: lock) */
-    PLAT_UI8 low_power_mode : STSE_2BIT_LEN;           /*!< Low power mode (0: none, 2: standby) */
-    PLAT_UI8 idle_bus_time_to_standby : STSE_5BIT_LEN; /*!< For standby, period of time without any command processing and with I2C bus idle until the chip enters standby mode. Coded in 50ms steps, starting from 50ms as floor value (0: 50ms, 1: 100ms, ..., 31: 1600ms) */
+PLAT_UI8 filler : STSE_1BIT_LEN;
+PLAT_UI8 i2c_address : STSE_7BIT_LEN;              /*!< I2C address (Max 0x7F) */
+PLAT_UI8 i2c_paramers_lock : STSE_1BIT_LEN;        /*!< Lock I2C configuration defined by other parameters (0: none, 1: lock) */
+PLAT_UI8 low_power_mode : STSE_2BIT_LEN;           /*!< Low power mode (0: none, 2: standby) */
+PLAT_UI8 idle_bus_time_to_standby : STSE_5BIT_LEN; /*!< For standby, period of time without any command processing and with I2C bus idle until the chip enters standby mode. Coded in 50ms steps, starting from 50ms as floor value (0: 50ms, 1: 100ms, ..., 31: 1600ms) */
 } stsafea_i2c_parameters_t;
 
 /**
- * \brief 		STSAFEA put life cycle service
- * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	p_stse 				Pointer to STSE Handle
- * \param[in] 	life_cycle_state 	Life cycle state
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     STSAFEA put life cycle service
+  * \details   This service format and send/receive the put life cycle command/response
+  * \param[in]   p_stse        Pointer to STSE Handle
+  * \param[in]   life_cycle_state  Life cycle state
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stsafea_put_life_cyle_state(
-    stse_handle_t *p_stse,
-    stsafea_life_cycle_state_t life_cycle_state);
+  stse_handle_t *p_stse,
+  stsafea_life_cycle_state_t life_cycle_state);
 
 /**
- * \brief 		STSAFEA put life cycle service
- * \details 	This service format and send/receive the put life cycle command/response
- * \param[in] 	p_stse	 			Pointer to STSE Handle
- * \param[out] 	p_life_cycle_state 	Life cycle state
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     STSAFEA put life cycle service
+  * \details   This service format and send/receive the put life cycle command/response
+  * \param[in]   p_stse        Pointer to STSE Handle
+  * \param[out]  p_life_cycle_state  Life cycle state
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stsafea_query_life_cycle_state(
-    stse_handle_t *p_stse,
-    stsafea_life_cycle_state_t *p_life_cycle_state);
+  stse_handle_t *p_stse,
+  stsafea_life_cycle_state_t *p_life_cycle_state);
 
 /**
- * \brief 		STSAFEA put I2C parameters service
- * \details 	This service format and send/receive the put I2C parameters command/response
- * \param[in] 	p_stse 						Pointer to STSE Handle
- * \param[in] 	p_i2c_parameters 			I2C parameters
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     STSAFEA put I2C parameters service
+  * \details   This service format and send/receive the put I2C parameters command/response
+  * \param[in]   p_stse            Pointer to STSE Handle
+  * \param[in]   p_i2c_parameters      I2C parameters
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stsafea_put_i2c_parameters(
-    stse_handle_t *p_stse,
-    stsafea_i2c_parameters_t *p_i2c_parameters);
+  stse_handle_t *p_stse,
+  stsafea_i2c_parameters_t *p_i2c_parameters);
 
 /**
- * \brief 		STSAFEA query I2C parameters service
- * \details 	This service format and send/receive the query I2C parameters command/response
- * \param[in] 	p_stse	 					Pointer to STSE Handle
- * \param[out] 	p_i2c_parameters 			I2C parameters
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     STSAFEA query I2C parameters service
+  * \details   This service format and send/receive the query I2C parameters command/response
+  * \param[in]   p_stse            Pointer to STSE Handle
+  * \param[out]  p_i2c_parameters      I2C parameters
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stsafea_query_i2c_parameters(
-    stse_handle_t *p_stse,
-    stsafea_i2c_parameters_t *p_i2c_parameters);
+  stse_handle_t *p_stse,
+  stsafea_i2c_parameters_t *p_i2c_parameters);
 
 /**
- * \brief 		STSAFEA query mask identification & ST number service
- * \details 	This service format and send/receive the mask identification & ST number command/response
- * \param[in] 	p_stse	 			Pointer to STSE Handle
- * \param[out] 	mask_id		 		Mask identification (3 bytes)
- * \param[out] 	st_number		 	ST number (7 bytes)
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     STSAFEA query mask identification & ST number service
+  * \details   This service format and send/receive the mask identification & ST number command/response
+  * \param[in]   p_stse        Pointer to STSE Handle
+  * \param[out]  mask_id       Mask identification (3 bytes)
+  * \param[out]  st_number     ST number (7 bytes)
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stsafea_query_mask_id_st_number(
-    stse_handle_t *p_stse,
-    PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE],
-    PLAT_UI8 st_number[STSAFEA_ST_NUMBER_SIZE]);
+  stse_handle_t *p_stse,
+  PLAT_UI8 mask_id[STSAFEA_MASK_ID_SIZE],
+  PLAT_UI8 st_number[STSAFEA_ST_NUMBER_SIZE]);
 
 /** \}*/
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 #endif /* STSAFEA_PUT_QUERY_H */

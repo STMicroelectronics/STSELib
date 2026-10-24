@@ -1,23 +1,27 @@
-/*!
- *******************************************************************************
- * \file    stse_data_storage.h
- * \brief   STSE secure data storage API set (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2023 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_data_storage.h
+  * @author  CS Application Team
+  * @brief   STSE secure data storage API set (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSE_DATA_STORAGE_H
 #define STSE_DATA_STORAGE_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_data_partition.h"
@@ -25,11 +29,12 @@
 #include "services/stsafel/stsafel_data_partition.h"
 
 /** \defgroup   stse_data_storage   STSE Data storage
- *  \ingroup    stse_api
- *  \brief      STSE data storage API set
- *  \details    The data storage API set provides high level functions to manage Access to the Secure User NVM of STSE devices.
- *  @{
- */
+  *  \ingroup    stse_api
+  *  \brief      STSE data storage API set
+  *  \details    The data storage API set provides high level functions to manage Access to the Secure User NVM
+  *              of STSE devices.
+  *  @{
+  */
 
 /*!
  * \brief       Read one memory zone of the STSE device
@@ -49,13 +54,13 @@
  * \details \include{doc} stse_data_storage_read_zone.dox
  */
 stse_return_code_t stse_data_storage_read_data_zone(
-    stse_handle_t *p_stse,
-    PLAT_UI32 zone,
-    PLAT_UI16 offset,
-    PLAT_UI8 *p_buffer,
-    PLAT_UI16 length,
-    PLAT_UI16 chunk_size,
-    stse_cmd_protection_t protection);
+  stse_handle_t *p_stse,
+  PLAT_UI32 zone,
+  PLAT_UI16 offset,
+  PLAT_UI8 *p_buffer,
+  PLAT_UI16 length,
+  PLAT_UI16 chunk_size,
+  stse_cmd_protection_t protection);
 
 /*!
  * \brief       Update one memory zone of the STSE device
@@ -75,13 +80,13 @@ stse_return_code_t stse_data_storage_read_data_zone(
  * \details \include{doc} stse_data_storage_update_zone.dox
  */
 stse_return_code_t stse_data_storage_update_data_zone(
-    stse_handle_t *p_stse,
-    PLAT_UI32 zone,
-    PLAT_UI16 offset,
-    const PLAT_UI8 *p_buffer,
-    PLAT_UI16 length,
-    stse_zone_update_atomicity_t atomicity,
-    stse_cmd_protection_t protection);
+  stse_handle_t *p_stse,
+  PLAT_UI32 zone,
+  PLAT_UI16 offset,
+  const PLAT_UI8 *p_buffer,
+  PLAT_UI16 length,
+  stse_zone_update_atomicity_t atomicity,
+  stse_cmd_protection_t protection);
 
 /*!
  * \brief       Decrement one counter zone of the STSE device
@@ -102,14 +107,14 @@ stse_return_code_t stse_data_storage_update_data_zone(
  * \details \include{doc} stse_data_storage_decrement_counter.dox
  */
 stse_return_code_t stse_data_storage_decrement_counter_zone(
-    stse_handle_t *p_stse,
-    PLAT_UI32 zone,
-    PLAT_UI32 amount,
-    PLAT_UI16 offset,
-    PLAT_UI8 *p_buffer,
-    PLAT_UI16 length,
-    PLAT_UI32 *new_counter_value,
-    stse_cmd_protection_t protection);
+  stse_handle_t *p_stse,
+  PLAT_UI32 zone,
+  PLAT_UI32 amount,
+  PLAT_UI16 offset,
+  PLAT_UI8 *p_buffer,
+  PLAT_UI16 length,
+  PLAT_UI32 *new_counter_value,
+  stse_cmd_protection_t protection);
 
 /*!
  * \brief       read one counter zone of the STSE device
@@ -130,14 +135,14 @@ stse_return_code_t stse_data_storage_decrement_counter_zone(
  * \details \include{doc} stse_data_storage_read_counter.dox
  */
 stse_return_code_t stse_data_storage_read_counter_zone(
-    stse_handle_t *p_stse,
-    PLAT_UI32 zone,
-    PLAT_UI16 offset,
-    PLAT_UI8 *p_buffer,
-    PLAT_UI16 length,
-    PLAT_UI16 chunk_size,
-    PLAT_UI32 *counter_value,
-    stse_cmd_protection_t protection);
+  stse_handle_t *p_stse,
+  PLAT_UI32 zone,
+  PLAT_UI16 offset,
+  PLAT_UI8 *p_buffer,
+  PLAT_UI16 length,
+  PLAT_UI16 chunk_size,
+  PLAT_UI32 *counter_value,
+  stse_cmd_protection_t protection);
 
 /*!
  * \brief       Change the Read access condition of one target STSE device zone
@@ -155,14 +160,14 @@ stse_return_code_t stse_data_storage_read_counter_zone(
  * \details \include{doc} stse_data_storage_change_read_access_condition.dox
  */
 stse_return_code_t stse_data_storage_change_read_access_condition(
-    stse_handle_t *p_stse,
-    PLAT_UI32 zone,
-    stse_zone_ac_t ac,
-    stse_ac_change_right_t ac_change_right,
-    stse_cmd_protection_t protection);
+  stse_handle_t *p_stse,
+  PLAT_UI32 zone,
+  stse_zone_ac_t ac,
+  stse_ac_change_right_t ac_change_right,
+  stse_cmd_protection_t protection);
 
 /*!
- * \brief       Change the Update access condition of one target STSE device zone and Update de zone with new datas
+ * \brief       Change the Update access condition of one target STSE device zone and Update the zone with new data
  * \param[in]   p_stse               Pointer to target STSE handler
  * \param[in]   zone                Target STSE zone index
  * \param[in]   ac                  \ref stse_zone_ac_t new access condition
@@ -181,17 +186,18 @@ stse_return_code_t stse_data_storage_change_read_access_condition(
  * \details \include{doc} stse_data_storage_change_update_access_condition.dox
  */
 stse_return_code_t stse_data_storage_change_update_access_condition(stse_handle_t *p_stse,
-                                                                   PLAT_UI32 zone,
-                                                                   stse_zone_ac_t ac,
-                                                                   stse_ac_change_right_t ac_change_right,
-                                                                   PLAT_UI16 offset,
-                                                                   PLAT_UI8 *p_buffer,
-                                                                   PLAT_UI16 length,
-                                                                   stse_zone_update_atomicity_t atomicity,
-                                                                   stse_cmd_protection_t protection);
+                                                                    PLAT_UI32 zone,
+                                                                    stse_zone_ac_t ac,
+                                                                    stse_ac_change_right_t ac_change_right,
+                                                                    PLAT_UI16 offset,
+                                                                    PLAT_UI8 *p_buffer,
+                                                                    PLAT_UI16 length,
+                                                                    stse_zone_update_atomicity_t atomicity,
+                                                                    stse_cmd_protection_t protection);
 
 /*!
- * \brief       Change the Decrement access condition, decrements the one-way counter and update data of one target STSE device counter zone
+ * \brief       Change the Decrement access condition, decrements the one-way counter and update data
+ *              of one target STSE device counter zone
  * \param[in]   p_stse               Pointer to target STSE handler
  * \param[in]   zone                Target STSE zone index
  * \param[in]   ac                  \ref stse_zone_ac_t new access condition
@@ -208,20 +214,24 @@ stse_return_code_t stse_data_storage_change_update_access_condition(stse_handle_
  * \note - The device may enforce a monotonic policy on zone's access condition (stse_zone_ac_t type):
  *         Once set to a more restrictive condition (e.g. STSE_AC_ALWAYS -> STSE_AC_HOST -> STSE_AC_AUTH_AND_HOST),
  *         it's not possible to revert to a less restrictive one (e.g. STSE_AC_HOST -> STSE_AC_ALWAYS).
- * \details 	\include{doc} stse_data_storage_change_decrement_access_condition.dox
+ * \details   \include{doc} stse_data_storage_change_decrement_access_condition.dox
  */
 stse_return_code_t stse_data_storage_change_decrement_access_condition(
-    stse_handle_t *p_stse,
-    PLAT_UI32 zone,
-    stse_zone_ac_t ac,
-    stse_ac_change_right_t ac_change_right,
-    PLAT_UI32 amount,
-    PLAT_UI16 offset,
-    PLAT_UI8 *p_buffer,
-    PLAT_UI16 length,
-    PLAT_UI32 *new_counter_value,
-    stse_cmd_protection_t protection);
+  stse_handle_t *p_stse,
+  PLAT_UI32 zone,
+  stse_zone_ac_t ac,
+  stse_ac_change_right_t ac_change_right,
+  PLAT_UI32 amount,
+  PLAT_UI16 offset,
+  PLAT_UI8 *p_buffer,
+  PLAT_UI16 length,
+  PLAT_UI32 *new_counter_value,
+  stse_cmd_protection_t protection);
 
 /** \}*/
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 
 #endif /* STSE_DATA_STORAGE_H */

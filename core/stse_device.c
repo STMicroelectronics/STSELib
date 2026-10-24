@@ -1,28 +1,29 @@
-/*!
- * ******************************************************************************
- * \file	stse_device.c
- * \brief   STSELib api for device (sources)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file
- * in the root directory of this software component. If no LICENSE file comes
- * with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_device.c
+  * @author  CS Application Team
+  * @brief   STSELib api for device (sources)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #include "core/stse_device.h"
 #include "core/stse_platform.h"
 #include <string.h>
 
-stse_return_code_t
-stse_set_default_handler_value(stse_handle_t *p_stse_handle) {
-  if (p_stse_handle == NULL) {
+stse_return_code_t stse_set_default_handler_value(stse_handle_t *p_stse_handle)
+{
+  if (p_stse_handle == NULL)
+  {
     return STSE_CORE_HANDLER_NOT_INITIALISED;
   }
 
@@ -46,8 +47,8 @@ stse_set_default_handler_value(stse_handle_t *p_stse_handle) {
   p_stse_handle->io.power_line_off = stse_platform_power_off;
   p_stse_handle->io.power_line_on = stse_platform_power_on;
   p_stse_handle->io.bus_id = 0;
-  p_stse_handle->io.devaddr = 0x20;
-  p_stse_handle->io.bus_speed = 100;
+  p_stse_handle->io.dev_addr = STSE_DEFAULT_DEV_ADDR;
+  p_stse_handle->io.bus_speed = STSE_DEFAULT_BUS_SPEED;
 #if defined(STSE_CONF_STSAFE_A_SUPPORT) ||                                     \
     (defined(STSE_CONF_STSAFE_L_SUPPORT) && defined(STSE_CONF_USE_I2C))
   p_stse_handle->io.bus_type = STSE_BUS_TYPE_I2C;

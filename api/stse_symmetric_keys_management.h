@@ -1,23 +1,27 @@
-/*!
- ******************************************************************************
- * \file	stse_symmetric_keys_management.h
- * \brief   STSE Symmetric keys management API set (header)
- * \author  STMicroelectronics - SMD application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2023 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_symmetric_keys_management.h
+  * @author  CS Application Team
+  * @brief   STSE Symmetric keys management API set (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2023 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSE_SYMMETRIC_KEY_MANAGMENT_H
 #define STSE_SYMMETRIC_KEY_MANAGMENT_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /* Includes ------------------------------------------------------------------*/
 #include "services/stsafea/stsafea_aes.h"
@@ -27,225 +31,240 @@
 #include "services/stsafea/stsafea_sessions.h"
 #include "services/stsafea/stsafea_symmetric_key_slots.h"
 
-/** \defgroup 	stse_api_symmetric_key_mngt 	STSE Symmetric key management
- *  \ingroup 	stse_api
- *  \brief		STSecureElement symmetric cryptography API
- *  \details  	The Application Programming Interface (API) layer is the entry point for the upper system application layer. \n
- *  			It provides high level functions to the application layer for symmetric symmetric key management on target STMicroelectronics Secure element device .
- *  @{
- */
+/** \defgroup   stse_api_symmetric_key_mngt   STSE Symmetric key management
+  *  \ingroup  stse_api
+  *  \brief    STSecureElement symmetric cryptography API
+  *  \details    The Application Programming Interface (API) layer is the entry point for the upper system
+  *              application layer. \n
+  *              It provides high level functions to the application layer for symmetric symmetric key
+  *              management on target STMicroelectronics Secure element device .
+  *  @{
+  */
 
 /**
- * \brief 		Host secure channel keys provisioning in plaintext
- * \details 	This API perform host secure channel keys provisioning in plaintext, \n
- * 				it use the put attribute command if the device isn't a STSAFE-A120 \n
- * 				and it use the "write host key" command if it is a STSAFE-A120
- * \param[in] 	p_stse 				Pointer to STSE Handler
- * \param[in] 	host_mac_key		Pointer to host MAC key (AES key structure) to be provisioned
- * \param[in] 	host_cipher_key		Pointer to Host cipher key (AES key structure) to be provisioned
- * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
-* \param[out]	host_cipher_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_host_key_provisioning.dox
- */
+  * \brief     Host secure channel keys provisioning in plaintext
+  * \details   This API perform host secure channel keys provisioning in plaintext, \n
+  *        it use the put attribute command if the device isn't a STSAFE-A120 \n
+  *        and it use the "write host key" command if it is a STSAFE-A120
+  * \param[in]   p_stse        Pointer to STSE Handler
+  * \param[in]   host_mac_key    Pointer to host MAC key (AES key structure) to be provisioned
+  * \param[in]   host_cipher_key   Pointer to Host cipher key (AES key structure) to be provisioned
+  * \param[out]  host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
+  * \param[out] host_cipher_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_host_key_provisioning.dox
+  */
 stse_return_code_t stse_host_secure_channel_keys_provisioning(
-    stse_handle_t *p_stse,
-    stse_aes_key_t *host_mac_key,
-    stse_aes_key_t *host_cipher_key,
-    PLAT_UI32 *host_mac_key_index,
-    PLAT_UI32 *host_cipher_key_index);
+  stse_handle_t *p_stse,
+  stse_aes_key_t *host_mac_key,
+  stse_aes_key_t *host_cipher_key,
+  PLAT_UI32 *host_mac_key_index,
+  PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host secure channel keys provisioning wrapped
- * \details 	This API perform host secure channel keys provisioning with the key wrapped using a volatile KEK session
- * \param[in] 	p_stse 				Pointer to STSE Handler
- * \param[in] 	host_mac_key		Pointer to host MAC key (AES key structure) to be provisioned
- * \param[in] 	host_cipher_key		Pointer to Host cipher key (AES key structure) to be provisioned
- * \param[in] 	ecdhe_ecc_key_type 		ECC key type to use in KEK session
- * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
- * \param[out]	host_cipher_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_host_key_provisioning_wrapped.dox
- */
+  * \brief     Host secure channel keys provisioning wrapped
+  * \details   This API perform host secure channel keys provisioning with the key wrapped using a volatile KEK session
+  * \param[in]   p_stse        Pointer to STSE Handler
+  * \param[in]   host_mac_key    Pointer to host MAC key (AES key structure) to be provisioned
+  * \param[in]   host_cipher_key   Pointer to Host cipher key (AES key structure) to be provisioned
+  * \param[in]   ecdhe_ecc_key_type    ECC key type to use in KEK session
+  * \param[out]  host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
+  * \param[out]  host_cipher_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_host_key_provisioning_wrapped.dox
+  */
 stse_return_code_t stse_host_secure_channel_keys_provisioning_wrapped(
-    stse_handle_t *p_stse,
-    stse_aes_key_t *host_mac_key,
-    stse_aes_key_t *host_cipher_key,
-    stse_ecc_key_type_t ecdhe_ecc_key_type,
-    PLAT_UI32 *host_mac_key_index,
-    PLAT_UI32 *host_cipher_key_index);
+  stse_handle_t *p_stse,
+  stse_aes_key_t *host_mac_key,
+  stse_aes_key_t *host_cipher_key,
+  stse_ecc_key_type_t ecdhe_ecc_key_type,
+  PLAT_UI32 *host_mac_key_index,
+  PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host secure channel keys provisioning wrapped and authenticated
- * \details 	This API perform host secure channel keys provisioning with the key wrapped using an authenticated volatile KEK session
- * \param[in] 	p_stse 								Pointer to STSE Handler
- * \param[in] 	host_mac_key						Pointer to host MAC key (AES key structure) to be provisioned
- * \param[in] 	host_cipher_key						Pointer to Host cipher key (AES key structure) to be provisioned
- * \param[in] 	ecdhe_ecc_key_type 						ECC key type to use in KEK session
- * \param[in] 	signature_public_key_slot_number 	Slot number of the public key used in authentication
- * \param[in] 	signature_hash_algo 				Hash algo used for the signature digest
- * \param[in] 	signature_private_ecc_key_type 			Key type of the private key used in authentication
- * \param[in] 	signature_private_key 				Private key used in authentication
- * \param[out]	host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
- * \param[out]	host_cipher_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_host_key_provisioning_wrapped_authenticated.dox
- * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
- */
+  * \brief     Host secure channel keys provisioning wrapped and authenticated
+  * \details   This API perform host secure channel keys provisioning with the key wrapped using an
+  *            authenticated volatile KEK session
+  * \param[in]   p_stse                Pointer to STSE Handler
+  * \param[in]   host_mac_key            Pointer to host MAC key (AES key structure) to be provisioned
+  * \param[in]   host_cipher_key           Pointer to Host cipher key (AES key structure) to be provisioned
+  * \param[in]   ecdhe_ecc_key_type            ECC key type to use in KEK session
+  * \param[in]   signature_public_key_slot_number  Slot number of the public key used in authentication
+  * \param[in]   signature_hash_algo         Hash algo used for the signature digest
+  * \param[in]   signature_private_ecc_key_type      Key type of the private key used in authentication
+  * \param[in]   signature_private_key         Private key used in authentication
+  * \param[out]  host_mac_key_index  Pointer to the index assigned to the stored host MAC key in secure storage
+  * \param[out]  host_cipher_key_index  Pointer to the index assigned to the stored host cipher key in secure storage
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_host_key_provisioning_wrapped_authenticated.dox
+  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA
+  *          mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
+  */
 stse_return_code_t stse_host_secure_channel_keys_provisioning_wrapped_authenticated(
-    stse_handle_t *p_stse,
-    stse_aes_key_t *host_mac_key,
-    stse_aes_key_t *host_cipher_key,
-    stse_ecc_key_type_t ecdhe_ecc_key_type,
-    PLAT_UI8 signature_public_key_slot_number,
-    stse_hash_algorithm_t signature_hash_algo,
-    stse_ecc_key_type_t signature_private_ecc_key_type,
-    PLAT_UI8 *signature_private_key,
-    PLAT_UI32 *host_mac_key_index,
-    PLAT_UI32 *host_cipher_key_index);
+  stse_handle_t *p_stse,
+  stse_aes_key_t *host_mac_key,
+  stse_aes_key_t *host_cipher_key,
+  stse_ecc_key_type_t ecdhe_ecc_key_type,
+  PLAT_UI8 signature_public_key_slot_number,
+  stse_hash_algorithm_t signature_hash_algo,
+  stse_ecc_key_type_t signature_private_ecc_key_type,
+  PLAT_UI8 *signature_private_key,
+  PLAT_UI32 *host_mac_key_index,
+  PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host secure channel keys establishment
- * \details 	This API establish host secure channel keys (from STSAFE-A120)
- * \param[in] 	p_stse 								Pointer to STSE Handler
- * \param[in] 	ecdh_key_type 						ECDH key pair type
- * \param[in]	host_secure_channel_keys_type		Host secure channel keys type
- * \param[out]	host_mac_key_index					Index of the MAC key in platform secure storage to be used under the session
- * \param[out]	host_cipher_key_index					Index of the cipher key in platform secure storage to be used under the session
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_host_key_provisioning.dox
- */
+  * \brief     Host secure channel keys establishment
+  * \details   This API establish host secure channel keys (from STSAFE-A120)
+  * \param[in]   p_stse                Pointer to STSE Handler
+  * \param[in]   ecdh_key_type             ECDH key pair type
+  * \param[in] host_secure_channel_keys_type   Host secure channel keys type
+  * \param[out]  host_mac_key_index          Index of the MAC key in platform secure storage to be used
+  *                                          under the session
+  * \param[out]  host_cipher_key_index       Index of the cipher key in platform secure storage to be used
+  *                                          under the session
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_host_key_provisioning.dox
+  */
 stse_return_code_t stse_establish_host_secure_channel_keys(
-    stse_handle_t *p_stse,
-    stse_ecc_key_type_t ecdh_key_type,
-    stse_aes_key_type_t host_secure_channel_keys_type,
-    PLAT_UI32 *host_mac_key_index,
-    PLAT_UI32 *host_cipher_key_index);
+  stse_handle_t *p_stse,
+  stse_ecc_key_type_t ecdh_key_type,
+  stse_aes_key_type_t host_secure_channel_keys_type,
+  PLAT_UI32 *host_mac_key_index,
+  PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Host secure channel keys establishment authenticated
- * \details 	This API establish host secure channel keys after verifying entity signature (from STSAFE-A120)
- * \param[in] 	p_stse 								Pointer to STSE Handler
- * \param[in] 	ecdh_key_type 						ECDH key pair type
- * \param[in] 	host_secure_channel_keys_type 		Host secure channel keys type
- * \param[in] 	tbs_hash_algo 						Hashing algorithm used for the signature
- * \param[in] 	tbs_public_key_slot 				Public key slot used for the signature
- * \param[in] 	tbs_private_key 					Private key associated to public key slot used for the signature
- * \param[out]	host_mac_key_index        			Index of the MAC key in platform secure storage to be used under the session
- * \param[out]	host_cipher_key_index     			Index of the cipher key in platform secure storage to be used under the session
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_host_key_provisioning.dox
- * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
- */
+  * \brief     Host secure channel keys establishment authenticated
+  * \details   This API establish host secure channel keys after verifying entity signature (from STSAFE-A120)
+  * \param[in]   p_stse                Pointer to STSE Handler
+  * \param[in]   ecdh_key_type             ECDH key pair type
+  * \param[in]   host_secure_channel_keys_type     Host secure channel keys type
+  * \param[in]   tbs_hash_algo             Hashing algorithm used for the signature
+  * \param[in]   tbs_public_key_slot         Public key slot used for the signature
+  * \param[in]   tbs_private_key           Private key associated to public key slot used for the signature
+  * \param[out]  host_mac_key_index              Index of the MAC key in platform secure storage to be used
+  *                                              under the session
+  * \param[out]  host_cipher_key_index           Index of the cipher key in platform secure storage to be used
+  *                                              under the session
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_host_key_provisioning.dox
+  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA
+  *          mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
+  */
 stse_return_code_t stse_establish_host_secure_channel_keys_authenticated(
-    stse_handle_t *p_stse,
-    stse_ecc_key_type_t ecdh_key_type,
-    stse_aes_key_type_t host_secure_channel_keys_type,
-    stse_hash_algorithm_t tbs_hash_algo,
-    PLAT_UI8 tbs_public_key_slot,
-    PLAT_UI8 *tbs_private_key,
-    PLAT_UI32 *host_mac_key_index,
-    PLAT_UI32 *host_cipher_key_index);
+  stse_handle_t *p_stse,
+  stse_ecc_key_type_t ecdh_key_type,
+  stse_aes_key_type_t host_secure_channel_keys_type,
+  stse_hash_algorithm_t tbs_hash_algo,
+  PLAT_UI8 tbs_public_key_slot,
+  PLAT_UI8 *tbs_private_key,
+  PLAT_UI32 *host_mac_key_index,
+  PLAT_UI32 *host_cipher_key_index);
 
 /**
- * \brief 		Get one symmetric key slot info
- * \details 	Get the informations of one slot in symmetric key table
- * \param[in] 	p_stse 					Pointer to STSE Handler
- * \param[in] 	slot_number					Slot number to get the information
- * \param[out]  p_symmetric_key_slot_info	Buffer to store the information structure
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     Get one symmetric key slot info
+  * \details   Get the information of one slot in symmetric key table
+  * \param[in]   p_stse          Pointer to STSE Handler
+  * \param[in]   slot_number         Slot number to get the information
+  * \param[out]  p_symmetric_key_slot_info Buffer to store the information structure
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stse_get_symmetric_key_slot_info(
-    stse_handle_t *p_stse,
-    PLAT_UI8 slot_number,
-    stsafea_symmetric_key_slot_information_t *p_symmetric_key_slot_info);
+  stse_handle_t *p_stse,
+  PLAT_UI8 slot_number,
+  stsafea_symmetric_key_slot_information_t *p_symmetric_key_slot_info);
 
 /**
- * \brief 		Write symmetric key wrapped in stsafe symmetric key table
- * \details 	This API Write a symmetric key in stsafe symmetric key table inside a volatile KEK session
- * \param[in] 	p_stse 			 	 Pointer to STSE Handler
- * \param[in] 	p_key 				 Key material to write in STSE
- * \param[in] 	key_info 			 Key information used to populate the symmetric key table
- * \param[in]	kek_session_ecc_type Key type to use in volatile KEK session
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_write_symmetric_key_wrapped.dox
- */
+  * \brief     Write symmetric key wrapped in stsafe symmetric key table
+  * \details   This API Write a symmetric key in stsafe symmetric key table inside a volatile KEK session
+  * \param[in]   p_stse         Pointer to STSE Handler
+  * \param[in]   p_key          Key material to write in STSE
+  * \param[in]   key_info       Key information used to populate the symmetric key table
+  * \param[in] kek_session_ecc_type Key type to use in volatile KEK session
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_write_symmetric_key_wrapped.dox
+  */
 stse_return_code_t stse_write_symmetric_key_wrapped(
-    stse_handle_t *p_stse,
-    PLAT_UI8 *p_key,
-    stsafea_generic_key_information_t *key_info,
-    stse_ecc_key_type_t kek_session_ecc_type);
+  stse_handle_t *p_stse,
+  PLAT_UI8 *p_key,
+  stsafea_generic_key_information_t *key_info,
+  stse_ecc_key_type_t kek_session_ecc_type);
 
 /**
- * \brief 		Authenticated write symmetric key in stsafe symmetric key table
- * \details 	This API Write a symmetric key in stsafe symmetric key table inside an authenticated volatile KEK session
- * \param[in] 	p_stse 			 					Pointer to STSE Handler
- * \param[in] 	p_key 				 				Key material to write in STSE
- * \param[in] 	key_info 			 				Key information used to populate the symmetric key table
- * \param[in]	kek_session_ecc_type 				Key type to use in volatile KEK session
- * \param[in] 	signature_public_key_slot_number 	Slot number of the public key used in authentication
- * \param[in] 	signature_hash_algo 				Hash algo used for the signature digest
- * \param[in] 	signature_private_key_type 			Key type of the private key used in authentication
- * \param[in] 	signature_private_key 				Private key used in authentication
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_write_symmetric_key_wrapped_authenticated.dox
- * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
- */
+  * \brief     Authenticated write symmetric key in stsafe symmetric key table
+  * \details   This API Write a symmetric key in stsafe symmetric key table inside an authenticated volatile KEK session
+  * \param[in]   p_stse                Pointer to STSE Handler
+  * \param[in]   p_key                 Key material to write in STSE
+  * \param[in]   key_info              Key information used to populate the symmetric key table
+  * \param[in] kek_session_ecc_type        Key type to use in volatile KEK session
+  * \param[in]   signature_public_key_slot_number  Slot number of the public key used in authentication
+  * \param[in]   signature_hash_algo         Hash algo used for the signature digest
+  * \param[in]   signature_private_key_type      Key type of the private key used in authentication
+  * \param[in]   signature_private_key         Private key used in authentication
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_write_symmetric_key_wrapped_authenticated.dox
+  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA
+  *          mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
+  */
 stse_return_code_t stse_write_symmetric_key_wrapped_authenticated(
-    stse_handle_t *p_stse,
-    PLAT_UI8 *p_key,
-    stsafea_generic_key_information_t *key_info,
-    stse_ecc_key_type_t kek_session_ecc_type,
-    PLAT_UI8 signature_public_key_slot_number,
-    stse_hash_algorithm_t signature_hash_algo,
-    stse_ecc_key_type_t signature_private_key_type,
-    PLAT_UI8 *signature_private_key);
+  stse_handle_t *p_stse,
+  PLAT_UI8 *p_key,
+  stsafea_generic_key_information_t *key_info,
+  stse_ecc_key_type_t kek_session_ecc_type,
+  PLAT_UI8 signature_public_key_slot_number,
+  stse_hash_algorithm_t signature_hash_algo,
+  stse_ecc_key_type_t signature_private_key_type,
+  PLAT_UI8 *signature_private_key);
 
 /**
- * \brief 		Establish symmetric key in stsafe symmetric key table
- * \details 	This API establish one or more symmetric keys in stsafe symmetric key table through an ECDHE process
- * \param[in] 	p_stse 			Pointer to STSE Handler
- * \param[in] 	ecc_key_type 		Key type to use for the ECDHE
- * \param[in]   key_infos_count		Number of keys
- * \param[in] 	key_infos_list 		Key information list used to populate the symmetric key table
- * \param[out]	key_list			Key list resulting of the ECDHE ( OKM[1..N] )
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_establish_symmetric_key.dox
- */
+  * \brief     Establish symmetric key in stsafe symmetric key table
+  * \details   This API establish one or more symmetric keys in stsafe symmetric key table through an ECDHE process
+  * \param[in]   p_stse      Pointer to STSE Handler
+  * \param[in]   ecc_key_type    Key type to use for the ECDHE
+  * \param[in]   key_infos_count   Number of keys
+  * \param[in]   key_infos_list    Key information list used to populate the symmetric key table
+  * \param[out]  key_list      Key list resulting of the ECDHE ( OKM[1..N] )
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_establish_symmetric_key.dox
+  */
 stse_return_code_t stse_establish_symmetric_key(
-    stse_handle_t *p_stse,
-    stse_ecc_key_type_t ecc_key_type,
-    PLAT_UI8 key_infos_count,
-    stsafea_generic_key_information_t *key_infos_list,
-    PLAT_UI8 *key_list);
+  stse_handle_t *p_stse,
+  stse_ecc_key_type_t ecc_key_type,
+  PLAT_UI8 key_infos_count,
+  stsafea_generic_key_information_t *key_infos_list,
+  PLAT_UI8 *key_list);
 
 /**
- * \brief 		Authenticated establish symmetric key in stsafe symmetric key table
- * \details 	This API establish one or more symmetric keys in stsafe symmetric key table through an authenticated ECDHE process
- * \param[in] 	p_stse 						 	 Pointer to STSE Handler
- * \param[in] 	key_type 					 	 Key type to use for the ECDHE
- * \param[in] 	key_infos_count 				 Number of key infos
- * \param[in] 	key_infos_list 					 Key information list used to populate the symmetric key table
- * \param[out]	key_list						 Key list resulting of the ECDHE ( OKM[1..N] )
- * \param[in] 	signature_public_key_slot_number Generic public key slot number used for the authentication
- * \param[in] 	hash_algo						 Hash algorithm ID used to hash the authentication digest
- * \param[in] 	private_key_type				 Key type of the authentication private key
- * \param[in] 	private_key						 Authentication private key buffer
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	\include{doc} stse_establish_symmetric_key.dox
- * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
- */
+  * \brief     Authenticated establish symmetric key in stsafe symmetric key table
+  * \details   This API establish one or more symmetric keys in stsafe symmetric key table through an
+  *            authenticated ECDHE process
+  * \param[in]   p_stse               Pointer to STSE Handler
+  * \param[in]   key_type             Key type to use for the ECDHE
+  * \param[in]   key_infos_count          Number of key infos
+  * \param[in]   key_infos_list           Key information list used to populate the symmetric key table
+  * \param[out]  key_list             Key list resulting of the ECDHE ( OKM[1..N] )
+  * \param[in]   signature_public_key_slot_number Generic public key slot number used for the authentication
+  * \param[in]   hash_algo            Hash algorithm ID used to hash the authentication digest
+  * \param[in]   private_key_type         Key type of the authentication private key
+  * \param[in]   private_key            Authentication private key buffer
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   \include{doc} stse_establish_symmetric_key.dox
+  * \warning Few specific cryptographic library required to have public key concatenated to private key for EdDSA
+  *          mechanism. In such case, p_private_key pointer shall reference concatenated key pair buffer's address.
+  */
 stse_return_code_t stse_establish_symmetric_key_authenticated(
-    stse_handle_t *p_stse,
-    stse_ecc_key_type_t key_type,
-    PLAT_UI8 key_infos_count,
-    stsafea_generic_key_information_t *key_infos_list,
-    PLAT_UI8 *key_list,
-    PLAT_UI8 signature_public_key_slot_number,
-    stse_hash_algorithm_t hash_algo,
-    stse_ecc_key_type_t private_key_type,
-    PLAT_UI8 *private_key);
+  stse_handle_t *p_stse,
+  stse_ecc_key_type_t key_type,
+  PLAT_UI8 key_infos_count,
+  stsafea_generic_key_information_t *key_infos_list,
+  PLAT_UI8 *key_list,
+  PLAT_UI8 signature_public_key_slot_number,
+  stse_hash_algorithm_t hash_algo,
+  stse_ecc_key_type_t private_key_type,
+  PLAT_UI8 *private_key);
 
 /** \}*/
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 #endif /*STSAFE_SYMMETRIC_KEY_CRYPTO_H*/

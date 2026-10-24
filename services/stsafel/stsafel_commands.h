@@ -1,23 +1,27 @@
-/*!
- * ******************************************************************************
- * \file	stsafel_commands.h
- * \brief   STSAFE-A command services (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2024 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafel_commands.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A command services (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2024 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFEL_COMMANDS_H
 #define STSAFEL_COMMANDS_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /*! \defgroup stsafel_services STSAFE-L
 *  \ingroup stse_services
@@ -61,4 +65,9 @@ typedef PLAT_UI8 stsafel_cmd_code_t;
 
 /** \}*/
 /** \}*/
-#endif /*STSAFEL_COMMANDS_H*/
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* STSAFEL_COMMANDS_H */

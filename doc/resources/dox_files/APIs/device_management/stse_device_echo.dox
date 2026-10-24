@@ -23,7 +23,7 @@ int main (void)
     stsafe_allocate_handler(stsafe_handler);
 	stsafe_handler.io.bus_type = STSE_BUS_TYPE_I2C;
 	stsafe_handler.io.bus_id = 3;
-	stsafe_handler.io.devaddr = 0x20;
+	stsafe_handler.io.dev_addr = 0x20;
     stsafe_ret = stsafe_init(&stsafe_handler);
 
     stsafe_ret = stsafe_se_echo(&stsafe_handler,

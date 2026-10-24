@@ -1,23 +1,27 @@
-/*!
- * ******************************************************************************
- * \file	stse_return_codes.h
- * \brief   STSELib return code type definition
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stse_return_codes.h
+  * @author  CS Application Team
+  * @brief   STSELib return code type definition
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSE_RETURN_CODES_H
 #define STSE_RETURN_CODES_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 #include "stse_platform_generic.h"
 
@@ -27,9 +31,9 @@
  */
 
 /**
- * \typedef stse_return_code_t
- * \brief STSE response codes
- */
+  * \typedef stse_return_code_t
+  * \brief STSE response codes
+  */
 typedef PLAT_UI16 stse_return_code_t;
 
 /* - STSE response code (MSB Mask 0x00xx)*/
@@ -38,7 +42,7 @@ typedef PLAT_UI16 stse_return_code_t;
 #define STSE_INCONSISTENT_COMMAND_DATA ((stse_return_code_t)0x02)      /*!< STSE Wrong command parameters */
 #define STSE_VALUE_OUT_OF_RANGE ((stse_return_code_t)0x03)             /*!< STSE Value out of range */
 #define STSE_COMMAND_CODE_NOT_SUPPORTED ((stse_return_code_t)0x04)     /*!< STSE Command code not supported */
-#define STSE_UNEXPECTED_ERROR ((stse_return_code_t)0x05)               /*!< STSE Encouter an unexpected error */
+#define STSE_UNEXPECTED_ERROR ((stse_return_code_t)0x05)               /*!< STSE Encounter an unexpected error */
 #define STSE_BUFFER_LENGTH_EXCEEDED ((stse_return_code_t)0x06)         /*!< STSE Buffer length exceeded */
 #define STSE_SESSION_ERROR ((stse_return_code_t)0x07)                  /*!< STSE No or wrong session */
 #define STSE_TOO_MANY_MESSAGES_LOST ((stse_return_code_t)0x08)         /*!< STSE Too many masseage lost during communication */
@@ -48,7 +52,7 @@ typedef PLAT_UI16 stse_return_code_t;
 #define STSE_WRONG_KEY_TYPE ((stse_return_code_t)0x0C)                 /*!< STSE Key type do not correspong to the command needs */
 #define STSE_SESSION_COUNTER_OUT_OF_RANGE ((stse_return_code_t)0x0D)   /*!< STSE Session counter out of range */
 #define STSE_INVALID_LIFE_CYCLE_STATE ((stse_return_code_t)0x0F)       /*!< STSE Invalid life cycle state */
-#define STSE_ENTRY_NOT_FOUND ((stse_return_code_t)0x10)                /*!< STSE Requested ressource not found */
+#define STSE_ENTRY_NOT_FOUND ((stse_return_code_t)0x10)                /*!< STSE Requested resource not found */
 #define STSE_ACCESS_CONDITION_NOT_SATISFIED ((stse_return_code_t)0x11) /*!< STSE Access condition not satisfied */
 #define STSE_WRONG_ZONE_TYPE ((stse_return_code_t)0x12)                /*!< STSE Wrong zone type */
 #define STSE_COUNTER_LIMIT_EXCEEDED ((stse_return_code_t)0x13)         /*!< STSE Counter limit exceeded */
@@ -129,4 +133,7 @@ typedef PLAT_UI16 stse_return_code_t;
 
 /** @}*/
 
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
 #endif /* STSE_RETURN_CODES_H */

@@ -1,23 +1,27 @@
-/*!
- * ******************************************************************************
- * \file	stsafea_commands.h
- * \brief   STSAFE-A command typedefs and services (header)
- * \author  STMicroelectronics - CS application team
- *
- ******************************************************************************
- * \attention
- *
- * <h2><center>&copy; COPYRIGHT 2022 STMicroelectronics</center></h2>
- *
- * This software is licensed under terms that can be found in the LICENSE file in
- * the root directory of this software component.
- * If no LICENSE file comes with this software, it is provided AS-IS.
- *
- ******************************************************************************
- */
+/**
+  ******************************************************************************
+  * @file    stsafea_commands.h
+  * @author  CS Application Team
+  * @brief   STSAFE-A command typedefs and services (header)
+  ******************************************************************************
+  * @attention
+  *
+  * Copyright (c) 2022 STMicroelectronics.
+  * All rights reserved.
+  *
+  * This software is licensed under terms that can be found in the LICENSE file
+  * in the root directory of this software component.
+  * If no LICENSE file comes with this software, it is provided AS-IS.
+  *
+  ******************************************************************************
+  */
 
 #ifndef STSAFE_COMMANDS_H
 #define STSAFE_COMMANDS_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif /* __cplusplus */
 
 /*! \defgroup stsafea_services STSAFE-A
 *  \ingroup stse_services
@@ -51,10 +55,10 @@
 #define STSAFEA_MAX_FRAME_LENGTH_A110 507U
 #define STSAFEA_MAX_FRAME_LENGTH_A120 752U
 
-#define STSAFEA_PROT_Pos 5         /*!< STSAFE  Protected rsp mask */
-#define STSAFEA_PROT_Msk 0xC0U     /*!< STSAFE  Protected mask */
-#define STSAFEA_PROT_CMD_Msk 0x80U /*!< STSAFE  Protected command mask */
-#define STSAFEA_PROT_RSP_Msk 0x40U /*!< STSAFE  Protected rsp mask */
+#define STSAFEA_PROT_POS 5         /*!< STSAFE  Protected rsp mask */
+#define STSAFEA_PROT_MSK 0xC0U     /*!< STSAFE  Protected mask */
+#define STSAFEA_PROT_CMD_MSK 0x80U /*!< STSAFE  Protected command mask */
+#define STSAFEA_PROT_RSP_MSK 0x40U /*!< STSAFE  Protected rsp mask */
 
 #define STSAFEA_MAX_CMD_COUNT 29U
 #define STSAFEA_MAX_EXT_CMD_COUNT 29U
@@ -130,164 +134,169 @@ typedef PLAT_UI8 stsafea_extended_cmd_code_t;
 #define STSAFEA_EXTENDED_CMD_INVALID ((stsafea_extended_cmd_code_t)0x1FU)
 
 /**
- * \brief 		Return the command count with command access conditions update capability
- * \details 	This function query the number of command authorization records
- * 				of the target device command set and return the number of records
- * \param[in] 	p_stse 				Pointer to STSE Handler
- * \param[out] 	p_command_count 		Command authorization records count
- * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- * \details 	Please refer to stse_device_get_command_ac()
- */
+  * \brief     Return the command count with command access conditions update capability
+  * \details   This function query the number of command authorization records
+  *        of the target device command set and return the number of records
+  * \param[in]   p_stse        Pointer to STSE Handler
+  * \param[out]  p_command_count     Command authorization records count
+  * \return \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  * \details   Please refer to stse_device_get_command_ac()
+  */
 stse_return_code_t stsafea_get_command_authorization_records_count(stse_handle_t *p_stse, PLAT_UI8 *p_command_count);
 
 /**
- * \brief 		Get command access control table
- * \details 	This service retrieves the command access control table from the device
- * \param[in] 	p_stse 					Pointer to STSE Handler
- * \param[in] 	total_command_count		Total number of commands
- * \param[out] 	p_change_rights			Pointer to change rights structure
- * \param[out] 	p_record_table			Pointer to record table array
- * \return 		\ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
- */
+  * \brief     Get command access control table
+  * \details   This service retrieves the command access control table from the device
+  * \param[in]   p_stse          Pointer to STSE Handler
+  * \param[in]   total_command_count   Total number of commands
+  * \param[out]  p_change_rights     Pointer to change rights structure
+  * \param[out]  p_record_table      Pointer to record table array
+  * \return    \ref STSE_OK on success ; \ref stse_return_code_t error code otherwise
+  */
 stse_return_code_t stsafea_get_command_ac_table(stse_handle_t *p_stse,
-                                               PLAT_UI8 total_command_count,
-                                               stse_cmd_authorization_cr_t *p_change_rights,
-                                               stse_cmd_authorization_record_t *p_record_table);
+                                                PLAT_UI8 total_command_count,
+                                                stse_cmd_authorization_cr_t *p_change_rights,
+                                                stse_cmd_authorization_record_t *p_record_table);
 
 stse_return_code_t stsafea_perso_info_update(stse_handle_t *p_stse);
 
 /**
- * \brief 		Get command access conditions from personalization info
- * \details 	This function retrieves the access conditions for a specific command
- * \param[in] 	p_perso			Pointer to personalization info structure
- * \param[in] 	command_code	Command code to query
- * \param[out] 	p_protection		Pointer to store access conditions
- */
+  * \brief     Get command access conditions from personalization info
+  * \details   This function retrieves the access conditions for a specific command
+  * \param[in]   p_perso     Pointer to personalization info structure
+  * \param[in]   command_code  Command code to query
+  * \param[out]  p_protection    Pointer to store access conditions
+  */
 void stsafea_perso_info_get_cmd_ac(stse_perso_info_t *p_perso,
                                    PLAT_UI8 command_code,
                                    stse_cmd_access_conditions_t *p_protection);
 
 /**
- * \brief 		Get extended command access conditions from personalization info
- * \details 	This function retrieves the access conditions for a specific extended command
- * \param[in] 	p_perso			Pointer to personalization info structure
- * \param[in] 	command_code	Extended command code to query
- * \param[out] 	p_protection		Pointer to store access conditions
- */
+  * \brief     Get extended command access conditions from personalization info
+  * \details   This function retrieves the access conditions for a specific extended command
+  * \param[in]   p_perso     Pointer to personalization info structure
+  * \param[in]   command_code  Extended command code to query
+  * \param[out]  p_protection    Pointer to store access conditions
+  */
 void stsafea_perso_info_get_ext_cmd_ac(stse_perso_info_t *p_perso,
                                        PLAT_UI8 command_code,
                                        stse_cmd_access_conditions_t *p_protection);
 
 /**
- * \brief 		Get command encryption flag from personalization info
- * \details 	This function retrieves the encryption flag for a specific command
- * \param[in] 	p_perso			Pointer to personalization info structure
- * \param[in] 	command_code	Command code to query
- * \param[out] 	p_enc_flag		Pointer to store encryption flag
- */
+  * \brief     Get command encryption flag from personalization info
+  * \details   This function retrieves the encryption flag for a specific command
+  * \param[in]   p_perso     Pointer to personalization info structure
+  * \param[in]   command_code  Command code to query
+  * \param[out]  p_enc_flag    Pointer to store encryption flag
+  */
 void stsafea_perso_info_get_cmd_encrypt_flag(stse_perso_info_t *p_perso,
                                              PLAT_UI8 command_code,
                                              PLAT_UI8 *p_enc_flag);
 
 /**
- * \brief 		Get response encryption flag from personalization info
- * \details 	This function retrieves the encryption flag for a specific command response
- * \param[in] 	p_perso			Pointer to personalization info structure
- * \param[in] 	command_code	Command code to query
- * \param[out] 	p_enc_flag		Pointer to store encryption flag
- */
+  * \brief     Get response encryption flag from personalization info
+  * \details   This function retrieves the encryption flag for a specific command response
+  * \param[in]   p_perso     Pointer to personalization info structure
+  * \param[in]   command_code  Command code to query
+  * \param[out]  p_enc_flag    Pointer to store encryption flag
+  */
 void stsafea_perso_info_get_rsp_encrypt_flag(stse_perso_info_t *p_perso,
                                              PLAT_UI8 command_code,
                                              PLAT_UI8 *p_enc_flag);
 
 /**
- * \brief 		Get extended command encryption flag from personalization info
- * \details 	This function retrieves the encryption flag for a specific extended command
- * \param[in] 	p_perso			Pointer to personalization info structure
- * \param[in] 	command_code	Extended command code to query
- * \param[out] 	p_enc_flag		Pointer to store encryption flag
- */
+  * \brief     Get extended command encryption flag from personalization info
+  * \details   This function retrieves the encryption flag for a specific extended command
+  * \param[in]   p_perso     Pointer to personalization info structure
+  * \param[in]   command_code  Extended command code to query
+  * \param[out]  p_enc_flag    Pointer to store encryption flag
+  */
 void stsafea_perso_info_get_ext_cmd_encrypt_flag(stse_perso_info_t *p_perso,
                                                  PLAT_UI8 command_code,
                                                  PLAT_UI8 *p_enc_flag);
 
 /**
- * \brief 		Get extended response encryption flag from personalization info
- * \details 	This function retrieves the encryption flag for a specific extended command response
- * \param[in] 	p_perso			Pointer to personalization info structure
- * \param[in] 	command_code	Extended command code to query
- * \param[out] 	p_enc_flag		Pointer to store encryption flag
- */
+  * \brief     Get extended response encryption flag from personalization info
+  * \details   This function retrieves the encryption flag for a specific extended command response
+  * \param[in]   p_perso     Pointer to personalization info structure
+  * \param[in]   command_code  Extended command code to query
+  * \param[out]  p_enc_flag    Pointer to store encryption flag
+  */
 void stsafea_perso_info_get_ext_rsp_encrypt_flag(stse_perso_info_t *p_perso,
                                                  PLAT_UI8 command_code,
                                                  PLAT_UI8 *p_enc_flag);
 
 /**
- * \brief 		Set command access conditions in personalization info
- * \details 	This function sets the access conditions for a specific command
- * \param[in,out] 	p_perso			Pointer to personalization info structure
- * \param[in] 		command_code	Command code to configure
- * \param[in] 		protection		Access conditions to set
- */
+  * \brief     Set command access conditions in personalization info
+  * \details   This function sets the access conditions for a specific command
+  * \param[in,out]   p_perso     Pointer to personalization info structure
+  * \param[in]     command_code  Command code to configure
+  * \param[in]     protection    Access conditions to set
+  */
 void stsafea_perso_info_set_cmd_ac(stse_perso_info_t *p_perso,
                                    PLAT_UI8 command_code,
                                    stse_cmd_access_conditions_t protection);
 
 /**
- * \brief 		Set extended command access conditions in personalization info
- * \details 	This function sets the access conditions for a specific extended command
- * \param[in,out] 	p_perso			Pointer to personalization info structure
- * \param[in] 		command_code	Extended command code to configure
- * \param[in] 		protection		Access conditions to set
- */
+  * \brief     Set extended command access conditions in personalization info
+  * \details   This function sets the access conditions for a specific extended command
+  * \param[in,out]   p_perso     Pointer to personalization info structure
+  * \param[in]     command_code  Extended command code to configure
+  * \param[in]     protection    Access conditions to set
+  */
 void stsafea_perso_info_set_ext_cmd_ac(stse_perso_info_t *p_perso,
                                        PLAT_UI8 command_code,
                                        stse_cmd_access_conditions_t protection);
 
 /**
- * \brief 		Set command encryption flag in personalization info
- * \details 	This function sets the encryption flag for a specific command
- * \param[in,out] 	p_perso			Pointer to personalization info structure
- * \param[in] 		command_code	Command code to configure
- * \param[in] 		enc_flag		Encryption flag to set
- */
+  * \brief     Set command encryption flag in personalization info
+  * \details   This function sets the encryption flag for a specific command
+  * \param[in,out]   p_perso     Pointer to personalization info structure
+  * \param[in]     command_code  Command code to configure
+  * \param[in]     enc_flag    Encryption flag to set
+  */
 void stsafea_perso_info_set_cmd_encrypt_flag(stse_perso_info_t *p_perso,
                                              PLAT_UI8 command_code,
                                              PLAT_UI8 enc_flag);
 
 /**
- * \brief 		Set response encryption flag in personalization info
- * \details 	This function sets the encryption flag for a specific command response
- * \param[in,out] 	p_perso			Pointer to personalization info structure
- * \param[in] 		command_code	Command code to configure
- * \param[in] 		enc_flag		Encryption flag to set
- */
+  * \brief     Set response encryption flag in personalization info
+  * \details   This function sets the encryption flag for a specific command response
+  * \param[in,out]   p_perso     Pointer to personalization info structure
+  * \param[in]     command_code  Command code to configure
+  * \param[in]     enc_flag    Encryption flag to set
+  */
 void stsafea_perso_info_set_rsp_encrypt_flag(stse_perso_info_t *p_perso,
                                              PLAT_UI8 command_code,
                                              PLAT_UI8 enc_flag);
 
 /**
- * \brief 		Set extended command encryption flag in personalization info
- * \details 	This function sets the encryption flag for a specific extended command
- * \param[in,out] 	p_perso			Pointer to personalization info structure
- * \param[in] 		command_code	Extended command code to configure
- * \param[in] 		enc_flag		Encryption flag to set
- */
+  * \brief     Set extended command encryption flag in personalization info
+  * \details   This function sets the encryption flag for a specific extended command
+  * \param[in,out]   p_perso     Pointer to personalization info structure
+  * \param[in]     command_code  Extended command code to configure
+  * \param[in]     enc_flag    Encryption flag to set
+  */
 void stsafea_perso_info_set_ext_cmd_encrypt_flag(stse_perso_info_t *p_perso,
                                                  PLAT_UI8 command_code,
                                                  PLAT_UI8 enc_flag);
 
 /**
- * \brief 		Set extended response encryption flag in personalization info
- * \details 	This function sets the encryption flag for a specific extended command response
- * \param[in,out] 	p_perso			Pointer to personalization info structure
- * \param[in] 		command_code	Extended command code to configure
- * \param[in] 		enc_flag		Encryption flag to set
- */
+  * \brief     Set extended response encryption flag in personalization info
+  * \details   This function sets the encryption flag for a specific extended command response
+  * \param[in,out]   p_perso     Pointer to personalization info structure
+  * \param[in]     command_code  Extended command code to configure
+  * \param[in]     enc_flag    Encryption flag to set
+  */
 void stsafea_perso_info_set_ext_rsp_encrypt_flag(stse_perso_info_t *p_perso,
                                                  PLAT_UI8 command_code,
                                                  PLAT_UI8 enc_flag);
 
 /** \}*/
 /** \}*/
-#endif /*STSAFE_COMMANDS_H*/
+
+#ifdef __cplusplus
+}
+#endif /* __cplusplus */
+
+#endif /* STSAFE_COMMANDS_H */
