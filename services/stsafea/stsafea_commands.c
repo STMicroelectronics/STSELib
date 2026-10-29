@@ -171,7 +171,7 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handler_t *pSTSE)
   {
     /* Persist authorization/encryption metadata in fast bitfields used by
      * the frame-transfer layer when selecting protection policies. */
-    if (record_table[i].extended_header == 0)
+    if (record_table[i].header != 0x1F)
     {
       stsafea_perso_info_set_cmd_AC(&pSTSE->perso_info, record_table[i].header, record_table[i].command_AC);
       stsafea_perso_info_set_cmd_encrypt_flag(&pSTSE->perso_info, record_table[i].header,
