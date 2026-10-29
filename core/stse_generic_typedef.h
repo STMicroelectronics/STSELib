@@ -154,6 +154,18 @@ typedef enum stse_hash_algorithm_t {
 } stse_hash_algorithm_t;
 
 /*!
+ * \typedef stsafea_cmd_code_t
+ * \brief STSAFE-A command type
+ */
+typedef PLAT_UI8 stsafea_cmd_code_t;
+
+/*!
+ * \typedef stsafea_extended_cmd_code_t
+ * \brief STSAFEA-A extended command type
+ */
+typedef PLAT_UI8 stsafea_extended_cmd_code_t;
+
+/*!
  * \type stse_hibernate_wake_up_mode_t
  * \brief STSE hibernate wake up mode (STSAFE-A only)
  */
@@ -210,8 +222,8 @@ typedef PLAT_UI8 stse_cmd_access_conditions_t;
  * \brief STSE commands authorization records type
  */
 typedef struct stse_cmd_authorization_record_t {
-    PLAT_UI8 header;
-    PLAT_UI8 extended_header;
+	stsafea_cmd_code_t header;
+	stsafea_extended_cmd_code_t extended_header;
     stse_cmd_access_conditions_t command_AC;
     struct {
         PLAT_UI8 filler : STSE_6BIT_LEN;

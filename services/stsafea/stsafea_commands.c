@@ -93,7 +93,7 @@ stse_ReturnCode_t stsafea_get_command_AC_table(stse_Handle_t *pSTSE,
 
     for (record_index = 0; record_index < total_command_count; record_index++) {
         pRecord_table[record_index].header = raw_data[record_array_pos++];
-        if (pRecord_table[record_index].header == 0x1F) {
+        if (pRecord_table[record_index].header == STSAFEA_EXTENDED_COMMAND_PREFIX) {
             pRecord_table[record_index].extended_header = raw_data[record_array_pos++];
         } else {
             pRecord_table[record_index].extended_header = 0;
@@ -138,15 +138,15 @@ stse_ReturnCode_t stsafea_perso_info_update(stse_Handle_t *pSTSE) {
     }
 
     for (PLAT_UI8 i = 0; i < total_command_count; i++) {
-        if (record_table[i].extended_header == 0) {
-            stsafea_perso_info_set_cmd_AC(&pSTSE->perso_info, record_table[i].header, record_table[i].command_AC);
-            stsafea_perso_info_set_cmd_encrypt_flag(&pSTSE->perso_info, record_table[i].header, record_table[i].host_encryption_flags.cmd);
-            stsafea_perso_info_set_rsp_encrypt_flag(&pSTSE->perso_info, record_table[i].header, record_table[i].host_encryption_flags.rsp);
-        } else {
+        if (record_table[i].header == STSAFEA_EXTENDED_COMMAND_PREFIX) {
             stsafea_perso_info_set_ext_cmd_AC(&pSTSE->perso_info, record_table[i].extended_header, record_table[i].command_AC);
             stsafea_perso_info_set_ext_cmd_encrypt_flag(&pSTSE->perso_info, record_table[i].extended_header, record_table[i].host_encryption_flags.cmd);
             stsafea_perso_info_set_ext_rsp_encrypt_flag(&pSTSE->perso_info, record_table[i].extended_header, record_table[i].host_encryption_flags.rsp);
-        }
+        } else {
+             stsafea_perso_info_set_cmd_AC(&pSTSE->perso_info, record_table[i].header, record_table[i].command_AC);
+            stsafea_perso_info_set_cmd_encrypt_flag(&pSTSE->perso_info, record_table[i].header, record_table[i].host_encryption_flags.cmd);
+            stsafea_perso_info_set_rsp_encrypt_flag(&pSTSE->perso_info, record_table[i].header, record_table[i].host_encryption_flags.rsp);
+       }
     }
 
     return STSE_OK;
