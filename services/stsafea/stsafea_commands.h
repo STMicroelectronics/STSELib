@@ -59,11 +59,6 @@
 #define STSAFEA_MAX_CMD_COUNT 29U
 #define STSAFEA_MAX_EXT_CMD_COUNT 29U
 
-/*!
- * \typedef stsafea_cmd_code_t
- * \brief STSAFE-A command type
- */
-typedef PLAT_UI8 stsafea_cmd_code_t;
 #define STSAFEA_CMD_ECHO ((stsafea_cmd_code_t)0x00U)                   /*!< STSAFEA Echo command code */
 #define STSAFEA_CMD_RESET ((stsafea_cmd_code_t)0x01U)                  /*!< STSAFEA Reset command code*/
 #define STSAFEA_CMD_GENERATE_RANDOM ((stsafea_cmd_code_t)0x02U)        /*!< STSAFEA Generate Random command code*/
@@ -97,11 +92,6 @@ typedef PLAT_UI8 stsafea_cmd_code_t;
 #define STSAFEA_CHUNK_PREFIX ((stsafea_cmd_code_t)0x1EU)
 #define STSAFEA_EXTENDED_COMMAND_PREFIX ((stsafea_cmd_code_t)0x1FU)
 
-/*!
- * \typedef stsafea_extended_cmd_code_t
- * \brief STSAFEA-A extended command type
- */
-typedef PLAT_UI8 stsafea_extended_cmd_code_t;
 #define STSAFEA_EXTENDED_CMD_START_HASH ((stsafea_extended_cmd_code_t)0x00U)                    /*!< STSAFE-A Start hash extended command code */
 #define STSAFEA_EXTENDED_CMD_PROCESS_HASH ((stsafea_extended_cmd_code_t)0x01U)                  /*!< STSAFE-A Process hash extended command code */
 #define STSAFEA_EXTENDED_CMD_FINISH_HASH ((stsafea_extended_cmd_code_t)0x02U)                   /*!< STSAFE-A Finish hash extended command code */
