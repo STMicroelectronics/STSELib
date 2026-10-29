@@ -55,7 +55,7 @@ typedef struct
 typedef struct
 {
     PLAT_UI8 key_presence_flag;
-    PLAT_UI8 key_type;
+    stse_aes_key_type_t key_type;
     PLAT_UI8 cmac_sequence_counter[4];
 } stsafea_host_key_slot_v2_t;
 
