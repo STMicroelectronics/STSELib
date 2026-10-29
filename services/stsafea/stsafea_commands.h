@@ -57,7 +57,7 @@
 #define STSAFEA_PROT_RSP_Msk 0x40U /*!< STSAFE  Protected rsp mask */
 
 #define STSAFEA_MAX_CMD_COUNT 29U
-#define STSAFEA_MAX_EXT_CMD_COUNT 29U
+#define STSAFEA_MAX_EXT_CMD_COUNT 27U
 
 #define STSAFEA_CMD_ECHO ((stsafea_cmd_code_t)0x00U)                   /*!< STSAFEA Echo command code */
 #define STSAFEA_CMD_RESET ((stsafea_cmd_code_t)0x01U)                  /*!< STSAFEA Reset command code*/
