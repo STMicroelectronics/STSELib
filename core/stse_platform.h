@@ -33,6 +33,12 @@
 #include "core/stse_util.h"
 #include "stse_platform_generic.h"
 
+typedef struct stse_crc16_context_t stse_crc16_context_t;
+
+struct stse_crc16_context_t {
+	PLAT_UI16 value;
+};
+
 /*--------------------- STSAFE platform HAL functions --------------------------- */
 
 /*!
@@ -82,20 +88,37 @@ void stse_platform_printf(const char *format, ...);
 PLAT_UI32 stse_platform_generate_random(void);
 
 /*!
- * \brief      Compute a 16-bit crc value on specific 8-bit buffer of buffer length
- * \param[in]  pbuffer pointer to crc input buffer
- * \param[in]  length  input buffer length
- * \return     16-bit CRC value
+ * \brief Initializes a CRC16 context.
+ *
+ * Initializes the specified CRC16 context and prepares it for use with `stse_platform_Crc16_Accumulate()`.
+ * The same context instance shall be passed unchanged to all subsequent accumulation calls.
+ *
+ * \param[in]  crc16_context  Pointer to the CRC16 context to initialize.
+ * \return     \ref STSE_OK on success; \ref stse_ReturnCode_t error code otherwise.
  */
-PLAT_UI16 stse_platform_Crc16_Calculate(PLAT_UI8 *pbuffer, PLAT_UI16 length);
+stse_ReturnCode_t stse_platform_Crc16_ContextInit(stse_crc16_context_t *crc16_context);
 
 /*!
  * \brief      Accumulate an 8-bit buffer of buffer length in crc unit
- * \param[in]  pbuffer pointer to crc input buffer
- * \param[in]  length  input buffer length
+ * \param[in]  pbuffer      pointer to crc input buffer
+ * \param[in]  length       input buffer length
+ * \param[in]  crc16_context Pointer to the CRC context holder previously initialized successfully
+ * via `stse_platform_Crc16_ContextInit()`. This context is used internally to maintain the state
+ * required for incremental CRC computation across multiple calls to `stse_platform_Crc16_Accumulate()`.
  * \return     16-bit CRC value
  */
-PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length);
+PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length, 
+                                         stse_crc16_context_t *crc16_context);
+
+/*!
+ * \brief Releases resources associated with a CRC16 context.
+ * 
+ * Releases any resources allocated or acquired by `stse_platform_Crc16_ContextInit()`. Once 
+ * released, the context shall no longer be used unless it is reinitialized.
+ * 
+ * \param[in] crc16_context Pointer to a CRC context previously initialized with `stse_platform_Crc16_ContextInit()`.
+*/
+void stse_platform_Crc16_ContextRelease(stse_crc16_context_t *crc16_context);
 
 /*!
  * \brief      Perform a delay of "delay_val" ms
