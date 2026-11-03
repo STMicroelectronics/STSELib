@@ -8,7 +8,7 @@ Following diagram illustrates the interactions performed between the Host and th
     participant "STSE" as STSE
 
     activate HOST $STSE_ACTIVITY
-    group stse_generate_ECDHE_key_pair
+    group stse_generate_ecdhe_key_pair
 
         HOST -> STSE : generate ECDHE key pair(key_type)
         activate STSE $STSE_ACTIVITY
@@ -24,13 +24,13 @@ Following diagram illustrates the interactions performed between the Host and th
 
 \code{.c}
 
-	stse_ReturnCode_t ret;
+	stse_return_code_t ret;
     stse_ecc_key_type_t key_type = STSE_ECC_KT_NIST_P_256;
-	PLAT_UI8 pPublic_key[stse_ecc_info_table[key_type].public_key_size];
+	PLAT_UI8 p_public_key[stse_ecc_info_table[key_type].public_key_size];
 
-	ret = stse_generate_ECDHE_key_pair(
-			pSTSE,
-			key_type, pPublic_key);
+	ret = stse_generate_ecdhe_key_pair(
+			p_stse,
+			key_type, p_public_key);
 
 	if(ret != STSE_OK )
 	{

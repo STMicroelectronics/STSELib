@@ -6,7 +6,7 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Initializes the I2C bus.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
+  - `bus_id`: Identifier for the I2C bus.
 - **Return Value**: Returns `STSE_OK` on success.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that initializes the I2C bus.
@@ -15,8 +15,8 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Wakes up the I2C device.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
 - **Return Value**: Returns `STSE_OK` on success.
 
@@ -26,10 +26,10 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Starts an I2C send operation.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
-  - `FrameLength`: Length of the I2C frame.
+  - `frame_length`: Length of the I2C frame.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUFFER_ERR` on buffer overflow.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that starts an I2C send operation.
@@ -38,10 +38,10 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Continues an I2C send operation.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
-  - `pData`: Pointer to the data to send.
+  - `p_data`: Pointer to the data to send.
   - `data_size`: Size of the data to send.
 - **Return Value**: Returns `STSE_OK` on success.
 
@@ -51,10 +51,10 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Stops an I2C send operation.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
-  - `pData`: Pointer to the data to send.
+  - `p_data`: Pointer to the data to send.
   - `data_size`: Size of the data to send.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUS_ACK_ERROR` on failure.
 
@@ -64,10 +64,10 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Starts an I2C receive operation.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
-  - `frameLength`: Length of the I2C frame.
+  - `frame_length`: Length of the I2C frame.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUS_ACK_ERROR` on failure.
 
 **Implementation directives**: This abstraction function should implement or call a platform function/driver that starts an I2C receive operation.
@@ -76,10 +76,10 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Continues an I2C receive operation.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
-  - `pData`: Pointer to the data buffer.
+  - `p_data`: Pointer to the data buffer.
   - `data_size`: Size of the data to receive.
 - **Return Value**: Returns `STSE_OK` on success, `STSE_PLATFORM_BUFFER_ERR` on buffer overflow.
 
@@ -89,10 +89,10 @@ The `stse_platform_i2c.c` file provides I2C communication functions for the STSe
 
 - **Purpose**: Stops an I2C receive operation.
 - **Parameters**:
-  - `busID`: Identifier for the I2C bus.
-  - `devAddr`: I2C device address.
+  - `bus_id`: Identifier for the I2C bus.
+  - `dev_addr`: I2C device address.
   - `speed`: I2C bus speed.
-  - `pData`: Pointer to the data buffer.
+  - `p_data`: Pointer to the data buffer.
   - `data_size`: Size of the data to receive.
 - **Return Value**: Returns `STSE_OK` on success.
 
@@ -131,59 +131,59 @@ static volatile PLAT_UI16 i2c_frame_offset;
 
 /**
  * \brief   Initializes the I2C bus.
- * \param   busID Identifier for the I2C bus.
+ * \param   bus_id Identifier for the I2C bus.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_i2c_init (PLAT_UI8 busID)
+stse_return_code_t stse_platform_i2c_init (PLAT_UI8 bus_id)
 {
-    (void) busID;
-    return (stse_ReturnCode_t)i2c_init(I2C1);
+    (void) bus_id;
+    return (stse_return_code_t)i2c_init(I2C1);
 }
 
 /**
  * \brief   Wakes up the I2C device.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_i2c_wake (PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_wake (PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed)
 {
-    (void) busID;
+    (void) bus_id;
     (void) speed;
 
-    i2c_wake(I2C1, devAddr);
+    i2c_wake(I2C1, dev_addr);
 
     return (STSE_OK);
 }
 
 /**
  * \brief   Starts an I2C send operation.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
- * \param   FrameLength Length of the I2C frame.
+ * \param   frame_length Length of the I2C frame.
  * \return  STSE_OK on success, STSE_PLATFORM_BUFFER_ERR on buffer overflow.
  */
-stse_ReturnCode_t stse_platform_i2c_send_start (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_send_start (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI16 FrameLength)
+        PLAT_UI16 frame_length)
 {
-    (void)busID;
-    (void)devAddr;
+    (void)bus_id;
+    (void)dev_addr;
     (void)speed;
 
     /* - Check buffer overflow */
-    if (FrameLength > sizeof(I2c_buffer)/sizeof(I2c_buffer[0]))
+    if (frame_length > sizeof(I2c_buffer)/sizeof(I2c_buffer[0]))
     {
         return STSE_PLATFORM_BUFFER_ERR;
     }
 
-    i2c_frame_size = FrameLength;
+    i2c_frame_size = frame_length;
     i2c_frame_offset = 0;
 
     return STSE_OK;
@@ -191,33 +191,33 @@ stse_ReturnCode_t stse_platform_i2c_send_start (
 
 /**
  * \brief   Continues an I2C send operation.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
- * \param   pData Pointer to the data to send.
+ * \param   p_data Pointer to the data to send.
  * \param   data_size Size of the data to send.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_i2c_send_continue (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_send_continue (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
-    (void)busID;
-    (void)devAddr;
+    (void)bus_id;
+    (void)dev_addr;
     (void)speed;
 
     if(data_size != 0)
     {
-        if(pData == NULL)
+        if(p_data == NULL)
         {
             memset((I2c_buffer + i2c_frame_offset),0x00,data_size);
         }
         else
         {
-            memcpy((I2c_buffer + i2c_frame_offset),pData,data_size);
+            memcpy((I2c_buffer + i2c_frame_offset),p_data,data_size);
         }
         i2c_frame_offset += data_size;
     }
@@ -227,33 +227,33 @@ stse_ReturnCode_t stse_platform_i2c_send_continue (
 
 /**
  * \brief   Stops an I2C send operation.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
- * \param   pData Pointer to the data to send.
+ * \param   p_data Pointer to the data to send.
  * \param   data_size Size of the data to send.
  * \return  STSE_OK on success, STSE_PLATFORM_BUS_ACK_ERROR on failure.
  */
-stse_ReturnCode_t stse_platform_i2c_send_stop (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_send_stop (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
-    stse_ReturnCode_t ret;
+    stse_return_code_t ret;
 
     ret =  stse_platform_i2c_send_continue (
-            busID,
-            devAddr,
+            bus_id,
+            dev_addr,
             speed,
-            pData,
+            p_data,
             data_size);
 
     /* - Send I2C frame buffer */
     if (ret == STSE_OK)
     {
-        ret = (stse_ReturnCode_t)i2c_write(I2C1, devAddr,speed,I2c_buffer,i2c_frame_size);
+        ret = (stse_return_code_t)i2c_write(I2C1, dev_addr,speed,I2c_buffer,i2c_frame_size);
     }
 
     if (ret != STSE_OK)
@@ -266,26 +266,26 @@ stse_ReturnCode_t stse_platform_i2c_send_stop (
 
 /**
  * \brief   Starts an I2C receive operation.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
- * \param   frameLength Length of the I2C frame.
+ * \param   frame_length Length of the I2C frame.
  * \return  STSE_OK on success, STSE_PLATFORM_BUS_ACK_ERROR on failure.
  */
-stse_ReturnCode_t stse_platform_i2c_receive_start (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_receive_start (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI16 frameLength)
+        PLAT_UI16 frame_length)
 {
-    (void)busID;
+    (void)bus_id;
     PLAT_I8 ret = 0;
 
     /* - Store response Length */
-    i2c_frame_size = frameLength;
+    i2c_frame_size = frame_length;
 
     /* - Read full Frame */
-    ret = i2c_read(I2C1, devAddr,speed,I2c_buffer,i2c_frame_size);
+    ret = i2c_read(I2C1, dev_addr,speed,I2c_buffer,i2c_frame_size);
     if(ret != 0)
     {
         return STSE_PLATFORM_BUS_ACK_ERROR;
@@ -299,25 +299,25 @@ stse_ReturnCode_t stse_platform_i2c_receive_start (
 
 /**
  * \brief   Continues an I2C receive operation.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
- * \param   pData Pointer to the data buffer.
+ * \param   p_data Pointer to the data buffer.
  * \param   data_size Size of the data to receive.
  * \return  STSE_OK on success, STSE_PLATFORM_BUFFER_ERR on buffer overflow.
  */
-stse_ReturnCode_t stse_platform_i2c_receive_continue (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_receive_continue (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
-    (void)busID;
-    (void)devAddr;
+    (void)bus_id;
+    (void)dev_addr;
     (void)speed;
 
-    if (pData != NULL)
+    if (p_data != NULL)
     {
 
         /* Check read overflow */
@@ -327,7 +327,7 @@ stse_ReturnCode_t stse_platform_i2c_receive_continue (
         }
 
         /* Copy buffer content */
-        memcpy(pData,(I2c_buffer + i2c_frame_offset),data_size);
+        memcpy(p_data,(I2c_buffer + i2c_frame_offset),data_size);
     }
 
     i2c_frame_offset += data_size;
@@ -337,22 +337,22 @@ stse_ReturnCode_t stse_platform_i2c_receive_continue (
 
 /**
  * \brief   Stops an I2C receive operation.
- * \param   busID Identifier for the I2C bus.
- * \param   devAddr I2C device address.
+ * \param   bus_id Identifier for the I2C bus.
+ * \param   dev_addr I2C device address.
  * \param   speed I2C bus speed.
- * \param   pData Pointer to the data buffer.
+ * \param   p_data Pointer to the data buffer.
  * \param   data_size Size of the data to receive.
  * \return  STSE_OK on success.
  */
-stse_ReturnCode_t stse_platform_i2c_receive_stop (
-        PLAT_UI8 busID,
-        PLAT_UI8 devAddr,
+stse_return_code_t stse_platform_i2c_receive_stop (
+        PLAT_UI8 bus_id,
+        PLAT_UI8 dev_addr,
         PLAT_UI16 speed,
-        PLAT_UI8* pData,
+        PLAT_UI8* p_data,
         PLAT_UI16 data_size)
 {
     /*- Copy last element*/
-    stse_platform_i2c_receive_continue(busID, devAddr, speed, pData, data_size);
+    stse_platform_i2c_receive_continue(bus_id, dev_addr, speed, p_data, data_size);
 
     i2c_frame_offset = 0;
 
