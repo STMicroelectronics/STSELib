@@ -32,6 +32,21 @@ extern "C" {
 #include "core/stse_util.h"
 #include "stse_conf.h"
 
+#if defined(__GNUC__) || defined(__clang__)
+    #define STSE_NOINLINE __attribute__((noinline))
+#elif defined(__ICCARM__)
+    #define STSE_NOINLINE _Pragma("optimize=no_inline")
+#else
+    #define STSE_NOINLINE
+#endif
+
+#define STSAFEA_ECC_P256_COORD_LEN      32U
+#define STSAFEA_ECC_P384_COORD_LEN      48U
+#define STSAFEA_ECC_BP512_COORD_LEN     64U
+#define STSAFEA_ECC_P521_COORD_LEN      66U
+#define STSAFEA_ECC_ED25519_COORD_LEN   32U
+#define STSAFEA_ECC_INT_HDR_LEN         2U
+
 #define STSE_8BIT_LEN 8U
 #define STSE_7BIT_LEN 7U
 #define STSE_6BIT_LEN 6U
