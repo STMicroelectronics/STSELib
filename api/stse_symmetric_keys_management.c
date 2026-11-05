@@ -69,13 +69,13 @@ static stse_return_code_t stse_start_volatile_kek_session(
   PLAT_UI16 priv_key_size = stse_ecc_info_table[ecc_key_type].private_key_size;
   PLAT_UI16 shared_secret_size = stse_ecc_info_table[ecc_key_type].shared_secret_size;
 
-  PLAT_UI8 host_ecdhe_public_key[pub_key_size];
-  PLAT_UI8 host_ecdhe_private_key[priv_key_size];
-  PLAT_UI8 stsafe_ecdhe_public_key[pub_key_size];
-  PLAT_UI8 shared_secret[2 * shared_secret_size];
+  PLAT_UI8 host_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 host_ecdhe_private_key[STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 stsafe_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 shared_secret[2U * STSE_ECC_MAX_COORD_LEN];
 
   PLAT_UI16 hkdf_info_size = 2 * pub_key_size;
-  PLAT_UI8 p_hkdf_info[hkdf_info_size];
+  PLAT_UI8 p_hkdf_info[STSE_MAX_HKDF_INFO_SIZE];
   PLAT_UI8 p_hkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
 
   /* - Generate local host ECDHE key pair */
@@ -241,13 +241,13 @@ static stse_return_code_t stse_start_volatile_kek_session_authenticated(
   PLAT_UI16 tbs_length = stse_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
 
   PLAT_UI8 p_hkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
-  PLAT_UI8 host_ecdhe_public_key[pub_key_size];
-  PLAT_UI8 host_ecdhe_private_key[ecdhe_priv_key_size];
-  PLAT_UI8 stsafe_ecdhe_public_key[pub_key_size];
-  PLAT_UI8 shared_secret[2 * shared_secret_size];
-  PLAT_UI8 signature[signature_size];
-  PLAT_UI8 p_hkdf_info[2 * pub_key_size_stsafe_format];
-  PLAT_UI8 p_tbs[tbs_length];
+  PLAT_UI8 host_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 host_ecdhe_private_key[STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 stsafe_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 shared_secret[2U * STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 signature[STSE_ECC_MAX_SIGNATURE_SIZE];
+  PLAT_UI8 p_hkdf_info[STSE_MAX_HKDF_INFO_SIZE];
+  PLAT_UI8 p_tbs[STSE_MAX_TBS_SIZE];
 
   /* - Generate host ECDHE key pair */
   /* Call platform abstraction layer function */
@@ -699,7 +699,7 @@ stse_return_code_t stse_host_secure_channel_keys_provisioning_wrapped(
                                        + STSE_HOST_KEY_ENVELOPE_PADDING_LENGTH
                                        + STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH;
 
-  PLAT_UI8 host_key_envelope[host_keys_envelope_length];
+  PLAT_UI8 host_key_envelope[STSE_MAX_HOST_KEYS_ENVELOPE_SIZE];
 
   stse_session_t volatile_kek_session;
   stse_session_erase_context(&volatile_kek_session);
@@ -849,7 +849,7 @@ stse_return_code_t stse_host_secure_channel_keys_provisioning_wrapped_authentica
                                        + STSE_HOST_KEY_ENVELOPE_KEY_TYPE_LENGTH
                                        + STSAFEA_HOST_KEY_WRAPPING_AUTHENTICATION_TAG_LENGTH;
 
-  PLAT_UI8 host_key_envelope[host_keys_envelope_length];
+  PLAT_UI8 host_key_envelope[STSE_MAX_HOST_KEYS_ENVELOPE_SIZE];
 
   stse_session_t volatile_kek_session;
   stse_session_erase_context(&volatile_kek_session);
@@ -989,21 +989,21 @@ stse_return_code_t stse_establish_host_secure_channel_keys(
   PLAT_UI16 shared_secret_size = stse_ecc_info_table[ecdh_key_type].shared_secret_size;
   PLAT_UI16 hkdf_info_size = 2 * pub_key_size;
 
-  PLAT_UI8 host_ecdhe_public_key[pub_key_size];
-  PLAT_UI8 host_ecdhe_private_key[priv_key_size];
-  PLAT_UI8 stsafe_ecdhe_public_key[pub_key_size];
+  PLAT_UI8 host_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 host_ecdhe_private_key[STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 stsafe_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
 
-  PLAT_UI8 shared_secret[2 * shared_secret_size];
+  PLAT_UI8 shared_secret[2U * STSE_ECC_MAX_COORD_LEN];
 
   PLAT_UI8 p_hkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
-  PLAT_UI8 p_hkdf_info[hkdf_info_size];
+  PLAT_UI8 p_hkdf_info[STSE_MAX_HKDF_INFO_SIZE];
 
   /* - Initialize the OKM length with the confirmation key length */
   PLAT_UI16 host_mac_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT)
                                   ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
   PLAT_UI16 host_cipher_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT)
                                      ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
-  PLAT_UI8 okm_buffer[host_mac_key_length + host_cipher_key_length];
+  PLAT_UI8 okm_buffer[2U * STSE_AES_256_KEY_SIZE];
 
   /* - Generate local host ECDHE key pair */
   /* Call platform abstraction layer function */
@@ -1161,14 +1161,14 @@ stse_return_code_t stse_establish_host_secure_channel_keys_authenticated(
   PLAT_UI16 shared_secret_size = stse_ecc_info_table[ecdh_key_type].shared_secret_size;
   PLAT_UI16 hkdf_info_size = 2 * pub_key_size;
 
-  PLAT_UI8 host_ecdhe_public_key[pub_key_size];
-  PLAT_UI8 host_ecdhe_private_key[priv_key_size];
-  PLAT_UI8 stsafe_ecdhe_public_key[pub_key_size];
+  PLAT_UI8 host_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 host_ecdhe_private_key[STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 stsafe_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
 
-  PLAT_UI8 shared_secret[2 * shared_secret_size];
+  PLAT_UI8 shared_secret[2U * STSE_ECC_MAX_COORD_LEN];
 
   PLAT_UI8 p_hkdf_salt[STSAFEA_KEK_HKDF_SALT_SIZE] = STSAFEA_KEK_HKDF_SALT;
-  PLAT_UI8 p_hkdf_info[hkdf_info_size];
+  PLAT_UI8 p_hkdf_info[STSE_MAX_HKDF_INFO_SIZE];
 
   /* Get public key slot type & configuration */
   PLAT_UI8 tbs_presence_flag = 0;
@@ -1196,14 +1196,14 @@ stse_return_code_t stse_establish_host_secure_channel_keys_authenticated(
   }
 
   /* Allocate signature buffer */
-  PLAT_UI8 signature[stse_ecc_info_table[tbs_key_type].signature_size];
+  PLAT_UI8 signature[STSE_ECC_MAX_SIGNATURE_SIZE];
 
   /* - Initialize the OKM length with the confirmation key length */
   PLAT_UI16 host_mac_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT)
                                   ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
   PLAT_UI16 host_cipher_key_length = (host_secure_channel_keys_type == STSE_AES_256_KT)
                                      ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
-  PLAT_UI8 okm_buffer[host_mac_key_length + host_cipher_key_length];
+  PLAT_UI8 okm_buffer[2U * STSE_AES_256_KEY_SIZE];
 
   /* - Generate local host ECDHE key pair */
   /* Call platform abstraction layer function */
@@ -1294,7 +1294,7 @@ stse_return_code_t stse_establish_host_secure_channel_keys_authenticated(
     tbs_pub_key_length += STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID_SIZE + 2 * STSE_ECC_GENERIC_LENGTH_SIZE;
   }
   PLAT_UI16 tbs_length = stse_ecc_info_table[ecdh_key_type].curve_id_total_length + 2 * tbs_pub_key_length;
-  PLAT_UI8 p_tbs[tbs_length];
+  PLAT_UI8 p_tbs[STSE_MAX_TBS_SIZE];
 
   /* Copy curve ID into TBS buffer */
   memcpy(p_tbs,
@@ -1465,7 +1465,7 @@ stse_return_code_t stse_get_symmetric_key_slot_info(
     return STSE_API_INVALID_PARAMETER;
   }
 
-  stsafea_symmetric_key_slot_information_t p_symmetric_key_table_info[slot_count];
+  stsafea_symmetric_key_slot_information_t p_symmetric_key_table_info[STSAFEA_MAX_SYMMETRIC_KEY_SLOTS];
 
   /* Invoke STSAFE-A core service */
   ret = stsafea_query_symmetric_key_table(p_stse, slot_count, p_symmetric_key_table_info);
@@ -1526,7 +1526,7 @@ stse_return_code_t stse_write_symmetric_key_wrapped(
 
   envelope_length += envelope_padding_length;
 
-  PLAT_UI8 envelope[envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE];
+  PLAT_UI8 envelope[STSE_MAX_KEK_ENVELOPE_SIZE];
   memset(envelope, 0, envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE);
 
   memcpy(envelope,
@@ -1632,7 +1632,7 @@ stse_return_code_t stse_write_symmetric_key_wrapped_authenticated(
 
   envelope_length += envelope_padding_length;
 
-  PLAT_UI8 envelope[envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE];
+  PLAT_UI8 envelope[STSE_MAX_KEK_ENVELOPE_SIZE];
   memset(envelope, 0, envelope_length + STSE_KEK_ENVELOPE_MAC_SIZE);
 
   memcpy(envelope,
@@ -1718,10 +1718,10 @@ stse_return_code_t stse_establish_symmetric_key(
   stsafe_ecdhe_public_key_size = stse_ecc_info_table[ecc_key_type].public_key_size;
   shared_secret_size = stse_ecc_info_table[ecc_key_type].shared_secret_size;
 
-  PLAT_UI8 host_public_key[host_public_key_size];
-  PLAT_UI8 host_private_key[host_private_key_size];
-  PLAT_UI8 stsafe_public_key[stsafe_ecdhe_public_key_size];
-  PLAT_UI8 shared_secret[2 * shared_secret_size];
+  PLAT_UI8 host_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 host_private_key[STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 stsafe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 shared_secret[2U * STSE_ECC_MAX_COORD_LEN];
 
   /* - Initialize the OKM length with the confirmation key length */
   PLAT_UI16 okm_length = STSE_AES_256_KEY_SIZE;
@@ -1733,7 +1733,7 @@ stse_return_code_t stse_establish_symmetric_key(
                   ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
   }
 
-  PLAT_UI8 okm_buffer[okm_length];
+  PLAT_UI8 okm_buffer[STSE_MAX_OKM_BUFFER_SIZE];
 
   /* - Generate host ECDHE key pair */
   /* Call platform abstraction layer function */
@@ -1892,10 +1892,10 @@ stse_return_code_t stse_establish_symmetric_key_authenticated(
   PLAT_UI8 p_hkdf_info[STSAFEA_KT_LENGTH + STSAFEA_KT_LENGTH] = {STSAFEA_KT_SYMMETRIC_KEY, STSAFEA_KT_CONFIRMATION_KEY};
 
   /* - Prepare asymmetric keys and shared secret buffers */
-  PLAT_UI8 host_ecdhe_public_key[stse_ecc_info_table[ecc_key_type].public_key_size];
-  PLAT_UI8 host_ecdhe_private_key[stse_ecc_info_table[ecc_key_type].private_key_size];
-  PLAT_UI8 stsafe_ecdhe_public_key[stse_ecc_info_table[ecc_key_type].public_key_size];
-  PLAT_UI8 shared_secret[2 * stse_ecc_info_table[ecc_key_type].shared_secret_size];
+  PLAT_UI8 host_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 host_ecdhe_private_key[STSE_ECC_MAX_COORD_LEN];
+  PLAT_UI8 stsafe_ecdhe_public_key[STSE_ECC_MAX_PUB_KEY_SIZE];
+  PLAT_UI8 shared_secret[2U * STSE_ECC_MAX_COORD_LEN];
 
   PLAT_UI16 pub_key_size_stsafe_format = stse_ecc_info_table[ecc_key_type].public_key_size;
 #ifdef STSE_CONF_ECC_CURVE_25519
@@ -1911,10 +1911,10 @@ stse_return_code_t stse_establish_symmetric_key_authenticated(
   }
 #endif /* STSE_CONF_ECC_CURVE_25519 */
   PLAT_UI16 tbs_length = stse_ecc_info_table[ecc_key_type].curve_id_total_length + 2 * pub_key_size_stsafe_format;
-  PLAT_UI8 p_tbs[tbs_length];
+  PLAT_UI8 p_tbs[STSE_MAX_TBS_SIZE];
 
   PLAT_UI16 signature_size = stse_ecc_info_table[private_ecc_key_type].signature_size;
-  PLAT_UI8 signature[signature_size];
+  PLAT_UI8 signature[STSE_ECC_MAX_SIGNATURE_SIZE];
 
   /* - Initialize the OKM length with the confirmation key length */
   PLAT_UI16 okm_length = STSE_AES_256_KEY_SIZE;
@@ -1926,7 +1926,7 @@ stse_return_code_t stse_establish_symmetric_key_authenticated(
                   ? STSE_AES_256_KEY_SIZE : STSE_AES_128_KEY_SIZE;
   }
 
-  PLAT_UI8 okm_buffer[okm_length];
+  PLAT_UI8 okm_buffer[STSE_MAX_OKM_BUFFER_SIZE];
 
   /* - Generate host ECDHE key pair */
   /* Call platform abstraction layer function */
