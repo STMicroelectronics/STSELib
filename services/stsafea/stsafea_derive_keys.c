@@ -84,12 +84,17 @@ stse_return_code_t stsafea_derive_keys(
     return STSE_SERVICE_INVALID_PARAMETER;
   }
 
-  stse_frame_element_t e_okm_desc_length[okm_count], e_okm_destination[okm_count];
-  stse_frame_element_t e_okm_data1[okm_count], e_okm_data2[okm_count];
-  stse_frame_element_t e_rsp_okm_data[okm_count];
+  if (okm_count > STSAFEA_MAX_DERIVED_KEYS)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
 
-  PLAT_UI8 okm_desc_len_buf[okm_count][2];
-  PLAT_UI8 okm_key_len_buf[okm_count][2];
+  stse_frame_element_t e_okm_desc_length[STSAFEA_MAX_DERIVED_KEYS], e_okm_destination[STSAFEA_MAX_DERIVED_KEYS];
+  stse_frame_element_t e_okm_data1[STSAFEA_MAX_DERIVED_KEYS], e_okm_data2[STSAFEA_MAX_DERIVED_KEYS];
+  stse_frame_element_t e_rsp_okm_data[STSAFEA_MAX_DERIVED_KEYS];
+
+  PLAT_UI8 okm_desc_len_buf[STSAFEA_MAX_DERIVED_KEYS][2];
+  PLAT_UI8 okm_key_len_buf[STSAFEA_MAX_DERIVED_KEYS][2];
 
   /* Prepare DERIVE KEYS Frame */
   STSE_FRAME_ALLOCATE(cmd_frame);

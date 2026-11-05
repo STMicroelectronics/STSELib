@@ -77,7 +77,13 @@ stse_return_code_t stsafea_get_command_ac_table(stse_handle_t *p_stse,
   PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
   PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_COMMAND_AUTHORIZATION_CONFIG;
   PLAT_UI8 rsp_header = 0;
-  PLAT_UI8 raw_data[total_command_count * sizeof(stse_cmd_authorization_record_t)];
+
+  if (total_command_count > STSAFEA_TOTAL_MAX_CMD_COUNT)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+
+  PLAT_UI8 raw_data[STSAFEA_TOTAL_MAX_CMD_COUNT * sizeof(stse_cmd_authorization_record_t)];
   PLAT_UI8 record_index = 0;
   PLAT_UI8 record_array_pos = 0;
 
@@ -174,8 +180,13 @@ stse_return_code_t stsafea_perso_info_update(stse_handle_t *p_stse)
     return ret;
   }
 
+  if (total_command_count > STSAFEA_TOTAL_MAX_CMD_COUNT)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+
   /* Allocate stack buffer for the authorization records */
-  stse_cmd_authorization_record_t record_table[total_command_count];
+  stse_cmd_authorization_record_t record_table[STSAFEA_TOTAL_MAX_CMD_COUNT];
 
   /* Retrieve all command authorization records from target device */
   ret = stsafea_get_command_ac_table(p_stse,
