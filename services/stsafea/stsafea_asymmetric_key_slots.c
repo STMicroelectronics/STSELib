@@ -88,11 +88,17 @@ stse_return_code_t stsafea_query_private_key_table(
   PLAT_UI8 *current_record;
   PLAT_UI8 filler;
 
+  /* Check service parameters */
+  if (private_key_slot_count > STSAFEA_MAX_PRIVATE_KEY_SLOTS)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+
   PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
   PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_PRIVATE_KEY_TABLE;
   PLAT_UI8 rsp_header;
   PLAT_UI16 raw_table_length = private_key_slot_count * sizeof(stsafea_private_key_slot_information_t);
-  PLAT_UI8 p_table_raw[raw_table_length];
+  PLAT_UI8 p_table_raw[STSAFEA_MAX_PRIVATE_KEY_SLOTS * sizeof(stsafea_private_key_slot_information_t)];
 
   /* Prepare Query Frame */
   STSE_FRAME_ALLOCATE(cmd_frame);
@@ -288,7 +294,7 @@ stse_return_code_t stsafea_generate_ecdhe_key_pair(
   PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_GENERATE_ECDHE};
 
   PLAT_UI8 rsp_header;
-  PLAT_UI8 p_curve_id_rsp[stse_ecc_info_table[key_type].curve_id_total_length];
+  stsafea_ecc_curve_id_t curve_id_rsp;
   PLAT_UI8 point_representation_id = STSE_NIST_BRAINPOOL_POINT_REPRESENTATION_ID;
   STSE_FRAME_ELEMENT_ALLOCATE(e_point_representation_id, 1, &point_representation_id);
 
@@ -321,7 +327,7 @@ stse_return_code_t stsafea_generate_ecdhe_key_pair(
   /* [CURVE ID] */
   STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&rsp_frame, e_curve_id_rsp,
                                    stse_ecc_info_table[key_type].curve_id_total_length,
-                                   p_curve_id_rsp);
+                                   (PLAT_UI8 *)&curve_id_rsp);
 
 #ifdef STSE_CONF_ECC_CURVE_25519
   if (key_type == STSE_ECC_KT_CURVE25519)

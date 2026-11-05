@@ -45,6 +45,7 @@ extern "C" {
 
 #define STSAFEA_PRIVATE_KEY_TABLE_INFO_COMMON_VALUES_LENGTH 4U
 #define STSAFEA_EPHEMERAL_KEY_USAGE_LIMIT 1U
+#define STSAFEA_MAX_PRIVATE_KEY_SLOTS 5U
 
 /*!
  * \struct stsafea_private_key_operation_mode_t
