@@ -1459,7 +1459,7 @@ stse_return_code_t stse_get_symmetric_key_slot_info(
     return ret;
   }
 
-  if (slot_number >= slot_count)
+  if ((slot_number >= slot_count) || (slot_count > STSAFEA_MAX_SYMMETRIC_KEY_SLOTS))
   {
     /* Invalid argument supplied */
     return STSE_API_INVALID_PARAMETER;
