@@ -180,10 +180,15 @@ stse_return_code_t stsafea_query_symmetric_key_table(
   PLAT_UI8 slot_count, i;
   PLAT_UI8 *current_record;
 
+  if (symmetric_key_slot_count > STSAFEA_MAX_SYMMETRIC_KEY_SLOTS)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+
   PLAT_UI8 subject_tag = STSAFEA_SUBJECT_TAG_SYMMETRIC_KEY_TABLE;
   PLAT_UI8 rsp_header;
   PLAT_UI16 rsp_raw_length = symmetric_key_slot_count * sizeof(stsafea_symmetric_key_slot_information_t);
-  PLAT_UI8 p_rsp_raw[rsp_raw_length];
+  PLAT_UI8 p_rsp_raw[STSAFEA_MAX_SYMMETRIC_KEY_SLOTS * sizeof(stsafea_symmetric_key_slot_information_t)];
 
   /* Prepare Query Frame */
   STSE_FRAME_ALLOCATE(cmd_frame);
@@ -521,13 +526,13 @@ stse_return_code_t stsafea_confirm_symmetric_key(
   }
 
   /* Check service parameters */
-  if ((p_key_information_list == NULL) || (key_count == 0))
+  if ((p_key_information_list == NULL) || (key_count == 0) || (key_count > STSAFEA_MAX_SYMMETRIC_KEY_SLOTS))
   {
     return (STSE_SERVICE_INVALID_PARAMETER);
   }
 
   PLAT_UI8 p_confirmation_mac[STSE_KEY_CONFIRMATION_MAC_SIZE];
-  stse_frame_element_t e_key_information_list[key_count];
+  stse_frame_element_t e_key_information_list[STSAFEA_MAX_SYMMETRIC_KEY_SLOTS];
   PLAT_UI8 rsp_header;
 
   /* Prepare Confirm Symmetric Keys Frame */
@@ -569,7 +574,8 @@ stse_return_code_t stsafea_confirm_symmetric_key(
     stse_frame_push_element(&cmd_frame, &e_key_information_list[i]);
   }
 
-  ret = stse_platform_aes_cmac_compute_finish(p_confirmation_mac, NULL);
+  PLAT_UI8 mac_length = STSE_KEY_CONFIRMATION_MAC_SIZE;
+  ret = stse_platform_aes_cmac_compute_finish(p_confirmation_mac, &mac_length);
   if (ret != STSE_OK)
   {
     return (ret);
