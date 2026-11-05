@@ -265,32 +265,23 @@ stse_return_code_t stsafea_session_frame_encrypt(stse_session_t *p_session,
   }
 }
 
-static stse_return_code_t stsafea_session_frame_decrypt(stse_session_t *p_session, stse_frame_t *p_frame)
+static stse_return_code_t stsafea_session_frame_decrypt_worker(
+    stse_session_t *p_session,
+    stse_frame_t *p_frame,
+    PLAT_UI8 *p_decrypt_buffer,
+    PLAT_UI16 encrypted_payload_len)
 {
   stse_return_code_t ret;
   PLAT_UI8 initial_value[STSAFEA_HOST_AES_BLOCK_SIZE];
   stse_frame_element_t *p_element;
   PLAT_UI16 i = 0;
-  PLAT_UI16 encrypted_payload_len;
 
   p_element = p_frame->first_element->next;
-  if (p_element == NULL)
-  {
-    /* Successful completion of session operation */
-    return STSE_OK;
-  }
-
-  /* Total length of the encrypted part of the frame */
-  encrypted_payload_len = p_frame->length - p_frame->first_element->length;
-
-  /* Fill decrypt buffer with encrypted payload content */
-  PLAT_UI8 decrypt_buffer[encrypted_payload_len];
-
   while (p_element != NULL)
   {
     if (p_element->length != 0)
     {
-      memcpy(decrypt_buffer + i, p_element->p_data, p_element->length);
+      memcpy(p_decrypt_buffer + i, p_element->p_data, p_element->length);
       i += p_element->length;
     }
     p_element = p_element->next;
@@ -336,11 +327,11 @@ static stse_return_code_t stsafea_session_frame_decrypt(stse_session_t *p_sessio
   PLAT_UI16 decrypted_payload_len = encrypted_payload_len;
 
   /* Decrypt response payload using AES-CBC */
-  ret = stse_platform_aes_cbc_dec(decrypt_buffer,
+  ret = stse_platform_aes_cbc_dec(p_decrypt_buffer,
                                   encrypted_payload_len,
                                   initial_value,
                                   p_session->context.host.host_cypher_key_idx,
-                                  decrypt_buffer,
+                                  p_decrypt_buffer,
                                   &decrypted_payload_len);
 
   /* Verify cryptographic primitive execution status */
@@ -357,7 +348,7 @@ static stse_return_code_t stsafea_session_frame_decrypt(stse_session_t *p_sessio
   while (p_element != NULL)
   {
     memcpy(p_element->p_data,
-           decrypt_buffer + i,
+           p_decrypt_buffer + i,
            p_element->length);
     i += p_element->length;
     p_element = p_element->next;
@@ -367,12 +358,69 @@ static stse_return_code_t stsafea_session_frame_decrypt(stse_session_t *p_sessio
   return STSE_OK;
 }
 
+STSE_NOINLINE static stse_return_code_t stsafea_session_frame_decrypt_small(stse_session_t *p_session, stse_frame_t *p_frame, PLAT_UI16 encrypted_payload_len)
+{
+  PLAT_UI8 decrypt_buffer[STSE_SESSION_TIER_SMALL];
+  return stsafea_session_frame_decrypt_worker(p_session, p_frame, decrypt_buffer, encrypted_payload_len);
+}
+
+STSE_NOINLINE static stse_return_code_t stsafea_session_frame_decrypt_medium(stse_session_t *p_session, stse_frame_t *p_frame, PLAT_UI16 encrypted_payload_len)
+{
+  PLAT_UI8 decrypt_buffer[STSE_SESSION_TIER_MEDIUM];
+  return stsafea_session_frame_decrypt_worker(p_session, p_frame, decrypt_buffer, encrypted_payload_len);
+}
+
+STSE_NOINLINE static stse_return_code_t stsafea_session_frame_decrypt_large(stse_session_t *p_session, stse_frame_t *p_frame, PLAT_UI16 encrypted_payload_len)
+{
+  PLAT_UI8 decrypt_buffer[STSE_SESSION_TIER_LARGE];
+  return stsafea_session_frame_decrypt_worker(p_session, p_frame, decrypt_buffer, encrypted_payload_len);
+}
+
+static stse_return_code_t stsafea_session_frame_decrypt(stse_session_t *p_session, stse_frame_t *p_frame)
+{
+  PLAT_UI16 encrypted_payload_len;
+
+  /* Check service parameters */
+  if (p_session == NULL || p_frame == NULL ||
+      p_frame->first_element == NULL || p_frame->first_element->p_data == NULL)
+  {
+    /* Session state or configuration error */
+    return STSE_SERVICE_SESSION_ERROR;
+  }
+
+  if (p_frame->first_element->next == NULL)
+  {
+    /* Successful completion of session operation */
+    return STSE_OK;
+  }
+
+  /* Total length of the encrypted part of the frame */
+  encrypted_payload_len = p_frame->length - p_frame->first_element->length;
+
+  if (encrypted_payload_len <= STSE_SESSION_TIER_SMALL)
+  {
+    return stsafea_session_frame_decrypt_small(p_session, p_frame, encrypted_payload_len);
+  }
+  else if (encrypted_payload_len <= STSE_SESSION_TIER_MEDIUM)
+  {
+    return stsafea_session_frame_decrypt_medium(p_session, p_frame, encrypted_payload_len);
+  }
+  else if (encrypted_payload_len <= STSE_SESSION_TIER_LARGE)
+  {
+    return stsafea_session_frame_decrypt_large(p_session, p_frame, encrypted_payload_len);
+  }
+  else
+  {
+    return STSE_SERVICE_FRAME_SIZE_ERROR;
+  }
+}
+
 static stse_return_code_t stsafea_session_frame_c_mac_compute(stse_session_t *p_session,
                                                               stse_frame_t *p_cmd_frame,
                                                               PLAT_UI8 *p_mac)
 {
   PLAT_UI8 aes_cmac_block[STSAFEA_HOST_AES_BLOCK_SIZE];
-  PLAT_UI8 mac_output_length;
+  PLAT_UI8 mac_output_length = STSAFEA_MAC_SIZE;
   PLAT_UI8 mac_type = 0x00;
   stse_frame_element_t *p_element;
   PLAT_UI8 aes_block_idx = 0;
@@ -650,6 +698,7 @@ static stse_return_code_t stsafea_session_frame_r_mac_verify(stse_session_t *p_s
       }
       p_element = p_element->next;
     }
+    p_cmd_frame->last_element->next = NULL;
     if (aes_block_idx != 0)
     {
       /* Append authenticated block into running CMAC calculation */
@@ -670,6 +719,21 @@ static stse_return_code_t stsafea_session_frame_r_mac_verify(stse_session_t *p_s
   return ret;
 }
 
+static stse_return_code_t stsafea_session_encrypted_transfer_small(
+    stse_session_t *p_session, stse_frame_t *p_cmd_frame, stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag, PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info, PLAT_UI16 processing_time,
+    PLAT_UI16 encrypted_cmd_payload_size, PLAT_UI16 encrypted_rsp_payload_size);
+static stse_return_code_t stsafea_session_encrypted_transfer_medium(
+    stse_session_t *p_session, stse_frame_t *p_cmd_frame, stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag, PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info, PLAT_UI16 processing_time,
+    PLAT_UI16 encrypted_cmd_payload_size, PLAT_UI16 encrypted_rsp_payload_size);
+static stse_return_code_t stsafea_session_encrypted_transfer_large(
+    stse_session_t *p_session, stse_frame_t *p_cmd_frame, stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag, PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info, PLAT_UI16 processing_time,
+    PLAT_UI16 encrypted_cmd_payload_size, PLAT_UI16 encrypted_rsp_payload_size);
 stse_return_code_t stsafea_session_encrypted_transfer(stse_session_t *p_session,
                                                       stse_frame_t *p_cmd_frame,
                                                       stse_frame_t *p_rsp_frame,
@@ -678,7 +742,6 @@ stse_return_code_t stsafea_session_encrypted_transfer(stse_session_t *p_session,
                                                       stse_cmd_access_conditions_t cmd_ac_info,
                                                       PLAT_UI16 processing_time)
 {
-  stse_return_code_t ret;
   PLAT_UI16 encrypted_cmd_payload_size = 0;
   PLAT_UI16 encrypted_rsp_payload_size = 0;
   PLAT_UI8 padding = 16;
@@ -708,21 +771,9 @@ stse_return_code_t stsafea_session_encrypted_transfer(stse_session_t *p_session,
     encrypted_cmd_payload_size = plaintext_payload_size + padding;
   }
 
-  PLAT_UI8 encrypted_cmd_payload[encrypted_cmd_payload_size];
-  STSE_FRAME_ELEMENT_ALLOCATE(e_encrypted_cmd_payload, encrypted_cmd_payload_size, encrypted_cmd_payload);
-  STSE_FRAME_STRAP_ALLOCATE(S1);
-
-  if (cmd_encryption_flag == 1)
+  if (encrypted_cmd_payload_size > STSE_SESSION_TIER_LARGE)
   {
-    ret = stsafea_session_frame_encrypt(p_session, p_cmd_frame, &e_encrypted_cmd_payload);
-    /* Verify cryptographic primitive execution status */
-    if (ret != STSE_OK)
-    {
-      /* Propagate error return code */
-      return ret;
-    }
-    stse_frame_insert_strap(&S1, p_cmd_frame->first_element, &e_encrypted_cmd_payload);
-    stse_frame_update(p_cmd_frame);
+    return STSE_SERVICE_FRAME_SIZE_ERROR;
   }
 
   if (rsp_encryption_flag == 1)
@@ -743,8 +794,68 @@ stse_return_code_t stsafea_session_encrypted_transfer(stse_session_t *p_session,
     encrypted_rsp_payload_size = plaintext_payload_size + padding;
   }
 
-  PLAT_UI8 encrypted_rsp_payload[encrypted_rsp_payload_size];
-  STSE_FRAME_ELEMENT_ALLOCATE(e_encrypted_rsp_payload, encrypted_rsp_payload_size, encrypted_rsp_payload);
+  if (encrypted_rsp_payload_size > STSE_SESSION_TIER_LARGE)
+  {
+    return STSE_SERVICE_FRAME_SIZE_ERROR;
+  }
+
+  PLAT_UI16 max_payload_size = (encrypted_cmd_payload_size > encrypted_rsp_payload_size)
+                               ? encrypted_cmd_payload_size : encrypted_rsp_payload_size;
+
+  if (max_payload_size <= STSE_SESSION_TIER_SMALL)
+  {
+    return stsafea_session_encrypted_transfer_small(p_session, p_cmd_frame, p_rsp_frame,
+                                                    cmd_encryption_flag, rsp_encryption_flag,
+                                                    cmd_ac_info, processing_time,
+                                                    encrypted_cmd_payload_size, encrypted_rsp_payload_size);
+  }
+  else if (max_payload_size <= STSE_SESSION_TIER_MEDIUM)
+  {
+    return stsafea_session_encrypted_transfer_medium(p_session, p_cmd_frame, p_rsp_frame,
+                                                     cmd_encryption_flag, rsp_encryption_flag,
+                                                     cmd_ac_info, processing_time,
+                                                     encrypted_cmd_payload_size, encrypted_rsp_payload_size);
+  }
+  else
+  {
+    return stsafea_session_encrypted_transfer_large(p_session, p_cmd_frame, p_rsp_frame,
+                                                    cmd_encryption_flag, rsp_encryption_flag,
+                                                    cmd_ac_info, processing_time,
+                                                    encrypted_cmd_payload_size, encrypted_rsp_payload_size);
+  }
+}
+
+static stse_return_code_t stsafea_session_encrypted_transfer_worker(
+    stse_session_t *p_session,
+    stse_frame_t *p_cmd_frame,
+    stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag,
+    PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info,
+    PLAT_UI16 processing_time,
+    PLAT_UI8 *p_cmd_buf,
+    PLAT_UI16 encrypted_cmd_payload_size,
+    PLAT_UI8 *p_rsp_buf,
+    PLAT_UI16 encrypted_rsp_payload_size)
+{
+  stse_return_code_t ret;
+  STSE_FRAME_ELEMENT_ALLOCATE(e_encrypted_cmd_payload, encrypted_cmd_payload_size, p_cmd_buf);
+  STSE_FRAME_STRAP_ALLOCATE(S1);
+
+  if (cmd_encryption_flag == 1)
+  {
+    ret = stsafea_session_frame_encrypt(p_session, p_cmd_frame, &e_encrypted_cmd_payload);
+    /* Verify cryptographic primitive execution status */
+    if (ret != STSE_OK)
+    {
+      /* Propagate error return code */
+      return ret;
+    }
+    stse_frame_insert_strap(&S1, p_cmd_frame->first_element, &e_encrypted_cmd_payload);
+    stse_frame_update(p_cmd_frame);
+  }
+
+  STSE_FRAME_ELEMENT_ALLOCATE(e_encrypted_rsp_payload, encrypted_rsp_payload_size, p_rsp_buf);
   STSE_FRAME_STRAP_ALLOCATE(S2);
 
   if (rsp_encryption_flag == 1 && p_rsp_frame->first_element->next != NULL)
@@ -844,6 +955,69 @@ stse_return_code_t stsafea_session_authenticated_transfer(stse_session_t *p_sess
 
   /* Propagate error return code */
   return ret;
+}
+
+STSE_NOINLINE static stse_return_code_t stsafea_session_encrypted_transfer_small(
+    stse_session_t *p_session,
+    stse_frame_t *p_cmd_frame,
+    stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag,
+    PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info,
+    PLAT_UI16 processing_time,
+    PLAT_UI16 encrypted_cmd_payload_size,
+    PLAT_UI16 encrypted_rsp_payload_size)
+{
+  PLAT_UI8 cmd_buf[STSE_SESSION_TIER_SMALL];
+  PLAT_UI8 rsp_buf[STSE_SESSION_TIER_SMALL];
+  return stsafea_session_encrypted_transfer_worker(
+      p_session, p_cmd_frame, p_rsp_frame,
+      cmd_encryption_flag, rsp_encryption_flag,
+      cmd_ac_info, processing_time,
+      cmd_buf, encrypted_cmd_payload_size,
+      rsp_buf, encrypted_rsp_payload_size);
+}
+
+STSE_NOINLINE static stse_return_code_t stsafea_session_encrypted_transfer_medium(
+    stse_session_t *p_session,
+    stse_frame_t *p_cmd_frame,
+    stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag,
+    PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info,
+    PLAT_UI16 processing_time,
+    PLAT_UI16 encrypted_cmd_payload_size,
+    PLAT_UI16 encrypted_rsp_payload_size)
+{
+  PLAT_UI8 cmd_buf[STSE_SESSION_TIER_MEDIUM];
+  PLAT_UI8 rsp_buf[STSE_SESSION_TIER_MEDIUM];
+  return stsafea_session_encrypted_transfer_worker(
+      p_session, p_cmd_frame, p_rsp_frame,
+      cmd_encryption_flag, rsp_encryption_flag,
+      cmd_ac_info, processing_time,
+      cmd_buf, encrypted_cmd_payload_size,
+      rsp_buf, encrypted_rsp_payload_size);
+}
+
+STSE_NOINLINE static stse_return_code_t stsafea_session_encrypted_transfer_large(
+    stse_session_t *p_session,
+    stse_frame_t *p_cmd_frame,
+    stse_frame_t *p_rsp_frame,
+    PLAT_UI8 cmd_encryption_flag,
+    PLAT_UI8 rsp_encryption_flag,
+    stse_cmd_access_conditions_t cmd_ac_info,
+    PLAT_UI16 processing_time,
+    PLAT_UI16 encrypted_cmd_payload_size,
+    PLAT_UI16 encrypted_rsp_payload_size)
+{
+  PLAT_UI8 cmd_buf[STSE_SESSION_TIER_LARGE];
+  PLAT_UI8 rsp_buf[STSE_SESSION_TIER_LARGE];
+  return stsafea_session_encrypted_transfer_worker(
+      p_session, p_cmd_frame, p_rsp_frame,
+      cmd_encryption_flag, rsp_encryption_flag,
+      cmd_ac_info, processing_time,
+      cmd_buf, encrypted_cmd_payload_size,
+      rsp_buf, encrypted_rsp_payload_size);
 }
 
 #endif /* STSE_CONF_USE_HOST_SESSION */
