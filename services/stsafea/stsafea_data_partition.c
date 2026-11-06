@@ -90,10 +90,15 @@ stse_return_code_t stsafea_get_data_partitions_configuration(stse_handle_t *p_st
 {
   stse_return_code_t ret;
   volatile PLAT_UI8 partition_idx;
+  if (record_table_size > STSAFEA_DATA_PARTITION_TABLE_RAW_MAX_SIZE)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+
   PLAT_UI8 cmd_header = STSAFEA_CMD_QUERY;
   PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_DATA_PARTITION_CONFIGURATION;
   PLAT_UI8 rsp_header;
-  PLAT_UI8 raw_data[record_table_size];
+  PLAT_UI8 raw_data[STSAFEA_DATA_PARTITION_TABLE_RAW_MAX_SIZE];
 
   /* Check stsafe handler initialization */
   if (p_stse == NULL)
