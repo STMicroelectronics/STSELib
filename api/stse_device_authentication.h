@@ -26,6 +26,8 @@ extern "C" {
 /* Includes ------------------------------------------------------------------*/
 #include "stselib.h"
 
+#define STSE_DEVICE_MAX_CERTIFICATE_SIZE 1024U
+
 /** \defgroup stse_api_authentication STSE Authentication
   *  \ingroup stse_api
   *  \brief    STSE Middleware Authentication API
