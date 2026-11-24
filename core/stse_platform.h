@@ -100,7 +100,6 @@ PLAT_UI16 stse_platform_Crc16_Accumulate(PLAT_UI8 *pbuffer, PLAT_UI16 length);
 /*!
  * \brief      Perform a delay of "delay_val" ms
  * \param[in]  delay_val length of the delay in milliseconds
- * \return     None
  */
 void stse_platform_Delay_ms(PLAT_UI16 delay_val);
 
@@ -334,20 +333,6 @@ stse_ReturnCode_t stse_platform_aes_ecb_enc(const PLAT_UI8 *pPlaintext, PLAT_UI1
                                             PLAT_UI8 *pEncryptedtext, PLAT_UI16 *pEncryptedtext_length);
 
 #endif /* defined(STSE_CONF_USE_HOST_KEY_ESTABLISHMENT) || */
-
-/*!
- *  \brief Perform a NIST KW (keywrap) encrypt
- *  \param[in]  pPayload        Pointer to payload
- *  \param[in]  payload_length      Length of payload
- *  \param[in]  pKey          Pointer to the key
- *  \param[in]  key_length        Length of the key
- *  \param[out] pOutput         Pointer to encrypted output
- *  \param[out] pOutput_length      Length of the encrypted output
- * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- */
-stse_ReturnCode_t stse_platform_nist_kw_encrypt(PLAT_UI8 *pPayload, PLAT_UI32 payload_length,
-                                                PLAT_UI8 *pKey, PLAT_UI8 key_length,
-                                                PLAT_UI8 *pOutput, PLAT_UI32 *pOutput_length);
 
 /*!
 *  \brief Perform an HMAC Key derivation using HMAC extract then HMAC expand functions (cf. RFC 5869)

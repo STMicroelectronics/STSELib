@@ -85,7 +85,7 @@ stse_ReturnCode_t stse_aes_ecb_decrypt(
   * \param[in] pPlaintext_message        Buffer containing the message to encrypt
   * \param[out]  pEncrypted_message        Buffer to store the encrypted message
   * \param[out]  pEncrypted_authentication_tag Buffer to store the authentication tag
-  * \param[out]  pCounter_presence       Counter presence flag
+  * \param[in]   counter_presence        Whether to include the counter in the output
   * \param[out]  pCounter            Buffer containing counter value if present
   * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
   * \details   \include{doc} stse_aes_ccm_encrypt.dox

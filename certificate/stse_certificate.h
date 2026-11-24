@@ -93,7 +93,6 @@ stse_ReturnCode_t stse_certificate_is_parent(const stse_certificate_t *parent, c
   * \brief  Copy a certificate (\ref stse_certificate_t) into another structure
   * \param[out]  copiedCert    pointer to the stse_certificate_t that will be written
   * \param[out]  originalCert  pointer to the stse_certificate_t that will be copied
-  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
   */
 void stse_certificate_copy(stse_certificate_t *copiedCert, const stse_certificate_t *originalCert);
 
