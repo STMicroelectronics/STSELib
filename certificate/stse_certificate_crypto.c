@@ -95,8 +95,6 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
                                                     const PLAT_UI8 *signatureS,
                                                     PLAT_I32 signatureSsize)
 {
-  (void)signatureRsize;
-  (void)signatureSsize;
   stse_ReturnCode_t ret;
   stse_ecc_key_type_t key_type;
 
@@ -111,13 +109,22 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
     return (STSE_CERT_INVALID_CERTIFICATE);
   }
 
-  PLAT_UI8 pub_key_size = stse_ecc_info_table[key_type].public_key_size;
-  PLAT_UI8 pub_key[pub_key_size];
-  PLAT_UI8 signature_size = stse_ecc_info_table[key_type].signature_size;
-  PLAT_UI8 signature[signature_size];
+  PLAT_I32 pub_key_size = stse_ecc_info_table[key_type].public_key_size;
+  PLAT_I32 signature_size = stse_ecc_info_table[key_type].signature_size;
+  PLAT_I32 component_size = signature_size >> 1;
 #ifdef STSE_CONF_USE_COMPANION
   PLAT_UI8 signature_validity;
 #endif /* defined(STSE_CONF_USE_COMPANION) */
+
+  if ((component_size == 0) || ((signature_size & 1) != 0)
+      || (signatureRsize <= 0) || (signatureRsize > component_size)
+      || (signatureSsize <= 0) || (signatureSsize > component_size))
+  {
+    return (STSE_CERT_INVALID_SIGNATURE);
+  }
+
+  PLAT_UI8 pub_key[pub_key_size];
+  PLAT_UI8 signature[signature_size];
 
   /* Rebuild the verification public key as an uncompressed X||Y buffer.
    * When the certificate stores a compressed point, request decompression
@@ -153,9 +160,11 @@ stse_ReturnCode_t stse_certificate_verify_signature(const stse_certificate_t *ce
     }
   }
 
-  /* Format the signature */
-  memcpy(signature, signatureR, (signature_size >> 1));
-  memcpy(signature + (signature_size >> 1), signatureS, (signature_size >> 1));
+  /* DER INTEGERs may omit leading zero octets; format fixed-width R||S values. */
+  memset(signature, 0, signature_size);
+  memcpy(signature + (component_size - signatureRsize), signatureR, (size_t)signatureRsize);
+  memcpy(signature + component_size + (component_size - signatureSsize),
+         signatureS, (size_t)signatureSsize);
 
 #ifdef STSE_CONF_USE_COMPANION
   if (stsafe_x509_parser_companion_handler != NULL)
