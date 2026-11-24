@@ -164,9 +164,10 @@ stse_ReturnCode_t stsafea_finish_hash(
   PLAT_UI8 *pDigest,
   PLAT_UI16 *pDigest_size);
 
+#endif /* defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) ||                                      \ */
+
 /** \}*/
 
-#endif /* defined(STSE_CONF_HASH_SHA_1) || defined(STSE_CONF_HASH_SHA_224) ||                                      \ */
 #ifdef __cplusplus
 }
 #endif /* defined(__cplusplus) */

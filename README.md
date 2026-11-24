@@ -28,6 +28,9 @@ Comprehensive HTML documentation generated via Doxygen is available through two 
 * **Precompiled packages**: Download the standalone documentation archive from the [STSELib Releases](https://github.com/STMicroelectronics/STSELib/releases) page.
 * **Local build**: Generate it directly from the library repository:
 
+1 - download PlatUML .jar from PlantULM github release page [https://github.com/plantuml/plantuml/releases] 
+2 - Rename the downloaded PlantUML release into platuml.jar and copy it to  Middleware/STSELib/doc/resources/
+3 - execute following command to build the 
 ```bash
 cd Middleware/STSELib/doc/resources/
 doxygen STSELib.doxyfile

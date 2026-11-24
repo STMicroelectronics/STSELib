@@ -35,7 +35,7 @@ extern "C" {
  * \param[in]   *pHost_MAC_key    Pointer to MAC key buffer to be used under the session
  * \param[in]   *pHost_cypher_key   Pointer to cypher key buffer to be used under the session
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details   \include{doc} stsafe_erase_context.dox
+ * \details   Initializes the host session using the supplied MAC and cipher keys.
  */
 stse_ReturnCode_t stsafea_open_host_session(stse_Handler_t *pSTSE,
                                             stse_session_t *pSession,
@@ -53,7 +53,7 @@ void stsafea_close_host_session(stse_session_t *pSession);
  * \brief     This Core function Erase the session context from STSAFE handler
  * \param[in]   *pSTSE  Pointer to target STSAFE handler
  * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
- * \details   \include{doc} stsafe_erase_context.dox
+ * \details   Clears the session context stored in the STSAFE handler.
  */
 void stsafea_session_clear_context(stse_session_t *pSession);
 

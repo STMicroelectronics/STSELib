@@ -77,7 +77,6 @@ stse_ReturnCode_t stsafel_frame_raw_transfer(stse_Handler_t *pSTSE,
   * \param[in]     pSTSE       Pointer to STSE Handler
   * \param[in]     pCmdFrame       Pointer to the command frame
   * \param[in,out]   pRspFrame       Pointer to the response frame
-  * \param[in]     inter_frame_delay   Delay between command and response frame (in ms)
   * \return      \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
   */
 stse_ReturnCode_t stsafel_frame_transfer(stse_Handler_t *pSTSE,
