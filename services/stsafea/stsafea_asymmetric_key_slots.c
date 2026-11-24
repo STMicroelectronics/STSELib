@@ -158,6 +158,48 @@ stse_ReturnCode_t stsafea_query_private_key_table(
   return ret;
 }
 
+stse_ReturnCode_t stsafea_set_private_key_slot(
+  stse_Handler_t *pSTSE,
+  PLAT_UI8 private_key_slot,
+  stsafea_private_key_operation_mode_t *private_key_slot_info)
+{
+  PLAT_UI8 cmd_header = STSAFEA_CMD_PUT_ATTRIBUTE;
+  PLAT_UI8 tag = STSAFEA_SUBJECT_TAG_PRIVATE_KEY_SLOT;
+  PLAT_UI8 rsp_header;
+
+  if (pSTSE == NULL)
+  {
+    return STSE_SERVICE_HANDLER_NOT_INITIALISED;
+  }
+
+  if (private_key_slot_info == NULL)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+
+#ifdef STSE_CONF_STSAFE_L_SUPPORT
+  if (pSTSE->device_type >= STSE_DEVICE_STSAFEL_FAMILY_INDEX)
+  {
+    return STSE_SERVICE_INVALID_PARAMETER;
+  }
+#endif /* defined(STSE_CONF_STSAFE_L_SUPPORT) */
+
+  STSE_FRAME_ALLOCATE(CmdFrame);
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&CmdFrame, eCmd_header, 1, &cmd_header);
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&CmdFrame, eTag, 1, &tag);
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&CmdFrame, eSlot, 1, &private_key_slot);
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&CmdFrame, eConfig, sizeof(stsafea_private_key_operation_mode_t),
+                                   (PLAT_UI8 *)private_key_slot_info);
+
+  STSE_FRAME_ALLOCATE(RspFrame);
+  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&RspFrame, eRsp_header, 1, &rsp_header);
+
+  return stsafea_frame_raw_transfer(pSTSE,
+                                    &CmdFrame,
+                                    &RspFrame,
+                                    stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
+}
+
 stse_ReturnCode_t stsafea_generate_ecc_key_pair(
   stse_Handler_t *pSTSE,
   PLAT_UI8 slot_number,
