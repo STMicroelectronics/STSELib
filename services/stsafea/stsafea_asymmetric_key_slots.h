@@ -48,21 +48,34 @@ extern "C" {
 
 /*!
  * \struct stsafea_private_key_operation_mode_t
- * \brief stsafea private key operation mode type
+ * \brief Private-key slot operation mode (two bytes on the STSAFE-A interface)
+ * \details The first byte contains the ephemeral EdDSA method (0: alternative
+ *          method, 1: RFC 8032), six zero filler bits, and the change right
+ *          (0: flags cannot be changed, 1: one update remains). When sending
+ *          PUT ATTRIBUTE, change_right must be 0; QUERY returns the current
+ *          change-right state.
+ *          The second byte contains key establishment and signature
+ *          authorizations (0: forbidden, 1: authorized), the Generate Key
+ *          access condition (0: free, 1: Host-CMAC, 2: reserved, 3: forbidden),
+ *          and the EdDSA variant (0: pure Ed25519, 1: Ed25519ph; 2 and 3 are
+ *          forbidden).
+ *          Reserved/filler bits must be zero. EdDSA fields must be zero for
+ *          keys other than Ed25519. The ephemeral slot (0xFF) only allows
+ *          changes to its Generate Key access condition.
  */
 typedef struct stsafea_private_key_operation_mode_t
 {
   /* 1st byte */
-PLAT_UI8 ephemeral_private_key_gen_method : STSE_1BIT_LEN; /*!< ephemeral_private_key_gen_method */
-PLAT_UI8 filler : STSE_6BIT_LEN;                           /*!< filler (always 00) */
-PLAT_UI8 change_right : STSE_1BIT_LEN;                     /*!< change_right */
+  PLAT_UI8 ephemeral_private_key_gen_method : STSE_1BIT_LEN; /*!< Ed25519 method: 0 alternative, 1 RFC 8032 */
+  PLAT_UI8 filler : STSE_6BIT_LEN;                          /*!< Reserved; always 0 */
+  PLAT_UI8 change_right : STSE_1BIT_LEN;                    /*!< QUERY state; PUT ATTRIBUTE requires this bit to be 0 */
   /* 2nd byte */
-PLAT_UI8 key_establishment : STSE_1BIT_LEN;                   /*!< key_establishment*/
-PLAT_UI8 reserved : STSE_1BIT_LEN;                            /*!< reserved = 0*/
-PLAT_UI8 sig_gen_over_external_data : STSE_1BIT_LEN;          /*!< sig_gen_over_external_data*/
-PLAT_UI8 sig_gen_over_internal_external_data : STSE_1BIT_LEN; /*!< sig_gen_over_internal_external_data*/
-PLAT_UI8 generate_key_AC : STSE_2BIT_LEN;                     /*!< generate_key_AC*/
-PLAT_UI8 EdDSA_variant : STSE_2BIT_LEN;                       /*!< EdDSA_variant*/
+  PLAT_UI8 key_establishment : STSE_1BIT_LEN;                   /*!< ESTABLISH KEY authorization: 0 forbidden, 1 authorized */
+  PLAT_UI8 reserved : STSE_1BIT_LEN;                            /*!< Reserved; always 0 */
+  PLAT_UI8 sig_gen_over_external_data : STSE_1BIT_LEN;          /*!< GENERATE SIGNATURE authorization */
+  PLAT_UI8 sig_gen_over_internal_external_data : STSE_1BIT_LEN; /*!< SIGNATURE SESSION authorization */
+  PLAT_UI8 generate_key_AC : STSE_2BIT_LEN;                     /*!< GENERATE KEY access: 0 free, 1 Host-CMAC, 3 forbidden */
+  PLAT_UI8 EdDSA_variant : STSE_2BIT_LEN;                        /*!< EdDSA variant: 0 pure Ed25519, 1 Ed25519ph */
 } stsafea_private_key_operation_mode_t;
 
 /*!
@@ -102,6 +115,19 @@ stse_ReturnCode_t stsafea_query_private_key_table(
   PLAT_UI8 private_key_slot_count,
   PLAT_UI16 *pGlobal_usage_limit,
   stsafea_private_key_slot_information_t *private_key_table_info);
+
+/**
+  * \brief     Set private key slot configuration
+  * \details   This service formats and sends the set private key slot command
+  * \param[in]   pSTSE           Pointer to STSE Handler
+  * \param[in]   private_key_slot  Private key slot to configure
+  * \param[in]   private_key_slot_info  Pointer to private key slot configuration structure
+  * \return    \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
+  */
+stse_ReturnCode_t stsafea_set_private_key_slot(
+  stse_Handler_t *pSTSE,
+  PLAT_UI8 private_key_slot,
+  stsafea_private_key_operation_mode_t *private_key_slot_info);
 
 /**
   * \brief     Generate ECC key pair in specified slot
