@@ -38,6 +38,8 @@ extern "C" {
  */
 
 /* Defines for bit positions in the HKDF flags byte */
+#define STSAFEA_MAX_DERIVED_KEYS 32U
+
 #define STSAFEA_HKDF_FLAG_EXTRACT_POS (1)
 #define STSAFEA_HKDF_FLAG_EXPAND_POS (0)
 

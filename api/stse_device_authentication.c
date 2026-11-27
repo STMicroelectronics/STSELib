@@ -208,7 +208,12 @@ stse_return_code_t stse_device_authenticate(
     return ret;
   }
 
-  PLAT_UI8 certificate[certificate_size];
+  if (certificate_size > STSE_DEVICE_MAX_CERTIFICATE_SIZE)
+  {
+    return STSE_API_INVALID_PARAMETER;
+  }
+
+  PLAT_UI8 certificate[STSE_DEVICE_MAX_CERTIFICATE_SIZE];
 
   ret = stse_get_device_certificate(p_stse, certificate_zone, certificate_size, certificate);
   if (ret != STSE_OK)
@@ -235,7 +240,7 @@ stse_return_code_t stse_device_authenticate(
   }
 
   PLAT_UI16 signature_size = stse_ecc_info_table[key_type].signature_size;
-  PLAT_UI8 signature[signature_size];
+  PLAT_UI8 signature[STSE_ECC_MAX_SIGNATURE_SIZE];
 
   PLAT_UI16 challenge_size;
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
@@ -256,7 +261,7 @@ stse_return_code_t stse_device_authenticate(
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
   }
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
-  PLAT_UI8 challenge[challenge_size];
+  PLAT_UI8 challenge[STSE_ECC_MAX_SIGNATURE_SIZE];
 
   /* - Generate random challenge */
   for (PLAT_I32 i = 0; i < challenge_size; i++)

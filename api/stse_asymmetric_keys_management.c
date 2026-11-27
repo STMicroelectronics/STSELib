@@ -73,12 +73,18 @@ stse_return_code_t stse_get_ecc_key_slot_info(
 
   PLAT_UI8 private_key_slot_count;
   PLAT_UI8 slot_info_index;
+  stsafea_private_key_slot_information_t private_key_table_info[STSAFEA_MAX_PRIVATE_KEY_SLOTS];
 
   /* Query total number of private key slots available */
   ret = stsafea_query_private_key_slots_count(p_stse, &private_key_slot_count);
-
-  /* Allocate table to receive all private key slot information */
-  stsafea_private_key_slot_information_t private_key_table_info[private_key_slot_count];
+  if (ret != STSE_OK)
+  {
+    return ret;
+  }
+  if (private_key_slot_count > STSAFEA_MAX_PRIVATE_KEY_SLOTS)
+  {
+    return STSE_API_INVALID_PARAMETER;
+  }
 
   /* Query private key table from target device */
   ret = stsafea_query_private_key_table(p_stse, private_key_slot_count, p_global_usage_limit, private_key_table_info);
@@ -129,7 +135,7 @@ stse_return_code_t stse_sign_for_generic_public_key_slot(
 
   stse_return_code_t ret;
   PLAT_UI16 hash_length = stsafea_hash_info_table[hash_algo].length;
-  PLAT_UI8 hash_data[hash_length];
+  PLAT_UI8 hash_data[STSAFEA_SHA_512_HASH_SIZE];
 
   /* Validate input parameters and algorithm bounds */
   if (p_private_key == NULL || p_payload == NULL || p_signature == NULL ||

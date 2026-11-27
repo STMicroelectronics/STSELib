@@ -34,6 +34,7 @@ extern "C" {
 #include "core/stse_util.h"
 
 #ifdef STSE_CONF_STSAFE_L_SUPPORT
+#define STSAFEL_MAX_FILLER_SIZE 32U
 extern const PLAT_UI16 stsafel_maximum_frame_length[STSAFEL_PRODUCT_COUNT];
 #endif /* STSE_CONF_STSAFE_L_SUPPORT */
 

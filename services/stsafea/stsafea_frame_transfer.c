@@ -302,18 +302,6 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
       p_frame->length = received_length;
     }
 
-    /* Append filler frame element even if its length equal 0 */
-    PLAT_UI8 filler[filler_size];
-    STSE_FRAME_ELEMENT_ALLOCATE(e_filler,
-                                filler_size,
-                                filler);
-    if (filler_size > 0)
-    {
-      /* [FILLER] */
-      stse_frame_push_element(p_frame,
-                              &e_filler);
-    }
-
     /* ======================================================= */
     /* ========= Receive the frame in frame elements ========= */
 
@@ -341,11 +329,6 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
     /* Check status code from low-level bus transfer */
     if (ret != STSE_OK)
     {
-      /* - Pop Filler element from Frame*/
-      if (filler_size > 0)
-      {
-        stse_frame_pop_element(p_frame);
-      }
       return ret;
     }
 
@@ -361,11 +344,6 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
     /* Check status code from low-level bus transfer */
     if (ret != STSE_OK)
     {
-      /* - Pop Filler element from Frame*/
-      if (filler_size > 0)
-      {
-        stse_frame_pop_element(p_frame);
-      }
       return ret;
     }
 
@@ -383,20 +361,12 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
     /* Check status code from low-level bus transfer */
     if (ret != STSE_OK)
     {
-      /* - Pop Filler element from Frame*/
-      if (filler_size > 0)
-      {
-        stse_frame_pop_element(p_frame);
-      }
       return ret;
     }
 
-    /* [CRC] */
-    STSE_FRAME_ELEMENT_ALLOCATE_PUSH(p_frame, e_crc, STSE_FRAME_CRC_SIZE, received_crc);
-
     /* - Perform frame element reception and populate local RSP Frame */
     p_current_element = p_frame->first_element->next;
-    while (p_current_element != p_frame->last_element && p_current_element != NULL)
+    while (p_current_element != NULL)
     {
       if (received_length < p_current_element->length)
       {
@@ -412,13 +382,6 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
       /* Check status code from low-level bus transfer */
       if (ret != STSE_OK)
       {
-        /* - Pop CRC element from Frame*/
-        stse_frame_pop_element(p_frame);
-        /* - Pop Filler element from Frame*/
-        if (filler_size > 0)
-        {
-          stse_frame_pop_element(p_frame);
-        }
         return ret;
       }
 
@@ -426,23 +389,49 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
       p_current_element = p_current_element->next;
     }
 
+    /* - Compute CRC on received frame elements */
+    /* Calculate expected CRC for integrity check */
+    ret = stse_frame_crc16_compute(p_frame, &computed_crc);
+    if (ret != STSE_OK)
+    {
+      return ret;
+    }
+
+    /* - Stream and accumulate CRC over trailing filler bytes if any */
+    while (filler_size > 0U)
+    {
+      PLAT_UI8 filler[STSAFEA_MAX_FILLER_SIZE];
+      PLAT_UI16 chunk_size = (filler_size > STSAFEA_MAX_FILLER_SIZE) ? STSAFEA_MAX_FILLER_SIZE : filler_size;
+
+      ret = p_stse->io.bus_recv_continue(
+              p_stse->io.bus_id,
+              p_stse->io.dev_addr,
+              p_stse->io.bus_speed,
+              filler,
+              chunk_size);
+      if (ret != STSE_OK)
+      {
+        return ret;
+      }
+      computed_crc = stse_platform_crc16_accumulate(filler, chunk_size);
+      filler_size -= chunk_size;
+    }
+
+    /* [CRC] */
+    STSE_FRAME_ELEMENT_ALLOCATE_PUSH(p_frame, e_crc, STSE_FRAME_CRC_SIZE, received_crc);
+
     /* Terminate receive phase and generate bus stop condition */
     ret = p_stse->io.bus_recv_stop(
             p_stse->io.bus_id,
             p_stse->io.dev_addr,
             p_stse->io.bus_speed,
-            p_current_element->p_data,
-            p_current_element->length);
+            e_crc.p_data,
+            e_crc.length);
     /* Check status code from low-level bus transfer */
     if (ret != STSE_OK)
     {
       /* - Pop CRC element from Frame*/
       stse_frame_pop_element(p_frame);
-      /* - Pop Filler element from Frame*/
-      if (filler_size > 0)
-      {
-        stse_frame_pop_element(p_frame);
-      }
       return ret;
     }
 
@@ -457,22 +446,6 @@ stse_return_code_t stsafea_frame_receive(stse_handle_t *p_stse, stse_frame_t *p_
 
     /* - Pop CRC element from Frame*/
     stse_frame_pop_element(p_frame);
-
-    /* - Compute CRC */
-    /* Calculate expected CRC for integrity check */
-    ret = stse_frame_crc16_compute(p_frame, &computed_crc);
-
-    /* - Pop Filler element from Frame*/
-    if (filler_size > 0)
-    {
-      stse_frame_pop_element(p_frame);
-    }
-
-    /* Check status code from low-level bus transfer */
-    if (ret != STSE_OK)
-    {
-      return ret;
-    }
 
     /* - Verify CRC */
     if (computed_crc != *(PLAT_UI16 *)received_crc)

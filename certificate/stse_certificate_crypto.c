@@ -49,7 +49,7 @@ stse_return_code_t stse_certificate_verify_cert_signature(const stse_certificate
 #else
   PLAT_UI16 digest_size = stsafea_hash_info_table[hash_algo].length;
 #endif /* STSE_CONF_STSAFE_A_SUPPORT*/
-  PLAT_UI8 digest[digest_size];
+  PLAT_UI8 digest[STSAFEA_SHA_512_HASH_SIZE];
   PLAT_UI8 *digest_ptr = digest;
 
   /* Ed25519 signatures operate directly on full TBS payload */
@@ -120,9 +120,9 @@ stse_return_code_t stse_certificate_verify_signature(const stse_certificate_t *c
   }
 
   PLAT_UI8 pub_key_size = stse_ecc_info_table[key_type].public_key_size;
-  PLAT_UI8 pub_key[pub_key_size];
+  PLAT_UI8 pub_key[STSE_ECC_MAX_PUB_KEY_SIZE];
   PLAT_UI8 signature_size = stse_ecc_info_table[key_type].signature_size;
-  PLAT_UI8 signature[signature_size];
+  PLAT_UI8 signature[STSE_ECC_MAX_SIGNATURE_SIZE];
 #ifdef STSE_CONF_USE_COMPANION
   PLAT_UI8 signature_validity;
 #endif /* STSE_CONF_USE_COMPANION */

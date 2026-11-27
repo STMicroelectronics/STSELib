@@ -39,6 +39,7 @@ extern "C" {
  *  @{
  */
 
+#define STSAFEA_MAX_SYMMETRIC_KEY_SLOTS 8U
 #define STSAFEA_CA_PUB_KEY_SIZE 32U /*! < Certificate Authority public key size*/
 #define STSAFEA_SYMMETRIC_KEY_USAGE_ENCRYPTION_MSK (0b1 << 3)
 #define STSAFEA_SYMMETRIC_KEY_USAGE_DECRYPTION_MSK (0b1 << 2)
