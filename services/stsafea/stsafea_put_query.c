@@ -195,9 +195,9 @@ stse_ReturnCode_t stsafea_query_mask_id(
                                    &RspFrame,
                                    stsafea_cmd_timings[pSTSE->device_type][cmd_header]);
 
-  if (sub_tag != STSAFEA_SUB_TAG_MASK_ID)
+  if ((ret == STSE_OK) && (sub_tag != STSAFEA_SUB_TAG_MASK_ID))
   {
-    return (STSE_SERVICE_INCOMPATIBLE_DEVICE_TYPE);
+    ret = STSE_SERVICE_INCOMPATIBLE_DEVICE_TYPE;
   }
 
   return ret;
