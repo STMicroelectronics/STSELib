@@ -271,9 +271,8 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
   PLAT_UI8 cmd_header[STSAFEA_EXT_HEADER_SIZE] = {STSAFEA_EXTENDED_COMMAND_PREFIX, STSAFEA_EXTENDED_CMD_START_ENCRYPT};
 
   PLAT_UI8 rsp_header;
-  /* Alternate buffers keep API tolerant when caller omits counter outputs. */
+  /* Keep the presence flag available even when the caller ignores it. */
   PLAT_UI8 alt_counter_presence = 0;
-  PLAT_UI8 alt_counter[STSAFEA_COUNTER_VALUE_SIZE] = {0};
 
   /* - Check stsafe handler initialization */
   if (pSTSE == NULL)
@@ -316,8 +315,10 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
   STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&RspFrame, eRsp_header, STSAFEA_HEADER_SIZE, &rsp_header);
   STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&RspFrame, eEncrypted_message, message_chunk_length, pEncrypted_message_chunk);
   STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&RspFrame, eCounter_presence, 1, pCounter_presence);
-  /* Counter output is 32-bit, serialized over STSAFEA_COUNTER_VALUE_SIZE bytes. */
-  STSE_FRAME_ELEMENT_ALLOCATE_PUSH(&RspFrame, eCounter, STSAFEA_COUNTER_VALUE_SIZE, (PLAT_UI8 *)pCounter);
+  /* A missing counter buffer means the response is expected to omit counter bytes. */
+  STSE_FRAME_ELEMENT_ALLOCATE(eCounter,
+                              pCounter != NULL ? STSAFEA_COUNTER_VALUE_SIZE : 0,
+                              (PLAT_UI8 *)pCounter);
 
   if (pCounter_presence == NULL)
   {
@@ -325,10 +326,9 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
     eCounter_presence.pData = &alt_counter_presence;
   }
 
-  if (pCounter == NULL)
+  if (pCounter != NULL)
   {
-    /* Redirect counter bytes to local sink when caller does not consume them. */
-    eCounter.pData = alt_counter;
+    stse_frame_push_element(&RspFrame, &eCounter);
   }
 
   /* - Swap byte order */
@@ -344,10 +344,17 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
                                &CmdFrame,
                                &RspFrame);
 
-  /* Counter bytes are meaningful only when device reports counter presence. */
-  if (eCounter_presence.pData[0] != 0)
+  /* Counter bytes are meaningful only when the response reports their presence. */
+  if (ret == STSE_OK && eCounter_presence.pData[0] != 0)
   {
-    stse_frame_element_swap_byte_order(&eCounter);
+    if (pCounter != NULL)
+    {
+      stse_frame_element_swap_byte_order(&eCounter);
+    }
+    else
+    {
+      ret = STSE_WRONG_KEY_TYPE;
+    }
   }
 
   return ret;
