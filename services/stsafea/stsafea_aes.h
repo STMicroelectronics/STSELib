@@ -134,7 +134,8 @@ stse_ReturnCode_t stsafea_aes_ccm_encrypt(
   * \param[in] pPlaintext_message_chunk    Buffer containing 1st piece of plaintext message chunk to encrypt
   * \param[out]  pEncrypted_message_chunk    Buffer to store the encrypted message chunk
   * \param[out]  pCounter_presence       Counter presence flag
-  * \param[out]  pCounter            Buffer containing counter value if present
+  * \param[out]  pCounter            Buffer for counter value; NULL assumes the key has no counter and returns
+  *                                  STSE_WRONG_KEY_TYPE if counter presence is reported
   * \return \ref STSE_OK on success ; \ref stse_ReturnCode_t error code otherwise
   */
 stse_ReturnCode_t stsafea_aes_ccm_encrypt_start(
